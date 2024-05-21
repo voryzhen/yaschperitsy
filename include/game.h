@@ -103,7 +103,6 @@ class Game
         int _field_height{0};
 
         int enemy_spawn_timer{0};
-        // SDL_Color _text_color{0, 200, 200};
 
         size_t _score{0};
         size_t _max_score{0};

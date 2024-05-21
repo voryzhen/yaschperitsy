@@ -3,6 +3,13 @@
 #include <SDL_image.h>
 #include <SDL_ttf.h>
 
+std::unique_ptr<SDL_Window, void (*)(SDL_Window*)> App::_window =
+    std::unique_ptr<SDL_Window, void (*)(SDL_Window*)>(
+        nullptr, SDL_DestroyWindow);
+std::unique_ptr<SDL_Renderer, void (*)(SDL_Renderer*)> App::_renderer =
+    std::unique_ptr<SDL_Renderer, void (*)(SDL_Renderer*)>(
+        nullptr, SDL_DestroyRenderer);
+
 bool App::init_sdl()
 {
     int rendererFlags = 0;
@@ -25,9 +32,9 @@ bool App::init_sdl()
     }
 
     // NOLINTBEGIN(hicpp-signed-bitwise)
-    _window = SDL_CreateWindow(title.data(), SDL_WINDOWPOS_UNDEFINED,
-                               SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH,
-                               SCREEN_HEIGHT, windowFlags);
+    _window.reset(SDL_CreateWindow(
+        title.data(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
+        SCREEN_WIDTH, SCREEN_HEIGHT, windowFlags));
     // NOLINTEND(hicpp-signed-bitwise)
 
     if (_window == nullptr)
@@ -39,13 +46,16 @@ bool App::init_sdl()
 
     SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
 
-    _renderer = SDL_CreateRenderer(_window, -1, rendererFlags);
+    _renderer.reset(
+        SDL_CreateRenderer(_window.get(), -1, rendererFlags));
 
     if (_renderer == nullptr)
     {
         printf("Failed to create renderer: %s\n", SDL_GetError());
         return false;
     }
+
+    SDL_SetRenderDrawColor(_renderer.get(), 255, 255, 255, 255);
 
     // Initialize SDL_ttf
     if (TTF_Init() == -1)
@@ -61,8 +71,6 @@ bool App::init_sdl()
 void App::cleanup()
 {
     // Clean up
-    SDL_DestroyWindow(_window);
-    SDL_DestroyRenderer(_renderer);
     TTF_Quit();
     IMG_Quit();
     SDL_Quit();

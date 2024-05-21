@@ -13,7 +13,7 @@ class App
             if (init_sdl())
             {
                 std::make_unique<Game>(SCREEN_WIDTH, SCREEN_HEIGHT,
-                                       _renderer)
+                                       _renderer.get())
                     ->run_game();
             }
         }
@@ -24,11 +24,13 @@ class App
         App& operator=(const App&) = delete;
 
     private:
-        bool init_sdl();
-        void cleanup();
+        static bool init_sdl();
+        static void cleanup();
 
-        SDL_Renderer* _renderer{nullptr};
-        SDL_Window* _window{nullptr};
+        static std::unique_ptr<SDL_Window, void (*)(SDL_Window*)>
+            _window;
+        static std::unique_ptr<SDL_Renderer, void (*)(SDL_Renderer*)>
+            _renderer;
 
         static constexpr int SCREEN_WIDTH{1280};
         static constexpr int SCREEN_HEIGHT{720};

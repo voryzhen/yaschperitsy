@@ -12,7 +12,7 @@ set (CMAKE_CXX_STANDARD 17)
 add_executable ( yaschperitsy 
 
   src/app.cpp
-  src/controller.cpp
+  src/keyboard_controller.cpp
   src/entity.cpp
   src/game.cpp
   src/main.cpp

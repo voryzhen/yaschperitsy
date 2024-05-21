@@ -6,10 +6,10 @@
 
 static constexpr int MAX_KEYBOARD_KEYS{350};
 
-class Controller
+class KeyboardController
 {
     public:
-        Controller(std::array<int, MAX_KEYBOARD_KEYS>* keyboard)
+        KeyboardController(std::array<int, MAX_KEYBOARD_KEYS>* keyboard)
             : _keyboard(keyboard)
         {
         }

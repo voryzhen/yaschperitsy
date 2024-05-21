@@ -5,7 +5,8 @@
 #include <string_view>
 #include <vector>
 
-#include "controller.h"
+#include "background.h"
+#include "keyboard_controller.h"
 #include "resource_manager.h"
 #include <entity.h>
 
@@ -18,7 +19,12 @@ class Game
             : _renderer(renderer), _rm(_renderer),
               _player(
                   std::make_unique<Player>(_rm.get_texture("player"))),
-              _controller(std::make_unique<Controller>(&_keyboard)),
+              _background(std::make_unique<Background>(
+                  _rm.get_texture("background"),
+                  _rm.get_texture("explosion"), field_width,
+                  field_height)),
+              _controller(
+                  std::make_unique<KeyboardController>(&_keyboard)),
               _field_width(field_width), _field_height(field_height)
         {
         }
@@ -33,12 +39,24 @@ class Game
         ~Game() {}
 
     private:
+        void handle_events();
+        void update();
+        void render();
+
+        bool is_running() const { return !_quit; }
+
+        unsigned char _fps = 60;
+        unsigned char _frame_delay = 1000 / 60;
+
+        SDL_Event event{};
+
+        void update_enemies();
+        void update_bullets();
+
+        // ------------
+
         // Handle input
         void handle_input();
-
-        // Hndle scene
-        void prepare_scene();
-        void present_scene();
 
         void logic();
         void player_logic();
@@ -65,9 +83,6 @@ class Game
 
         void render_text(const std::string& text, int x, int y);
 
-        static std::uint32_t
-        count_wait_60fps(const std::uint32_t& last);
-
         bool _quit{false};
 
         SDL_Renderer* _renderer{nullptr};
@@ -78,9 +93,10 @@ class Game
         std::vector<Entity> _bullets;
         std::vector<Enemy> _enemies;
         std::vector<Entity> _enemy_bullets;
+        std::unique_ptr<Background> _background;
 
         std::array<int, MAX_KEYBOARD_KEYS> _keyboard{};
-        std::unique_ptr<Controller> _controller;
+        std::unique_ptr<KeyboardController> _controller;
 
         int _field_width{0};
         int _field_height{0};

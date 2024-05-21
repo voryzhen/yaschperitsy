@@ -1,22 +1,24 @@
-#include "controller.h"
+#include "keyboard_controller.h"
 
-void Controller::handle_key_down(SDL_KeyboardEvent* event)
+void KeyboardController::handle_key_down(SDL_KeyboardEvent* event)
 {
-    if (event->repeat == 0 && event->keysym.scancode < MAX_KEYBOARD_KEYS)
+    if (event->repeat == 0 &&
+        event->keysym.scancode < MAX_KEYBOARD_KEYS)
     {
         _keyboard->operator[](event->keysym.scancode) = 1;
     }
 }
 
-void Controller::handle_key_up(SDL_KeyboardEvent* event)
+void KeyboardController::handle_key_up(SDL_KeyboardEvent* event)
 {
-    if (event->repeat == 0 && event->keysym.scancode < MAX_KEYBOARD_KEYS)
+    if (event->repeat == 0 &&
+        event->keysym.scancode < MAX_KEYBOARD_KEYS)
     {
         _keyboard->operator[](event->keysym.scancode) = 0;
     }
 }
 
-bool Controller::handle_input()
+bool KeyboardController::handle_input()
 {
     while (SDL_PollEvent(&event) != 0)
     {

@@ -6,9 +6,15 @@
 static constexpr std::string_view player_asset{"assets/player.png"};
 static constexpr std::string_view bullet_asset{
     "assets/playerBullet.png"};
+
 static constexpr std::string_view enemy_asset{"assets/enemy.png"};
 static constexpr std::string_view enemy_bullet_asset{
     "assets/alienBullet.png"};
+
+static constexpr std::string_view background_asset{
+    "assets/background.png"};
+static constexpr std::string_view explosion_asset{
+    "assets/explosion.png"};
 
 static constexpr std::string_view font_asset{"assets/lazy.ttf"};
 
@@ -23,6 +29,11 @@ ResourceManager::ResourceManager(SDL_Renderer* renderer)
         std::string{"enemy"}, load_texture(enemy_asset)));
     _textures.insert(std::make_pair<std::string, SDL_Texture*>(
         std::string{"enemy_bullet"}, load_texture(enemy_bullet_asset)));
+
+    _textures.insert(std::make_pair<std::string, SDL_Texture*>(
+        std::string{"background"}, load_texture(background_asset)));
+    _textures.insert(std::make_pair<std::string, SDL_Texture*>(
+        std::string{"explosion"}, load_texture(explosion_asset)));
 
     // Open the font
     if (_font == nullptr)

@@ -83,6 +83,8 @@ void Game::render() // TODO: make _renderer global somehow or
         b.render(_renderer);
     }
 
+    _topbar->render(_renderer);
+
     SDL_RenderPresent(_renderer);
 }
 
@@ -313,7 +315,7 @@ void Game::fire_bullet()
 void Game::draw()
 {
     draw_bullets();
-    draw_info();
+    // draw_info();
 }
 
 void Game::draw_bullets()
@@ -324,48 +326,50 @@ void Game::draw_bullets()
     }
 }
 
-void Game::draw_info()
-{
-    render_text("Total Score: " + std::to_string(_score), 5, 5);
-    render_text("Max Score: " + std::to_string(_max_score), 300, 5);
-}
+// void Game::draw_info()
+// {
+//     render_text("Total Score: " + std::to_string(_score));
+//     render_text("Max Score: " + std::to_string(_max_score));
+// }
 
-void Game::render_text(const std::string& text, int x, int y)
-{
-    SDL_Surface* text_surface =
-        TTF_RenderText_Solid(_rm.get_font(), text.c_str(), _text_color);
+// void Game::render_text(const std::string& text)
+//  {
+//      SDL_Surface* text_surface =
+//          TTF_RenderText_Solid(_rm.get_font(), text.c_str(),
+//          _text_color);
 
-    SDL_Texture* text_texture{nullptr};
+//     SDL_Texture* text_texture{nullptr};
 
-    int w = 0;
-    int h = 0;
+//     int w = 0;
+//     int h = 0;
 
-    if (text_surface == nullptr)
-    {
-        printf("Unable to render text surface! SDL_ttf Error: %s\n",
-               TTF_GetError());
-    }
-    else
-    {
-        // Create texture from surface pixels
-        text_texture =
-            SDL_CreateTextureFromSurface(_renderer, text_surface);
-        if (text_texture == nullptr)
-        {
-            printf("Unable to create texture from rendered text! SDL "
-                   "Error: %s\n",
-                   SDL_GetError());
-        }
-        else
-        {
-            // Get image dimensions
-            w = text_surface->w;
-            h = text_surface->h;
-        }
+//     if (text_surface == nullptr)
+//     {
+//         printf("Unable to render text surface! SDL_ttf Error: %s\n",
+//                TTF_GetError());
+//     }
+//     else
+//     {
+//         // Create texture from surface pixels
+//         text_texture =
+//             SDL_CreateTextureFromSurface(_renderer, text_surface);
+//         if (text_texture == nullptr)
+//         {
+//             printf("Unable to create texture from rendered text! SDL
+//             "
+//                    "Error: %s\n",
+//                    SDL_GetError());
+//         }
+//         else
+//         {
+//             // Get image dimensions
+//             w = text_surface->w;
+//             h = text_surface->h;
+//         }
 
-        // Get rid of old surface
-        SDL_FreeSurface(text_surface);
-    }
+//         // Get rid of old surface
+//         SDL_FreeSurface(text_surface);
+//     }
 
-    // draw_texture(text_texture, x, y);
-}
+//     // draw_texture(text_texture, x, y);
+//}

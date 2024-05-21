@@ -8,6 +8,7 @@
 #include "background.h"
 #include "keyboard_controller.h"
 #include "resource_manager.h"
+#include "topbar.h"
 #include <entity.h>
 
 #include <SDL.h>
@@ -25,6 +26,7 @@ class Game
                   field_height)),
               _controller(
                   std::make_unique<KeyboardController>(&_keyboard)),
+              _topbar(std::make_unique<Topbar>(_rm.get_font())),
               _field_width(field_width), _field_height(field_height)
         {
         }
@@ -79,9 +81,7 @@ class Game
 
         void reset_state();
 
-        void draw_texture(SDL_Texture* texture, int x, int y);
-
-        void render_text(const std::string& text, int x, int y);
+        void render_text(const std::string& text);
 
         bool _quit{false};
 
@@ -97,12 +97,13 @@ class Game
 
         std::array<int, MAX_KEYBOARD_KEYS> _keyboard{};
         std::unique_ptr<KeyboardController> _controller;
+        std::unique_ptr<Topbar> _topbar;
 
         int _field_width{0};
         int _field_height{0};
 
         int enemy_spawn_timer{0};
-        SDL_Color _text_color{0, 200, 200};
+        // SDL_Color _text_color{0, 200, 200};
 
         size_t _score{0};
         size_t _max_score{0};

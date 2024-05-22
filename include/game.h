@@ -11,8 +11,6 @@
 #include "keyboard_controller.h"
 #include "resource_manager.h"
 #include "topbar.h"
-// #include <entity.h>
-
 #include <SDL.h>
 
 class Game
@@ -21,8 +19,6 @@ class Game
         Game(int field_width, int field_height, SDL_Renderer* renderer)
             : _renderer(renderer), _rm(_renderer),
               _player(_manager.add_entity()),
-              //_player(
-              //  std::make_unique<Player>(_rm.get_texture("player"))),
               _background(std::make_unique<Background>(
                   _rm.get_texture("background"),
                   _rm.get_texture("explosion"), field_width,

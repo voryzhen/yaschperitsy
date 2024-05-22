@@ -8,6 +8,8 @@ include_directories ( include /opt/homebrew/include/SDL2 ${SDL2_INCLUDE_DIRS} )
 link_directories ( /opt/homebrew/lib ${SDL2_LIB_DIRS} )
 
 set (CMAKE_CXX_STANDARD 17)
+SET(CMAKE_CXX_FLAGS "-Wall")
+SET(CMAKE_CXX_FLAGS_DEBUG "-g")
 
 add_executable ( yaschperitsy 
 

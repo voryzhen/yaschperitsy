@@ -16,23 +16,7 @@
 class Game
 {
     public:
-        Game(int field_width, int field_height, SDL_Renderer* renderer)
-            : _renderer(renderer), _rm(_renderer),
-              _player(_manager.add_entity()),
-              _background(std::make_unique<Background>(
-                  _rm.get_texture("background"),
-                  _rm.get_texture("explosion"), field_width,
-                  field_height)),
-              _controller(
-                  std::make_unique<KeyboardController>(&_keyboard)),
-              _topbar(std::make_unique<Topbar>(_rm.get_font())),
-              _field_width(field_width), _field_height(field_height)
-        {
-            _player.add_component<PositionComponent>(100, 100);
-            _player.add_component<SpriteComponent>(
-                _rm.get_texture("player"));
-        }
-
+        Game(int field_width, int field_height, SDL_Renderer* renderer);
         Game(const Game&) = delete;
         Game(const Game&&) = delete;
         Game& operator=(const Game&) = delete;
@@ -47,46 +31,13 @@ class Game
         void update();
         void render();
 
-        bool is_running() const { return !_quit; }
-
         unsigned char _fps = 60;
         unsigned char _frame_delay = 1000 / 60;
 
         SDL_Event event{};
 
-        void update_enemies();
-        void update_bullets();
-
         Manager _manager;
         Entity& _player;
-
-        // ------------
-
-        // Handle input
-        void handle_input();
-
-        void logic();
-        void player_logic();
-        void bullets_logic();
-        void enemy_logic();
-
-        void draw();
-        void draw_player();
-        void draw_bullets();
-        void draw_enemies();
-
-        void fire_bullet();
-        void spawn_enemies();
-
-        void bullet_hit_enemy();
-        void bullet_hit_player();
-        void enemy_fire();
-
-        void draw_info();
-
-        void reset_state();
-
-        void render_text(const std::string& text);
 
         bool _quit{false};
 
@@ -94,10 +45,6 @@ class Game
 
         ResourceManager _rm;
 
-        // std::unique_ptr<Player> _player;
-        // std::vector<Entity> _bullets;
-        // std::vector<Enemy> _enemies;
-        // std::vector<Entity> _enemy_bullets;
         std::unique_ptr<Background> _background;
 
         std::array<int, MAX_KEYBOARD_KEYS> _keyboard{};

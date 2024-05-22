@@ -3,7 +3,27 @@
 #include "SDL_timer.h"
 
 #include "SDL_render.h"
+#include "components.h"
 #include <SDL_image.h>
+
+Game::Game(int field_width, int field_height, SDL_Renderer* renderer)
+    : _renderer(renderer), _rm(_renderer),
+      _player(_manager.add_entity()),
+      _background(std::make_unique<Background>(
+          _rm.get_texture("background"), _rm.get_texture("explosion"),
+          field_width, field_height)),
+      _controller(std::make_unique<KeyboardController>(&_keyboard)),
+      _topbar(std::make_unique<Topbar>(_rm.get_font())),
+      _field_width(field_width), _field_height(field_height)
+{
+    _player.add_component<PositionComponent>(100, 100);
+    _player.add_component<SpriteComponent>(_rm.get_texture("player"));
+    {
+        auto& enemy = _manager.add_entity();
+        enemy.add_component<PositionComponent>(200, 200);
+        enemy.add_component<SpriteComponent>(_rm.get_texture("enemy"));
+    }
+}
 
 int Game::run_game()
 {
@@ -51,8 +71,7 @@ void Game::update()
     _manager.update();
 }
 
-void Game::render() // TODO: make _renderer global somehow or
-                    // shared_ptr ?
+void Game::render()
 {
     SDL_RenderClear(_renderer);
 

@@ -6,10 +6,12 @@
 #include <vector>
 
 #include "background.h"
+#include "components.h"
+#include "ecs.h"
 #include "keyboard_controller.h"
 #include "resource_manager.h"
 #include "topbar.h"
-#include <entity.h>
+// #include <entity.h>
 
 #include <SDL.h>
 
@@ -18,8 +20,9 @@ class Game
     public:
         Game(int field_width, int field_height, SDL_Renderer* renderer)
             : _renderer(renderer), _rm(_renderer),
-              _player(
-                  std::make_unique<Player>(_rm.get_texture("player"))),
+              _player(_manager.add_entity()),
+              //_player(
+              //  std::make_unique<Player>(_rm.get_texture("player"))),
               _background(std::make_unique<Background>(
                   _rm.get_texture("background"),
                   _rm.get_texture("explosion"), field_width,
@@ -29,6 +32,9 @@ class Game
               _topbar(std::make_unique<Topbar>(_rm.get_font())),
               _field_width(field_width), _field_height(field_height)
         {
+            _player.add_component<PositionComponent>(10, 10);
+            _player.add_component<SpriteComponent>(
+                _rm.get_texture("player"));
         }
 
         Game(const Game&) = delete;
@@ -54,6 +60,9 @@ class Game
 
         void update_enemies();
         void update_bullets();
+
+        Manager _manager;
+        Entity& _player;
 
         // ------------
 
@@ -89,10 +98,10 @@ class Game
 
         ResourceManager _rm;
 
-        std::unique_ptr<Player> _player;
-        std::vector<Entity> _bullets;
-        std::vector<Enemy> _enemies;
-        std::vector<Entity> _enemy_bullets;
+        // std::unique_ptr<Player> _player;
+        // std::vector<Entity> _bullets;
+        // std::vector<Enemy> _enemies;
+        // std::vector<Entity> _enemy_bullets;
         std::unique_ptr<Background> _background;
 
         std::array<int, MAX_KEYBOARD_KEYS> _keyboard{};

@@ -1,23 +1,17 @@
 #include <game.h>
 
-#include <string>
-
 #include "SDL_timer.h"
-#include "entity.h"
-#include "utility.h"
 
 #include "SDL_render.h"
 #include <SDL_image.h>
 
 int Game::run_game()
 {
-
     Uint32 frame_start{0};
     Uint32 frame_time{0};
 
     while (!_quit)
     {
-
         frame_start = SDL_GetTicks();
 
         handle_events();
@@ -30,12 +24,6 @@ int Game::run_game()
         {
             SDL_Delay(_frame_delay - frame_time);
         }
-
-        // prepare_scene();
-        // handle_input();
-        // logic();
-        // draw();
-        // present_scene();
     }
 
     return 0;
@@ -59,9 +47,8 @@ void Game::handle_events()
 
 void Game::update()
 {
-    _player->update();
-    update_enemies();
-    update_bullets();
+    _manager.refresh();
+    _manager.update();
 }
 
 void Game::render() // TODO: make _renderer global somehow or
@@ -69,25 +56,15 @@ void Game::render() // TODO: make _renderer global somehow or
 {
     SDL_RenderClear(_renderer);
 
-    // render all stuff
     _background->render(_renderer);
-    _player->render(_renderer);
-
-    for (const auto& e : _enemies)
-    {
-        e.render(_renderer);
-    }
-
-    for (const auto& b : _enemy_bullets)
-    {
-        b.render(_renderer);
-    }
+    _manager.render(_renderer);
 
     _topbar->render(_renderer);
 
     SDL_RenderPresent(_renderer);
 }
 
+/*
 void Game::update_bullets()
 {
     if (!_bullets.empty())
@@ -173,6 +150,7 @@ void Game::spawn_enemies()
     }
 }
 
+
 void Game::enemy_fire()
 {
     for (auto& e : _enemies)
@@ -191,7 +169,7 @@ void Game::enemy_fire()
         }
     }
 }
-
+*/
 // ------
 // ------
 // ------
@@ -200,17 +178,18 @@ void Game::enemy_fire()
 // ------
 // ------
 
-void Game::handle_input() { _quit = _controller->handle_input(); }
+// void Game::handle_input() { _quit = _controller->handle_input(); }
 
-void Game::logic()
-{
-    player_logic();
-    // bullets_logic();
-    //  enemy_logic();
-    bullet_hit_enemy();
-    bullet_hit_player();
-}
+// void Game::logic()
+// {
+//     player_logic();
+//     // bullets_logic();
+//     //  enemy_logic();
+//     bullet_hit_enemy();
+//     bullet_hit_player();
+// }
 
+/*
 void Game::bullet_hit_enemy()
 {
     for (auto& e : _enemies)
@@ -321,3 +300,4 @@ void Game::draw_bullets()
         // draw_texture(b._texture, b._x, b._y);
     }
 }
+*/

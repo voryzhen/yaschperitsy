@@ -32,7 +32,7 @@ class Game
               _topbar(std::make_unique<Topbar>(_rm.get_font())),
               _field_width(field_width), _field_height(field_height)
         {
-            _player.add_component<PositionComponent>(10, 10);
+            _player.add_component<PositionComponent>(100, 100);
             _player.add_component<SpriteComponent>(
                 _rm.get_texture("player"));
         }

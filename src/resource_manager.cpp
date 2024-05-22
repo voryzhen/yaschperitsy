@@ -47,7 +47,7 @@ ResourceManager::~ResourceManager()
 {
     for (auto& [name, texture] : _textures)
     {
-        SDL_DestroyTexture(texture);
+        SDL_DestroyTexture(texture._texture);
     }
     TTF_CloseFont(_font);
 }
@@ -61,8 +61,7 @@ ResourceManager::load_texture(const std::string_view& filename)
     return IMG_LoadTexture(_renderer, filename.data());
 }
 
-SDL_Texture*
-ResourceManager::get_texture(const std::string& texture) const
+Texture ResourceManager::get_texture(const std::string& texture) const
 {
     auto txtr = _textures.find(texture);
     if (txtr != _textures.end())

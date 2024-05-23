@@ -4,12 +4,12 @@
 #include <SDL_image.h>
 
 static constexpr std::string_view player_asset{"assets/player.png"};
-static constexpr std::string_view bullet_asset{
+static constexpr std::string_view player_bullet_asset{
     "assets/playerBullet.png"};
 
 static constexpr std::string_view enemy_asset{"assets/enemy.png"};
 static constexpr std::string_view enemy_bullet_asset{
-    "assets/alienBullet.png"};
+    "assets/enemyBullet.png.png"};
 
 static constexpr std::string_view background_asset{
     "assets/background.png"};
@@ -24,7 +24,7 @@ ResourceManager::ResourceManager(SDL_Renderer* renderer)
     _textures.insert(std::make_pair<std::string, SDL_Texture*>(
         std::string{"player"}, load_texture(player_asset)));
     _textures.insert(std::make_pair<std::string, SDL_Texture*>(
-        std::string{"bullet"}, load_texture(bullet_asset)));
+        std::string{"bullet"}, load_texture(player_bullet_asset)));
     _textures.insert(std::make_pair<std::string, SDL_Texture*>(
         std::string{"enemy"}, load_texture(enemy_asset)));
     _textures.insert(std::make_pair<std::string, SDL_Texture*>(

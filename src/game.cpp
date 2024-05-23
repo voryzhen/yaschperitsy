@@ -111,6 +111,11 @@ void Game::spawn_enemies()
 
 void Game::destroy_enemies()
 {
+    if (_enemies.empty())
+    {
+        return;
+    }
+
     const auto enemy_deleter =
         [](const std::reference_wrapper<Entity> e)
     {

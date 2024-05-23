@@ -12,16 +12,17 @@ Game::Game(int field_width, int field_height, SDL_Renderer* renderer)
       _background(std::make_unique<Background>(
           _rm.get_texture("background"), _rm.get_texture("explosion"),
           field_width, field_height)),
-      //   _controller(std::make_unique<KeyboardController>(&_keyboard)),
-      _topbar(std::make_unique<Topbar>(_rm.get_font()))
-//   _field_width(field_width), _field_height(field_height)
+      _topbar(std::make_unique<Topbar>(_rm.get_font())),
+      _field(field_width, field_height)
 {
     _player.add_component<TransformComponent>(100, 100);
     _player.add_component<SpriteComponent>(_rm.get_texture("player"));
     _player.add_component<KeyboardController>();
+
     {
         auto& enemy = _manager.add_entity();
-        enemy.add_component<TransformComponent>(200, 200);
+        enemy.add_component<TransformComponent>(_field.w, 200);
+        enemy.get_component<TransformComponent>()->set_x_velocity(-1);
         enemy.add_component<SpriteComponent>(_rm.get_texture("enemy"));
     }
 }

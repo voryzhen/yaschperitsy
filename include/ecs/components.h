@@ -4,7 +4,6 @@
 #include "SDL_rect.h"
 #include "SDL_render.h"
 #include "ecs.h"
-#include "keyboard_controller.h"
 #include "resource_manager.h"
 #include "vector2D.h"
 #include <cstdlib>
@@ -36,7 +35,7 @@ class TransformComponent : public Component
             _velocity = {_velocity.x(), y_vel};
         }
 
-        void update(const SDL_Event& e) override
+        void update(const SDL_Event& /*e*/) override
         {
             _position += (_velocity * _speed);
         }
@@ -67,7 +66,7 @@ class SpriteComponent : public Component
             _dest_rect.w = _texture._w;
         }
 
-        void update(const SDL_Event& e) override
+        void update(const SDL_Event& /*e*/) override
         {
             _dest_rect.x = static_cast<int>(_position->position().x());
             _dest_rect.y = static_cast<int>(_position->position().y());

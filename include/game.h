@@ -8,10 +8,20 @@
 #include "background.h"
 #include "ecs/components.h"
 #include "ecs/ecs.h"
-#include "keyboard_controller.h"
 #include "resource_manager.h"
 #include "topbar.h"
 #include <SDL.h>
+
+struct GameField
+{
+    public:
+        GameField() = default;
+
+        GameField(int ww, int hh) : h(hh), w(ww) {}
+
+        int h{0};
+        int w{0};
+};
 
 class Game
 {
@@ -44,8 +54,7 @@ class Game
         std::unique_ptr<Background> _background;
         std::unique_ptr<Topbar> _topbar;
 
-        // int _field_width{0};
-        // int _field_height{0};
+        GameField _field;
 
         // int enemy_spawn_timer{0};
 

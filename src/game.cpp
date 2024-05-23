@@ -6,13 +6,12 @@
 #include "SDL_render.h"
 #include "ecs/components.h"
 #include <SDL_image.h>
-#include <iterator>
 
 #include "utility.h"
 
 Game::Game(int field_width, int field_height, SDL_Renderer* renderer)
     : _renderer(renderer), _rm(_renderer),
-      _player(_manager.add_entity()),
+      _player(_manager.add_entity("player")),
       _background(std::make_unique<Background>(
           _rm.get_texture("background"), _rm.get_texture("explosion"),
           field_width, field_height)),
@@ -94,7 +93,7 @@ void Game::spawn_enemies()
 {
     if (--enemy_spawn_timer <= 0)
     {
-        auto& enemy = _manager.add_entity();
+        auto& enemy = _manager.add_entity("enemy");
         enemy.add_component<TransformComponent>(_field.w, 0);
         enemy.add_component<SpriteComponent>(_rm.get_texture("enemy"));
 
@@ -160,7 +159,7 @@ void Game::fire_enemies()
             const auto trasnsform_component =
                 e.get().get_component<TransformComponent>()->position();
 
-            auto& bullet = _manager.add_entity();
+            auto& bullet = _manager.add_entity("enemy_bullet");
             bullet.add_component<TransformComponent>(
                 trasnsform_component.x(), trasnsform_component.y());
             bullet.add_component<SpriteComponent>(
@@ -177,7 +176,7 @@ void Game::fire_enemies()
 
 void Game::game_update_bullets() { destroy_bullets(); }
 
-void Game::destroy_bullets()
+void Game::destroy_bullets() // TODO: refactor - one destroy function
 {
     if (_enemies_bullet.empty())
     {

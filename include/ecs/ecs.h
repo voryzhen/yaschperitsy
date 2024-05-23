@@ -146,9 +146,9 @@ class Manager
                             _entities.end());
         }
 
-        Entity& add_entity()
+        Entity& add_entity(const std::string_view& name = "")
         {
-            auto e = new Entity();
+            auto e = new Entity(name);
             std::unique_ptr<Entity> u_e(e);
             _entities.emplace_back(std::move(u_e));
             return *e;

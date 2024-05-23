@@ -4,28 +4,28 @@
 #include "SDL_render.h"
 #include "ecs.h"
 #include "resource_manager.h"
+#include "vector2D.h"
 #include <cstdlib>
 
 class TransformComponent : public Component
 {
     public:
-        TransformComponent(int x, int y) : _x(x), _y(y) {}
+        TransformComponent(int x, int y)
+            : _position({static_cast<float>(x), static_cast<float>(y)})
+        {
+        }
 
-        int x() const { return _x; }
-
-        int y() const { return _y; }
+        Vector2D position() const { return _position; }
 
         void set_pos(int x, int y)
         {
-            _x = x;
-            _y = y;
+            _position = {static_cast<float>(x), static_cast<float>(y)};
         }
 
-        void update() override { _x++; }
+        void update() override { _position += {1.0f, .0f}; }
 
     private:
-        int _x{0};
-        int _y{0};
+        Vector2D _position;
 };
 
 class SpriteComponent : public Component
@@ -50,8 +50,8 @@ class SpriteComponent : public Component
 
         void update() override
         {
-            _dest_rect.x = _position->x();
-            _dest_rect.y = _position->y();
+            _dest_rect.x = static_cast<int>(_position->position().x());
+            _dest_rect.y = static_cast<int>(_position->position().y());
         }
 
         void render(SDL_Renderer* renderer) override

@@ -10,6 +10,7 @@ link_directories ( /opt/homebrew/lib ${SDL2_LIB_DIRS} )
 set (CMAKE_CXX_STANDARD 17)
 SET(CMAKE_CXX_FLAGS "-Wall")
 SET(CMAKE_CXX_FLAGS_DEBUG "-g")
+set(CMAKE_BUILD_TYPE Debug)
 
 add_executable ( yaschperitsy 
 
@@ -21,6 +22,7 @@ add_executable ( yaschperitsy
   src/resource_manager.cpp
   src/topbar.cpp
   src/utility.cpp
+  src/vector2D.cpp
 
 )
 

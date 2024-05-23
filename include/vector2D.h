@@ -18,10 +18,14 @@ class Vector2D
         Vector2D& operator*=(const Vector2D& vec);
         Vector2D& operator/=(const Vector2D& vec);
 
+        Vector2D& operator*=(int factor);
+
         Vector2D operator+(const Vector2D& vec) const;
         Vector2D operator-(const Vector2D& vec) const;
         Vector2D operator*(const Vector2D& vec) const;
         Vector2D operator/(const Vector2D& vec) const;
+
+        Vector2D operator*(int factor) const;
 
         bool operator==(const Vector2D& vec) const;
         bool operator!=(const Vector2D& vec) const;

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "SDL_events.h"
 #include "SDL_render.h"
 #include <algorithm>
 #include <array>
@@ -46,7 +47,7 @@ class Component
 
         virtual void init() {}
 
-        virtual void update() {}
+        virtual void update(const SDL_Event& event) {}
 
         virtual void render(SDL_Renderer* renderer) {}
 
@@ -56,11 +57,11 @@ class Component
 class Entity
 {
     public:
-        void update()
+        void update(const SDL_Event& event)
         {
             for (auto& c : _components)
             {
-                c->update();
+                c->update(event);
             }
         }
 
@@ -113,11 +114,11 @@ class Entity
 class Manager
 {
     public:
-        void update()
+        void update(const SDL_Event& event)
         {
             for (auto& e : _entities)
             {
-                e->update();
+                e->update(event);
             }
         }
 

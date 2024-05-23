@@ -1,6 +1,6 @@
 #include "keyboard_controller.h"
 
-void KeyboardController::handle_key_down(SDL_KeyboardEvent* event)
+void KeyboardController1::handle_key_down(SDL_KeyboardEvent* event)
 {
     if (event->repeat == 0 &&
         event->keysym.scancode < MAX_KEYBOARD_KEYS)
@@ -9,7 +9,7 @@ void KeyboardController::handle_key_down(SDL_KeyboardEvent* event)
     }
 }
 
-void KeyboardController::handle_key_up(SDL_KeyboardEvent* event)
+void KeyboardController1::handle_key_up(SDL_KeyboardEvent* event)
 {
     if (event->repeat == 0 &&
         event->keysym.scancode < MAX_KEYBOARD_KEYS)
@@ -18,7 +18,7 @@ void KeyboardController::handle_key_up(SDL_KeyboardEvent* event)
     }
 }
 
-bool KeyboardController::handle_input()
+bool KeyboardController1::handle_input()
 {
     while (SDL_PollEvent(&event) != 0)
     {

@@ -58,3 +58,17 @@ bool Vector2D::operator!=(const Vector2D& vec) const
 {
     return !(*this == vec);
 }
+
+Vector2D& Vector2D::operator*=(int factor)
+{
+    auto float_factor = static_cast<float>(factor);
+    _x *= float_factor;
+    _y *= float_factor;
+    return *this;
+}
+
+Vector2D Vector2D::operator*(int factor) const
+{
+    auto float_factor = static_cast<float>(factor);
+    return {_x * float_factor, _y * float_factor};
+}

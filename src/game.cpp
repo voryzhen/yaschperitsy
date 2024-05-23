@@ -3,7 +3,7 @@
 #include "SDL_timer.h"
 
 #include "SDL_render.h"
-#include "components.h"
+#include "ecs/components.h"
 #include <SDL_image.h>
 
 Game::Game(int field_width, int field_height, SDL_Renderer* renderer)
@@ -12,12 +12,13 @@ Game::Game(int field_width, int field_height, SDL_Renderer* renderer)
       _background(std::make_unique<Background>(
           _rm.get_texture("background"), _rm.get_texture("explosion"),
           field_width, field_height)),
-      _controller(std::make_unique<KeyboardController>(&_keyboard)),
-      _topbar(std::make_unique<Topbar>(_rm.get_font())),
-      _field_width(field_width), _field_height(field_height)
+      //   _controller(std::make_unique<KeyboardController>(&_keyboard)),
+      _topbar(std::make_unique<Topbar>(_rm.get_font()))
+//   _field_width(field_width), _field_height(field_height)
 {
     _player.add_component<TransformComponent>(100, 100);
     _player.add_component<SpriteComponent>(_rm.get_texture("player"));
+    _player.add_component<KeyboardController>();
     {
         auto& enemy = _manager.add_entity();
         enemy.add_component<TransformComponent>(200, 200);
@@ -51,24 +52,22 @@ int Game::run_game()
 
 void Game::handle_events()
 {
-    while (SDL_PollEvent(&event) != 0)
+    SDL_PollEvent(&_event);
+    switch (_event.type)
     {
-        switch (event.type)
-        {
-        case SDL_QUIT:
-            _quit = true;
-            break;
+    case SDL_QUIT:
+        _quit = true;
+        break;
 
-        default:
-            break;
-        }
+    default:
+        break;
     }
 }
 
 void Game::update()
 {
     _manager.refresh();
-    _manager.update();
+    _manager.update(_event);
 }
 
 void Game::render()

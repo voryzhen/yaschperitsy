@@ -1,3 +1,4 @@
+#include <functional>
 #include <game.h>
 
 #include "SDL_timer.h"
@@ -80,7 +81,11 @@ void Game::render()
     SDL_RenderPresent(_renderer);
 }
 
-void Game::game_update_enemies() { spawn_enemies(); }
+void Game::game_update_enemies()
+{
+    spawn_enemies();
+    destroy_enemies();
+}
 
 void Game::spawn_enemies()
 {
@@ -91,14 +96,45 @@ void Game::spawn_enemies()
         enemy.add_component<SpriteComponent>(_rm.get_texture("enemy"));
 
         const auto enemy_rect =
-            enemy.get_component<SpriteComponent>()->get_texture_size();
+            enemy.get_component<SpriteComponent>()->get_texture_rect();
         enemy.get_component<TransformComponent>()->set_position(
             _field.w, get_random_int(_field.h - enemy_rect.h));
 
         enemy.get_component<TransformComponent>()->set_x_velocity(-1);
 
+        _enemies.emplace_back(enemy);
+
         // frame rate is 60 and every second
         enemy_spawn_timer = enemy_spawn_freq * _fps;
+    }
+}
+
+void Game::destroy_enemies()
+{
+    const auto enemy_deleter =
+        [](const std::reference_wrapper<Entity> e)
+    {
+        auto rect = e.get()
+                        .get_component<SpriteComponent>()
+                        ->get_texture_rect();
+
+        if (rect.x < -rect.w)
+        {
+            e.get().destroy();
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    };
+
+    const auto remained_enemies =
+        std::remove_if(_enemies.begin(), _enemies.end(), enemy_deleter);
+
+    if (remained_enemies - _enemies.begin() < _enemies.size())
+    {
+        _enemies.erase(remained_enemies);
     }
 }
 

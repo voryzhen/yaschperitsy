@@ -1,6 +1,7 @@
 #pragma once
 
 #include <array>
+#include <functional>
 #include <memory>
 #include <string_view>
 #include <vector>
@@ -43,6 +44,7 @@ class Game
 
         void game_update_enemies();
         void spawn_enemies();
+        void destroy_enemies();
 
         unsigned char _fps = 60;
         unsigned char _frame_delay = 1000 / _fps;
@@ -56,6 +58,7 @@ class Game
         Entity& _player;
         std::unique_ptr<Background> _background;
         std::unique_ptr<Topbar> _topbar;
+        std::vector<std::reference_wrapper<Entity>> _enemies;
 
         GameField _field;
 

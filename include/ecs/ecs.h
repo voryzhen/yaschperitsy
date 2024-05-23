@@ -7,6 +7,8 @@
 #include <bitset>
 #include <iostream>
 #include <memory>
+#include <string>
+#include <string_view>
 #include <utility>
 #include <vector>
 
@@ -57,6 +59,10 @@ class Component
 class Entity
 {
     public:
+        Entity() = default;
+
+        Entity(const std::string_view& name) : _name(name) {}
+
         void update(const SDL_Event& event)
         {
             for (auto& c : _components)
@@ -109,6 +115,7 @@ class Entity
 
         ComponentArray _component_array{};
         ComponentBitSet _component_bitset;
+        std::string_view _name;
 };
 
 class Manager

@@ -13,7 +13,6 @@ set(CMAKE_BUILD_TYPE Debug)
 add_executable ( yaschperitsy
 
   src/app.cpp
-  src/entity.cpp
   src/game.cpp
   src/main.cpp
   src/resource_manager.cpp

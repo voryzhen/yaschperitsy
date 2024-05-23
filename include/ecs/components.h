@@ -79,9 +79,16 @@ class SpriteComponent : public Component
                            &_dest_rect);
         }
 
-        SDL_Rect get_texture_size()
+        SDL_Rect get_texture_rect()
         {
-            return {0, 0, _texture._w, _texture._h};
+            Vector2D pos = {};
+            if (_position != nullptr)
+            {
+                pos = _position->position();
+            }
+            return {static_cast<int>(pos.x()),
+                    static_cast<int>(pos.y()), _texture._w,
+                    _texture._h};
         }
 
     private:

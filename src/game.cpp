@@ -16,11 +16,11 @@ Game::Game(int field_width, int field_height, SDL_Renderer* renderer)
       _topbar(std::make_unique<Topbar>(_rm.get_font())),
       _field_width(field_width), _field_height(field_height)
 {
-    _player.add_component<PositionComponent>(100, 100);
+    _player.add_component<TransformComponent>(100, 100);
     _player.add_component<SpriteComponent>(_rm.get_texture("player"));
     {
         auto& enemy = _manager.add_entity();
-        enemy.add_component<PositionComponent>(200, 200);
+        enemy.add_component<TransformComponent>(200, 200);
         enemy.add_component<SpriteComponent>(_rm.get_texture("enemy"));
     }
 }

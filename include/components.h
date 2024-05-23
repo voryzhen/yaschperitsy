@@ -6,10 +6,10 @@
 #include "resource_manager.h"
 #include <cstdlib>
 
-class PositionComponent : public Component
+class TransformComponent : public Component
 {
     public:
-        PositionComponent(int x, int y) : _x(x), _y(y) {}
+        TransformComponent(int x, int y) : _x(x), _y(y) {}
 
         int x() const { return _x; }
 
@@ -37,7 +37,7 @@ class SpriteComponent : public Component
 
         void init() override
         {
-            _position = owner->get_component<PositionComponent>();
+            _position = owner->get_component<TransformComponent>();
 
             _src_rect.x = _src_rect.y = 0;
 
@@ -61,7 +61,7 @@ class SpriteComponent : public Component
         }
 
     private:
-        PositionComponent* _position{nullptr};
+        TransformComponent* _position{nullptr};
         Texture _texture{nullptr};
         SDL_Rect _src_rect{0, 0, 0, 0};
         SDL_Rect _dest_rect{0, 0, 0, 0};

@@ -5,9 +5,13 @@
 #include <cstdlib>
 #include <iostream>
 
+// TODO: refactor this nightmare with BOOST ?
+// Boost is very big, but we are training
+
 namespace test
 {
 
+// NOLINTNEXTLINE(misc-definitions-in-headers)
 void test_ctor()
 {
     Vector2D a;
@@ -17,6 +21,7 @@ void test_ctor()
            std::abs(b.y() - 999.444f) < eps);
 }
 
+// NOLINTNEXTLINE(misc-definitions-in-headers)
 void test_eq()
 {
     Vector2D a(.4f, .5f);
@@ -26,6 +31,7 @@ void test_eq()
     assert(a != c);
 }
 
+// NOLINTNEXTLINE(misc-definitions-in-headers)
 void test_math()
 {
     // a + b
@@ -91,6 +97,7 @@ void test_math()
     }
 }
 
+// NOLINTNEXTLINE(misc-definitions-in-headers)
 void test()
 {
     test_ctor();

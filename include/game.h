@@ -49,6 +49,9 @@ class Game
         void destroy_enemies();
         void fire_enemies();
 
+        // Player logic
+        void game_update_player();
+
         // Bullets logic
         void game_update_bullets();
         void destroy_bullets();
@@ -66,7 +69,8 @@ class Game
         std::unique_ptr<Background> _background;
         std::unique_ptr<Topbar> _topbar;
         std::vector<std::reference_wrapper<Entity>> _enemies;
-        std::vector<std::reference_wrapper<Entity>> _enemies_bullet;
+        std::vector<std::reference_wrapper<Entity>> _enemies_bullets;
+        std::vector<std::reference_wrapper<Entity>> _player_bullets;
 
         GameField _field;
 

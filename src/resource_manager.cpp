@@ -24,7 +24,8 @@ ResourceManager::ResourceManager(SDL_Renderer* renderer)
     _textures.insert(std::make_pair<std::string, SDL_Texture*>(
         std::string{"player"}, load_texture(player_asset)));
     _textures.insert(std::make_pair<std::string, SDL_Texture*>(
-        std::string{"bullet"}, load_texture(player_bullet_asset)));
+        std::string{"player_bullet"},
+        load_texture(player_bullet_asset)));
     _textures.insert(std::make_pair<std::string, SDL_Texture*>(
         std::string{"enemy"}, load_texture(enemy_asset)));
     _textures.insert(std::make_pair<std::string, SDL_Texture*>(

@@ -1,6 +1,8 @@
 #include <functional>
 #include <game.h>
 
+#include "SDL_events.h"
+#include "SDL_keycode.h"
 #include "SDL_timer.h"
 
 #include "SDL_render.h"
@@ -21,6 +23,7 @@ Game::Game(int field_width, int field_height, SDL_Renderer* renderer)
     _player.add_component<TransformComponent>(100, 100);
     _player.add_component<SpriteComponent>(_rm.get_texture("player"));
     _player.add_component<KeyboardController>();
+    _player.add_component<FireReloadComponent>(8);
 }
 
 int Game::run_game()
@@ -65,6 +68,7 @@ void Game::update()
 {
     game_update_enemies();
     game_update_bullets();
+    game_update_player();
 
     _manager.refresh();
     _manager.update(_event);
@@ -122,9 +126,15 @@ void Game::destroy_enemies()
     const auto enemy_deleter =
         [](const std::reference_wrapper<Entity> e)
     {
-        auto rect = e.get()
-                        .get_component<SpriteComponent>()
-                        ->get_texture_rect();
+        auto sprite_component =
+            e.get().get_component<SpriteComponent>();
+        if (sprite_component == nullptr)
+        {
+            e.get().destroy();
+            return true;
+        }
+
+        auto rect = sprite_component->get_texture_rect();
 
         if (rect.x < -rect.w)
         {
@@ -167,9 +177,7 @@ void Game::fire_enemies()
             bullet.get_component<TransformComponent>()->set_x_velocity(
                 -3); // TODO: bullet speed;
 
-            _enemies_bullet.emplace_back(bullet);
-
-            std::cout << _enemies_bullet.size() << std::endl;
+            _enemies_bullets.emplace_back(bullet);
         }
     }
 }
@@ -178,7 +186,12 @@ void Game::game_update_bullets() { destroy_bullets(); }
 
 void Game::destroy_bullets() // TODO: refactor - one destroy function
 {
-    if (_enemies_bullet.empty())
+    if (_enemies_bullets.empty())
+    {
+        return;
+    }
+
+    if (_player_bullets.empty())
     {
         return;
     }
@@ -186,9 +199,15 @@ void Game::destroy_bullets() // TODO: refactor - one destroy function
     const auto enemy_bullet_deleter =
         [](const std::reference_wrapper<Entity> e)
     {
-        auto rect = e.get()
-                        .get_component<SpriteComponent>()
-                        ->get_texture_rect();
+        auto sprite_component =
+            e.get().get_component<SpriteComponent>();
+        if (sprite_component == nullptr)
+        {
+            e.get().destroy();
+            return true;
+        }
+
+        auto rect = sprite_component->get_texture_rect();
 
         if (rect.x < -rect.w)
         {
@@ -201,60 +220,80 @@ void Game::destroy_bullets() // TODO: refactor - one destroy function
         }
     };
 
-    const auto remained_enemies_bullet =
-        std::remove_if(_enemies_bullet.begin(), _enemies_bullet.end(),
+    const auto player_bullet_deleter =
+        [this](const std::reference_wrapper<Entity> e)
+    {
+        auto sprite_component =
+            e.get().get_component<SpriteComponent>();
+        if (sprite_component == nullptr)
+        {
+            e.get().destroy();
+            return true;
+        }
+
+        auto rect = sprite_component->get_texture_rect();
+
+        if (rect.x > rect.w + _field.w)
+        {
+            e.get().destroy();
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    };
+
+    const auto remained_enemies_bullets =
+        std::remove_if(_enemies_bullets.begin(), _enemies_bullets.end(),
                        enemy_bullet_deleter);
 
-    if (remained_enemies_bullet - _enemies_bullet.begin() <
-        _enemies_bullet.size())
+    if (remained_enemies_bullets - _enemies_bullets.begin() <
+        _enemies_bullets.size())
     {
-        _enemies_bullet.erase(remained_enemies_bullet);
+        _enemies_bullets.erase(remained_enemies_bullets);
+    }
+
+    const auto remained_player_bullet =
+        std::remove_if(_player_bullets.begin(), _player_bullets.end(),
+                       player_bullet_deleter);
+
+    if (remained_player_bullet - _player_bullets.begin() <
+        _player_bullets.size())
+    {
+        _player_bullets.erase(remained_player_bullet);
+    }
+}
+
+void Game::game_update_player()
+{
+    const auto fire_component =
+        _player.get_component<FireReloadComponent>();
+
+    if (fire_component->is_reloaded())
+    {
+        if (_event.type == SDL_KEYDOWN &&
+            _event.key.keysym.sym == SDLK_f)
+        {
+            fire_component->shot();
+
+            const auto trasnsform_component =
+                _player.get_component<TransformComponent>()->position();
+
+            auto& bullet = _manager.add_entity("player_bullet");
+            bullet.add_component<TransformComponent>(
+                trasnsform_component.x(), trasnsform_component.y());
+            bullet.add_component<SpriteComponent>(
+                _rm.get_texture("player_bullet"));
+            bullet.get_component<TransformComponent>()->set_x_velocity(
+                3); // TODO: bullet speed;
+
+            _player_bullets.emplace_back(bullet);
+        }
     }
 }
 
 /*
-void Game::update_bullets()
-{
-    if (!_bullets.empty())
-    {
-        for (auto& b : _bullets)
-        {
-            b.update();
-        }
-
-        const auto bullet_deleter = [this](const Entity& el)
-        { return el._x > _field_width; };
-
-        const auto remained_bullets = std::remove_if(
-            _bullets.begin(), _bullets.end(), bullet_deleter);
-
-        if (remained_bullets - _bullets.begin() < _bullets.size())
-        {
-            _bullets.erase(remained_bullets);
-        }
-    }
-
-    if (!_enemy_bullets.empty())
-    {
-        for (auto& b : _enemy_bullets)
-        {
-            b.update();
-        }
-
-        const auto bullet_deleter = [this](const Entity& el)
-        { return el._x > _field_width; };
-
-        const auto remained_bullets =
-            std::remove_if(_enemy_bullets.begin(), _enemy_bullets.end(),
-                           bullet_deleter);
-
-        if (remained_bullets - _enemy_bullets.begin() <
-            _enemy_bullets.size())
-        {
-            _enemy_bullets.erase(remained_bullets);
-        }
-    }
-}
 
 void Game::bullet_hit_enemy()
 {
@@ -278,9 +317,9 @@ void Game::reset_state()
     _player->reset_player();
     _bullets.erase(_bullets.begin(), _bullets.end());
     _enemies.erase(_enemies.begin(), _enemies.end());
-    _enemy_bullets.erase(_enemy_bullets.begin(), _enemy_bullets.end());
-    _max_score = std::max(_max_score, _score);
-    _score = 0;
+    _enemy_bullets.erase(_enemy_bullets.begin(),
+_enemy_bullets.end()); _max_score = std::max(_max_score,
+_score); _score = 0;
 }
 
 void Game::bullet_hit_player()
@@ -297,8 +336,6 @@ void Game::bullet_hit_player()
 
 void Game::player_logic()
 {
-    _player->_dx = _player->_dy = 0;
-
     if (_player->_reload > 0)
     {
         _player->_reload--;
@@ -316,7 +353,8 @@ void Game::player_logic()
         _player->_dx = 0;
     }
     if (_player->_y + _player->_dy < 0 ||
-        _player->_y + _player->_dy > _field_height - _player->_h)
+        _player->_y + _player->_dy > _field_height -
+_player->_h)
     {
         _player->_dy = 0;
     }
@@ -327,8 +365,8 @@ void Game::player_logic()
 
 void Game::fire_bullet()
 {
-    _bullets.emplace_back(_player->_x, _player->_y, BULLET_SPEED, 0,
-                          _rm.get_texture("bullet"));
+    _bullets.emplace_back(_player->_x, _player->_y,
+BULLET_SPEED, 0, _rm.get_texture("bullet"));
 
     _player->_reload = _player->_default_reload;
 }

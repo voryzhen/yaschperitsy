@@ -38,13 +38,20 @@ class Game
         ~Game() {}
 
     private:
+        // Main logic
         void handle_events();
         void update();
         void render();
 
+        // Enemies logic
         void game_update_enemies();
         void spawn_enemies();
         void destroy_enemies();
+        void fire_enemies();
+
+        // Bullets logic
+        void game_update_bullets();
+        void destroy_bullets();
 
         unsigned char _fps = 60;
         unsigned char _frame_delay = 1000 / _fps;
@@ -59,11 +66,12 @@ class Game
         std::unique_ptr<Background> _background;
         std::unique_ptr<Topbar> _topbar;
         std::vector<std::reference_wrapper<Entity>> _enemies;
+        std::vector<std::reference_wrapper<Entity>> _enemies_bullet;
 
         GameField _field;
 
         int enemy_spawn_timer{0};
-        int enemy_spawn_freq{1};
+        int enemy_spawn_freq{10};
 
         // size_t _score{0};
         // size_t _max_score{0};

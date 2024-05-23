@@ -6,6 +6,7 @@
 #include "SDL_render.h"
 #include "ecs/components.h"
 #include <SDL_image.h>
+#include <iterator>
 
 #include "utility.h"
 
@@ -64,6 +65,7 @@ void Game::handle_events()
 void Game::update()
 {
     game_update_enemies();
+    game_update_bullets();
 
     _manager.refresh();
     _manager.update(_event);
@@ -85,6 +87,7 @@ void Game::game_update_enemies()
 {
     spawn_enemies();
     destroy_enemies();
+    fire_enemies();
 }
 
 void Game::spawn_enemies()
@@ -101,6 +104,7 @@ void Game::spawn_enemies()
             _field.w, get_random_int(_field.h - enemy_rect.h));
 
         enemy.get_component<TransformComponent>()->set_x_velocity(-1);
+        enemy.add_component<FireReloadComponent>(60);
 
         _enemies.emplace_back(enemy);
 
@@ -140,6 +144,72 @@ void Game::destroy_enemies()
     if (remained_enemies - _enemies.begin() < _enemies.size())
     {
         _enemies.erase(remained_enemies);
+    }
+}
+
+void Game::fire_enemies()
+{
+    for (auto& e : _enemies)
+    {
+        const auto fire_component =
+            e.get().get_component<FireReloadComponent>();
+        if (fire_component->is_reloaded())
+        {
+            fire_component->shot();
+
+            const auto trasnsform_component =
+                e.get().get_component<TransformComponent>()->position();
+
+            auto& bullet = _manager.add_entity();
+            bullet.add_component<TransformComponent>(
+                trasnsform_component.x(), trasnsform_component.y());
+            bullet.add_component<SpriteComponent>(
+                _rm.get_texture("enemy_bullet"));
+            bullet.get_component<TransformComponent>()->set_x_velocity(
+                -3); // TODO: bullet speed;
+
+            _enemies_bullet.emplace_back(bullet);
+
+            std::cout << _enemies_bullet.size() << std::endl;
+        }
+    }
+}
+
+void Game::game_update_bullets() { destroy_bullets(); }
+
+void Game::destroy_bullets()
+{
+    if (_enemies_bullet.empty())
+    {
+        return;
+    }
+
+    const auto enemy_bullet_deleter =
+        [](const std::reference_wrapper<Entity> e)
+    {
+        auto rect = e.get()
+                        .get_component<SpriteComponent>()
+                        ->get_texture_rect();
+
+        if (rect.x < -rect.w)
+        {
+            e.get().destroy();
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    };
+
+    const auto remained_enemies_bullet =
+        std::remove_if(_enemies_bullet.begin(), _enemies_bullet.end(),
+                       enemy_bullet_deleter);
+
+    if (remained_enemies_bullet - _enemies_bullet.begin() <
+        _enemies_bullet.size())
+    {
+        _enemies_bullet.erase(remained_enemies_bullet);
     }
 }
 
@@ -187,62 +257,6 @@ void Game::update_bullets()
     }
 }
 
-void Game::update_enemies()
-{
-    spawn_enemies();
-
-    if (_enemies.empty())
-    {
-        return;
-    }
-
-    for (auto& e : _enemies)
-    {
-        e.update();
-    }
-
-    const auto enemy_deleter = [](const Enemy& e)
-    { return e._x < -e._w; };
-
-    const auto remained_enemies =
-        std::remove_if(_enemies.begin(), _enemies.end(), enemy_deleter);
-
-    if (remained_enemies - _enemies.begin() < _enemies.size())
-    {
-        _enemies.erase(remained_enemies);
-    }
-
-    enemy_fire();
-}
-
-void Game::enemy_fire()
-{
-    for (auto& e : _enemies)
-    {
-        if (e._reload > 0)
-        {
-            e._reload--;
-        }
-        else
-        {
-            _enemy_bullets.emplace_back(
-                e._x, e._y, -BULLET_SPEED, 0,
-                _rm.get_texture("enemy_bullet"));
-
-            e._reload = e._default_reload;
-        }
-    }
-}
-*/
-// ------
-// ------
-// ------
-// ------
-// ------
-// ------
-// ------
-
-/*
 void Game::bullet_hit_enemy()
 {
     for (auto& e : _enemies)
@@ -320,13 +334,4 @@ void Game::fire_bullet()
     _player->_reload = _player->_default_reload;
 }
 
-void Game::draw() { draw_bullets(); }
-
-void Game::draw_bullets()
-{
-    for (const auto& b : _bullets)
-    {
-        // draw_texture(b._texture, b._x, b._y);
-    }
-}
 */

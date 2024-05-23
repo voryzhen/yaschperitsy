@@ -9,7 +9,7 @@ static constexpr std::string_view player_bullet_asset{
 
 static constexpr std::string_view enemy_asset{"assets/enemy.png"};
 static constexpr std::string_view enemy_bullet_asset{
-    "assets/enemyBullet.png.png"};
+    "assets/enemyBullet.png"};
 
 static constexpr std::string_view background_asset{
     "assets/background.png"};

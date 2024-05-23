@@ -1,6 +1,7 @@
 #pragma once
 
 #include "SDL_events.h"
+#include "SDL_keycode.h"
 #include "SDL_rect.h"
 #include "SDL_render.h"
 #include "ecs.h"
@@ -78,6 +79,11 @@ class SpriteComponent : public Component
                            &_dest_rect);
         }
 
+        SDL_Rect get_texture_size()
+        {
+            return {0, 0, _texture._w, _texture._h};
+        }
+
     private:
         TransformComponent* _position{nullptr};
         Texture _texture{nullptr};
@@ -100,18 +106,22 @@ class KeyboardController : public Component
             {
                 switch (e.key.keysym.sym)
                 {
+                case SDLK_UP:
                 case SDLK_w:
                     _transformComponent->set_y_velocity(-1.f);
                     break;
 
+                case SDLK_LEFT:
                 case SDLK_a:
                     _transformComponent->set_x_velocity(-1.f);
                     break;
 
+                case SDLK_DOWN:
                 case SDLK_s:
                     _transformComponent->set_y_velocity(1.f);
                     break;
 
+                case SDLK_RIGHT:
                 case SDLK_d:
                     _transformComponent->set_x_velocity(1.f);
                     break;
@@ -123,18 +133,22 @@ class KeyboardController : public Component
             {
                 switch (e.key.keysym.sym)
                 {
+                case SDLK_UP:
                 case SDLK_w:
                     _transformComponent->set_y_velocity(.0f);
                     break;
 
+                case SDLK_LEFT:
                 case SDLK_a:
                     _transformComponent->set_x_velocity(.0f);
                     break;
 
+                case SDLK_DOWN:
                 case SDLK_s:
                     _transformComponent->set_y_velocity(.0f);
                     break;
 
+                case SDLK_RIGHT:
                 case SDLK_d:
                     _transformComponent->set_x_velocity(.0f);
                     break;

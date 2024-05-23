@@ -6,6 +6,8 @@
 #include "ecs/components.h"
 #include <SDL_image.h>
 
+#include "utility.h"
+
 Game::Game(int field_width, int field_height, SDL_Renderer* renderer)
     : _renderer(renderer), _rm(_renderer),
       _player(_manager.add_entity()),
@@ -18,13 +20,6 @@ Game::Game(int field_width, int field_height, SDL_Renderer* renderer)
     _player.add_component<TransformComponent>(100, 100);
     _player.add_component<SpriteComponent>(_rm.get_texture("player"));
     _player.add_component<KeyboardController>();
-
-    {
-        auto& enemy = _manager.add_entity();
-        enemy.add_component<TransformComponent>(_field.w, 200);
-        enemy.get_component<TransformComponent>()->set_x_velocity(-1);
-        enemy.add_component<SpriteComponent>(_rm.get_texture("enemy"));
-    }
 }
 
 int Game::run_game()
@@ -67,6 +62,8 @@ void Game::handle_events()
 
 void Game::update()
 {
+    game_update_enemies();
+
     _manager.refresh();
     _manager.update(_event);
 }
@@ -81,6 +78,28 @@ void Game::render()
     _topbar->render(_renderer);
 
     SDL_RenderPresent(_renderer);
+}
+
+void Game::game_update_enemies() { spawn_enemies(); }
+
+void Game::spawn_enemies()
+{
+    if (--enemy_spawn_timer <= 0)
+    {
+        auto& enemy = _manager.add_entity();
+        enemy.add_component<TransformComponent>(_field.w, 0);
+        enemy.add_component<SpriteComponent>(_rm.get_texture("enemy"));
+
+        const auto enemy_rect =
+            enemy.get_component<SpriteComponent>()->get_texture_size();
+        enemy.get_component<TransformComponent>()->set_position(
+            _field.w, get_random_int(_field.h - enemy_rect.h));
+
+        enemy.get_component<TransformComponent>()->set_x_velocity(-1);
+
+        // frame rate is 60 and every second
+        enemy_spawn_timer = enemy_spawn_freq * _fps;
+    }
 }
 
 /*
@@ -155,21 +174,6 @@ void Game::update_enemies()
     enemy_fire();
 }
 
-void Game::spawn_enemies()
-{
-    if (--enemy_spawn_timer <= 0)
-    {
-        _enemies.emplace_back(_field_width, 0, -4, 0,
-                              _rm.get_texture("enemy"));
-        auto& last_enemy = _enemies[_enemies.size() - 1];
-        last_enemy._y = get_random_int(_field_height - last_enemy._h);
-
-        // frame rate is 60 and every second
-        enemy_spawn_timer = 1 * _fps;
-    }
-}
-
-
 void Game::enemy_fire()
 {
     for (auto& e : _enemies)
@@ -196,17 +200,6 @@ void Game::enemy_fire()
 // ------
 // ------
 // ------
-
-// void Game::handle_input() { _quit = _controller->handle_input(); }
-
-// void Game::logic()
-// {
-//     player_logic();
-//     // bullets_logic();
-//     //  enemy_logic();
-//     bullet_hit_enemy();
-//     bullet_hit_player();
-// }
 
 /*
 void Game::bullet_hit_enemy()
@@ -255,30 +248,6 @@ void Game::player_logic()
     if (_player->_reload > 0)
     {
         _player->_reload--;
-    }
-
-    if ((_keyboard[SDL_SCANCODE_UP] == 1) ||
-        (_keyboard[SDL_SCANCODE_W] == 1))
-    {
-        _player->_dy = -PLAYER_SPEED;
-    }
-
-    if ((_keyboard[SDL_SCANCODE_DOWN] == 1) ||
-        (_keyboard[SDL_SCANCODE_S] == 1))
-    {
-        _player->_dy = PLAYER_SPEED;
-    }
-
-    if ((_keyboard[SDL_SCANCODE_LEFT] == 1) ||
-        (_keyboard[SDL_SCANCODE_A] == 1))
-    {
-        _player->_dx = -PLAYER_SPEED;
-    }
-
-    if ((_keyboard[SDL_SCANCODE_RIGHT] == 1) ||
-        (_keyboard[SDL_SCANCODE_D] == 1))
-    {
-        _player->_dx = PLAYER_SPEED;
     }
 
     if (_keyboard[SDL_SCANCODE_F] == 1 && _player->_reload == 0)

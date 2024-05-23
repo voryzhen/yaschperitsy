@@ -139,6 +139,7 @@ class Manager
 
         void refresh()
         {
+            std::cout << _entities.size() << std::endl;
             _entities.erase(std::remove_if(_entities.begin(),
                                            _entities.end(),
                                            [](const auto& e)

@@ -56,6 +56,12 @@ class Game
         void game_update_bullets();
         void destroy_bullets();
 
+        // TODO: one function
+        template <typename Deleter>
+        void destroy_objects(
+            std::vector<std::reference_wrapper<Entity>> entities,
+            Deleter deleter);
+
         unsigned char _fps = 60;
         unsigned char _frame_delay = 1000 / _fps;
         bool _quit{false};

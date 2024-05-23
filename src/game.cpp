@@ -11,6 +11,79 @@
 
 #include "utility.h"
 
+namespace
+{
+
+const auto enemy_deleter = [](const std::reference_wrapper<Entity> e)
+{
+    auto sprite_component = e.get().get_component<SpriteComponent>();
+    if (sprite_component == nullptr)
+    {
+        e.get().destroy();
+        return true;
+    }
+
+    auto rect = sprite_component->get_texture_rect();
+
+    if (rect.x < -rect.w)
+    {
+        e.get().destroy();
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+};
+
+const auto enemy_bullet_deleter =
+    [](const std::reference_wrapper<Entity> e)
+{
+    auto sprite_component = e.get().get_component<SpriteComponent>();
+    if (sprite_component == nullptr)
+    {
+        e.get().destroy();
+        return true;
+    }
+
+    auto rect = sprite_component->get_texture_rect();
+
+    if (rect.x < -rect.w)
+    {
+        e.get().destroy();
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+};
+
+const auto player_bullet_deleter =
+    [](const std::reference_wrapper<Entity> e)
+{
+    auto sprite_component = e.get().get_component<SpriteComponent>();
+    if (sprite_component == nullptr)
+    {
+        e.get().destroy();
+        return true;
+    }
+
+    auto rect = sprite_component->get_texture_rect();
+
+    if (rect.x > rect.w + 1280)
+    {
+        e.get().destroy();
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+};
+
+} // namespace
+
 Game::Game(int field_width, int field_height, SDL_Renderer* renderer)
     : _renderer(renderer), _rm(_renderer),
       _player(_manager.add_entity("player")),
@@ -89,7 +162,7 @@ void Game::render()
 void Game::game_update_enemies()
 {
     spawn_enemies();
-    destroy_enemies();
+    destroy_objects(_enemies, enemy_deleter);
     fire_enemies();
 }
 
@@ -113,46 +186,6 @@ void Game::spawn_enemies()
 
         // frame rate is 60 and every second
         enemy_spawn_timer = enemy_spawn_freq * _fps;
-    }
-}
-
-void Game::destroy_enemies()
-{
-    if (_enemies.empty())
-    {
-        return;
-    }
-
-    const auto enemy_deleter =
-        [](const std::reference_wrapper<Entity> e)
-    {
-        auto sprite_component =
-            e.get().get_component<SpriteComponent>();
-        if (sprite_component == nullptr)
-        {
-            e.get().destroy();
-            return true;
-        }
-
-        auto rect = sprite_component->get_texture_rect();
-
-        if (rect.x < -rect.w)
-        {
-            e.get().destroy();
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    };
-
-    const auto remained_enemies =
-        std::remove_if(_enemies.begin(), _enemies.end(), enemy_deleter);
-
-    if (remained_enemies - _enemies.begin() < _enemies.size())
-    {
-        _enemies.erase(remained_enemies);
     }
 }
 
@@ -182,87 +215,10 @@ void Game::fire_enemies()
     }
 }
 
-void Game::game_update_bullets() { destroy_bullets(); }
-
-void Game::destroy_bullets() // TODO: refactor - one destroy function
+void Game::game_update_bullets()
 {
-    if (_enemies_bullets.empty())
-    {
-        return;
-    }
-
-    if (_player_bullets.empty())
-    {
-        return;
-    }
-
-    const auto enemy_bullet_deleter =
-        [](const std::reference_wrapper<Entity> e)
-    {
-        auto sprite_component =
-            e.get().get_component<SpriteComponent>();
-        if (sprite_component == nullptr)
-        {
-            e.get().destroy();
-            return true;
-        }
-
-        auto rect = sprite_component->get_texture_rect();
-
-        if (rect.x < -rect.w)
-        {
-            e.get().destroy();
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    };
-
-    const auto player_bullet_deleter =
-        [this](const std::reference_wrapper<Entity> e)
-    {
-        auto sprite_component =
-            e.get().get_component<SpriteComponent>();
-        if (sprite_component == nullptr)
-        {
-            e.get().destroy();
-            return true;
-        }
-
-        auto rect = sprite_component->get_texture_rect();
-
-        if (rect.x > rect.w + _field.w)
-        {
-            e.get().destroy();
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    };
-
-    const auto remained_enemies_bullets =
-        std::remove_if(_enemies_bullets.begin(), _enemies_bullets.end(),
-                       enemy_bullet_deleter);
-
-    if (remained_enemies_bullets - _enemies_bullets.begin() <
-        _enemies_bullets.size())
-    {
-        _enemies_bullets.erase(remained_enemies_bullets);
-    }
-
-    const auto remained_player_bullet =
-        std::remove_if(_player_bullets.begin(), _player_bullets.end(),
-                       player_bullet_deleter);
-
-    if (remained_player_bullet - _player_bullets.begin() <
-        _player_bullets.size())
-    {
-        _player_bullets.erase(remained_player_bullet);
-    }
+    destroy_objects(_enemies_bullets, enemy_bullet_deleter);
+    destroy_objects(_player_bullets, player_bullet_deleter);
 }
 
 void Game::game_update_player()
@@ -290,6 +246,25 @@ void Game::game_update_player()
 
             _player_bullets.emplace_back(bullet);
         }
+    }
+}
+
+template <typename Deleter>
+void Game::destroy_objects(
+    std::vector<std::reference_wrapper<Entity>> entities,
+    Deleter deleter)
+{
+    if (entities.empty())
+    {
+        return;
+    }
+
+    const auto remained_entities =
+        std::remove_if(entities.begin(), entities.end(), deleter);
+
+    if (remained_entities - entities.begin() < entities.size())
+    {
+        entities.erase(remained_entities, entities.end());
     }
 }
 

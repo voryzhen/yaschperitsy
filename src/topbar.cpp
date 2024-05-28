@@ -4,12 +4,11 @@
 
 void Topbar::render(SDL_Renderer* renderer)
 {
-    int _score{0};
-    int _max_score{0};
-    render_text(renderer, "Total Score: " + std::to_string(_score), 5,
+    render_text(renderer,
+                "Total Score: " + std::to_string(_stat._score), 5, 5);
+    render_text(renderer,
+                "Max Score: " + std::to_string(_stat._max_score), 500,
                 5);
-    render_text(renderer, "Max Score: " + std::to_string(_max_score),
-                500, 5);
 }
 
 void Topbar::render_text(SDL_Renderer* renderer,

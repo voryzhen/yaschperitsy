@@ -2,6 +2,7 @@
 
 #include "SDL_events.h"
 #include "SDL_keycode.h"
+#include "SDL_rect.h"
 #include "SDL_timer.h"
 
 #include "SDL_render.h"
@@ -17,7 +18,7 @@ Game::Game(int field_width, int field_height, SDL_Renderer* renderer)
       _background(std::make_unique<Background>(
           _rm.get_texture("background"), _rm.get_texture("explosion"),
           field_width, field_height)),
-      _topbar(std::make_unique<Topbar>(_rm.get_font())),
+      _topbar(std::make_unique<Topbar>(_rm.get_font(), _stat)),
       _field(field_width, field_height)
 {
     _player.add_component<TransformComponent>(100, 100);
@@ -154,6 +155,7 @@ void Game::destroy_objects()
             e->destroy();
         }
     }
+    bullet_hit();
 }
 
 void Game::game_update_player()
@@ -182,20 +184,68 @@ void Game::game_update_player()
     }
 }
 
-/*
-
-void Game::bullet_hit_enemy()
+namespace
 {
-    for (auto& e : _enemies)
+
+bool intersect(SDL_Rect r1, SDL_Rect r2)
+{
+    if (r1.x > r2.x + r2.w)
     {
-        for (auto& b : _bullets)
+        return false;
+    }
+    if (r1.x + r1.w < r2.x)
+    {
+        return false;
+    }
+    if (r1.y > r2.y + r2.h)
+    {
+        return false;
+    }
+    if (r1.y + r1.w < r2.y)
+    {
+        return false;
+    }
+
+    return true;
+}
+
+} // namespace
+
+void Game::bullet_hit()
+{
+    const auto enemies = _manager.get_entities_by_name("enemy");
+    // const auto enemies = _manager.get_entities_by_name("enemy");
+    const auto enemies_bullets =
+        _manager.get_entities_by_name("enemy_bullet");
+    const auto player_bullets =
+        _manager.get_entities_by_name("player_bullet");
+
+    // player
+    const auto p_rect =
+        _player.get_component<SpriteComponent>()->get_texture_rect();
+
+    for (const auto& b : enemies_bullets)
+    {
+        const auto rect =
+            b->get_component<SpriteComponent>()->get_texture_rect();
+        if (intersect(p_rect, rect))
         {
-            auto col = collision(&e, &b);
-            if (col)
+            reset_state();
+        }
+    }
+
+    for (const auto& pb : player_bullets)
+    {
+        for (const auto& e : enemies)
+        {
+            const auto b_rect = pb->get_component<SpriteComponent>()
+                                    ->get_texture_rect();
+            const auto e_rect =
+                e->get_component<SpriteComponent>()->get_texture_rect();
+            if (intersect(b_rect, e_rect))
             {
-                e._x = -2 * e._w;
-                b._x = _field_width + b._w;
-                _score++;
+                e->destroy();
+                _stat._score++;
             }
         }
     }
@@ -203,26 +253,23 @@ void Game::bullet_hit_enemy()
 
 void Game::reset_state()
 {
-    _player->reset_player();
-    _bullets.erase(_bullets.begin(), _bullets.end());
-    _enemies.erase(_enemies.begin(), _enemies.end());
-    _enemy_bullets.erase(_enemy_bullets.begin(),
-_enemy_bullets.end()); _max_score = std::max(_max_score,
-_score); _score = 0;
-}
-
-void Game::bullet_hit_player()
-{
-    for (const auto& b : _enemy_bullets)
+    for (auto& e : _manager.get_entities())
     {
-        auto col = collision(&b, _player.get());
-        if (col)
+        if (e->_name == "player")
         {
-            reset_state();
+            e->get_component<TransformComponent>()->set_position(100,
+                                                                 100);
+        }
+        else
+        {
+            e->destroy();
         }
     }
+    _stat._max_score = std::max(_stat._max_score, _stat._score);
+    _stat._score = 0;
 }
 
+/*
 void Game::player_logic()
 {
     if (_player->_reload > 0)
@@ -251,13 +298,4 @@ _player->_h)
     _player->_x += _player->_dx;
     _player->_y += _player->_dy;
 }
-
-void Game::fire_bullet()
-{
-    _bullets.emplace_back(_player->_x, _player->_y,
-BULLET_SPEED, 0, _rm.get_texture("bullet"));
-
-    _player->_reload = _player->_default_reload;
-}
-
 */

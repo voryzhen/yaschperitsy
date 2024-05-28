@@ -55,6 +55,10 @@ class Game
         // TODO: one function
         void destroy_objects();
 
+        void bullet_hit();
+
+        void reset_state();
+
         unsigned char _fps = 60;
         unsigned char _frame_delay = 1000 / _fps;
         bool _quit{false};
@@ -73,6 +77,5 @@ class Game
         int enemy_spawn_timer{0};
         int enemy_spawn_freq{1};
 
-        // size_t _score{0};
-        // size_t _max_score{0};
+        GameStatistic _stat;
 };

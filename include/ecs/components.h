@@ -20,6 +20,8 @@ class TransformComponent : public Component
 
         Vector2D position() const { return _position; }
 
+        Vector2D velocity() const { return _velocity; }
+
         void set_position(int x, int y)
         {
             _position = {static_cast<float>(x), static_cast<float>(y)};
@@ -162,6 +164,23 @@ class KeyboardController : public Component
                     break;
                 default:
                     break;
+                }
+            }
+            // TODO: refactor
+            {
+                auto pos = _transformComponent->position();
+                auto vel = _transformComponent->velocity();
+
+                if (pos.x() + 3 * vel.x() < 0 ||
+                    pos.x() + 3 * vel.x() > 1230)
+                {
+                    _transformComponent->set_x_velocity(.0f);
+                }
+
+                if (pos.y() + 3 * vel.y() < 0 ||
+                    pos.y() + 3 * vel.y() > 670)
+                {
+                    _transformComponent->set_y_velocity(.0f);
                 }
             }
         }

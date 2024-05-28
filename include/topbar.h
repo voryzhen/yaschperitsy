@@ -5,11 +5,19 @@
 
 #include "SDL_render.h"
 
-class Topbar
+struct GameStatistic
+{
+        size_t _score{0};
+        size_t _max_score{0};
+};
 
+class Topbar
 {
     public:
-        Topbar(TTF_Font* font) : _font(font) {} // TODO: add score
+        Topbar(TTF_Font* font, GameStatistic& stat)
+            : _font(font), _stat(stat)
+        {
+        }
 
         void render(SDL_Renderer* renderer);
 
@@ -19,4 +27,6 @@ class Topbar
 
         SDL_Color _text_color{0, 200, 200};
         TTF_Font* _font{nullptr};
+
+        GameStatistic& _stat; // TODO: refactor
 };

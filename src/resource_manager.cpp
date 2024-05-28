@@ -4,11 +4,17 @@
 #include <SDL_image.h>
 
 static constexpr std::string_view player_asset{"assets/player.png"};
-static constexpr std::string_view bullet_asset{
+static constexpr std::string_view player_bullet_asset{
     "assets/playerBullet.png"};
+
 static constexpr std::string_view enemy_asset{"assets/enemy.png"};
 static constexpr std::string_view enemy_bullet_asset{
-    "assets/alienBullet.png"};
+    "assets/enemyBullet.png"};
+
+static constexpr std::string_view background_asset{
+    "assets/background.png"};
+static constexpr std::string_view explosion_asset{
+    "assets/explosion.png"};
 
 static constexpr std::string_view font_asset{"assets/lazy.ttf"};
 
@@ -18,11 +24,17 @@ ResourceManager::ResourceManager(SDL_Renderer* renderer)
     _textures.insert(std::make_pair<std::string, SDL_Texture*>(
         std::string{"player"}, load_texture(player_asset)));
     _textures.insert(std::make_pair<std::string, SDL_Texture*>(
-        std::string{"bullet"}, load_texture(bullet_asset)));
+        std::string{"player_bullet"},
+        load_texture(player_bullet_asset)));
     _textures.insert(std::make_pair<std::string, SDL_Texture*>(
         std::string{"enemy"}, load_texture(enemy_asset)));
     _textures.insert(std::make_pair<std::string, SDL_Texture*>(
         std::string{"enemy_bullet"}, load_texture(enemy_bullet_asset)));
+
+    _textures.insert(std::make_pair<std::string, SDL_Texture*>(
+        std::string{"background"}, load_texture(background_asset)));
+    _textures.insert(std::make_pair<std::string, SDL_Texture*>(
+        std::string{"explosion"}, load_texture(explosion_asset)));
 
     // Open the font
     if (_font == nullptr)
@@ -36,7 +48,7 @@ ResourceManager::~ResourceManager()
 {
     for (auto& [name, texture] : _textures)
     {
-        SDL_DestroyTexture(texture);
+        SDL_DestroyTexture(texture._texture);
     }
     TTF_CloseFont(_font);
 }
@@ -50,8 +62,7 @@ ResourceManager::load_texture(const std::string_view& filename)
     return IMG_LoadTexture(_renderer, filename.data());
 }
 
-SDL_Texture*
-ResourceManager::get_texture(const std::string& texture) const
+Texture ResourceManager::get_texture(const std::string& texture) const
 {
     auto txtr = _textures.find(texture);
     if (txtr != _textures.end())

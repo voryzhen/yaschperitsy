@@ -1,5 +1,7 @@
 #pragma once
 
+#include "SDL_rect.h"
+#include "SDL_render.h"
 #include <SDL.h>
 
 static constexpr int PLAYER_SPEED{4};
@@ -10,9 +12,8 @@ static constexpr int ENEMY_BULLET{1};
 class Entity
 {
     public:
-        Entity(SDL_Texture* texture) : _texture(texture)
+        Entity(SDL_Texture* texture) : Entity(100, 100, 0, 0, texture)
         {
-            SDL_QueryTexture(_texture, NULL, NULL, &_w, &_h);
         }
 
         Entity(int x, int y, int dx, int dy, SDL_Texture* texture)
@@ -22,6 +23,18 @@ class Entity
         }
 
         virtual ~Entity() = default;
+
+        void update()
+        {
+            _x += _dx;
+            _y += _dy;
+        }
+
+        void render(SDL_Renderer* renderer) const
+        {
+            SDL_Rect rect = {_x, _y, _w, _h};
+            SDL_RenderCopy(renderer, _texture, NULL, &rect);
+        }
 
         int _x{100};
         int _y{100};

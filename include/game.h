@@ -1,28 +1,34 @@
 #pragma once
 
 #include <array>
+#include <functional>
 #include <memory>
+#include <string>
 #include <string_view>
 #include <vector>
 
-#include "controller.h"
+#include "background.h"
+#include "ecs/components.h"
+#include "ecs/ecs.h"
 #include "resource_manager.h"
-#include <entity.h>
-
+#include "topbar.h"
 #include <SDL.h>
+
+struct GameField
+{
+    public:
+        GameField() = default;
+
+        GameField(int ww, int hh) : h(hh), w(ww) {}
+
+        int h{0};
+        int w{0};
+};
 
 class Game
 {
     public:
-        Game(int field_width, int field_height, SDL_Renderer* renderer)
-            : _renderer(renderer), _rm(_renderer),
-              _player(
-                  std::make_unique<Player>(_rm.get_texture("player"))),
-              _controller(std::make_unique<Controller>(&_keyboard)),
-              _field_width(field_width), _field_height(field_height)
-        {
-        }
-
+        Game(int field_width, int field_height, SDL_Renderer* renderer);
         Game(const Game&) = delete;
         Game(const Game&&) = delete;
         Game& operator=(const Game&) = delete;
@@ -33,61 +39,43 @@ class Game
         ~Game() {}
 
     private:
-        // Handle input
-        void handle_input();
+        // Main logic
+        void handle_events();
+        void update();
+        void render();
 
-        // Hndle scene
-        void prepare_scene();
-        void present_scene();
-
-        void logic();
-        void player_logic();
-        void bullets_logic();
-        void enemy_logic();
-
-        void draw();
-        void draw_player();
-        void draw_bullets();
-        void draw_enemies();
-
-        void fire_bullet();
+        // Enemies logic
+        void game_update_enemies();
         void spawn_enemies();
+        void fire_enemies();
 
-        void bullet_hit_enemy();
-        void bullet_hit_player();
-        void enemy_fire();
+        // Player logic
+        void game_update_player();
 
-        void draw_info();
+        // TODO: one function
+        void destroy_objects();
+
+        void bullet_hit();
 
         void reset_state();
 
-        void draw_texture(SDL_Texture* texture, int x, int y);
-
-        void render_text(const std::string& text, int x, int y);
-
-        static std::uint32_t
-        count_wait_60fps(const std::uint32_t& last);
-
+        unsigned char _fps = 60;
+        unsigned char _frame_delay = 1000 / _fps;
         bool _quit{false};
+        SDL_Event _event{};
+        Manager _manager{};
 
         SDL_Renderer* _renderer{nullptr};
-
         ResourceManager _rm;
 
-        std::unique_ptr<Player> _player;
-        std::vector<Entity> _bullets;
-        std::vector<Enemy> _enemies;
-        std::vector<Entity> _enemy_bullets;
+        Entity& _player;
+        std::unique_ptr<Background> _background;
+        std::unique_ptr<Topbar> _topbar;
 
-        std::array<int, MAX_KEYBOARD_KEYS> _keyboard{};
-        std::unique_ptr<Controller> _controller;
-
-        int _field_width{0};
-        int _field_height{0};
+        GameField _field;
 
         int enemy_spawn_timer{0};
-        SDL_Color _text_color{0, 200, 200};
+        int enemy_spawn_freq{1};
 
-        size_t _score{0};
-        size_t _max_score{0};
+        GameStatistic _stat;
 };

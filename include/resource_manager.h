@@ -9,6 +9,19 @@
 #include "SDL_render.h"
 #include "SDL_ttf.h"
 
+struct Texture
+{
+    public:
+        Texture(SDL_Texture* texture) : _texture(texture)
+        {
+            SDL_QueryTexture(_texture, NULL, NULL, &_w, &_h);
+        }
+
+        SDL_Texture* _texture{nullptr};
+        int _w{0};
+        int _h{0};
+};
+
 class ResourceManager
 {
     public:
@@ -19,13 +32,13 @@ class ResourceManager
 
         ~ResourceManager();
 
-        SDL_Texture* get_texture(const std::string& texture) const;
+        Texture get_texture(const std::string& texture) const;
         TTF_Font* get_font();
 
     private:
         SDL_Texture* load_texture(const std::string_view& filename);
 
         SDL_Renderer* _renderer{nullptr};
-        std::unordered_map<std::string, SDL_Texture*> _textures;
+        std::unordered_map<std::string, Texture> _textures;
         TTF_Font* _font{nullptr};
 };

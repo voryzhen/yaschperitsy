@@ -13,9 +13,6 @@
 #include <utility>
 #include <vector>
 
-class Component;
-class Entity;
-
 using ComponentID = std::size_t;
 
 inline ComponentID get_component_type_id()
@@ -33,8 +30,7 @@ inline ComponentID get_component_type_id() noexcept
 
 constexpr std::size_t max_components = 32;
 
-using ComponentBitSet = std::bitset<max_components>;
-using ComponentArray = std::array<Component*, max_components>;
+class Entity;
 
 class Component
 {
@@ -56,6 +52,9 @@ class Component
 
         virtual ~Component() {}
 };
+
+using ComponentBitSet = std::bitset<max_components>;
+using ComponentArray = std::array<Component*, max_components>;
 
 class Entity
 {

@@ -47,15 +47,10 @@ class Game
         // Enemies logic
         void game_update_enemies();
         void spawn_enemies();
-        void destroy_enemies();
         void fire_enemies();
 
         // Player logic
         void game_update_player();
-
-        // Bullets logic
-        void game_update_bullets();
-        void destroy_bullets();
 
         // TODO: one function
         void destroy_objects();
@@ -76,7 +71,7 @@ class Game
         GameField _field;
 
         int enemy_spawn_timer{0};
-        int enemy_spawn_freq{10};
+        int enemy_spawn_freq{1};
 
         // size_t _score{0};
         // size_t _max_score{0};

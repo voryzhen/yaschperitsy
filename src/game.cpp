@@ -1,4 +1,3 @@
-#include <functional>
 #include <game.h>
 
 #include "SDL_events.h"
@@ -68,7 +67,6 @@ void Game::handle_events()
 void Game::update()
 {
     game_update_enemies();
-    game_update_bullets();
     game_update_player();
     destroy_objects();
 
@@ -110,8 +108,6 @@ void Game::spawn_enemies()
         enemy.get_component<TransformComponent>()->set_x_velocity(-1);
         enemy.add_component<FireReloadComponent>(60);
 
-        //_enemies.emplace_back(enemy);
-
         // frame rate is 60 and every second
         enemy_spawn_timer = enemy_spawn_freq * _fps;
     }
@@ -137,18 +133,18 @@ void Game::fire_enemies()
                 _rm.get_texture("enemy_bullet"));
             bullet.get_component<TransformComponent>()->set_x_velocity(
                 -3); // TODO: bullet speed;
-
-            // _enemies_bullets.emplace_back(bullet);
         }
     }
 }
-
-void Game::game_update_bullets() {}
 
 void Game::destroy_objects()
 {
     for (auto& e : _manager.get_entities())
     {
+        if (e->_name == "player")
+        {
+            continue;
+        }
         auto sprite_component = e->get_component<SpriteComponent>();
         auto pos = sprite_component->get_texture_rect();
         auto x = pos.x;
@@ -182,8 +178,6 @@ void Game::game_update_player()
                 _rm.get_texture("player_bullet"));
             bullet.get_component<TransformComponent>()->set_x_velocity(
                 3); // TODO: bullet speed;
-
-            // _player_bullets.emplace_back(bullet);
         }
     }
 }

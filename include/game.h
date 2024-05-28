@@ -3,6 +3,7 @@
 #include <array>
 #include <functional>
 #include <memory>
+#include <string>
 #include <string_view>
 #include <vector>
 
@@ -57,10 +58,7 @@ class Game
         void destroy_bullets();
 
         // TODO: one function
-        template <typename Deleter>
-        void destroy_objects(
-            std::vector<std::reference_wrapper<Entity>> entities,
-            Deleter deleter);
+        void destroy_objects();
 
         unsigned char _fps = 60;
         unsigned char _frame_delay = 1000 / _fps;
@@ -74,9 +72,6 @@ class Game
         Entity& _player;
         std::unique_ptr<Background> _background;
         std::unique_ptr<Topbar> _topbar;
-        std::vector<std::reference_wrapper<Entity>> _enemies;
-        std::vector<std::reference_wrapper<Entity>> _enemies_bullets;
-        std::vector<std::reference_wrapper<Entity>> _player_bullets;
 
         GameField _field;
 

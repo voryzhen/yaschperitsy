@@ -2,6 +2,7 @@
 
 #include "SDL_events.h"
 #include "SDL_render.h"
+#include "ecs/components.h"
 #include <algorithm>
 #include <array>
 #include <bitset>
@@ -109,13 +110,14 @@ class Entity
             return static_cast<T*>(ptr);
         }
 
+        std::string_view _name;
+
     private:
         bool _active{true};
         std::vector<std::unique_ptr<Component>> _components;
 
         ComponentArray _component_array{};
         ComponentBitSet _component_bitset;
-        std::string_view _name;
 };
 
 class Manager
@@ -153,6 +155,30 @@ class Manager
             std::unique_ptr<Entity> u_e(e);
             _entities.emplace_back(std::move(u_e));
             return *e;
+        }
+
+        std::vector<Entity*>
+        get_entities_by_name(const std::string& name)
+        {
+            std::vector<Entity*> res;
+            for (const auto& e : _entities)
+            {
+                if (e->_name == name)
+                {
+                    res.push_back(e.get());
+                }
+            }
+            return res;
+        }
+
+        std::vector<Entity*> get_entities()
+        {
+            std::vector<Entity*> res;
+            for (const auto& e : _entities)
+            {
+                res.push_back(e.get());
+            }
+            return res;
         }
 
     private:

@@ -4,7 +4,8 @@
 #include "SDL_keycode.h"
 #include "SDL_rect.h"
 #include "SDL_render.h"
-#include "ecs.h"
+#include "ecs/component.h"
+#include "ecs/entity.h"
 #include "resource_manager.h"
 #include "vector2D.h"
 #include <cstdint>

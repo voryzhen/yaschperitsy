@@ -28,5 +28,6 @@ class Topbar
         SDL_Color _text_color{0, 200, 200};
         TTF_Font* _font{nullptr};
 
+        // NOLINTNEXTLINE(cppcoreguidelines-avoid-const-or-ref-data-members)
         GameStatistic& _stat; // TODO: refactor
 };

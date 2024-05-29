@@ -1,3 +1,5 @@
+# main project
+
 cmake_minimum_required ( VERSION 3.29.2 )
 
 project ( yaschperitsy )
@@ -23,3 +25,24 @@ add_executable ( yaschperitsy
 )
 
 target_link_libraries ( yaschperitsy SDL2 SDL2_image SDL2_ttf ${SDL2_LIBRARIES} )
+
+# tests
+
+project ( yaschperitsy_test )
+
+find_package( Boost COMPONENTS system filesystem unit_test_framework REQUIRED )
+
+add_executable( yaschperitsy_test
+
+  tests/test_vector2D.cpp
+  src/vector2D.cpp
+
+)
+
+target_link_libraries( yaschperitsy_test
+                       ${Boost_FILESYSTEM_LIBRARY}
+                       ${Boost_SYSTEM_LIBRARY}
+                       ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY}
+)
+
+# add_test(tester tester)

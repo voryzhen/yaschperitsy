@@ -16,7 +16,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Prepare
-        run: brew install SDL2 SDL2_image SDL2_ttf
+        run: brew install SDL2 SDL2_image SDL2_ttf boost
 
       - name: Compile
         run: |
@@ -26,6 +26,9 @@ jobs:
             cmake ..
             cmake --build .
           }
+
+      - name: Test
+        run: ./build/yaschperitsy_test
 
       - name: Pack
         run: |

@@ -4,13 +4,25 @@ cmake_minimum_required ( VERSION 3.29.2 )
 
 project ( yaschperitsy )
 
-include_directories ( include /opt/homebrew/include/SDL2 ${SDL2_INCLUDE_DIRS} )
-link_directories ( /opt/homebrew/lib ${SDL2_LIB_DIRS} )
+include_directories ( 
 
-set (CMAKE_CXX_STANDARD 17)
-SET(CMAKE_CXX_FLAGS "-Wall")
-SET(CMAKE_CXX_FLAGS_DEBUG "-g")
-set(CMAKE_BUILD_TYPE Debug)
+  include
+  /opt/homebrew/include/SDL2
+  ${SDL2_INCLUDE_DIRS}
+
+)
+
+link_directories (
+
+  /opt/homebrew/lib
+  ${SDL2_LIB_DIRS}
+
+)
+
+set ( CMAKE_CXX_STANDARD    17      )
+set ( CMAKE_CXX_FLAGS       "-Wall" )
+set ( CMAKE_CXX_FLAGS_DEBUG "-g"    )
+set ( CMAKE_BUILD_TYPE      Debug   )
 
 add_executable ( yaschperitsy
 
@@ -24,13 +36,34 @@ add_executable ( yaschperitsy
 
 )
 
-target_link_libraries ( yaschperitsy SDL2 SDL2_image SDL2_ttf ${SDL2_LIBRARIES} )
+target_link_libraries ( yaschperitsy 
 
+  SDL2
+  SDL2_image
+  SDL2_ttf
+  ${SDL2_LIBRARIES}
+
+)
+
+
+#-----
 # tests
 
 project ( yaschperitsy_test )
 
-find_package( Boost COMPONENTS system filesystem unit_test_framework REQUIRED )
+include_directories ( 
+
+  include
+  /opt/homebrew/include
+
+)
+
+link_directories (
+
+  /opt/homebrew/lib
+  /opt/homebrew/Cellar/boost/1.85.0/lib
+
+)
 
 add_executable( yaschperitsy_test
 
@@ -39,8 +72,5 @@ add_executable( yaschperitsy_test
 
 )
 
-target_link_libraries( yaschperitsy_test
-                       ${Boost_FILESYSTEM_LIBRARY}
-                       ${Boost_SYSTEM_LIBRARY}
-                       ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY}
-)
+target_link_libraries(yaschperitsy_test boost_unit_test_framework)
+

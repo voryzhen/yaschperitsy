@@ -20,7 +20,7 @@ link_directories (
 )
 
 set ( CMAKE_CXX_STANDARD    17      )
-# set ( CMAKE_CXX_FLAGS       "-Wall" )
+set ( CMAKE_CXX_FLAGS       "-Wall" )
 set ( CMAKE_CXX_FLAGS_DEBUG "-g"    )
 set ( CMAKE_BUILD_TYPE      Debug   )
 
@@ -45,29 +45,14 @@ target_link_libraries ( yaschperitsy
 
 )
 
-
-#-----
 # tests
 
 project ( yaschperitsy_test )
 
 find_package( Boost COMPONENTS system filesystem unit_test_framework REQUIRED )
 
-INCLUDE_DIRECTORIES( ${Boost_INCLUDE_DIR} )
-link_directories(${Boost_LIBRARY_DIR})
-# include_directories ( 
-
-#   include
-#   /opt/homebrew/include
-
-# )
-
-# link_directories (
-
-#   /opt/homebrew/lib
-#   /opt/homebrew/Cellar/boost/1.85.0/lib
-
-# )
+link_directories ( ${Boost_INCLUDE_DIR} )
+link_directories ( ${Boost_LIBRARY_DIR} )
 
 add_executable( yaschperitsy_test
 
@@ -76,11 +61,10 @@ add_executable( yaschperitsy_test
 
 )
 
-# target_link_libraries(yaschperitsy_test boost_unit_test_framework)
-
 target_link_libraries( yaschperitsy_test
-                       ${Boost_FILESYSTEM_LIBRARY}
-                       ${Boost_SYSTEM_LIBRARY}
-                       ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY}
-)
 
+  ${Boost_FILESYSTEM_LIBRARY}
+  ${Boost_SYSTEM_LIBRARY}
+  ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY}
+
+)

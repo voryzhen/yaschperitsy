@@ -268,34 +268,3 @@ void Game::reset_state()
     _stat._max_score = std::max(_stat._max_score, _stat._score);
     _stat._score = 0;
 }
-
-/*
-void Game::player_logic()
-{
-    if (_player->_reload > 0)
-    {
-        _player->_reload--;
-    }
-
-    if (_keyboard[SDL_SCANCODE_F] == 1 && _player->_reload == 0)
-    {
-        fire_bullet();
-    }
-
-    // Check out of field
-    if (_player->_x + _player->_dx < 0 ||
-        _player->_x + _player->_dx > _field_width - _player->_w)
-    {
-        _player->_dx = 0;
-    }
-    if (_player->_y + _player->_dy < 0 ||
-        _player->_y + _player->_dy > _field_height -
-_player->_h)
-    {
-        _player->_dy = 0;
-    }
-
-    _player->_x += _player->_dx;
-    _player->_y += _player->_dy;
-}
-*/

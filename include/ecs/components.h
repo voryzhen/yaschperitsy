@@ -25,9 +25,17 @@ class TransformComponent : public Component
         }
 
         TransformComponent(int x, int y, float angle)
-            : _position({static_cast<float>(x), static_cast<float>(y)}),
-              _angle(angle)
+            : TransformComponent(x, y)
+
         {
+            _angle = angle;
+        }
+
+        TransformComponent(int x, int y, int speed, float angle)
+            : TransformComponent(x, y, angle)
+
+        {
+            _speed = speed;
         }
 
         Vector2D position() const { return _position; }

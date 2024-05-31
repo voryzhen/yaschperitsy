@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cstdint>
 #include <memory>
 
 #include "background.h"
@@ -76,4 +77,9 @@ class Game
         int enemy_spawn_freq{1};
 
         GameStatistic _stat;
+
+        // Game settings
+        uint8_t _bullet_spped{3};
+        uint8_t _player_spped{3};
+        uint8_t _enemy_spped{3};
 };

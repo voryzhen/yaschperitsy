@@ -24,6 +24,7 @@ Game::Game(int field_width, int field_height, SDL_Renderer* renderer)
     _player.add_component<TransformComponent>(100, 100);
     _player.add_component<SpriteComponent>(_rm.get_texture("player"));
     _player.add_component<KeyboardController>();
+    _player.add_component<MouseController>();
     _player.add_component<FireReloadComponent>(8);
 }
 
@@ -149,8 +150,9 @@ void Game::destroy_objects()
         auto sprite_component = e->get_component<SpriteComponent>();
         auto pos = sprite_component->get_texture_rect();
         auto x = pos.x;
+        auto y = pos.y;
 
-        if (x < -100 || x > 1580)
+        if (x < -100 || x > 1580 || y < -100 || y > 900)
         {
             e->destroy();
         }
@@ -165,20 +167,25 @@ void Game::game_update_player()
 
     if (fire_component->is_reloaded())
     {
-        if (_event.type == SDL_KEYDOWN &&
-            _event.key.keysym.sym == SDLK_f)
+        if ((_event.type == SDL_KEYDOWN &&
+             _event.key.keysym.sym == SDLK_f) ||
+            (_event.type == SDL_MOUSEBUTTONDOWN &&
+             _event.button.button == SDL_BUTTON_LEFT))
         {
             fire_component->shot();
 
             const auto trasnsform_component =
-                _player.get_component<TransformComponent>()->position();
+                _player.get_component<TransformComponent>();
+            const auto pos = trasnsform_component->position();
 
             auto& bullet = _manager.add_entity("player_bullet");
             bullet.add_component<TransformComponent>(
-                trasnsform_component.x(), trasnsform_component.y());
+                pos.x() + 80, pos.y(), trasnsform_component->angle());
             bullet.add_component<SpriteComponent>(
                 _rm.get_texture("player_bullet"));
-            bullet.get_component<TransformComponent>()->set_x_velocity(
+
+            bullet.get_component<TransformComponent>()->set_velocity(
+                trasnsform_component->direction() *
                 3); // TODO: bullet speed;
         }
     }

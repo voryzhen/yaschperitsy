@@ -2,20 +2,31 @@
 
 #include "SDL_events.h"
 #include "SDL_keycode.h"
+#include "SDL_mouse.h"
 #include "SDL_rect.h"
 #include "SDL_render.h"
 #include "ecs/component.h"
 #include "ecs/entity.h"
 #include "resource_manager.h"
 #include "vector2D.h"
+#include <cmath>
+#include <cstddef>
 #include <cstdint>
 #include <cstdlib>
+#include <iostream>
+#include <numbers>
 
 class TransformComponent : public Component
 {
     public:
         TransformComponent(int x, int y)
             : _position({static_cast<float>(x), static_cast<float>(y)})
+        {
+        }
+
+        TransformComponent(int x, int y, float angle)
+            : _position({static_cast<float>(x), static_cast<float>(y)}),
+              _angle(angle)
         {
         }
 
@@ -45,10 +56,23 @@ class TransformComponent : public Component
             _position += (_velocity * _speed);
         }
 
+        float angle() const { return _angle; }
+
+        void set_angle(float angle) { _angle = angle; }
+
+        Vector2D direction() { return _direction; }
+
+        void set_direction(Vector2D direction)
+        {
+            _direction = direction;
+        }
+
     private:
         Vector2D _position;
         Vector2D _velocity;
         int _speed{3};
+        float _angle{.0};
+        Vector2D _direction;
 };
 
 class SpriteComponent : public Component
@@ -79,8 +103,11 @@ class SpriteComponent : public Component
 
         void render(SDL_Renderer* renderer) override
         {
-            SDL_RenderCopy(renderer, _texture._texture, &_src_rect,
-                           &_dest_rect);
+            // SDL_RenderCopy(renderer, _texture._texture, &_src_rect,
+            //              &_dest_rect);
+            SDL_RenderCopyEx(renderer, _texture._texture, &_src_rect,
+                             &_dest_rect, _position->angle(), nullptr,
+                             SDL_FLIP_NONE);
         }
 
         SDL_Rect get_texture_rect()
@@ -167,7 +194,7 @@ class KeyboardController : public Component
                     break;
                 }
             }
-            // TODO: refactor
+            // TODO: refactor, very - very
             {
                 auto pos = _transformComponent->position();
                 auto vel = _transformComponent->velocity();
@@ -188,6 +215,48 @@ class KeyboardController : public Component
 
     private:
         TransformComponent* _transformComponent{nullptr};
+};
+
+class MouseController : public Component
+{
+    public:
+        void init() override
+        {
+            _transformComponent =
+                owner->get_component<TransformComponent>();
+        }
+
+        void update(const SDL_Event& /*e*/) override
+        {
+            int x = 0;
+            int y = 0;
+            SDL_GetMouseState(&x, &y);
+            _mouse_pos = {static_cast<float>(x), static_cast<float>(y)};
+
+            // update angle
+            auto pos = _transformComponent->position();
+
+            float dy = static_cast<float>(y) - pos.y();
+            float dx = static_cast<float>(x) - pos.x() + 25;
+
+            _angle = -90 + atan2(dy, dx) * (180 / std::numbers::pi);
+
+            _transformComponent->set_angle(_angle +
+                                           static_cast<float>(90.0));
+
+            float d2 = dy * dy + dx * dx;
+            float d = sqrtf(d2);
+            float xx = dx / d;
+            float yy = dy / d;
+            _direction = Vector2D(xx, yy);
+            _transformComponent->set_direction(_direction);
+        }
+
+    private:
+        TransformComponent* _transformComponent{nullptr};
+        Vector2D _mouse_pos;
+        Vector2D _direction;
+        float _angle = 0;
 };
 
 class FireReloadComponent : public Component

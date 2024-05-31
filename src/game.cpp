@@ -1,15 +1,5 @@
 #include <game.h>
 
-#include "SDL_events.h"
-#include "SDL_keycode.h"
-#include "SDL_rect.h"
-#include "SDL_timer.h"
-
-#include "SDL_render.h"
-#include "ecs/components.h"
-#include <SDL_image.h>
-#include <string>
-
 #include "utility.h"
 
 Game::Game(int field_width, int field_height,

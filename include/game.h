@@ -1,14 +1,8 @@
 #pragma once
 
-#include <array>
-#include <functional>
 #include <memory>
-#include <string>
-#include <string_view>
-#include <vector>
 
 #include "background.h"
-#include "ecs/components.h"
 #include "ecs/ecs.h"
 #include "resource_manager.h"
 #include "topbar.h"

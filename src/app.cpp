@@ -10,15 +10,20 @@ std::unique_ptr<SDL_Renderer, void (*)(SDL_Renderer*)> App::_renderer =
     std::unique_ptr<SDL_Renderer, void (*)(SDL_Renderer*)>(
         nullptr, SDL_DestroyRenderer);
 
+App::App()
+{
+    if (init_sdl())
+    {
+        std::make_unique<Game>(SCREEN_WIDTH, SCREEN_HEIGHT,
+                               _renderer.get())
+            ->run_game();
+    }
+}
+
+App::~App() { cleanup(); }
+
 bool App::init_sdl()
 {
-    int rendererFlags = 0;
-    int windowFlags = 0;
-
-    rendererFlags = SDL_RENDERER_ACCELERATED;
-
-    windowFlags = 0;
-
     if (SDL_Init(SDL_INIT_VIDEO) < 0)
     {
         printf("Couldn't initialize SDL: %s\n", SDL_GetError());
@@ -34,7 +39,7 @@ bool App::init_sdl()
     // NOLINTBEGIN(hicpp-signed-bitwise)
     _window.reset(SDL_CreateWindow(
         title.data(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-        SCREEN_WIDTH, SCREEN_HEIGHT, windowFlags));
+        SCREEN_WIDTH, SCREEN_HEIGHT, _window_flags));
     // NOLINTEND(hicpp-signed-bitwise)
 
     if (_window == nullptr)
@@ -47,7 +52,7 @@ bool App::init_sdl()
     SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
 
     _renderer.reset(
-        SDL_CreateRenderer(_window.get(), -1, rendererFlags));
+        SDL_CreateRenderer(_window.get(), -1, _renderer_flags));
 
     if (_renderer == nullptr)
     {

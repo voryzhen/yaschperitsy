@@ -8,17 +8,8 @@
 class App
 {
     public:
-        App()
-        {
-            if (init_sdl())
-            {
-                std::make_unique<Game>(SCREEN_WIDTH, SCREEN_HEIGHT,
-                                       _renderer.get())
-                    ->run_game();
-            }
-        }
-
-        ~App() { cleanup(); }
+        App();
+        ~App();
 
         App(const App&) = delete;
         App& operator=(const App&) = delete;
@@ -35,4 +26,7 @@ class App
         static constexpr int SCREEN_WIDTH{1280};
         static constexpr int SCREEN_HEIGHT{720};
         static constexpr std::string_view title = "Ящперицы";
+
+        static constexpr int _renderer_flags{SDL_RENDERER_ACCELERATED};
+        static constexpr int _window_flags{0};
 };

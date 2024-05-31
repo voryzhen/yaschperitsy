@@ -167,8 +167,10 @@ void Game::game_update_player()
 
     if (fire_component->is_reloaded())
     {
-        if (_event.type == SDL_KEYDOWN &&
-            _event.key.keysym.sym == SDLK_f)
+        if ((_event.type == SDL_KEYDOWN &&
+             _event.key.keysym.sym == SDLK_f) ||
+            (_event.type == SDL_MOUSEBUTTONDOWN &&
+             _event.button.button == SDL_BUTTON_LEFT))
         {
             fire_component->shot();
 

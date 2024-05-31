@@ -20,7 +20,7 @@ link_directories (
 )
 
 set ( CMAKE_CXX_STANDARD    17      )
-set ( CMAKE_CXX_FLAGS       "-Wall" )
+# set ( CMAKE_CXX_FLAGS       "-Wall" )
 set ( CMAKE_CXX_FLAGS_DEBUG "-g"    )
 set ( CMAKE_BUILD_TYPE      Debug   )
 

@@ -246,8 +246,10 @@ class MouseController : public Component
 
             float d2 = dy * dy + dx * dx;
             float d = sqrtf(d2);
+
             float xx = dx / d;
             float yy = dy / d;
+
             _direction = Vector2D(xx, yy);
             _transformComponent->set_direction(_direction);
         }

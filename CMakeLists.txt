@@ -51,19 +51,21 @@ target_link_libraries ( yaschperitsy
 
 project ( yaschperitsy_test )
 
-include_directories ( 
+find_package( Boost COMPONENTS system filesystem unit_test_framework REQUIRED )
 
-  include
-  /opt/homebrew/include
+# include_directories ( 
 
-)
+#   include
+#   /opt/homebrew/include
 
-link_directories (
+# )
 
-  /opt/homebrew/lib
-  /opt/homebrew/Cellar/boost/1.85.0/lib
+# link_directories (
 
-)
+#   /opt/homebrew/lib
+#   /opt/homebrew/Cellar/boost/1.85.0/lib
+
+# )
 
 add_executable( yaschperitsy_test
 
@@ -72,5 +74,11 @@ add_executable( yaschperitsy_test
 
 )
 
-target_link_libraries(yaschperitsy_test boost_unit_test_framework)
+# target_link_libraries(yaschperitsy_test boost_unit_test_framework)
+
+target_link_libraries( yaschperitsy_test
+                       ${Boost_FILESYSTEM_LIBRARY}
+                       ${Boost_SYSTEM_LIBRARY}
+                       ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY}
+)
 

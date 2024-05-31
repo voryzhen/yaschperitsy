@@ -53,6 +53,8 @@ project ( yaschperitsy_test )
 
 find_package( Boost COMPONENTS system filesystem unit_test_framework REQUIRED )
 
+INCLUDE_DIRECTORIES( ${Boost_INCLUDE_DIR} )
+link_directories(${Boost_LIBRARY_DIR})
 # include_directories ( 
 
 #   include

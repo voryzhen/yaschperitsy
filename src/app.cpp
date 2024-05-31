@@ -14,8 +14,7 @@ App::App()
 {
     if (init_sdl())
     {
-        std::make_unique<Game>(SCREEN_WIDTH, SCREEN_HEIGHT,
-                               _renderer.get())
+        std::make_unique<Game>(SCREEN_WIDTH, SCREEN_HEIGHT, _renderer)
             ->run_game();
     }
 }

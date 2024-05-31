@@ -11,6 +11,9 @@ struct GameStatistic
         size_t _max_score{0};
 };
 
+using renderer_type =
+    std::unique_ptr<SDL_Renderer, void (*)(SDL_Renderer*)>;
+
 class Topbar
 {
     public:
@@ -19,10 +22,10 @@ class Topbar
         {
         }
 
-        void render(SDL_Renderer* renderer);
+        void render(const renderer_type& renderer);
 
     private:
-        void render_text(SDL_Renderer* renderer,
+        void render_text(const renderer_type& renderer,
                          const std::string& text, int x, int y);
 
         SDL_Color _text_color{0, 200, 200};

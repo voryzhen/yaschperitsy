@@ -9,6 +9,9 @@
 #include "SDL_render.h"
 #include "SDL_ttf.h"
 
+using renderer_type =
+    std::unique_ptr<SDL_Renderer, void (*)(SDL_Renderer*)>;
+
 struct Texture
 {
     public:
@@ -25,7 +28,7 @@ struct Texture
 class ResourceManager
 {
     public:
-        ResourceManager(SDL_Renderer* renderer);
+        ResourceManager(const renderer_type& renderer);
 
         ResourceManager(const ResourceManager&) = delete;
         ResourceManager& operator=(const ResourceManager&) = delete;
@@ -38,7 +41,7 @@ class ResourceManager
     private:
         SDL_Texture* load_texture(const std::string_view& filename);
 
-        SDL_Renderer* _renderer{nullptr};
+        const renderer_type& _renderer;
         std::unordered_map<std::string, Texture> _textures;
         TTF_Font* _font{nullptr};
 };

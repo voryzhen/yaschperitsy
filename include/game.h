@@ -25,10 +25,15 @@ struct GameField
         int w{0};
 };
 
+using renderer_type =
+    std::unique_ptr<SDL_Renderer, void (*)(SDL_Renderer*)>;
+
 class Game
 {
     public:
-        Game(int field_width, int field_height, SDL_Renderer* renderer);
+        Game(int field_width, int field_height,
+             const renderer_type& renderer);
+
         Game(const Game&) = delete;
         Game(const Game&&) = delete;
         Game& operator=(const Game&) = delete;
@@ -52,7 +57,6 @@ class Game
         // Player logic
         void game_update_player();
 
-        // TODO: one function
         void destroy_objects();
 
         void bullet_hit();
@@ -65,7 +69,7 @@ class Game
         SDL_Event _event{};
         Manager _manager{};
 
-        SDL_Renderer* _renderer{nullptr};
+        const renderer_type& _renderer;
         ResourceManager _rm;
 
         Entity& _player;

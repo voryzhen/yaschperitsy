@@ -24,7 +24,7 @@ class Manager
             }
         }
 
-        void render(SDL_Renderer* renderer)
+        void render(const renderer_type& renderer)
         {
             for (auto& e : _entities)
             {

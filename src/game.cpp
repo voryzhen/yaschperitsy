@@ -12,12 +12,12 @@
 
 #include "utility.h"
 
-Game::Game(int field_width, int field_height, SDL_Renderer* renderer)
+Game::Game(int field_width, int field_height,
+           const renderer_type& renderer)
     : _renderer(renderer), _rm(_renderer),
       _player(_manager.add_entity("player")),
       _background(std::make_unique<Background>(
-          _rm.get_texture("background"), _rm.get_texture("explosion"),
-          field_width, field_height)),
+          _rm.get_texture("background"), field_width, field_height)),
       _topbar(std::make_unique<Topbar>(_rm.get_font(), _stat)),
       _field(field_width, field_height)
 {
@@ -78,14 +78,14 @@ void Game::update()
 
 void Game::render()
 {
-    SDL_RenderClear(_renderer);
+    SDL_RenderClear(_renderer.get());
 
     _background->render(_renderer);
     _manager.render(_renderer);
 
     _topbar->render(_renderer);
 
-    SDL_RenderPresent(_renderer);
+    SDL_RenderPresent(_renderer.get());
 }
 
 void Game::game_update_enemies()

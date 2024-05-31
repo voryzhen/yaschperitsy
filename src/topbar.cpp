@@ -2,7 +2,7 @@
 #include "SDL_ttf.h"
 #include <string>
 
-void Topbar::render(SDL_Renderer* renderer)
+void Topbar::render(const renderer_type& renderer)
 {
     render_text(renderer,
                 "Total Score: " + std::to_string(_stat._score), 5, 5);
@@ -11,7 +11,7 @@ void Topbar::render(SDL_Renderer* renderer)
                 5);
 }
 
-void Topbar::render_text(SDL_Renderer* renderer,
+void Topbar::render_text(const renderer_type& renderer,
                          const std::string& text, int x, int y)
 {
     SDL_Surface* text_surface =
@@ -31,7 +31,7 @@ void Topbar::render_text(SDL_Renderer* renderer,
     {
         // Create texture from surface pixels
         text_texture =
-            SDL_CreateTextureFromSurface(renderer, text_surface);
+            SDL_CreateTextureFromSurface(renderer.get(), text_surface);
         if (text_texture == nullptr)
         {
             printf("Unable to create texture from rendered text! SDL "
@@ -50,5 +50,5 @@ void Topbar::render_text(SDL_Renderer* renderer,
     }
 
     SDL_Rect rect = {x, y, w, h};
-    SDL_RenderCopy(renderer, text_texture, NULL, &rect);
+    SDL_RenderCopy(renderer.get(), text_texture, NULL, &rect);
 }

@@ -5,22 +5,26 @@
 
 #include "SDL_render.h"
 
+using renderer_type =
+    std::unique_ptr<SDL_Renderer, void (*)(SDL_Renderer*)>;
+
 class Background
 {
     public:
-        Background(Texture background, Texture explosion,
-                   int field_width, int field_height)
-            : _background(background), _explosion(explosion),
-              _field_width(field_width), _field_height(field_height)
+        Background(Texture background, int field_width,
+                   int field_height)
+            : _background(background), _field_width(field_width),
+              _field_height(field_height)
         {
         }
 
         Texture get_texture() { return _background; }
 
-        void render(SDL_Renderer* renderer)
+        void render(const renderer_type& renderer)
         {
             SDL_Rect dest = {0, 0, _field_width, _field_height};
-            SDL_RenderCopy(renderer, _background._texture, NULL, &dest);
+            SDL_RenderCopy(renderer.get(), _background._texture, NULL,
+                           &dest);
             // make explosions
         }
 
@@ -59,8 +63,6 @@ class Background
 
     private:
         Texture _background{nullptr};
-        Texture _explosion{nullptr};
-        std::vector<Explosion> _explosions;
         int _field_width{0};
         int _field_height{0};
 };

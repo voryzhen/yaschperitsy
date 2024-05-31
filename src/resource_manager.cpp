@@ -16,7 +16,7 @@ static constexpr std::string_view background_asset{
 
 static constexpr std::string_view font_asset{"assets/lazy.ttf"};
 
-ResourceManager::ResourceManager(SDL_Renderer* renderer)
+ResourceManager::ResourceManager(const renderer_type& renderer)
     : _renderer(renderer), _font(TTF_OpenFont(font_asset.data(), 28))
 {
     _textures.insert(std::make_pair<std::string, SDL_Texture*>(
@@ -55,7 +55,7 @@ ResourceManager::load_texture(const std::string_view& filename)
     SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO,
                    "Loading %s", filename.begin());
 
-    return IMG_LoadTexture(_renderer, filename.data());
+    return IMG_LoadTexture(_renderer.get(), filename.data());
 }
 
 Texture ResourceManager::get_texture(const std::string& texture) const

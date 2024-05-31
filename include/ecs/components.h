@@ -101,12 +101,13 @@ class SpriteComponent : public Component
             _dest_rect.y = static_cast<int>(_position->position().y());
         }
 
-        void render(SDL_Renderer* renderer) override
+        void render(const renderer_type& renderer) override
         {
             // SDL_RenderCopy(renderer, _texture._texture, &_src_rect,
             //              &_dest_rect);
-            SDL_RenderCopyEx(renderer, _texture._texture, &_src_rect,
-                             &_dest_rect, _position->angle(), nullptr,
+            SDL_RenderCopyEx(renderer.get(), _texture._texture,
+                             &_src_rect, &_dest_rect,
+                             _position->angle(), nullptr,
                              SDL_FLIP_NONE);
         }
 

@@ -20,7 +20,7 @@ link_directories (
 )
 
 set ( CMAKE_CXX_STANDARD    17      )
-# set ( CMAKE_CXX_FLAGS       "-Wall" )
+set ( CMAKE_CXX_FLAGS       "-Wall" )
 set ( CMAKE_CXX_FLAGS_DEBUG "-g"    )
 set ( CMAKE_BUILD_TYPE      Debug   )
 
@@ -51,7 +51,7 @@ project ( yaschperitsy_test )
 
 find_package( Boost COMPONENTS system filesystem unit_test_framework REQUIRED )
 
-link_directories ( ${Boost_INCLUDE_DIR} )
+include_directories ( ${Boost_INCLUDE_DIR} )
 link_directories ( ${Boost_LIBRARY_DIR} )
 
 add_executable( yaschperitsy_test

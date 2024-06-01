@@ -1,6 +1,7 @@
 #pragma once
 
 #include "SDL_ttf.h"
+#include "memory"
 #include "string"
 
 #include "SDL_render.h"

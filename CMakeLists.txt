@@ -20,7 +20,11 @@ link_directories (
 )
 
 set ( CMAKE_CXX_STANDARD    20      )
-set ( CMAKE_CXX_FLAGS       "-Wall" )
+
+if ( APPLE )
+  set ( CMAKE_CXX_FLAGS       "-Wall" )
+endif()
+
 set ( CMAKE_CXX_FLAGS_DEBUG "-g"    )
 set ( CMAKE_BUILD_TYPE      Debug   )
 
@@ -47,6 +51,8 @@ target_link_libraries ( yaschperitsy
 
 # tests
 
+if ( APPLE )
+
 project ( yaschperitsy_test )
 
 find_package( Boost COMPONENTS system filesystem unit_test_framework REQUIRED )
@@ -68,3 +74,5 @@ target_link_libraries( yaschperitsy_test
   ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY}
 
 )
+
+endif()

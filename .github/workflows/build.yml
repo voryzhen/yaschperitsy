@@ -61,8 +61,8 @@ jobs:
           Expand-Archive ./SDL2_image-devel-2.8.2-VC.zip -DestinationPath ./SDL2_image
           Expand-Archive ./SDL2_ttf-devel-2.22.0-VC.zip -DestinationPath ./SDL2_ttf
 
-      - name: Boost
-        run: choco install boost-msvc-14.2
+#      - name: Boost
+#        run: choco install boost-msvc-14.2
 
       - name: Cmake
         run: |

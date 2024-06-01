@@ -99,13 +99,16 @@ void Game::spawn_enemies()
             enemy.get_component<SpriteComponent>()->get_texture_rect();
         enemy.get_component<TransformComponent>()->set_position(
             _game_field.w,
-            get_random_int(_game_field.h - enemy_rect.h));
+            get_random<int>(_game_field.h - enemy_rect.h));
 
         enemy.get_component<TransformComponent>()->set_x_velocity(-1);
         enemy.add_component<FireReloadComponent>(60);
 
-        // frame rate is 60 and every second
-        enemy_spawn_timer = _game_settings._enemy_spawn_freq * _fps;
+        // frame rate is 60 fps and every second with random factor
+        // TODO: do I need _enemy_spawn_freq ?
+        enemy_spawn_timer =
+            _game_settings._enemy_spawn_freq *
+            static_cast<int>(_fps * get_random<double>(2.0));
     }
 }
 

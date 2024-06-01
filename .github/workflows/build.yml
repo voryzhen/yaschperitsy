@@ -68,8 +68,8 @@ jobs:
         run: |
           mkdir build
           cd build
-          cmake .. -DSDL2_INCLUDE_DIRS="./SDL2/SDL2-2.30.3/include;./SDL2_image/SDL2_image-2.8.2/include;./SDL2_ttf/SDL2_ttf-2.22.0/include" -DSDL2_LIBRARIES="SDL2;SDL2main;SDL2_image;SDL2_ttf" -DSDL2_LIB_DIRS="./SDL2/SDL2-2.30.3/lib/x64;./SDL2_image/SDL2_image-2.8.2/lib/x64;./SDL2_ttf/SDL2_ttf-2.22.0/lib/x64"
-          cmake --build .
+          cmake .. -DCMAKE_BUILD_TYPE=Release -DSDL2_INCLUDE_DIRS="./SDL2/SDL2-2.30.3/include;./SDL2_image/SDL2_image-2.8.2/include;./SDL2_ttf/SDL2_ttf-2.22.0/include" -DSDL2_LIBRARIES="SDL2;SDL2main;SDL2_image;SDL2_ttf" -DSDL2_LIB_DIRS="./SDL2/SDL2-2.30.3/lib/x64;./SDL2_image/SDL2_image-2.8.2/lib/x64;./SDL2_ttf/SDL2_ttf-2.22.0/lib/x64"
+          cmake --build . --config Release
 
       - name: Pack
         run: |

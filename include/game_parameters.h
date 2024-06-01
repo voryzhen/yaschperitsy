@@ -37,4 +37,5 @@ struct GameSettings
         uint8_t _bullet_speed{5};
         uint8_t _player_speed{5};
         uint8_t _enemy_speed{3};
+        uint8_t _enemy_spawn_freq{1};
 };

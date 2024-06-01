@@ -5,12 +5,12 @@
 
 Game::Game(int field_width, int field_height,
            const renderer_type& renderer)
-    : _renderer(renderer), _rm(_renderer),
-      _player(_manager.add_entity("player")),
+    : _game_field(field_width, field_height), _renderer(renderer),
+      _rm(_renderer), _player(_manager.add_entity("player")),
       _background(std::make_unique<Background>(
-          _rm.get_texture("background"), field_width, field_height)),
-      _topbar(std::make_unique<Topbar>(_rm.get_font(), _stat)),
-      _field(field_width, field_height)
+          _rm.get_texture("background"), _game_field)),
+      _topbar(std::make_unique<Topbar>(_rm.get_font(), _stat))
+
 {
     _player.add_component<TransformComponent>(
         100, 100, _game_settings._player_speed);
@@ -92,19 +92,20 @@ void Game::spawn_enemies()
     {
         auto& enemy = _manager.add_entity("enemy");
         enemy.add_component<TransformComponent>(
-            _field.w, 0, _game_settings._enemy_speed);
+            _game_field.w, 0, _game_settings._enemy_speed);
         enemy.add_component<SpriteComponent>(_rm.get_texture("enemy"));
 
         const auto enemy_rect =
             enemy.get_component<SpriteComponent>()->get_texture_rect();
         enemy.get_component<TransformComponent>()->set_position(
-            _field.w, get_random_int(_field.h - enemy_rect.h));
+            _game_field.w,
+            get_random_int(_game_field.h - enemy_rect.h));
 
         enemy.get_component<TransformComponent>()->set_x_velocity(-1);
         enemy.add_component<FireReloadComponent>(60);
 
         // frame rate is 60 and every second
-        enemy_spawn_timer = enemy_spawn_freq * _fps;
+        enemy_spawn_timer = _game_settings._enemy_spawn_freq * _fps;
     }
 }
 

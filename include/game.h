@@ -51,10 +51,13 @@ class Game
         unsigned char _fps = 60;
         unsigned char _frame_delay = 1000 / _fps;
         bool _quit{false};
-        SDL_Event _event{};
-        Manager _manager{};
 
         GameSettings _game_settings;
+        GameField _game_field;
+        int enemy_spawn_timer{0};
+
+        SDL_Event _event{};
+        Manager _manager{};
 
         const renderer_type& _renderer;
         ResourceManager _rm;
@@ -62,11 +65,6 @@ class Game
         Entity& _player;
         std::unique_ptr<Background> _background;
         std::unique_ptr<Topbar> _topbar;
-
-        GameField _field;
-
-        int enemy_spawn_timer{0};
-        int enemy_spawn_freq{1};
 
         std::unique_ptr<GameStatistic> _stat{new GameStatistic()};
 };

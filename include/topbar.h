@@ -18,7 +18,8 @@ using renderer_type =
 class Topbar
 {
     public:
-        Topbar(TTF_Font* font, GameStatistic& stat)
+        Topbar(TTF_Font* font,
+               const std::unique_ptr<GameStatistic>& stat)
             : _font(font), _stat(stat)
         {
         }
@@ -33,5 +34,5 @@ class Topbar
         TTF_Font* _font{nullptr};
 
         // NOLINTNEXTLINE(cppcoreguidelines-avoid-const-or-ref-data-members)
-        GameStatistic& _stat; // TODO: refactor
+        const std::unique_ptr<GameStatistic>& _stat;
 };

@@ -243,7 +243,7 @@ void Game::bullet_hit()
             if (intersect(b_rect, e_rect))
             {
                 e->destroy();
-                _stat._score++;
+                _stat->_score++;
             }
         }
     }
@@ -263,6 +263,6 @@ void Game::reset_state()
             e->destroy();
         }
     }
-    _stat._max_score = std::max(_stat._max_score, _stat._score);
-    _stat._score = 0;
+    _stat->_max_score = std::max(_stat->_max_score, _stat->_score);
+    _stat->_score = 0;
 }

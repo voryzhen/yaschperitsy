@@ -5,9 +5,9 @@
 void Topbar::render(const renderer_type& renderer)
 {
     render_text(renderer,
-                "Total Score: " + std::to_string(_stat._score), 5, 5);
+                "Total Score: " + std::to_string(_stat->_score), 5, 5);
     render_text(renderer,
-                "Max Score: " + std::to_string(_stat._max_score), 500,
+                "Max Score: " + std::to_string(_stat->_max_score), 500,
                 5);
 }
 

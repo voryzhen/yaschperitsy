@@ -76,7 +76,7 @@ class Game
         int enemy_spawn_timer{0};
         int enemy_spawn_freq{1};
 
-        GameStatistic _stat;
+        std::unique_ptr<GameStatistic> _stat{new GameStatistic()};
 
         // Game settings
         uint8_t _bullet_spped{3};

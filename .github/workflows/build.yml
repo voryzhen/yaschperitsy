@@ -74,7 +74,7 @@ jobs:
       - name: Pack
         run: |
           mkdir yaschperitsy
-          mv ./build/Debug/yaschperitsy.exe yaschperitsy/
+          mv ./build/Release/yaschperitsy.exe yaschperitsy/
           mv ./assets yaschperitsy/
 
           mv ./SDL2/SDL2-2.30.3/lib/x64/SDL2.dll yaschperitsy/

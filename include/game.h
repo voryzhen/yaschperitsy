@@ -5,20 +5,10 @@
 
 #include "background.h"
 #include "ecs/ecs.h"
+#include "game_parameters.h"
 #include "resource_manager.h"
 #include "topbar.h"
 #include <SDL.h>
-
-struct GameField
-{
-    public:
-        GameField() = default;
-
-        GameField(int ww, int hh) : h(hh), w(ww) {}
-
-        int h{0};
-        int w{0};
-};
 
 using renderer_type =
     std::unique_ptr<SDL_Renderer, void (*)(SDL_Renderer*)>;
@@ -64,6 +54,8 @@ class Game
         SDL_Event _event{};
         Manager _manager{};
 
+        GameSettings _game_settings;
+
         const renderer_type& _renderer;
         ResourceManager _rm;
 
@@ -77,9 +69,4 @@ class Game
         int enemy_spawn_freq{1};
 
         std::unique_ptr<GameStatistic> _stat{new GameStatistic()};
-
-        // Game settings
-        uint8_t _bullet_spped{3};
-        uint8_t _player_spped{3};
-        uint8_t _enemy_spped{3};
 };

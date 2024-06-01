@@ -1,0 +1,40 @@
+#pragma once
+
+#include <cstddef>
+#include <cstdint>
+
+struct GameField
+{
+    public:
+        GameField() = default;
+
+        GameField(int ww, int hh) : h(hh), w(ww) {}
+
+        int h{0};
+        int w{0};
+};
+
+struct GameStatistic
+{
+    public:
+        size_t _score{0};
+        size_t _max_score{0};
+};
+
+struct GameSettings
+{
+    public:
+        GameSettings() = default;
+
+        GameSettings(uint8_t bullet_speed, uint8_t player_speed,
+                     uint8_t enemy_speed)
+            : _bullet_speed(bullet_speed), _player_speed(player_speed),
+              _enemy_speed(enemy_speed)
+        {
+        }
+
+        // Game settings TODO: add yml reader to load params
+        uint8_t _bullet_speed{5};
+        uint8_t _player_speed{5};
+        uint8_t _enemy_speed{3};
+};

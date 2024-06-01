@@ -6,11 +6,7 @@
 
 #include "SDL_render.h"
 
-struct GameStatistic
-{
-        size_t _score{0};
-        size_t _max_score{0};
-};
+#include "game_parameters.h"
 
 using renderer_type =
     std::unique_ptr<SDL_Renderer, void (*)(SDL_Renderer*)>;

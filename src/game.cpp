@@ -12,7 +12,8 @@ Game::Game(int field_width, int field_height,
       _topbar(std::make_unique<Topbar>(_rm.get_font(), _stat)),
       _field(field_width, field_height)
 {
-    _player.add_component<TransformComponent>(100, 100, _player_spped);
+    _player.add_component<TransformComponent>(
+        100, 100, _game_settings._player_speed);
     _player.add_component<SpriteComponent>(_rm.get_texture("player"));
     _player.add_component<KeyboardController>();
     _player.add_component<MouseController>();
@@ -90,8 +91,8 @@ void Game::spawn_enemies()
     if (--enemy_spawn_timer <= 0)
     {
         auto& enemy = _manager.add_entity("enemy");
-        enemy.add_component<TransformComponent>(_field.w, 0,
-                                                _enemy_spped);
+        enemy.add_component<TransformComponent>(
+            _field.w, 0, _game_settings._enemy_speed);
         enemy.add_component<SpriteComponent>(_rm.get_texture("enemy"));
 
         const auto enemy_rect =
@@ -126,7 +127,7 @@ void Game::fire_enemies()
             bullet.add_component<SpriteComponent>(
                 _rm.get_texture("enemy_bullet"));
             bullet.get_component<TransformComponent>()->set_velocity(
-                Vector2D{-1, 0} * (_bullet_spped));
+                Vector2D{-1, 0} * (_game_settings._bullet_speed));
         }
     }
 }
@@ -177,7 +178,8 @@ void Game::game_update_player()
                 _rm.get_texture("player_bullet"));
 
             bullet.get_component<TransformComponent>()->set_velocity(
-                trasnsform_component->direction() * _bullet_spped);
+                trasnsform_component->direction() *
+                _game_settings._bullet_speed);
         }
     }
 }

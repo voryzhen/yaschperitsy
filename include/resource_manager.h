@@ -1,11 +1,8 @@
 #pragma once
 
-#include "memory"
-#include "string_view"
-#include <cstddef>
-#include <string>
+#include <memory>
+#include <string_view>
 #include <unordered_map>
-#include <utility>
 
 #include "SDL_render.h"
 #include "SDL_ttf.h"
@@ -36,13 +33,14 @@ class ResourceManager
 
         ~ResourceManager();
 
-        Texture get_texture(const std::string& texture) const;
-        TTF_Font* get_font();
+        Texture get_texture(const std::string_view& texture) const;
+        TTF_Font* get_font(const std::string_view& font = "lazy") const;
 
     private:
         SDL_Texture* load_texture(const std::string_view& filename);
+        static TTF_Font* load_font(const std::string_view& filename);
 
         const renderer_type& _renderer;
-        std::unordered_map<std::string, Texture> _textures;
-        TTF_Font* _font{nullptr};
+        std::unordered_map<std::string_view, Texture> _textures;
+        std::unordered_map<std::string_view, TTF_Font*> _fonts;
 };

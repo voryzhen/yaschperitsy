@@ -5,69 +5,42 @@
 #include <SDL_image.h>
 #include <memory>
 #include <string_view>
+#include <unordered_map>
 #include <utility>
 
-// Textures filepaths
+// Textures names and filepaths
 
-static constexpr std::string_view player_asset{"assets/player.png"};
-static constexpr std::string_view player_bullet_asset{
-    "assets/playerBullet.png"};
-
-static constexpr std::string_view enemy_asset{"assets/enemy.png"};
-static constexpr std::string_view enemy_bullet_asset{
-    "assets/enemyBullet.png"};
-
-static constexpr std::string_view background_asset{
-    "assets/background.png"};
+static const std::unordered_map<std::string_view, std::string_view>
+    textures_info = {{"player", "assets/player.png"},
+                     {"player_bullet", "assets/playerBullet.png"},
+                     {"enemy", "assets/enemy.png"},
+                     {"enemy_bullet", "assets/enemyBullet.png"},
+                     {"background", "assets/background.png"}};
 
 // Font filepath
 
 static constexpr std::string_view font_asset{"assets/lazy.ttf"};
 
-//
+// Deleters
 
 const auto texture_deleter = [](Texture* t) -> void
 { SDL_DestroyTexture(t->_texture); };
 
+const auto font_deleter = [](TTF_Font* font) -> void
+{ TTF_CloseFont(font); };
+
 ResourceManager::ResourceManager(const renderer_type& renderer)
     : _renderer(renderer)
 {
-    _textures.insert(
-        {"player", std::shared_ptr<Texture>(
-                       new Texture(load_texture(player_asset)),
-                       texture_deleter)});
-
-    _textures.insert(
-        {"player_bullet",
-         std::shared_ptr<Texture>(
-             new Texture(load_texture(player_bullet_asset)),
-             texture_deleter)});
-
-    _textures.insert(
-        {"enemy",
-         std::shared_ptr<Texture>(
-             new Texture(load_texture(enemy_asset)), texture_deleter)});
-
-    _textures.insert({"enemy_bullet",
-                      std::shared_ptr<Texture>(
-                          new Texture(load_texture(enemy_bullet_asset)),
-                          texture_deleter)});
-
-    _textures.insert(
-        {"background", std::shared_ptr<Texture>(
-                           new Texture(load_texture(background_asset)),
-                           texture_deleter)});
-
-    _fonts.insert(std::make_pair<std::string_view, TTF_Font*>(
-        "lazy", load_font(font_asset)));
-}
-
-ResourceManager::~ResourceManager()
-{
-    for (auto& [name, font] : _fonts)
+    for (const auto& [name, path] : textures_info)
     {
-        TTF_CloseFont(font);
+        _textures.insert({name, std::shared_ptr<Texture>(
+                                    new Texture(load_texture(path)),
+                                    texture_deleter)});
     }
+
+    _fonts.insert({"lazy", std::shared_ptr<TTF_Font>(
+                               load_font(font_asset), font_deleter)});
 }
 
 SDL_Texture*
@@ -115,7 +88,7 @@ ResourceManager::get_texture(const std::string_view& texture) const
     return nullptr;
 }
 
-TTF_Font*
+std::shared_ptr<TTF_Font>
 ResourceManager::get_font(const std::string_view& font_name) const
 {
     auto font = _fonts.find(font_name);

@@ -15,7 +15,7 @@ void Topbar::render_text(const renderer_type& renderer,
                          const std::string& text, int x, int y)
 {
     SDL_Surface* text_surface =
-        TTF_RenderText_Solid(_font, text.c_str(), _text_color);
+        TTF_RenderText_Solid(_font.get(), text.c_str(), _text_color);
 
     SDL_Texture* text_texture{nullptr};
 

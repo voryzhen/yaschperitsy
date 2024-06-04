@@ -89,7 +89,7 @@ class SpriteComponent : public Component
     public:
         SpriteComponent() = default;
 
-        SpriteComponent(std::shared_ptr<Texture> texture)
+        SpriteComponent(const std::shared_ptr<Texture>& texture)
             : _texture(texture)
         {
         }

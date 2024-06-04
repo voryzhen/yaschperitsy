@@ -31,11 +31,12 @@ class ResourceManager
         ResourceManager(const ResourceManager&) = delete;
         ResourceManager& operator=(const ResourceManager&) = delete;
 
-        ~ResourceManager();
+        ~ResourceManager() = default;
 
         std::shared_ptr<Texture>
         get_texture(const std::string_view& texture) const;
-        TTF_Font* get_font(const std::string_view& font = "lazy") const;
+        std::shared_ptr<TTF_Font>
+        get_font(const std::string_view& font = "lazy") const;
 
     private:
         SDL_Texture* load_texture(const std::string_view& filename);
@@ -44,5 +45,6 @@ class ResourceManager
         const renderer_type& _renderer;
         std::unordered_map<std::string_view, std::shared_ptr<Texture>>
             _textures;
-        std::unordered_map<std::string_view, TTF_Font*> _fonts;
+        std::unordered_map<std::string_view, std::shared_ptr<TTF_Font>>
+            _fonts;
 };

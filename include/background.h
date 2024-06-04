@@ -1,5 +1,6 @@
 #pragma once
 
+#include <memory>
 #include <resource_manager.h>
 #include <vector>
 
@@ -12,22 +13,23 @@ using renderer_type =
 class Background
 {
     public:
-        Background(Texture background, const GameField& game_field)
+        Background(std::shared_ptr<Texture> background,
+                   const GameField& game_field)
             : _background(background), _game_field(game_field)
         {
         }
 
-        Texture get_texture() { return _background; }
+        std::shared_ptr<Texture> get_texture() { return _background; }
 
         void render(const renderer_type& renderer)
         {
             SDL_Rect dest = {0, 0, _game_field.w, _game_field.h};
-            SDL_RenderCopy(renderer.get(), _background._texture, NULL,
+            SDL_RenderCopy(renderer.get(), _background->_texture, NULL,
                            &dest);
             // make explosions
         }
 
     private:
-        Texture _background{nullptr};
+        std::shared_ptr<Texture> _background;
         GameField _game_field;
 };

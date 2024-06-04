@@ -33,7 +33,8 @@ class ResourceManager
 
         ~ResourceManager();
 
-        Texture get_texture(const std::string_view& texture) const;
+        std::shared_ptr<Texture>
+        get_texture(const std::string_view& texture) const;
         TTF_Font* get_font(const std::string_view& font = "lazy") const;
 
     private:
@@ -41,6 +42,7 @@ class ResourceManager
         static TTF_Font* load_font(const std::string_view& filename);
 
         const renderer_type& _renderer;
-        std::unordered_map<std::string_view, Texture> _textures;
+        std::unordered_map<std::string_view, std::shared_ptr<Texture>>
+            _textures;
         std::unordered_map<std::string_view, TTF_Font*> _fonts;
 };

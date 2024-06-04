@@ -14,6 +14,7 @@
 #include <cstdint>
 #include <cstdlib>
 #include <iostream>
+#include <memory>
 #include <numbers>
 
 class TransformComponent : public Component
@@ -88,7 +89,10 @@ class SpriteComponent : public Component
     public:
         SpriteComponent() = default;
 
-        SpriteComponent(Texture texture) : _texture(texture) {}
+        SpriteComponent(std::shared_ptr<Texture> texture)
+            : _texture(texture)
+        {
+        }
 
         void init() override
         {
@@ -96,11 +100,11 @@ class SpriteComponent : public Component
 
             _src_rect.x = _src_rect.y = 0;
 
-            _src_rect.h = _texture._h;
-            _src_rect.w = _texture._w;
+            _src_rect.h = _texture->_h;
+            _src_rect.w = _texture->_w;
 
-            _dest_rect.h = _texture._h;
-            _dest_rect.w = _texture._w;
+            _dest_rect.h = _texture->_h;
+            _dest_rect.w = _texture->_w;
         }
 
         void update(const SDL_Event& /*e*/) override
@@ -113,7 +117,7 @@ class SpriteComponent : public Component
         {
             // SDL_RenderCopy(renderer, _texture._texture, &_src_rect,
             //              &_dest_rect);
-            SDL_RenderCopyEx(renderer.get(), _texture._texture,
+            SDL_RenderCopyEx(renderer.get(), _texture->_texture,
                              &_src_rect, &_dest_rect,
                              _position->angle(), nullptr,
                              SDL_FLIP_NONE);
@@ -127,13 +131,13 @@ class SpriteComponent : public Component
                 pos = _position->position();
             }
             return {static_cast<int>(pos.x()),
-                    static_cast<int>(pos.y()), _texture._w,
-                    _texture._h};
+                    static_cast<int>(pos.y()), _texture->_w,
+                    _texture->_h};
         }
 
     private:
         TransformComponent* _position{nullptr};
-        Texture _texture{nullptr};
+        std::shared_ptr<Texture> _texture;
         SDL_Rect _src_rect{0, 0, 0, 0};
         SDL_Rect _dest_rect{0, 0, 0, 0};
 };

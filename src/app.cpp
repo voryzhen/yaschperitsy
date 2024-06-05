@@ -1,14 +1,12 @@
+#include "SDL_render.h"
 #include <app.h>
 
 #include <SDL_image.h>
 #include <SDL_ttf.h>
 
-std::unique_ptr<SDL_Window, void (*)(SDL_Window*)> App::_window =
-    std::unique_ptr<SDL_Window, void (*)(SDL_Window*)>(
-        nullptr, SDL_DestroyWindow);
-std::unique_ptr<SDL_Renderer, void (*)(SDL_Renderer*)> App::_renderer =
-    std::unique_ptr<SDL_Renderer, void (*)(SDL_Renderer*)>(
-        nullptr, SDL_DestroyRenderer);
+SDL_WindowPtr App::_window = SDL_WindowPtr(nullptr, SDL_DestroyWindow);
+SDL_RendererPtr App::_renderer =
+    SDL_RendererPtr(nullptr, SDL_DestroyRenderer);
 
 App::App()
 {

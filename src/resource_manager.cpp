@@ -8,39 +8,49 @@
 #include <unordered_map>
 #include <utility>
 
-// Textures names and filepaths
+namespace
+{
 
-static const std::unordered_map<std::string_view, std::string_view>
-    textures_info = {{"player", "assets/player.png"},
-                     {"player_bullet", "assets/playerBullet.png"},
-                     {"enemy", "assets/enemy.png"},
-                     {"enemy_bullet", "assets/enemyBullet.png"},
-                     {"background", "assets/background.png"}};
+// Textures and fotns info
+using resource_map =
+    std::unordered_map<std::string_view, std::string_view>;
 
-// Font filepath
+const resource_map textures_info = {
+    {"player", "assets/player.png"},
+    {"player_bullet", "assets/playerBullet.png"},
+    {"enemy", "assets/enemy.png"},
+    {"enemy_bullet", "assets/enemyBullet.png"},
+    {"background", "assets/background.png"}};
 
-static constexpr std::string_view font_asset{"assets/lazy.ttf"};
+const resource_map fonts_info = {{"lazy", "assets/lazy.ttf"}};
 
-// Deleters
-
+// Deleters for SDL_Texture* and TTF_Fonts*
 const auto texture_deleter = [](Texture* t) -> void
-{ SDL_DestroyTexture(t->_texture); };
+{
+    SDL_DestroyTexture(t->_texture);
+    delete t;
+};
 
 const auto font_deleter = [](TTF_Font* font) -> void
 { TTF_CloseFont(font); };
 
-ResourceManager::ResourceManager(const renderer_type& renderer)
+} // namespace
+
+ResourceManager::ResourceManager(const SDL_RendererPtr& renderer)
     : _renderer(renderer)
 {
     for (const auto& [name, path] : textures_info)
     {
-        _textures.insert({name, std::shared_ptr<Texture>(
-                                    new Texture(load_texture(path)),
-                                    texture_deleter)});
+        _textures.insert(
+            {name, TextureSPtr(new Texture(load_texture(path)),
+                               texture_deleter)});
     }
 
-    _fonts.insert({"lazy", std::shared_ptr<TTF_Font>(
-                               load_font(font_asset), font_deleter)});
+    for (const auto& [name, path] : fonts_info)
+    {
+        _fonts.insert(
+            {name, TTF_FontSPtr(load_font(path), font_deleter)});
+    }
 }
 
 SDL_Texture*
@@ -64,7 +74,7 @@ TTF_Font* ResourceManager::load_font(const std::string_view& filename)
     SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO,
                    "Loading %s", filename.begin());
 
-    auto font = TTF_OpenFont(font_asset.data(), 28);
+    auto font = TTF_OpenFont(filename.data(), 28);
 
     if (font == nullptr)
     {
@@ -74,7 +84,7 @@ TTF_Font* ResourceManager::load_font(const std::string_view& filename)
     return font;
 }
 
-std::shared_ptr<Texture>
+TextureSPtr
 ResourceManager::get_texture(const std::string_view& texture) const
 {
     auto txtr = _textures.find(texture);
@@ -88,7 +98,7 @@ ResourceManager::get_texture(const std::string_view& texture) const
     return nullptr;
 }
 
-std::shared_ptr<TTF_Font>
+TTF_FontSPtr
 ResourceManager::get_font(const std::string_view& font_name) const
 {
     auto font = _fonts.find(font_name);

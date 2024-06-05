@@ -9,7 +9,7 @@ Game::Game(int field_width, int field_height,
       _rm(_renderer), _player(_manager.add_entity("player")),
       _background(std::make_unique<Background>(
           _rm.get_texture("background"), _game_field)),
-      _topbar(std::make_unique<Topbar>(_rm.get_font(), _stat))
+      _topbar(std::make_unique<Topbar>(_rm.get_font("lazy"), _stat))
 
 {
     _player.add_component<TransformComponent>(

@@ -1,9 +1,16 @@
 #pragma once
 
+#include "SDL_video.h"
 #include <memory>
 #include <string_view>
 
 #include <game.h>
+
+using SDL_WindowPtr =
+    std::unique_ptr<SDL_Window, decltype(&SDL_DestroyWindow)>;
+
+using SDL_RendererPtr =
+    std::unique_ptr<SDL_Renderer, decltype(&SDL_DestroyRenderer)>;
 
 class App
 {
@@ -18,10 +25,8 @@ class App
         static bool init_sdl();
         static void cleanup();
 
-        static std::unique_ptr<SDL_Window, void (*)(SDL_Window*)>
-            _window;
-        static std::unique_ptr<SDL_Renderer, void (*)(SDL_Renderer*)>
-            _renderer;
+        static SDL_WindowPtr _window;
+        static SDL_RendererPtr _renderer;
 
         static constexpr int SCREEN_WIDTH{1280};
         static constexpr int SCREEN_HEIGHT{720};

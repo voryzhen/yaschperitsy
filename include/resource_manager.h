@@ -1,5 +1,6 @@
 #pragma once
 
+#include <iostream>
 #include <memory>
 #include <string_view>
 #include <unordered_map>
@@ -7,8 +8,8 @@
 #include "SDL_render.h"
 #include "SDL_ttf.h"
 
-using renderer_type =
-    std::unique_ptr<SDL_Renderer, void (*)(SDL_Renderer*)>;
+using SDL_RendererPtr =
+    std::unique_ptr<SDL_Renderer, decltype(&SDL_DestroyRenderer)>;
 
 struct Texture
 {
@@ -23,28 +24,30 @@ struct Texture
         int _h{0};
 };
 
+using TextureSPtr = std::shared_ptr<Texture>;
+using TTF_FontSPtr = std::shared_ptr<TTF_Font>;
+
 class ResourceManager
 {
     public:
-        ResourceManager(const renderer_type& renderer);
+        ResourceManager(const SDL_RendererPtr& renderer);
 
         ResourceManager(const ResourceManager&) = delete;
         ResourceManager& operator=(const ResourceManager&) = delete;
+        ResourceManager(const ResourceManager&&) = delete;
+        ResourceManager& operator=(const ResourceManager&&) = delete;
 
         ~ResourceManager() = default;
 
-        std::shared_ptr<Texture>
-        get_texture(const std::string_view& texture) const;
-        std::shared_ptr<TTF_Font>
-        get_font(const std::string_view& font = "lazy") const;
+        TextureSPtr get_texture(const std::string_view& texture) const;
+        TTF_FontSPtr get_font(const std::string_view& font) const;
 
     private:
-        SDL_Texture* load_texture(const std::string_view& filename);
-        static TTF_Font* load_font(const std::string_view& filename);
+        const SDL_RendererPtr& _renderer;
 
-        const renderer_type& _renderer;
-        std::unordered_map<std::string_view, std::shared_ptr<Texture>>
-            _textures;
-        std::unordered_map<std::string_view, std::shared_ptr<TTF_Font>>
-            _fonts;
+        SDL_Texture* load_texture(const std::string_view& filename);
+        TTF_Font* load_font(const std::string_view& filename);
+
+        std::unordered_map<std::string_view, TextureSPtr> _textures;
+        std::unordered_map<std::string_view, TTF_FontSPtr> _fonts;
 };

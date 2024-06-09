@@ -2,6 +2,7 @@
 
 #include <memory>
 #include <resource_manager.h>
+#include <utility>
 #include <vector>
 
 #include "SDL_render.h"
@@ -13,13 +14,13 @@ using SDL_RendererPtr =
 class Background
 {
     public:
-        Background(const std::shared_ptr<Texture>& background,
-                   const GameField& game_field)
-            : _background(background), _game_field(game_field)
+        Background(TextureSPtr background, const GameField& game_field)
+            : _background(std::move(background)),
+              _game_field(game_field)
         {
         }
 
-        std::shared_ptr<Texture> get_texture() { return _background; }
+        TextureSPtr get_texture() { return _background; }
 
         void render(const SDL_RendererPtr& renderer)
         {
@@ -30,6 +31,6 @@ class Background
         }
 
     private:
-        std::shared_ptr<Texture> _background;
+        TextureSPtr _background;
         GameField _game_field;
 };

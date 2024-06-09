@@ -16,6 +16,7 @@
 #include <iostream>
 #include <memory>
 #include <numbers>
+#include <utility>
 
 class TransformComponent : public Component
 {
@@ -89,8 +90,8 @@ class SpriteComponent : public Component
     public:
         SpriteComponent() = default;
 
-        SpriteComponent(const std::shared_ptr<Texture>& texture)
-            : _texture(texture)
+        SpriteComponent(TextureSPtr texture)
+            : _texture(std::move(texture))
         {
         }
 
@@ -137,7 +138,7 @@ class SpriteComponent : public Component
 
     private:
         TransformComponent* _position{nullptr};
-        std::shared_ptr<Texture> _texture;
+        TextureSPtr _texture;
         SDL_Rect _src_rect{0, 0, 0, 0};
         SDL_Rect _dest_rect{0, 0, 0, 0};
 };

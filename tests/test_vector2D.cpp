@@ -114,6 +114,19 @@ BOOST_AUTO_TEST_CASE(vector_math_operators_mult_const)
     BOOST_CHECK(a == a1);
 }
 
+BOOST_AUTO_TEST_CASE(vector_math_operators_mult_eq_const)
+{
+    // a = b * const
+
+    Vector2D a(.102f, .648f);
+    Vector2D b(.51f, 3.24f);
+    const int speed = 5;
+
+    a *= speed;
+
+    BOOST_CHECK(a == b);
+}
+
 BOOST_AUTO_TEST_SUITE_END()
 
 // NOLINTEND(cppcoreguidelines-avoid-do-while)

@@ -24,8 +24,8 @@ constexpr std::size_t max_components = 32;
 
 class Entity;
 
-using renderer_type =
-    std::unique_ptr<SDL_Renderer, void (*)(SDL_Renderer*)>;
+using SDL_RendererPtr =
+    std::unique_ptr<SDL_Renderer, decltype(&SDL_DestroyRenderer)>;
 
 class Component
 {
@@ -43,7 +43,7 @@ class Component
 
         virtual void update(const SDL_Event& event) {}
 
-        virtual void render(const renderer_type& renderer) {}
+        virtual void render(const SDL_RendererPtr& renderer) {}
 
         virtual ~Component() {}
 };

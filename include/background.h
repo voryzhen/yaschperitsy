@@ -7,13 +7,13 @@
 #include "SDL_render.h"
 #include "game_parameters.h"
 
-using renderer_type =
-    std::unique_ptr<SDL_Renderer, void (*)(SDL_Renderer*)>;
+using SDL_RendererPtr =
+    std::unique_ptr<SDL_Renderer, decltype(&SDL_DestroyRenderer)>;
 
 class Background
 {
     public:
-        Background(std::shared_ptr<Texture> background,
+        Background(const std::shared_ptr<Texture>& background,
                    const GameField& game_field)
             : _background(background), _game_field(game_field)
         {
@@ -21,7 +21,7 @@ class Background
 
         std::shared_ptr<Texture> get_texture() { return _background; }
 
-        void render(const renderer_type& renderer)
+        void render(const SDL_RendererPtr& renderer)
         {
             SDL_Rect dest = {0, 0, _game_field.w, _game_field.h};
             SDL_RenderCopy(renderer.get(), _background->_texture, NULL,

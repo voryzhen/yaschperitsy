@@ -3,14 +3,7 @@
 #include "utility.h"
 #include "vector2D.h"
 
-Game::Game(int field_width, int field_height,
-           const renderer_type& renderer)
-    : _game_field(field_width, field_height), _renderer(renderer),
-      _rm(_renderer), _player(_manager.add_entity("player")),
-      _background(std::make_unique<Background>(
-          _rm.get_texture("background"), _game_field)),
-      _topbar(std::make_unique<Topbar>(_rm.get_font("lazy"), _stat))
-
+void Game::compose_player()
 {
     _player.add_component<TransformComponent>(
         100, 100, _game_settings._player_speed);
@@ -18,6 +11,18 @@ Game::Game(int field_width, int field_height,
     _player.add_component<KeyboardController>();
     _player.add_component<MouseController>();
     _player.add_component<FireReloadComponent>(8);
+}
+
+Game::Game(int field_width, int field_height,
+           const SDL_RendererPtr& renderer)
+    : _game_field(field_width, field_height), _renderer(renderer),
+      _rm(_renderer), _player(_manager.add_entity("player")),
+      _background(std::make_unique<Background>(
+          _rm.get_texture("background"), _game_field)),
+      _topbar(std::make_unique<Topbar>(_rm.get_font("lazy"), _stat))
+
+{
+    compose_player();
 }
 
 int Game::run_game()

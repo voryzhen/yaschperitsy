@@ -3,7 +3,7 @@
 #define BOOST_TEST_DYN_LINK
 
 #include "boost/test/unit_test.hpp"
-#include "vector2D.h"
+#include "game/vector2D.h"
 
 BOOST_AUTO_TEST_SUITE(vector_unit_tests_suite)
 

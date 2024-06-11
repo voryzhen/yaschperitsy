@@ -31,11 +31,11 @@ set ( CMAKE_BUILD_TYPE      Debug   )
 add_executable ( yaschperitsy
 
   src/app.cpp
-  src/game.cpp
+  src/game/game.cpp
   src/main.cpp
   src/resource_manager.cpp
-  src/topbar.cpp
-  src/vector2D.cpp
+  src/game/topbar.cpp
+  src/game/vector2D.cpp
   src/menu.cpp
 
 )
@@ -63,7 +63,7 @@ link_directories ( ${Boost_LIBRARY_DIR} )
 add_executable( yaschperitsy_test
 
   tests/test_vector2D.cpp
-  src/vector2D.cpp
+  src/game/vector2D.cpp
 
 )
 

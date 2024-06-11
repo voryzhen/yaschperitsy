@@ -7,8 +7,8 @@
 #include "SDL_render.h"
 #include "ecs/component.h"
 #include "ecs/entity.h"
+#include "game/vector2D.h"
 #include "resource_manager.h"
-#include "vector2D.h"
 #include <cmath>
 #include <cstddef>
 #include <cstdint>

@@ -1,7 +1,7 @@
-#include <game.h>
+#include <game/game.h>
 
-#include "utility.h"
-#include "vector2D.h"
+#include "game/utility.h"
+#include "game/vector2D.h"
 
 void Game::compose_player()
 {

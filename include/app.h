@@ -7,7 +7,7 @@
 #include <resource_manager.h>
 #include <string_view>
 
-#include <game.h>
+#include <game/game.h>
 
 using SDL_WindowPtr =
     std::unique_ptr<SDL_Window, decltype(&SDL_DestroyWindow)>;

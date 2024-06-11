@@ -1,4 +1,4 @@
-#include "vector2D.h"
+#include "game/vector2D.h"
 #include <cstdlib>
 
 Vector2D& Vector2D::operator+=(const Vector2D& vec)

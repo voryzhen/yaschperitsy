@@ -36,6 +36,7 @@ add_executable ( yaschperitsy
   src/resource_manager.cpp
   src/topbar.cpp
   src/vector2D.cpp
+  src/menu.cpp
 
 )
 

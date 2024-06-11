@@ -7,19 +7,20 @@ void Game::compose_player()
 {
     _player.add_component<TransformComponent>(
         100, 100, _game_settings._player_speed);
-    _player.add_component<SpriteComponent>(_rm.get_texture("player"));
+    _player.add_component<SpriteComponent>(_rm->get_texture("player"));
     _player.add_component<KeyboardController>();
     _player.add_component<MouseController>();
     _player.add_component<FireReloadComponent>(8);
 }
 
 Game::Game(int field_width, int field_height,
-           const SDL_RendererPtr& renderer)
+           const SDL_RendererPtr& renderer,
+           const ResourceManagerPtr& rm)
     : _game_field(field_width, field_height), _renderer(renderer),
-      _rm(_renderer), _player(_manager.add_entity("player")),
+      _rm(rm), _player(_manager.add_entity("player")),
       _background(std::make_unique<Background>(
-          _rm.get_texture("background"), _game_field)),
-      _topbar(std::make_unique<Topbar>(_rm.get_font("lazy"), _stat))
+          _rm->get_texture("background"), _game_field)),
+      _topbar(std::make_unique<Topbar>(_rm->get_font("lazy"), _stat))
 
 {
     compose_player();
@@ -98,7 +99,7 @@ void Game::spawn_enemies()
         auto& enemy = _manager.add_entity("enemy");
         enemy.add_component<TransformComponent>(
             _game_field.w, 0, _game_settings._enemy_speed);
-        enemy.add_component<SpriteComponent>(_rm.get_texture("enemy"));
+        enemy.add_component<SpriteComponent>(_rm->get_texture("enemy"));
 
         const auto enemy_rect =
             enemy.get_component<SpriteComponent>()->get_texture_rect();
@@ -134,7 +135,7 @@ void Game::fire_enemies()
             bullet.add_component<TransformComponent>(
                 trasnsform_component.x(), trasnsform_component.y());
             bullet.add_component<SpriteComponent>(
-                _rm.get_texture("enemy_bullet"));
+                _rm->get_texture("enemy_bullet"));
             bullet.get_component<TransformComponent>()->set_velocity(
                 Vector2D{-1, 0} * (_game_settings._bullet_speed));
         }
@@ -184,7 +185,7 @@ void Game::game_update_player()
             bullet.add_component<TransformComponent>(
                 pos.x() + 80, pos.y(), trasnsform_component->angle());
             bullet.add_component<SpriteComponent>(
-                _rm.get_texture("player_bullet"));
+                _rm->get_texture("player_bullet"));
 
             bullet.get_component<TransformComponent>()->set_velocity(
                 trasnsform_component->direction() *

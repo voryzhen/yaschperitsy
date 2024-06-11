@@ -1,7 +1,10 @@
 #pragma once
 
+#include "SDL_events.h"
 #include "SDL_video.h"
+#include <array>
 #include <memory>
+#include <resource_manager.h>
 #include <string_view>
 
 #include <game.h>
@@ -27,6 +30,8 @@ class App
 
         static SDL_WindowPtr _window;
         static SDL_RendererPtr _renderer;
+
+        static ResourceManagerPtr _rm;
 
         static constexpr int SCREEN_WIDTH{1280};
         static constexpr int SCREEN_HEIGHT{720};

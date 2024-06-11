@@ -17,7 +17,8 @@ class Game
 {
     public:
         Game(int field_width, int field_height,
-             const SDL_RendererPtr& renderer);
+             const SDL_RendererPtr& renderer,
+             const ResourceManagerPtr& rm);
 
         Game(const Game&) = delete;
         Game(const Game&&) = delete;
@@ -62,7 +63,7 @@ class Game
         Manager _manager{};
 
         const SDL_RendererPtr& _renderer;
-        ResourceManager _rm;
+        const ResourceManagerPtr& _rm;
 
         Entity& _player;
         std::unique_ptr<Background> _background;

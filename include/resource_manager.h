@@ -51,3 +51,5 @@ class ResourceManager
         std::unordered_map<std::string_view, TextureSPtr> _textures;
         std::unordered_map<std::string_view, TTF_FontSPtr> _fonts;
 };
+
+using ResourceManagerPtr = std::unique_ptr<ResourceManager>;

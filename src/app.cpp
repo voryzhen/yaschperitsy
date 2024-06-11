@@ -1,19 +1,27 @@
 #include "SDL_render.h"
+#include "resource_manager.h"
 #include <app.h>
 
+#include "menu.h"
 #include <SDL_image.h>
 #include <SDL_ttf.h>
+#include <cstddef>
+#include <memory>
 
 SDL_WindowPtr App::_window = SDL_WindowPtr(nullptr, SDL_DestroyWindow);
 SDL_RendererPtr App::_renderer =
     SDL_RendererPtr(nullptr, SDL_DestroyRenderer);
+ResourceManagerPtr App::_rm = ResourceManagerPtr(nullptr);
 
 App::App()
 {
     if (init_sdl())
     {
-        std::make_unique<Game>(SCREEN_WIDTH, SCREEN_HEIGHT, _renderer)
-            ->run_game();
+        std::make_unique<Menu>(_renderer, _rm)->show_menu();
+        // std::make_unique<Game>(SCREEN_WIDTH, SCREEN_HEIGHT,
+        // _renderer,
+        //                        _rm)
+        //     ->run_game();
     }
 }
 
@@ -67,12 +75,15 @@ bool App::init_sdl()
         return false;
     }
 
+    _rm = std::make_unique<ResourceManager>(_renderer);
+
     return true;
 }
 
 void App::cleanup()
 {
     // Clean up
+    _rm.reset(nullptr);
     TTF_Quit();
     IMG_Quit();
     SDL_Quit();

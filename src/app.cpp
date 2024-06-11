@@ -2,7 +2,7 @@
 #include "resource_manager.h"
 #include <app.h>
 
-#include "menu.h"
+#include "ui/menu.h"
 #include <SDL_image.h>
 #include <SDL_ttf.h>
 #include <cstddef>

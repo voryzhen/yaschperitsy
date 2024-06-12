@@ -1,5 +1,6 @@
 #pragma once
 
+#include "ui/button.h"
 #include <memory>
 #include <resource_manager.h>
 
@@ -13,9 +14,8 @@ class SettingsScreen
         void render();
 
     private:
-        bool hover = false;
-        TextureSPtr _texture;
-        TextureSPtr _texture_on_hover;
+        ButtonUPtr btn;
+
         TTF_FontSPtr _font;
         const SDL_RendererSPtr& _renderer;
 };

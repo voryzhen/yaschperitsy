@@ -40,6 +40,7 @@ add_executable ( yaschperitsy
   src/window.cpp
   src/ui/screen_manager.cpp
   src/ui/settings_screen.cpp
+  src/ui/button.cpp
 
 )
 

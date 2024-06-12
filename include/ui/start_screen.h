@@ -1,10 +1,7 @@
 #pragma once
 
 #include <memory>
-#include <utility>
-
-#include "SDL_surface.h"
-#include "resource_manager.h"
+#include <resource_manager.h>
 
 class StartScreen
 {
@@ -16,7 +13,9 @@ class StartScreen
         void render();
 
     private:
+        bool hover = false;
         TextureSPtr _texture;
+        TextureSPtr _texture_on_hover;
         TTF_FontSPtr _font;
         const SDL_RendererSPtr& _renderer;
 };

@@ -14,11 +14,13 @@ App::App()
     _window = std::make_unique<Window>();
     if (_window->is_initialized())
     {
+        // Initialization
         _renderer = _window->get_renderer();
         _rm = std::make_unique<ResourceManager>(_renderer);
         _ss = std::make_unique<StartScreen>(_rm->get_font("lazy"),
                                             _renderer);
 
+        // Run app
         run_app();
 
         // std::make_unique<Game>(SCREEN_WIDTH,
@@ -51,7 +53,7 @@ void App::handle_events()
     }
 }
 
-void App::update() {}
+void App::update() { _ss->update(); }
 
 void App::render()
 {

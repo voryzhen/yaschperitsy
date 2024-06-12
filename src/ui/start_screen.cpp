@@ -13,14 +13,39 @@ StartScreen::StartScreen(TTF_FontSPtr font,
         SDL_CreateTextureFromSurface(_renderer.get(), text_surface));
 
     SDL_FreeSurface(text_surface);
+
+    _text_color = {0, 100, 200};
+    text_surface =
+        TTF_RenderText_Solid(_font.get(), "StartScreen", _text_color);
+
+    _texture_on_hover = std::make_shared<Texture>(
+        SDL_CreateTextureFromSurface(_renderer.get(), text_surface));
+
+    SDL_FreeSurface(text_surface);
 };
 
-StartScreen::~StartScreen() { SDL_DestroyTexture(_texture->_texture); }
+StartScreen::~StartScreen()
+{
+    SDL_DestroyTexture(_texture->_texture);
+    SDL_DestroyTexture(_texture_on_hover->_texture);
+}
 
-void StartScreen::update() {}
+void StartScreen::update()
+{
+    int x = 0;
+    int y = 0;
+    SDL_GetMouseState(&x, &y);
+
+    SDL_Rect rect1 = {100, 100, _texture->_w, _texture->_h};
+    SDL_Rect rect2 = {x, y, 1, 1};
+
+    hover = SDL_HasIntersection(&rect1, &rect2) == 0u ? false : true;
+}
 
 void StartScreen::render()
 {
     SDL_Rect rect = {100, 100, _texture->_w, _texture->_h};
-    SDL_RenderCopy(_renderer.get(), _texture->_texture, NULL, &rect);
+    const auto& texture =
+        hover ? _texture_on_hover->_texture : _texture->_texture;
+    SDL_RenderCopy(_renderer.get(), texture, NULL, &rect);
 }

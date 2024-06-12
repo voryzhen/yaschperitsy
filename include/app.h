@@ -1,8 +1,9 @@
 #pragma once
 
+#include "SDL_events.h"
 #include "SDL_pixels.h"
 #include <resource_manager.h>
-#include <ui/start_screen.h>
+#include <ui/screen_manager.h>
 #include <window.h>
 
 class App
@@ -23,11 +24,12 @@ class App
         void update();
         void render();
 
+        SDL_Event event{};
         bool is_running = true;
         SDL_Color default_renderer_color = {128, 128, 128, 255};
 
         WindowUPtr _window;
         SDL_RendererSPtr _renderer;
         ResourceManagerUPtr _rm;
-        StartScreenUPtr _ss;
+        ScreenManagerUPtr _sm;
 };

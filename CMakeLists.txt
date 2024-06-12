@@ -38,6 +38,8 @@ add_executable ( yaschperitsy
   src/game/vector2D.cpp
   src/ui/start_screen.cpp
   src/window.cpp
+  src/ui/screen_manager.cpp
+  src/ui/settings_screen.cpp
 
 )
 

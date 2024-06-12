@@ -1,6 +1,7 @@
 #include "SDL_events.h"
 #include "SDL_render.h"
 #include "resource_manager.h"
+#include "ui/screen_manager.h"
 #include "window.h"
 #include <app.h>
 
@@ -17,8 +18,8 @@ App::App()
         // Initialization
         _renderer = _window->get_renderer();
         _rm = std::make_unique<ResourceManager>(_renderer);
-        _ss = std::make_unique<StartScreen>(_rm->get_font("lazy"),
-                                            _renderer);
+        _sm = std::make_unique<ScreenManager>(_rm->get_font("lazy"),
+                                              _renderer);
 
         // Run app
         run_app();
@@ -42,7 +43,6 @@ void App::run_app()
 
 void App::handle_events()
 {
-    SDL_Event event;
     SDL_PollEvent(&event);
     switch (event.type)
     {
@@ -53,7 +53,7 @@ void App::handle_events()
     }
 }
 
-void App::update() { _ss->update(); }
+void App::update() { _sm->update(event); }
 
 void App::render()
 {
@@ -64,7 +64,7 @@ void App::render()
                            default_renderer_color.g,
                            default_renderer_color.b,
                            default_renderer_color.a);
-    _ss->render();
+    _sm->render();
     //  Your stuff ends
 
     SDL_RenderPresent(_renderer.get());

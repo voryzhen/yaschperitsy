@@ -19,10 +19,10 @@ class ScreenManager
         ScreenManager(TTF_FontSPtr font,
                       const SDL_RendererSPtr& _renderer)
             : _font(std::move(font)), _renderer(_renderer),
-              _start_screen(
-                  std::make_unique<StartScreen>(_font, _renderer)),
+              _start_screen(std::make_unique<StartScreen>(
+                  _font, _renderer, (int*)(&_current_screen))),
               _settings_screent(std::make_unique<SettingsScreen>(
-                  _font, _renderer)) {};
+                  _font, _renderer, (int*)(&_current_screen))) {};
         ~ScreenManager() = default;
 
         void update(const SDL_Event& event);

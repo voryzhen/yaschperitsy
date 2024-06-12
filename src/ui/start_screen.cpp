@@ -2,10 +2,14 @@
 #include "ui/button.h"
 #include <memory>
 
+int* StartScreen::_current_screen = nullptr;
+
 StartScreen::StartScreen(TTF_FontSPtr font,
-                         const SDL_RendererSPtr& _renderer)
+                         const SDL_RendererSPtr& _renderer,
+                         int* current_screen)
     : _font(std::move(font)), _renderer(_renderer)
 {
+    _current_screen = current_screen;
     btns.emplace_back(std::make_unique<Button>("New Game", _font,
                                                _renderer, 100, 100));
 
@@ -18,7 +22,10 @@ StartScreen::StartScreen(TTF_FontSPtr font,
 
     btns[1]->add_on_click_listeners(
         []()
-        { std::cout << "outer listener for Settings" << std::endl; });
+        {
+            std::cout << "outer listener for Settings" << std::endl;
+            StartScreen::on_click();
+        });
 
     btns.emplace_back(
         std::make_unique<Button>("Exit", _font, _renderer, 100, 200));
@@ -44,3 +51,5 @@ void StartScreen::render()
         btn->render();
     }
 }
+
+void StartScreen::on_click() { *_current_screen = 1; }

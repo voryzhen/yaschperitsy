@@ -3,6 +3,7 @@
 #include "ui/button.h"
 #include <memory>
 #include <resource_manager.h>
+#include <vector>
 
 class StartScreen
 {
@@ -10,11 +11,11 @@ class StartScreen
         StartScreen(TTF_FontSPtr font,
                     const SDL_RendererSPtr& _renderer);
         ~StartScreen();
-        void update();
+        void update(const SDL_Event& event);
         void render();
 
     private:
-        ButtonUPtr btn;
+        std::vector<ButtonUPtr> btns;
         TTF_FontSPtr _font;
         const SDL_RendererSPtr& _renderer;
 };

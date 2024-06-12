@@ -3,22 +3,13 @@
 
 void ScreenManager::update(const SDL_Event& event)
 {
-    if (event.type == SDL_MOUSEBUTTONDOWN)
-    {
-        _current_screen = SCREENS::settings;
-    }
-    if (event.type == SDL_MOUSEBUTTONUP)
-    {
-        _current_screen = SCREENS::start;
-    }
-
     switch (_current_screen)
     {
     case SCREENS::start:
-        _start_screen->update();
+        _start_screen->update(event);
         break;
     case SCREENS::settings:
-        _settings_screent->update();
+        _settings_screent->update(event);
         break;
     default:
         break;

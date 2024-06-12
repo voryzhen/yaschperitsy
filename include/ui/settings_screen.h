@@ -10,7 +10,7 @@ class SettingsScreen
         SettingsScreen(TTF_FontSPtr font,
                        const SDL_RendererSPtr& _renderer);
         ~SettingsScreen();
-        void update();
+        void update(const SDL_Event& event);
         void render();
 
     private:

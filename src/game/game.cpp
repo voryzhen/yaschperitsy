@@ -15,7 +15,7 @@ void Game::compose_player()
 
 Game::Game(int field_width, int field_height,
            const SDL_RendererPtr& renderer,
-           const ResourceManagerPtr& rm)
+           const ResourceManagerUPtr& rm)
     : _game_field(field_width, field_height), _renderer(renderer),
       _rm(rm), _player(_manager.add_entity("player")),
       _background(std::make_unique<Background>(

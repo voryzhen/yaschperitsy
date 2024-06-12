@@ -10,7 +10,7 @@ class StartScreen
 {
     public:
         StartScreen(TTF_FontSPtr font,
-                    const SDL_RendererPtr& _renderer);
+                    const SDL_RendererSPtr& _renderer);
         ~StartScreen();
         void update();
         void render();
@@ -18,5 +18,7 @@ class StartScreen
     private:
         TextureSPtr _texture;
         TTF_FontSPtr _font;
-        const SDL_RendererPtr& _renderer;
+        const SDL_RendererSPtr& _renderer;
 };
+
+using StartScreenUPtr = std::unique_ptr<StartScreen>;

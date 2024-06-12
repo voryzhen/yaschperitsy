@@ -2,7 +2,7 @@
 #include "SDL_render.h"
 
 StartScreen::StartScreen(TTF_FontSPtr font,
-                         const SDL_RendererPtr& _renderer)
+                         const SDL_RendererSPtr& _renderer)
     : _font(std::move(font)), _renderer(_renderer)
 {
     SDL_Color _text_color{0, 200, 200};

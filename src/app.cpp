@@ -1,3 +1,4 @@
+#include "SDL_events.h"
 #include "SDL_render.h"
 #include "resource_manager.h"
 #include <app.h>
@@ -12,14 +13,57 @@ SDL_RendererPtr App::_renderer =
     SDL_RendererPtr(nullptr, SDL_DestroyRenderer);
 ResourceManagerPtr App::_rm = ResourceManagerPtr(nullptr);
 
+bool App::is_running{true};
+
 App::App()
 {
     if (init_sdl())
     {
-        std::make_unique<Game>(SCREEN_WIDTH, SCREEN_HEIGHT, _renderer,
-                               _rm)
-            ->run_game();
+        ss = std::make_unique<StartScreen>(_rm->get_font("lazy"),
+                                           _renderer);
+        run_app();
+        // std::make_unique<Game>(SCREEN_WIDTH, SCREEN_HEIGHT,
+        // _renderer,
+        //                        _rm)
+        //     ->run_game();
     }
+}
+
+void App::run_app()
+{
+    while (is_running)
+    {
+        handle_events();
+        update();
+        render();
+    }
+}
+
+void App::handle_events()
+{
+    SDL_Event event;
+    SDL_PollEvent(&event);
+    switch (event.type)
+    {
+    case SDL_QUIT:
+        is_running = false;
+    default:
+        break;
+    }
+}
+
+void App::update() {}
+
+void App::render()
+{
+    SDL_RenderClear(_renderer.get());
+
+    // Do your stuff
+    SDL_SetRenderDrawColor(_renderer.get(), 128, 128, 128, 255);
+    ss->render();
+    // Your stuff ends
+
+    SDL_RenderPresent(_renderer.get());
 }
 
 App::~App() { cleanup(); }

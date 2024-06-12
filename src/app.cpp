@@ -2,7 +2,6 @@
 #include "resource_manager.h"
 #include <app.h>
 
-#include "ui/menu.h"
 #include <SDL_image.h>
 #include <SDL_ttf.h>
 #include <cstddef>
@@ -17,11 +16,9 @@ App::App()
 {
     if (init_sdl())
     {
-        std::make_unique<Menu>(_renderer, _rm)->show_menu();
-        // std::make_unique<Game>(SCREEN_WIDTH, SCREEN_HEIGHT,
-        // _renderer,
-        //                        _rm)
-        //     ->run_game();
+        std::make_unique<Game>(SCREEN_WIDTH, SCREEN_HEIGHT, _renderer,
+                               _rm)
+            ->run_game();
     }
 }
 

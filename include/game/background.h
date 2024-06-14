@@ -8,8 +8,8 @@
 #include "SDL_render.h"
 #include "game_parameters.h"
 
-using SDL_RendererPtr =
-    std::unique_ptr<SDL_Renderer, decltype(&SDL_DestroyRenderer)>;
+// using SDL_RendererPtr =
+//   std::unique_ptr<SDL_Renderer, decltype(&SDL_DestroyRenderer)>;
 
 class Background
 {
@@ -22,12 +22,17 @@ class Background
 
         TextureSPtr get_texture() { return _background; }
 
-        void render(const SDL_RendererPtr& renderer)
+        void render(const SDL_RendererSPtr& renderer)
         {
             SDL_Rect dest = {0, 0, _game_field.w, _game_field.h};
             SDL_RenderCopy(renderer.get(), _background->_texture, NULL,
                            &dest);
             // make explosions
+        }
+
+        void set_game_field(const GameField& game_field)
+        {
+            _game_field = game_field;
         }
 
     private:

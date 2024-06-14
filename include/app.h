@@ -1,37 +1,35 @@
 #pragma once
 
-#include "SDL_video.h"
-#include <memory>
-#include <string_view>
-
-#include <game.h>
-
-using SDL_WindowPtr =
-    std::unique_ptr<SDL_Window, decltype(&SDL_DestroyWindow)>;
-
-using SDL_RendererPtr =
-    std::unique_ptr<SDL_Renderer, decltype(&SDL_DestroyRenderer)>;
+#include "SDL_events.h"
+#include "SDL_pixels.h"
+#include <resource_manager.h>
+#include <ui/screen_manager.h>
+#include <window.h>
 
 class App
 {
     public:
         App();
-        ~App();
+
+        ~App() {}
 
         App(const App&) = delete;
+        App(const App&&) = delete;
         App& operator=(const App&) = delete;
+        App& operator=(const App&&) = delete;
 
     private:
-        static bool init_sdl();
-        static void cleanup();
+        void run_app();
+        void handle_events();
+        void update();
+        void render();
 
-        static SDL_WindowPtr _window;
-        static SDL_RendererPtr _renderer;
+        SDL_Event event{};
+        bool is_running = true;
+        SDL_Color default_renderer_color = {28, 28, 28, 255};
 
-        static constexpr int SCREEN_WIDTH{1280};
-        static constexpr int SCREEN_HEIGHT{720};
-        static constexpr std::string_view title = "Ящперицы";
-
-        static constexpr int _renderer_flags{SDL_RENDERER_ACCELERATED};
-        static constexpr int _window_flags{0};
+        WindowUPtr _window;
+        SDL_RendererSPtr _renderer;
+        ResourceManagerUPtr _rm;
+        ScreenManagerUPtr _sm;
 };

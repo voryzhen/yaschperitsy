@@ -1,79 +1,94 @@
+#include "SDL_events.h"
 #include "SDL_render.h"
+#include "resource_manager.h"
+#include "ui/screen_manager.h"
+#include "window.h"
 #include <app.h>
 
 #include <SDL_image.h>
 #include <SDL_ttf.h>
-
-SDL_WindowPtr App::_window = SDL_WindowPtr(nullptr, SDL_DestroyWindow);
-SDL_RendererPtr App::_renderer =
-    SDL_RendererPtr(nullptr, SDL_DestroyRenderer);
+#include <cstddef>
+#include <memory>
 
 App::App()
 {
-    if (init_sdl())
+    _window = std::make_unique<Window>();
+    if (_window->is_initialized())
     {
-        std::make_unique<Game>(SCREEN_WIDTH, SCREEN_HEIGHT, _renderer)
-            ->run_game();
+        // Initialization
+        _renderer = _window->get_renderer();
+        _rm = std::make_unique<ResourceManager>(_renderer);
+        _sm = std::make_unique<ScreenManager>(_rm, _renderer);
+
+        // Run app
+        run_app();
+
+        // std::make_unique<Game>(SCREEN_WIDTH,
+        // SCREEN_HEIGHT, _renderer,
+        //                        _rm)
+        //     ->run_game();
     }
 }
 
-App::~App() { cleanup(); }
-
-bool App::init_sdl()
+void App::run_app()
 {
-    if (SDL_Init(SDL_INIT_VIDEO) < 0)
+
+    Uint32 frame_start{0};
+    Uint32 frame_time{0};
+
+    unsigned char _fps = 60;
+    unsigned char _frame_delay = 1000 / _fps;
+
+    while (is_running)
     {
-        printf("Couldn't initialize SDL: %s\n", SDL_GetError());
-        return false;
+        frame_start = SDL_GetTicks();
+
+        handle_events();
+        update();
+        render();
+
+        frame_time = SDL_GetTicks() - frame_start;
+
+        if (_frame_delay > frame_time)
+        {
+            SDL_Delay(_frame_delay - frame_time);
+        }
     }
-
-    if (IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG) < 0)
-    {
-        printf("Couldn't initialize SDL Image: %s\n", SDL_GetError());
-        return false;
-    }
-
-    // NOLINTBEGIN(hicpp-signed-bitwise)
-    _window.reset(SDL_CreateWindow(
-        title.data(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-        SCREEN_WIDTH, SCREEN_HEIGHT, _window_flags));
-    // NOLINTEND(hicpp-signed-bitwise)
-
-    if (_window == nullptr)
-    {
-        printf("Failed to open %d x %d window: %s\n", SCREEN_WIDTH,
-               SCREEN_HEIGHT, SDL_GetError());
-        return false;
-    }
-
-    SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
-
-    _renderer.reset(
-        SDL_CreateRenderer(_window.get(), -1, _renderer_flags));
-
-    if (_renderer == nullptr)
-    {
-        printf("Failed to create renderer: %s\n", SDL_GetError());
-        return false;
-    }
-
-    SDL_SetRenderDrawColor(_renderer.get(), 255, 255, 255, 255);
-
-    // Initialize SDL_ttf
-    if (TTF_Init() == -1)
-    {
-        printf("SDL_ttf could not initialize! SDL_ttf Error: %s\n",
-               TTF_GetError());
-        return false;
-    }
-
-    return true;
 }
 
-void App::cleanup()
+void App::handle_events()
 {
-    // Clean up
-    TTF_Quit();
-    IMG_Quit();
-    SDL_Quit();
+    SDL_PollEvent(&event);
+    switch (event.type)
+    {
+    case SDL_QUIT:
+        is_running = false;
+    default:
+        break;
+    }
+    _sm->handle_events(event);
+}
+
+void App::update()
+{
+    auto res = _sm->update(event);
+    if (res == -1)
+    {
+        is_running = false;
+    }
+}
+
+void App::render()
+{
+    SDL_RenderClear(_renderer.get());
+
+    // Do your stuff
+    SDL_SetRenderDrawColor(_renderer.get(), default_renderer_color.r,
+                           default_renderer_color.g,
+                           default_renderer_color.b,
+                           default_renderer_color.a);
+    _sm->render();
+    //  Your stuff ends
+
+    SDL_RenderPresent(_renderer.get());
 }

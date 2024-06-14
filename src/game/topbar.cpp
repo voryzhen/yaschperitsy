@@ -1,8 +1,8 @@
-#include "topbar.h"
+#include "game/topbar.h"
 #include "SDL_ttf.h"
 #include <string>
 
-void Topbar::render(const SDL_RendererPtr& renderer)
+void Topbar::render(const SDL_RendererSPtr& renderer)
 {
     render_text(renderer,
                 "Total Score: " + std::to_string(_stat->_score), 5, 5);
@@ -11,7 +11,7 @@ void Topbar::render(const SDL_RendererPtr& renderer)
                 5);
 }
 
-void Topbar::render_text(const SDL_RendererPtr& renderer,
+void Topbar::render_text(const SDL_RendererSPtr& renderer,
                          const std::string& text, int x, int y)
 {
     SDL_Surface* text_surface =

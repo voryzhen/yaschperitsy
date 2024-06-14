@@ -1,57 +1,56 @@
-#include <game.h>
+#include <game/game.h>
 
-#include "utility.h"
-#include "vector2D.h"
+#include "SDL_render.h"
+#include "SDL_video.h"
+#include "game/utility.h"
+#include "game/vector2D.h"
 
 void Game::compose_player()
 {
     _player.add_component<TransformComponent>(
         100, 100, _game_settings._player_speed);
-    _player.add_component<SpriteComponent>(_rm.get_texture("player"));
+    _player.add_component<SpriteComponent>(_rm->get_texture("player"));
     _player.add_component<KeyboardController>();
     _player.add_component<MouseController>();
     _player.add_component<FireReloadComponent>(8);
 }
 
-Game::Game(int field_width, int field_height,
-           const SDL_RendererPtr& renderer)
-    : _game_field(field_width, field_height), _renderer(renderer),
-      _rm(_renderer), _player(_manager.add_entity("player")),
+Game::Game(const SDL_RendererSPtr& renderer,
+           const ResourceManagerUPtr& rm)
+    : _renderer(renderer), _rm(rm),
+      _player(_manager.add_entity("player")),
       _background(std::make_unique<Background>(
-          _rm.get_texture("background"), _game_field)),
-      _topbar(std::make_unique<Topbar>(_rm.get_font("lazy"), _stat))
+          _rm->get_texture("background"), _game_field)),
+      _topbar(std::make_unique<Topbar>(_rm->get_font("lazy"), _stat))
 
 {
+
+    auto win = SDL_RenderGetWindow(_renderer.get());
+    int h{0};
+    int w{0};
+    SDL_GetWindowSize(win, &w, &h);
+    _game_field = GameField(w, h);
+    _background->set_game_field(_game_field);
+
     compose_player();
 }
 
 int Game::run_game()
 {
-    Uint32 frame_start{0};
-    Uint32 frame_time{0};
-
     while (!_quit)
     {
-        frame_start = SDL_GetTicks();
-
-        handle_events();
-        update();
-        render();
-
-        frame_time = SDL_GetTicks() - frame_start;
-
-        if (_frame_delay > frame_time)
-        {
-            SDL_Delay(_frame_delay - frame_time);
-        }
+        // handle_events(e);
+        // update();
+        // render();
     }
 
     return 0;
 }
 
-void Game::handle_events()
+void Game::handle_events(const SDL_Event& event)
 {
-    SDL_PollEvent(&_event);
+    // SDL_PollEvent(&_event);
+    _event = event;
     switch (_event.type)
     {
     case SDL_QUIT:
@@ -75,14 +74,14 @@ void Game::update()
 
 void Game::render()
 {
-    SDL_RenderClear(_renderer.get());
+    // SDL_RenderClear(_renderer.get());
 
     _background->render(_renderer);
     _manager.render(_renderer);
 
     _topbar->render(_renderer);
 
-    SDL_RenderPresent(_renderer.get());
+    // SDL_RenderPresent(_renderer.get());
 }
 
 void Game::game_update_enemies()
@@ -98,7 +97,7 @@ void Game::spawn_enemies()
         auto& enemy = _manager.add_entity("enemy");
         enemy.add_component<TransformComponent>(
             _game_field.w, 0, _game_settings._enemy_speed);
-        enemy.add_component<SpriteComponent>(_rm.get_texture("enemy"));
+        enemy.add_component<SpriteComponent>(_rm->get_texture("enemy"));
 
         const auto enemy_rect =
             enemy.get_component<SpriteComponent>()->get_texture_rect();
@@ -134,7 +133,7 @@ void Game::fire_enemies()
             bullet.add_component<TransformComponent>(
                 trasnsform_component.x(), trasnsform_component.y());
             bullet.add_component<SpriteComponent>(
-                _rm.get_texture("enemy_bullet"));
+                _rm->get_texture("enemy_bullet"));
             bullet.get_component<TransformComponent>()->set_velocity(
                 Vector2D{-1, 0} * (_game_settings._bullet_speed));
         }
@@ -184,7 +183,7 @@ void Game::game_update_player()
             bullet.add_component<TransformComponent>(
                 pos.x() + 80, pos.y(), trasnsform_component->angle());
             bullet.add_component<SpriteComponent>(
-                _rm.get_texture("player_bullet"));
+                _rm->get_texture("player_bullet"));
 
             bullet.get_component<TransformComponent>()->set_velocity(
                 trasnsform_component->direction() *

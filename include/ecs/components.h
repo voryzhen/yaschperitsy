@@ -7,8 +7,8 @@
 #include "SDL_render.h"
 #include "ecs/component.h"
 #include "ecs/entity.h"
+#include "game/vector2D.h"
 #include "resource_manager.h"
-#include "vector2D.h"
 #include <cmath>
 #include <cstddef>
 #include <cstdint>
@@ -114,7 +114,7 @@ class SpriteComponent : public Component
             _dest_rect.y = static_cast<int>(_position->position().y());
         }
 
-        void render(const SDL_RendererPtr& renderer) override
+        void render(const SDL_RendererSPtr& renderer) override
         {
             // SDL_RenderCopy(renderer, _texture._texture, &_src_rect,
             //              &_dest_rect);

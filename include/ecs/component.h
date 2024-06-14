@@ -2,6 +2,7 @@
 
 #include "SDL_events.h"
 #include "SDL_render.h"
+#include "window.h"
 #include <array>
 #include <bitset>
 
@@ -24,8 +25,8 @@ constexpr std::size_t max_components = 32;
 
 class Entity;
 
-using SDL_RendererPtr =
-    std::unique_ptr<SDL_Renderer, decltype(&SDL_DestroyRenderer)>;
+// using SDL_RendererSPtr =
+// std::unique_ptr<SDL_Renderer, decltype(&SDL_DestroyRenderer)>;
 
 class Component
 {
@@ -43,7 +44,7 @@ class Component
 
         virtual void update(const SDL_Event& event) {}
 
-        virtual void render(const SDL_RendererPtr& renderer) {}
+        virtual void render(const SDL_RendererSPtr& renderer) {}
 
         virtual ~Component() {}
 };

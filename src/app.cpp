@@ -53,7 +53,14 @@ void App::handle_events()
     }
 }
 
-void App::update() { _sm->update(event); }
+void App::update()
+{
+    auto res = _sm->update(event);
+    if (res == -1)
+    {
+        is_running = false;
+    }
+}
 
 void App::render()
 {

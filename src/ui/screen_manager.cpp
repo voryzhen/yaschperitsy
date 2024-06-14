@@ -1,7 +1,7 @@
 #include "SDL_events.h"
 #include <ui/screen_manager.h>
 
-void ScreenManager::update(const SDL_Event& event)
+int ScreenManager::update(const SDL_Event& event)
 {
     switch (_current_screen)
     {
@@ -11,9 +11,13 @@ void ScreenManager::update(const SDL_Event& event)
     case SCREENS::settings:
         _settings_screent->update(event);
         break;
+    case SCREENS::exit:
+        return -1;
+        break;
     default:
         break;
     }
+    return 0;
 }
 
 void ScreenManager::render()

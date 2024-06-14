@@ -10,7 +10,8 @@
 enum class SCREENS
 {
     start,
-    settings
+    settings,
+    exit
 };
 
 class ScreenManager
@@ -25,7 +26,7 @@ class ScreenManager
                   _font, _renderer, (int*)(&_current_screen))) {};
         ~ScreenManager() = default;
 
-        void update(const SDL_Event& event);
+        int update(const SDL_Event& event);
 
         void render();
 

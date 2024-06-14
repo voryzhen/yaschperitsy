@@ -26,7 +26,7 @@ class App
 
         SDL_Event event{};
         bool is_running = true;
-        SDL_Color default_renderer_color = {128, 128, 128, 255};
+        SDL_Color default_renderer_color = {28, 28, 28, 255};
 
         WindowUPtr _window;
         SDL_RendererSPtr _renderer;

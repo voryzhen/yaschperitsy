@@ -83,10 +83,10 @@ void App::render()
     SDL_RenderClear(_renderer.get());
 
     // Do your stuff
-    // SDL_SetRenderDrawColor(_renderer.get(), default_renderer_color.r,
-    //                        default_renderer_color.g,
-    //                        default_renderer_color.b,
-    //                        default_renderer_color.a);
+    SDL_SetRenderDrawColor(_renderer.get(), default_renderer_color.r,
+                           default_renderer_color.g,
+                           default_renderer_color.b,
+                           default_renderer_color.a);
     _sm->render();
     //  Your stuff ends
 

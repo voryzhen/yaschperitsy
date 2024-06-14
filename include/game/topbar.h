@@ -12,8 +12,8 @@
 #include "game_parameters.h"
 #include <memory>
 
-using SDL_RendererPtr =
-    std::unique_ptr<SDL_Renderer, decltype(&SDL_DestroyRenderer)>;
+// using SDL_RendererPtr =
+// std::unique_ptr<SDL_Renderer, decltype(&SDL_DestroyRenderer)>;
 
 class Topbar
 {
@@ -24,10 +24,10 @@ class Topbar
         {
         }
 
-        void render(const SDL_RendererPtr& renderer);
+        void render(const SDL_RendererSPtr& renderer);
 
     private:
-        void render_text(const SDL_RendererPtr& renderer,
+        void render_text(const SDL_RendererSPtr& renderer,
                          const std::string& text, int x, int y);
 
         SDL_Color _text_color{0, 200, 200};

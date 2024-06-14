@@ -18,8 +18,7 @@ App::App()
         // Initialization
         _renderer = _window->get_renderer();
         _rm = std::make_unique<ResourceManager>(_renderer);
-        _sm = std::make_unique<ScreenManager>(_rm->get_font("lazy"),
-                                              _renderer);
+        _sm = std::make_unique<ScreenManager>(_rm, _renderer);
 
         // Run app
         run_app();
@@ -33,11 +32,27 @@ App::App()
 
 void App::run_app()
 {
+
+    Uint32 frame_start{0};
+    Uint32 frame_time{0};
+
+    unsigned char _fps = 60;
+    unsigned char _frame_delay = 1000 / _fps;
+
     while (is_running)
     {
+        frame_start = SDL_GetTicks();
+
         handle_events();
         update();
         render();
+
+        frame_time = SDL_GetTicks() - frame_start;
+
+        if (_frame_delay > frame_time)
+        {
+            SDL_Delay(_frame_delay - frame_time);
+        }
     }
 }
 
@@ -51,6 +66,7 @@ void App::handle_events()
     default:
         break;
     }
+    _sm->handle_events(event);
 }
 
 void App::update()
@@ -67,10 +83,10 @@ void App::render()
     SDL_RenderClear(_renderer.get());
 
     // Do your stuff
-    SDL_SetRenderDrawColor(_renderer.get(), default_renderer_color.r,
-                           default_renderer_color.g,
-                           default_renderer_color.b,
-                           default_renderer_color.a);
+    // SDL_SetRenderDrawColor(_renderer.get(), default_renderer_color.r,
+    //                        default_renderer_color.g,
+    //                        default_renderer_color.b,
+    //                        default_renderer_color.a);
     _sm->render();
     //  Your stuff ends
 

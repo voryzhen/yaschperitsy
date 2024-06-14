@@ -3,6 +3,7 @@
 #include <cstdint>
 #include <memory>
 
+#include "SDL_events.h"
 #include "background.h"
 #include "ecs/ecs.h"
 #include "game_parameters.h"
@@ -10,14 +11,13 @@
 #include "topbar.h"
 #include <SDL.h>
 
-using SDL_RendererPtr =
-    std::unique_ptr<SDL_Renderer, decltype(&SDL_DestroyRenderer)>;
+// using SDL_RendererSPtr =
+//    std::unique_ptr<SDL_Renderer, decltype(&SDL_DestroyRenderer)>;
 
 class Game
 {
     public:
-        Game(int field_width, int field_height,
-             const SDL_RendererPtr& renderer,
+        Game(const SDL_RendererSPtr& renderer,
              const ResourceManagerUPtr& rm);
 
         Game(const Game&) = delete;
@@ -29,12 +29,12 @@ class Game
 
         ~Game() {}
 
-    private:
         // Main logic
-        void handle_events();
+        void handle_events(const SDL_Event& event);
         void update();
         void render();
 
+    private:
         // Enemies logic
         void game_update_enemies();
         void spawn_enemies();
@@ -62,7 +62,7 @@ class Game
         SDL_Event _event{};
         Manager _manager{};
 
-        const SDL_RendererPtr& _renderer;
+        const SDL_RendererSPtr& _renderer;
         const ResourceManagerUPtr& _rm;
 
         Entity& _player;

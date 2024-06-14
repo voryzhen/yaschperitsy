@@ -5,7 +5,7 @@ int* SettingsScreen::_current_screen = nullptr;
 
 void on_click_start_screen_new_game()
 {
-    *StartScreen::_current_screen = 0;
+    *StartScreen::_current_screen = 3;
 }
 
 void on_click_start_screen_settings()

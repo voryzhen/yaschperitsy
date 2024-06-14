@@ -1,5 +1,7 @@
 #include <game/game.h>
 
+#include "SDL_render.h"
+#include "SDL_video.h"
 #include "game/utility.h"
 #include "game/vector2D.h"
 
@@ -13,46 +15,42 @@ void Game::compose_player()
     _player.add_component<FireReloadComponent>(8);
 }
 
-Game::Game(int field_width, int field_height,
-           const SDL_RendererPtr& renderer,
+Game::Game(const SDL_RendererSPtr& renderer,
            const ResourceManagerUPtr& rm)
-    : _game_field(field_width, field_height), _renderer(renderer),
-      _rm(rm), _player(_manager.add_entity("player")),
+    : _renderer(renderer), _rm(rm),
+      _player(_manager.add_entity("player")),
       _background(std::make_unique<Background>(
           _rm->get_texture("background"), _game_field)),
       _topbar(std::make_unique<Topbar>(_rm->get_font("lazy"), _stat))
 
 {
+
+    auto win = SDL_RenderGetWindow(_renderer.get());
+    int h{0};
+    int w{0};
+    SDL_GetWindowSize(win, &w, &h);
+    _game_field = GameField(w, h);
+    _background->set_game_field(_game_field);
+
     compose_player();
 }
 
 int Game::run_game()
 {
-    Uint32 frame_start{0};
-    Uint32 frame_time{0};
-
     while (!_quit)
     {
-        frame_start = SDL_GetTicks();
-
-        handle_events();
-        update();
-        render();
-
-        frame_time = SDL_GetTicks() - frame_start;
-
-        if (_frame_delay > frame_time)
-        {
-            SDL_Delay(_frame_delay - frame_time);
-        }
+        // handle_events(e);
+        // update();
+        // render();
     }
 
     return 0;
 }
 
-void Game::handle_events()
+void Game::handle_events(const SDL_Event& event)
 {
-    SDL_PollEvent(&_event);
+    // SDL_PollEvent(&_event);
+    _event = event;
     switch (_event.type)
     {
     case SDL_QUIT:
@@ -76,14 +74,14 @@ void Game::update()
 
 void Game::render()
 {
-    SDL_RenderClear(_renderer.get());
+    // SDL_RenderClear(_renderer.get());
 
     _background->render(_renderer);
     _manager.render(_renderer);
 
     _topbar->render(_renderer);
 
-    SDL_RenderPresent(_renderer.get());
+    // SDL_RenderPresent(_renderer.get());
 }
 
 void Game::game_update_enemies()

@@ -4,8 +4,8 @@
 #include <utility>
 
 #include "resource_manager.h"
-#include "start_screen.h"
-#include "ui/settings_screen.h"
+#include "screens.h"
+// #include "ui/settings_screen.h"
 
 enum class SCREENS
 {

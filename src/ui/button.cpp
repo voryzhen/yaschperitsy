@@ -1,6 +1,5 @@
 #include "ui/button.h"
 #include "SDL_events.h"
-#include <iostream>
 
 Button::Button(std::string_view text, TTF_FontSPtr font,
                const SDL_RendererSPtr& _renderer, int x, int y)

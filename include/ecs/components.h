@@ -128,7 +128,8 @@ class SpriteComponent : public Component
                 // multiple sprite in one source
                 // But I just will flip
                 // Frames must be equals 2
-                _flip = (SDL_GetTicks() / _speed) % _frames;
+                _flip = static_cast<bool>((SDL_GetTicks() / _speed) %
+                                          _frames);
             }
             _dest_rect.x = static_cast<int>(_position->position().x());
             _dest_rect.y = static_cast<int>(_position->position().y());

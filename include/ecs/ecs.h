@@ -1,16 +1,10 @@
 #pragma once
 
 #include "SDL_events.h"
-#include "SDL_render.h"
 #include "ecs/components.h"
 #include <algorithm>
-#include <array>
-#include <bitset>
 #include <iostream>
-#include <memory>
-#include <string>
 #include <string_view>
-#include <utility>
 #include <vector>
 
 namespace yaschperitsy::ecs
@@ -37,48 +31,37 @@ class Manager
 
         void refresh()
         {
-            _entities.erase(std::remove_if(_entities.begin(),
-                                           _entities.end(),
-                                           [](const auto& e)
-                                           { return !e->is_active(); }),
-                            _entities.end());
+            const auto& remove_it = std::remove_if(
+                _entities.begin(), _entities.end(),
+                [](const auto& e) { return !e->is_active(); });
+
+            _entities.erase(remove_it, _entities.end());
         }
 
         Entity& add_entity(const std::string_view& name = "")
         {
-            auto e = new Entity(name);
-            std::unique_ptr<Entity> u_e(e);
-            _entities.emplace_back(std::move(u_e));
-            return *e;
+            _entities.emplace_back(new Entity(name));
+            return *_entities.back().get();
         }
 
-        std::vector<Entity*>
+        std::vector<EntitySPtr>
         get_entities_by_name(const std::string& name)
         {
-            std::vector<Entity*> res;
-            for (const auto& e : _entities)
-            {
-                if (e->_name == name)
-                {
-                    res.push_back(e.get());
-                }
-            }
+            std::vector<EntitySPtr> res;
+            std::copy_if(_entities.begin(), _entities.end(),
+                         std::back_inserter(res),
+                         [&](const EntitySPtr& e)
+                         { return e->_name == name; });
             return res;
         }
 
-        std::vector<Entity*> get_entities()
+        const std::vector<EntitySPtr>& get_entities() const
         {
-            std::vector<Entity*> res;
-            res.reserve(_entities.size());
-            for (const auto& e : _entities)
-            {
-                res.push_back(e.get());
-            }
-            return res;
+            return _entities;
         }
 
     private:
-        std::vector<std::unique_ptr<Entity>> _entities;
+        std::vector<EntitySPtr> _entities;
 };
 
 }; // namespace yaschperitsy::ecs

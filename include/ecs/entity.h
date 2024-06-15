@@ -70,4 +70,7 @@ class Entity
         ComponentBitSet _component_bitset;
 };
 
+using EntitySPtr = std::shared_ptr<Entity>;
+// using EntityWPtr = std::weak_ptr<Entity>;
+
 }; // namespace yaschperitsy::ecs

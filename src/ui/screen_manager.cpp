@@ -1,18 +1,18 @@
 #include "SDL_events.h"
 #include <ui/screen_manager.h>
 
-int ScreenManager::update(const SDL_Event& event)
+int ScreenManager::update()
 {
     switch (_current_screen)
     {
     case SCREENS::start:
-        _start_screen->update(event);
+        _start_screen->update();
         break;
     case SCREENS::settings:
-        _settings_screent->update(event);
+        _settings_screent->update();
         break;
     case SCREENS::play:
-        _play_screen->update(event);
+        _play_screen->update();
         break;
     case SCREENS::exit:
         return -1;

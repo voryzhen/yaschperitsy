@@ -7,7 +7,7 @@ BaseScreen::BaseScreen(const ResourceManagerUPtr& rm,
 
 BaseScreen::~BaseScreen() {}
 
-void BaseScreen::update(const SDL_Event& event) {}
+void BaseScreen::update() {}
 
 void BaseScreen::handle_events(const SDL_Event& event) {}
 

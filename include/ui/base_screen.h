@@ -9,7 +9,7 @@ class BaseScreen
     public:
         BaseScreen(const ResourceManagerUPtr& rm, int* current_screen);
         virtual ~BaseScreen();
-        virtual void update(const SDL_Event& event);
+        virtual void update();
         virtual void render(const SDL_RendererUPtr& _renderer);
         virtual void handle_events(const SDL_Event& event);
 

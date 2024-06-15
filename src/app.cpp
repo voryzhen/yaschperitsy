@@ -9,13 +9,16 @@
 #include <cstddef>
 #include <memory>
 
+namespace
+{
+SDL_Color default_renderer_color = {28, 28, 28, 255};
+};
+
 App::App()
 {
     _window = std::make_unique<Window>();
     if (_window->is_initialized())
     {
-        // Initialization
-        //_renderer = _window->get_renderer();
         _rm =
             std::make_unique<ResourceManager>(_window->get_renderer());
         _sm = std::make_unique<ScreenManager>(_rm);
@@ -64,7 +67,7 @@ void App::handle_events()
 
 void App::update()
 {
-    auto res = _sm->update(event);
+    auto res = _sm->update();
     if (res == -1)
     {
         is_running = false;
@@ -80,6 +83,7 @@ void App::render()
         _window->get_renderer().get(), default_renderer_color.r,
         default_renderer_color.g, default_renderer_color.b,
         default_renderer_color.a);
+
     _sm->render(_window->get_renderer());
     //  Your stuff ends
 

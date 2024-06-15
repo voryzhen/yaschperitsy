@@ -28,7 +28,7 @@ class ScreenManager
                   _rm, (int*)(&_current_screen))){};
         ~ScreenManager() = default;
 
-        int update(const SDL_Event& event);
+        int update();
         void handle_events(const SDL_Event& event);
         void render(const SDL_RendererUPtr& renderer);
 

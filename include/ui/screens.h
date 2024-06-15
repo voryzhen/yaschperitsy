@@ -41,11 +41,11 @@ class StartScreen : public BaseScreen
             btns[2]->add_on_click_listeners(on_click_start_screen_exit);
         }
 
-        void update(const SDL_Event& event) override
+        void update() override
         {
             for (auto& btn : btns)
             {
-                btn->update(event);
+                btn->update();
             }
         }
 
@@ -57,7 +57,13 @@ class StartScreen : public BaseScreen
             }
         }
 
-        void handle_events(const SDL_Event& event) override {}
+        void handle_events(const SDL_Event& event) override
+        {
+            for (auto& btn : btns)
+            {
+                btn->handle_event(event);
+            }
+        }
 
         // void on_click() override { *_current_screen = 1; }
 
@@ -92,11 +98,11 @@ class SettingsScreen : public BaseScreen
 
         // void on_click() override { *_current_screen = 0; }
 
-        void update(const SDL_Event& event) override
+        void update() override
         {
             for (auto& btn : btns)
             {
-                btn->update(event);
+                btn->update();
             }
         }
 
@@ -108,7 +114,13 @@ class SettingsScreen : public BaseScreen
             }
         }
 
-        void handle_events(const SDL_Event& event) override {}
+        void handle_events(const SDL_Event& event) override
+        {
+            for (auto& btn : btns)
+            {
+                btn->handle_event(event);
+            }
+        }
 
     private:
         std::vector<ButtonUPtr> btns;
@@ -133,10 +145,7 @@ class PlayScreen : public BaseScreen
             _game->handle_events(event);
         }
 
-        void update(const SDL_Event& event) override
-        {
-            _game->update();
-        }
+        void update() override { _game->update(); }
 
         void render(const SDL_RendererUPtr& _renderer) override
         {

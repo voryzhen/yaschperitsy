@@ -13,10 +13,11 @@ class Button
         {
         }
 
-        ~Button();
+        ~Button() {}
 
-        void update(const SDL_Event& event);
+        void update();
         void render(const SDL_RendererUPtr& renderer);
+        void handle_event(const SDL_Event& event);
 
         void add_on_click_listeners(void (*listener)())
         {

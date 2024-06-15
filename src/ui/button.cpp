@@ -1,18 +1,9 @@
 #include "ui/button.h"
 #include "SDL_events.h"
 
-// Button::Button(std::string_view text, TTF_FontSPtr font, int x, int
-// y) : _x(x), _y(y), _font(std::move(font))
-// {
-// }
+void Button::update() {}
 
-Button::~Button()
-{
-    // SDL_DestroyTexture(_texture->_texture);
-    // SDL_DestroyTexture(_texture_on_hover->_texture);
-}
-
-void Button::update(const SDL_Event& event)
+void Button::handle_event(const SDL_Event& event)
 {
     int x = 0;
     int y = 0;

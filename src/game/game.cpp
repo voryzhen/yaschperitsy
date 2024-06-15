@@ -83,8 +83,12 @@ void Game::spawn_enemies()
         auto& enemy = _manager.add_entity("enemy");
         enemy.add_component<ecs::TransformComponent>(
             _game_field.w, 0, _game_settings._enemy_speed);
+
+        // Enemy texture randomizer
+        const auto random = get_random<int>(2);
+        const auto name = (random == 1) ? "enemy" : "enemy2";
         enemy.add_component<ecs::SpriteComponent>(
-            _rm->get_texture("enemy"));
+            _rm->get_texture(name), 2, 100);
 
         const auto enemy_rect =
             enemy.get_component<ecs::SpriteComponent>()

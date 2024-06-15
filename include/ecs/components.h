@@ -5,6 +5,7 @@
 #include "SDL_mouse.h"
 #include "SDL_rect.h"
 #include "SDL_render.h"
+#include "SDL_timer.h"
 #include "ecs/component.h"
 #include "ecs/entity.h"
 #include "game/vector2D.h"
@@ -98,6 +99,13 @@ class SpriteComponent : public Component
         {
         }
 
+        SpriteComponent(resource::TextureSPtr texture, int frames,
+                        int speed)
+            : _texture(std::move(texture)), _animated(true),
+              _frames(frames), _speed(speed)
+        {
+        }
+
         void init() override
         {
             _position = owner->get_component<TransformComponent>();
@@ -113,18 +121,25 @@ class SpriteComponent : public Component
 
         void update(const SDL_Event& /*e*/) override
         {
+            if (_animated)
+            {
+                // TODO:
+                // Here I should update _dest_rect as soon as I have
+                // multiple sprite in one source
+                // But I just will flip
+                // Frames must be equals 2
+                _flip = (SDL_GetTicks() / _speed) % _frames;
+            }
             _dest_rect.x = static_cast<int>(_position->position().x());
             _dest_rect.y = static_cast<int>(_position->position().y());
         }
 
         void render(const app::SDL_RendererUPtr& renderer) override
         {
-            // SDL_RenderCopy(renderer, _texture._texture, &_src_rect,
-            //              &_dest_rect);
             SDL_RenderCopyEx(renderer.get(), _texture->_texture,
                              &_src_rect, &_dest_rect,
                              _position->angle(), nullptr,
-                             SDL_FLIP_NONE);
+                             _flip ? SDL_FLIP_NONE : SDL_FLIP_VERTICAL);
         }
 
         SDL_Rect get_texture_rect()
@@ -144,6 +159,11 @@ class SpriteComponent : public Component
         resource::TextureSPtr _texture;
         SDL_Rect _src_rect{0, 0, 0, 0};
         SDL_Rect _dest_rect{0, 0, 0, 0};
+
+        bool _animated = false;
+        bool _flip = true;
+        int _frames = 2;
+        int _speed = 100;
 };
 
 class KeyboardController : public Component
@@ -282,7 +302,7 @@ class FireReloadComponent : public Component
 {
     public:
         FireReloadComponent() = default;
-        FireReloadComponent(std::int8_t reload) : _reload(reload){};
+        FireReloadComponent(std::int8_t reload) : _reload(reload) {};
 
         void update(const SDL_Event& /*e*/) override
         {

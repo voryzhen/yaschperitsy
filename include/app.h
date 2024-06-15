@@ -33,7 +33,7 @@ class App
 
         WindowUPtr _window;
         resource::ResourceManagerUPtr _rm;
-        ScreenManagerUPtr _sm;
+        ui::ScreenManagerUPtr _sm;
 };
 
 } // namespace yaschperitsy::app

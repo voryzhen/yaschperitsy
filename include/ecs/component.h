@@ -6,7 +6,7 @@
 #include <array>
 #include <bitset>
 
-namespace yaschperitsy::app
+namespace yaschperitsy::ecs
 {
 
 using ComponentID = std::size_t;
@@ -47,7 +47,7 @@ class Component
 
         virtual void update(const SDL_Event& event) {}
 
-        virtual void render(const SDL_RendererUPtr& renderer) {}
+        virtual void render(const app::SDL_RendererUPtr& renderer) {}
 
         virtual ~Component() {}
 };
@@ -55,4 +55,4 @@ class Component
 using ComponentBitSet = std::bitset<max_components>;
 using ComponentArray = std::array<Component*, max_components>;
 
-}; // namespace yaschperitsy::app
+}; // namespace yaschperitsy::ecs

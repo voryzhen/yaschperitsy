@@ -1,7 +1,7 @@
 #include "SDL_events.h"
 #include <ui/screen_manager.h>
 
-namespace yaschperitsy::app
+namespace yaschperitsy::ui
 {
 
 int ScreenManager::update()
@@ -26,7 +26,7 @@ int ScreenManager::update()
     return 0;
 }
 
-void ScreenManager::render(const SDL_RendererUPtr& renderer)
+void ScreenManager::render(const app::SDL_RendererUPtr& renderer)
 {
     switch (_current_screen)
     {
@@ -62,4 +62,4 @@ void ScreenManager::handle_events(const SDL_Event& event)
     }
 }
 
-}; // namespace yaschperitsy::app
+}; // namespace yaschperitsy::ui

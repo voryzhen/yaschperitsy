@@ -5,7 +5,7 @@
 #include <string_view>
 #include <vector>
 
-namespace yaschperitsy::app
+namespace yaschperitsy::ui
 {
 
 class Button
@@ -43,4 +43,4 @@ class Button
 
 using ButtonUPtr = std::unique_ptr<Button>;
 
-}; // namespace yaschperitsy::app
+}; // namespace yaschperitsy::ui

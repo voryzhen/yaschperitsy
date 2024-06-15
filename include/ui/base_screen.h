@@ -4,7 +4,7 @@
 #include <memory>
 #include <resource_manager.h>
 
-namespace yaschperitsy::app
+namespace yaschperitsy::ui
 {
 
 class BaseScreen
@@ -25,4 +25,4 @@ class BaseScreen
 
 using BaseScreenUPtr = std::unique_ptr<BaseScreen>;
 
-}; // namespace yaschperitsy::app
+}; // namespace yaschperitsy::ui

@@ -8,7 +8,7 @@
 #include "SDL_render.h"
 #include "game_parameters.h"
 
-namespace yaschperitsy::app
+namespace yaschperitsy::game
 {
 
 using SDL_RendererUPtr =
@@ -44,4 +44,4 @@ class Background
         GameField _game_field;
 };
 
-}; // namespace yaschperitsy::app
+}; // namespace yaschperitsy::game

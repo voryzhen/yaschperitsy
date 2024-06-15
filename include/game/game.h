@@ -11,7 +11,7 @@
 #include "topbar.h"
 #include <SDL.h>
 
-namespace yaschperitsy::app
+namespace yaschperitsy::game
 {
 
 class Game
@@ -56,15 +56,15 @@ class Game
         int enemy_spawn_timer{0};
 
         SDL_Event _event{};
-        Manager _manager{};
+        ecs::Manager _manager{};
 
         const resource::ResourceManagerUPtr& _rm;
 
-        Entity& _player;
+        ecs::Entity& _player;
         std::unique_ptr<Background> _background;
         std::unique_ptr<Topbar> _topbar;
 
         std::unique_ptr<GameStatistic> _stat{new GameStatistic()};
 };
 
-} // namespace yaschperitsy::app
+} // namespace yaschperitsy::game

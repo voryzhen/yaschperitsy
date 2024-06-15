@@ -2,7 +2,7 @@
 #include "SDL_ttf.h"
 #include <string>
 
-namespace yaschperitsy::app
+namespace yaschperitsy::game
 {
 
 using SDL_RendererUPtr =
@@ -59,4 +59,4 @@ void Topbar::render_text(const SDL_RendererUPtr& renderer,
     SDL_RenderCopy(renderer.get(), text_texture, NULL, &rect);
 }
 
-}; // namespace yaschperitsy::app
+}; // namespace yaschperitsy::game

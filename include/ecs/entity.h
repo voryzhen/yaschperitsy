@@ -4,7 +4,7 @@
 #include <memory>
 #include <vector>
 
-namespace yaschperitsy::app
+namespace yaschperitsy::ecs
 {
 
 class Entity
@@ -22,7 +22,7 @@ class Entity
             }
         }
 
-        void render(const SDL_RendererUPtr& renderer)
+        void render(const app::SDL_RendererUPtr& renderer)
         {
             for (auto& c : _components)
             {
@@ -70,4 +70,4 @@ class Entity
         ComponentBitSet _component_bitset;
 };
 
-}; // namespace yaschperitsy::app
+}; // namespace yaschperitsy::ecs

@@ -1,7 +1,7 @@
 #include "ui/base_screen.h"
 #include "resource_manager.h"
 
-namespace yaschperitsy::app
+namespace yaschperitsy::ui
 {
 
 BaseScreen::BaseScreen(const resource::ResourceManagerUPtr& rm,
@@ -16,4 +16,4 @@ void BaseScreen::handle_events(const SDL_Event& event) {}
 
 void BaseScreen::render(const resource::SDL_RendererUPtr& _renderer) {}
 
-}; // namespace yaschperitsy::app
+}; // namespace yaschperitsy::ui

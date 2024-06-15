@@ -18,7 +18,7 @@
 #include <numbers>
 #include <utility>
 
-namespace yaschperitsy::app
+namespace yaschperitsy::ecs
 {
 
 class TransformComponent : public Component
@@ -117,7 +117,7 @@ class SpriteComponent : public Component
             _dest_rect.y = static_cast<int>(_position->position().y());
         }
 
-        void render(const SDL_RendererUPtr& renderer) override
+        void render(const app::SDL_RendererUPtr& renderer) override
         {
             // SDL_RenderCopy(renderer, _texture._texture, &_src_rect,
             //              &_dest_rect);
@@ -301,4 +301,4 @@ class FireReloadComponent : public Component
         std::int8_t _curr_load{8};
 };
 
-}; // namespace yaschperitsy::app
+}; // namespace yaschperitsy::ecs

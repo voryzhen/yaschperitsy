@@ -24,7 +24,7 @@ App::App()
     {
         _rm = std::make_unique<resource::ResourceManager>(
             _window->get_renderer());
-        _sm = std::make_unique<ScreenManager>(_rm);
+        _sm = std::make_unique<ui::ScreenManager>(_rm);
         run_app();
     }
 }

@@ -12,7 +12,7 @@
 #include "game_parameters.h"
 #include <memory>
 
-namespace yaschperitsy::app
+namespace yaschperitsy::game
 {
 
 using SDL_RendererUPtr =
@@ -40,4 +40,4 @@ class Topbar
         const std::unique_ptr<GameStatistic>& _stat;
 };
 
-}; // namespace yaschperitsy::app
+}; // namespace yaschperitsy::game

@@ -12,7 +12,7 @@
 #include <utility>
 #include <vector>
 
-namespace yaschperitsy::app
+namespace yaschperitsy::ui
 {
 
 void on_click_start_screen_new_game();
@@ -53,7 +53,7 @@ class StartScreen : public BaseScreen
             }
         }
 
-        void render(const SDL_RendererUPtr& _renderer) override
+        void render(const app::SDL_RendererUPtr& _renderer) override
         {
             for (auto& btn : btns)
             {
@@ -110,7 +110,7 @@ class SettingsScreen : public BaseScreen
             }
         }
 
-        void render(const SDL_RendererUPtr& _renderer) override
+        void render(const app::SDL_RendererUPtr& _renderer) override
         {
             for (auto& btn : btns)
             {
@@ -142,7 +142,7 @@ class PlayScreen : public BaseScreen
                    int* current_screen)
             : BaseScreen(rm, current_screen)
         {
-            _game = std::make_unique<Game>(rm);
+            _game = std::make_unique<game::Game>(rm);
         }
 
         void handle_events(const SDL_Event& event) override
@@ -152,15 +152,15 @@ class PlayScreen : public BaseScreen
 
         void update() override { _game->update(); }
 
-        void render(const SDL_RendererUPtr& _renderer) override
+        void render(const app::SDL_RendererUPtr& _renderer) override
         {
             _game->render(_renderer);
         }
 
     private:
-        std::unique_ptr<Game> _game;
+        std::unique_ptr<game::Game> _game;
 };
 
 using PlayScreenUPtr = std::unique_ptr<PlayScreen>;
 
-}; // namespace yaschperitsy::app
+}; // namespace yaschperitsy::ui

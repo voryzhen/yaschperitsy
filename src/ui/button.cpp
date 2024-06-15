@@ -1,7 +1,7 @@
 #include "ui/button.h"
 #include "SDL_events.h"
 
-namespace yaschperitsy::app
+namespace yaschperitsy::ui
 {
 
 void Button::update() {}
@@ -53,4 +53,4 @@ void Button::render(const resource::SDL_RendererUPtr& renderer)
     SDL_RenderCopy(renderer.get(), texture->_texture, NULL, &rect);
 }
 
-}; // namespace yaschperitsy::app
+}; // namespace yaschperitsy::ui

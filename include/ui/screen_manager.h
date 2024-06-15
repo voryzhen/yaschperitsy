@@ -7,7 +7,7 @@
 #include "resource_manager.h"
 #include "screens.h"
 
-namespace yaschperitsy::app
+namespace yaschperitsy::ui
 {
 
 // Refactor to gameState or smth
@@ -48,4 +48,4 @@ class ScreenManager
 
 using ScreenManagerUPtr = std::unique_ptr<ScreenManager>;
 
-}; // namespace yaschperitsy::app
+}; // namespace yaschperitsy::ui

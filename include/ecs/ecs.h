@@ -13,7 +13,7 @@
 #include <utility>
 #include <vector>
 
-namespace yaschperitsy::app
+namespace yaschperitsy::ecs
 {
 
 class Manager
@@ -27,7 +27,7 @@ class Manager
             }
         }
 
-        void render(const SDL_RendererUPtr& renderer)
+        void render(const app::SDL_RendererUPtr& renderer)
         {
             for (auto& e : _entities)
             {
@@ -81,4 +81,4 @@ class Manager
         std::vector<std::unique_ptr<Entity>> _entities;
 };
 
-}; // namespace yaschperitsy::app
+}; // namespace yaschperitsy::ecs

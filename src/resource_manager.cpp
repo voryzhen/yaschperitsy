@@ -32,7 +32,7 @@ const std::vector<std::string_view> button_titles = {
 
 // Deleters for SDL_Texture* and TTF_Fonts*
 const auto texture_deleter =
-    [](yaschperitsy::app::resource::Texture* t) -> void
+    [](yaschperitsy::resource::Texture* t) -> void
 {
     SDL_DestroyTexture(t->_texture);
     delete t;
@@ -43,7 +43,7 @@ const auto font_deleter = [](TTF_Font* font) -> void
 
 } // namespace
 
-namespace yaschperitsy::app::resource
+namespace yaschperitsy::resource
 {
 
 ResourceManager::ResourceManager(const SDL_RendererUPtr& renderer)
@@ -161,4 +161,4 @@ ResourceManager::get_font(const std::string_view& font_name) const
     return nullptr;
 }
 
-}; // namespace yaschperitsy::app::resource
+}; // namespace yaschperitsy::resource

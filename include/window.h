@@ -26,11 +26,18 @@ class Window
 
         bool is_initialized() const { return initialized; }
 
+        int get_width() const { return _width; }
+
+        int get_height() const { return _height; }
+
     private:
         bool init_sdl();
         void cleanup();
 
         bool initialized = false;
+
+        int _width{0};
+        int _height{0};
 
         SDL_WindowUPtr _window{nullptr, SDL_DestroyWindow};
         SDL_RendererUPtr _renderer{nullptr, SDL_DestroyRenderer};

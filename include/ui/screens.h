@@ -19,28 +19,24 @@ void on_click_start_screen_exit();
 class StartScreen : public BaseScreen
 {
     public:
-        StartScreen(const ResourceManagerUPtr& rm,
-                    const SDL_RendererUPtr& _renderer,
-                    int* current_screen)
-            : BaseScreen(rm, _renderer, current_screen)
+        StartScreen(const ResourceManagerUPtr& rm, int* current_screen)
+            : BaseScreen(rm, current_screen)
         {
             _current_screen = current_screen;
             btns.emplace_back(std::make_unique<Button>(
-                "New Game", _rm->get_font("lazy"), _renderer, 100,
-                100));
+                _rm->get_button_texture("New Game"), 100, 100));
 
             btns[0]->add_on_click_listeners(
                 on_click_start_screen_new_game);
 
             btns.emplace_back(std::make_unique<Button>(
-                "Settings", _rm->get_font("lazy"), _renderer, 100,
-                150));
+                _rm->get_button_texture("Settings"), 100, 150));
 
             btns[1]->add_on_click_listeners(
                 on_click_start_screen_settings);
 
             btns.emplace_back(std::make_unique<Button>(
-                "Exit", _rm->get_font("lazy"), _renderer, 100, 200));
+                _rm->get_button_texture("Exit"), 100, 200));
 
             btns[2]->add_on_click_listeners(on_click_start_screen_exit);
         }
@@ -53,11 +49,11 @@ class StartScreen : public BaseScreen
             }
         }
 
-        void render() override
+        void render(const SDL_RendererUPtr& _renderer) override
         {
             for (auto& btn : btns)
             {
-                btn->render();
+                btn->render(_renderer);
             }
         }
 
@@ -82,14 +78,13 @@ class SettingsScreen : public BaseScreen
 {
     public:
         SettingsScreen(const ResourceManagerUPtr& rm,
-                       const SDL_RendererUPtr& _renderer,
                        int* current_screen)
-            : BaseScreen(rm, _renderer, current_screen)
+            : BaseScreen(rm, current_screen)
         {
             _current_screen = current_screen;
 
             btns.emplace_back(std::make_unique<Button>(
-                "Back", rm->get_font("lazy"), _renderer, 100, 100));
+                rm->get_button_texture("Back"), 100, 100));
 
             btns[0]->add_on_click_listeners(
                 on_click_settings_screen_settings);
@@ -105,11 +100,11 @@ class SettingsScreen : public BaseScreen
             }
         }
 
-        void render() override
+        void render(const SDL_RendererUPtr& _renderer) override
         {
             for (auto& btn : btns)
             {
-                btn->render();
+                btn->render(_renderer);
             }
         }
 
@@ -127,12 +122,10 @@ using SettingsScreenUPtr = std::unique_ptr<SettingsScreen>;
 class PlayScreen : public BaseScreen
 {
     public:
-        PlayScreen(const ResourceManagerUPtr& rm,
-                   const SDL_RendererUPtr& _renderer,
-                   int* current_screen)
-            : BaseScreen(rm, _renderer, current_screen)
+        PlayScreen(const ResourceManagerUPtr& rm, int* current_screen)
+            : BaseScreen(rm, current_screen)
         {
-            _game = std::make_unique<Game>(_renderer, rm);
+            _game = std::make_unique<Game>(rm);
         }
 
         void handle_events(const SDL_Event& event) override
@@ -145,7 +138,10 @@ class PlayScreen : public BaseScreen
             _game->update();
         }
 
-        void render() override { _game->render(); }
+        void render(const SDL_RendererUPtr& _renderer) override
+        {
+            _game->render(_renderer);
+        }
 
     private:
         std::unique_ptr<Game> _game;

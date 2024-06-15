@@ -23,18 +23,18 @@ int ScreenManager::update(const SDL_Event& event)
     return 0;
 }
 
-void ScreenManager::render()
+void ScreenManager::render(const SDL_RendererUPtr& renderer)
 {
     switch (_current_screen)
     {
     case SCREENS::start:
-        _start_screen->render();
+        _start_screen->render(renderer);
         break;
     case SCREENS::settings:
-        _settings_screent->render();
+        _settings_screent->render(renderer);
         break;
     case SCREENS::play:
-        _play_screen->render();
+        _play_screen->render(renderer);
         break;
     default:
         break;

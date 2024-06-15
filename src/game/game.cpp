@@ -15,21 +15,15 @@ void Game::compose_player()
     _player.add_component<FireReloadComponent>(8);
 }
 
-Game::Game(const SDL_RendererUPtr& renderer,
-           const ResourceManagerUPtr& rm)
-    : _renderer(renderer), _rm(rm),
-      _player(_manager.add_entity("player")),
+Game::Game(const ResourceManagerUPtr& rm)
+    : _rm(rm), _player(_manager.add_entity("player")),
       _background(std::make_unique<Background>(
           _rm->get_texture("background"), _game_field)),
       _topbar(std::make_unique<Topbar>(_rm->get_font("lazy"), _stat))
 
 {
 
-    auto win = SDL_RenderGetWindow(_renderer.get());
-    int h{0};
-    int w{0};
-    SDL_GetWindowSize(win, &w, &h);
-    _game_field = GameField(w, h);
+    _game_field = GameField(1280, 720); // TODO:
     _background->set_game_field(_game_field);
 
     compose_player();
@@ -60,14 +54,14 @@ void Game::update()
     _manager.update(_event);
 }
 
-void Game::render()
+void Game::render(const SDL_RendererUPtr& renderer)
 {
     // SDL_RenderClear(_renderer.get());
 
-    _background->render(_renderer);
-    _manager.render(_renderer);
+    _background->render(renderer);
+    _manager.render(renderer);
 
-    _topbar->render(_renderer);
+    _topbar->render(renderer);
 
     // SDL_RenderPresent(_renderer.get());
 }

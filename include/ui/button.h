@@ -8,12 +8,15 @@
 class Button
 {
     public:
-        Button(std::string_view text, TTF_FontSPtr font,
-               const SDL_RendererUPtr& _renderer, int x, int y);
+        Button(ButtonTextures textures, int x, int y)
+            : _textures(textures), _x(x), _y(y)
+        {
+        }
+
         ~Button();
 
         void update(const SDL_Event& event);
-        void render();
+        void render(const SDL_RendererUPtr& renderer);
 
         void add_on_click_listeners(void (*listener)())
         {
@@ -25,13 +28,11 @@ class Button
         void defocus();
         void on_click();
 
+        ButtonTextures _textures;
         int _x = 0;
         int _y = 0;
         bool hover = false;
-        TextureSPtr _texture;
-        TextureSPtr _texture_on_hover;
         TTF_FontSPtr _font;
-        const SDL_RendererUPtr& _renderer;
 
         std::vector<void (*)()> on_click_listeners;
 };

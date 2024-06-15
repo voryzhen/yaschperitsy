@@ -11,14 +11,10 @@
 #include "topbar.h"
 #include <SDL.h>
 
-// using SDL_RendererUPtr =
-//    std::unique_ptr<SDL_Renderer, decltype(&SDL_DestroyRenderer)>;
-
 class Game
 {
     public:
-        Game(const SDL_RendererUPtr& renderer,
-             const ResourceManagerUPtr& rm);
+        Game(const ResourceManagerUPtr& rm);
 
         Game(const Game&) = delete;
         Game(const Game&&) = delete;
@@ -30,7 +26,7 @@ class Game
         // Main logic
         void handle_events(const SDL_Event& event);
         void update();
-        void render();
+        void render(const SDL_RendererUPtr& renderer);
 
     private:
         // Enemies logic
@@ -60,7 +56,7 @@ class Game
         SDL_Event _event{};
         Manager _manager{};
 
-        const SDL_RendererUPtr& _renderer;
+        // const SDL_RendererUPtr& _renderer;
         const ResourceManagerUPtr& _rm;
 
         Entity& _player;

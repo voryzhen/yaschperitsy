@@ -27,6 +27,12 @@ struct Texture
 using TextureSPtr = std::shared_ptr<Texture>;
 using TTF_FontSPtr = std::shared_ptr<TTF_Font>;
 
+struct ButtonTextures
+{
+        TextureSPtr normal;
+        TextureSPtr on_hover;
+};
+
 class ResourceManager
 {
     public:
@@ -40,6 +46,9 @@ class ResourceManager
         ~ResourceManager() = default;
 
         TextureSPtr get_texture(const std::string_view& texture) const;
+
+        ButtonTextures
+        get_button_texture(const std::string_view& texture) const;
         TTF_FontSPtr get_font(const std::string_view& font) const;
 
     private:
@@ -49,6 +58,9 @@ class ResourceManager
         TTF_Font* load_font(const std::string_view& filename);
 
         std::unordered_map<std::string_view, TextureSPtr> _textures;
+
+        std::unordered_map<std::string_view, ButtonTextures>
+            _button_textures;
         std::unordered_map<std::string_view, TTF_FontSPtr> _fonts;
 };
 

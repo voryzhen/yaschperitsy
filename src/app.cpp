@@ -18,8 +18,7 @@ App::App()
         //_renderer = _window->get_renderer();
         _rm =
             std::make_unique<ResourceManager>(_window->get_renderer());
-        _sm = std::make_unique<ScreenManager>(_rm,
-                                              _window->get_renderer());
+        _sm = std::make_unique<ScreenManager>(_rm);
         run_app();
     }
 }
@@ -81,7 +80,7 @@ void App::render()
         _window->get_renderer().get(), default_renderer_color.r,
         default_renderer_color.g, default_renderer_color.b,
         default_renderer_color.a);
-    _sm->render();
+    _sm->render(_window->get_renderer());
     //  Your stuff ends
 
     SDL_RenderPresent(_window->get_renderer().get());

@@ -49,6 +49,8 @@ bool Window::init_sdl()
         return false;
     }
 
+    SDL_GetWindowSize(_window.get(), &_width, &_height);
+
     SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
 
     _renderer.reset(

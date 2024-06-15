@@ -36,7 +36,7 @@ const auto font_deleter = [](TTF_Font* font) -> void
 
 } // namespace
 
-ResourceManager::ResourceManager(const SDL_RendererSPtr& renderer)
+ResourceManager::ResourceManager(const SDL_RendererUPtr& renderer)
     : _renderer(renderer)
 {
     for (const auto& [name, path] : textures_info)

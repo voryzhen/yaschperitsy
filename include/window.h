@@ -7,7 +7,9 @@
 
 using SDL_WindowUPtr =
     std::unique_ptr<SDL_Window, decltype(&SDL_DestroyWindow)>;
-using SDL_RendererSPtr = std::shared_ptr<SDL_Renderer>;
+
+using SDL_RendererUPtr =
+    std::unique_ptr<SDL_Renderer, decltype(&SDL_DestroyRenderer)>;
 
 class Window
 {
@@ -20,7 +22,7 @@ class Window
         Window& operator=(const Window&) = delete;
         Window& operator=(const Window&&) = delete;
 
-        SDL_RendererSPtr get_renderer() { return _renderer; }
+        SDL_RendererUPtr& get_renderer() { return _renderer; }
 
         bool is_initialized() const { return initialized; }
 
@@ -31,7 +33,7 @@ class Window
         bool initialized = false;
 
         SDL_WindowUPtr _window{nullptr, SDL_DestroyWindow};
-        SDL_RendererSPtr _renderer{nullptr};
+        SDL_RendererUPtr _renderer{nullptr, SDL_DestroyRenderer};
 };
 
 using WindowUPtr = std::unique_ptr<Window>;

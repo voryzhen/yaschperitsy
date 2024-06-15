@@ -29,7 +29,6 @@ class App
         SDL_Color default_renderer_color = {28, 28, 28, 255};
 
         WindowUPtr _window;
-        SDL_RendererSPtr _renderer;
         ResourceManagerUPtr _rm;
         ScreenManagerUPtr _sm;
 };

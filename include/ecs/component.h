@@ -44,7 +44,7 @@ class Component
 
         virtual void update(const SDL_Event& event) {}
 
-        virtual void render(const SDL_RendererSPtr& renderer) {}
+        virtual void render(const SDL_RendererUPtr& renderer) {}
 
         virtual ~Component() {}
 };

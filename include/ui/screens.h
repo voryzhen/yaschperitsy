@@ -20,7 +20,7 @@ class StartScreen : public BaseScreen
 {
     public:
         StartScreen(const ResourceManagerUPtr& rm,
-                    const SDL_RendererSPtr& _renderer,
+                    const SDL_RendererUPtr& _renderer,
                     int* current_screen)
             : BaseScreen(rm, _renderer, current_screen)
         {
@@ -82,7 +82,7 @@ class SettingsScreen : public BaseScreen
 {
     public:
         SettingsScreen(const ResourceManagerUPtr& rm,
-                       const SDL_RendererSPtr& _renderer,
+                       const SDL_RendererUPtr& _renderer,
                        int* current_screen)
             : BaseScreen(rm, _renderer, current_screen)
         {
@@ -128,7 +128,7 @@ class PlayScreen : public BaseScreen
 {
     public:
         PlayScreen(const ResourceManagerUPtr& rm,
-                   const SDL_RendererSPtr& _renderer,
+                   const SDL_RendererUPtr& _renderer,
                    int* current_screen)
             : BaseScreen(rm, _renderer, current_screen)
         {

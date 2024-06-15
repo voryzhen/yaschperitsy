@@ -19,7 +19,7 @@ class Entity
             }
         }
 
-        void render(const SDL_RendererSPtr& renderer)
+        void render(const SDL_RendererUPtr& renderer)
         {
             for (auto& c : _components)
             {

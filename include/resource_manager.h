@@ -8,8 +8,8 @@
 #include "SDL_render.h"
 #include "SDL_ttf.h"
 
-using SDL_RendererSPtr =
-    std::shared_ptr<SDL_Renderer>; //, decltype(&SDL_DestroyRenderer)>;
+using SDL_RendererUPtr =
+    std::unique_ptr<SDL_Renderer, decltype(&SDL_DestroyRenderer)>;
 
 struct Texture
 {
@@ -30,11 +30,11 @@ using TTF_FontSPtr = std::shared_ptr<TTF_Font>;
 class ResourceManager
 {
     public:
-        ResourceManager(const SDL_RendererSPtr& renderer);
+        ResourceManager(const SDL_RendererUPtr& renderer);
 
         ResourceManager(const ResourceManager&) = delete;
-        ResourceManager& operator=(const ResourceManager&) = delete;
         ResourceManager(const ResourceManager&&) = delete;
+        ResourceManager& operator=(const ResourceManager&) = delete;
         ResourceManager& operator=(const ResourceManager&&) = delete;
 
         ~ResourceManager() = default;
@@ -43,7 +43,7 @@ class ResourceManager
         TTF_FontSPtr get_font(const std::string_view& font) const;
 
     private:
-        const SDL_RendererSPtr& _renderer;
+        const SDL_RendererUPtr& _renderer;
 
         SDL_Texture* load_texture(const std::string_view& filename);
         TTF_Font* load_font(const std::string_view& filename);

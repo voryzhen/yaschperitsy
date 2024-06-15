@@ -52,8 +52,7 @@ bool Window::init_sdl()
     SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
 
     _renderer.reset(
-        SDL_CreateRenderer(_window.get(), -1, _renderer_flags),
-        [](SDL_Renderer* ren) { SDL_DestroyRenderer(ren); });
+        SDL_CreateRenderer(_window.get(), -1, _renderer_flags));
 
     if (_renderer == nullptr)
     {
@@ -79,6 +78,9 @@ Window::~Window() { cleanup(); }
 void Window::cleanup()
 {
     // Clean up
+    _renderer.reset(nullptr);
+    _window.reset(nullptr);
+
     TTF_Quit();
     IMG_Quit();
     SDL_Quit();

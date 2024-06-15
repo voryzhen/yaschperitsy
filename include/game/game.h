@@ -11,21 +11,19 @@
 #include "topbar.h"
 #include <SDL.h>
 
-// using SDL_RendererSPtr =
+// using SDL_RendererUPtr =
 //    std::unique_ptr<SDL_Renderer, decltype(&SDL_DestroyRenderer)>;
 
 class Game
 {
     public:
-        Game(const SDL_RendererSPtr& renderer,
+        Game(const SDL_RendererUPtr& renderer,
              const ResourceManagerUPtr& rm);
 
         Game(const Game&) = delete;
         Game(const Game&&) = delete;
         Game& operator=(const Game&) = delete;
         Game& operator=(const Game&&) = delete;
-
-        int run_game();
 
         ~Game() {}
 
@@ -52,7 +50,7 @@ class Game
         void compose_player();
 
         unsigned char _fps = 60;
-        unsigned char _frame_delay = 1000 / _fps;
+        // unsigned char _frame_delay = 1000 / _fps;
         bool _quit{false};
 
         GameSettings _game_settings;
@@ -62,7 +60,7 @@ class Game
         SDL_Event _event{};
         Manager _manager{};
 
-        const SDL_RendererSPtr& _renderer;
+        const SDL_RendererUPtr& _renderer;
         const ResourceManagerUPtr& _rm;
 
         Entity& _player;

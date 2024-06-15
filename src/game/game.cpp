@@ -15,7 +15,7 @@ void Game::compose_player()
     _player.add_component<FireReloadComponent>(8);
 }
 
-Game::Game(const SDL_RendererSPtr& renderer,
+Game::Game(const SDL_RendererUPtr& renderer,
            const ResourceManagerUPtr& rm)
     : _renderer(renderer), _rm(rm),
       _player(_manager.add_entity("player")),
@@ -33,18 +33,6 @@ Game::Game(const SDL_RendererSPtr& renderer,
     _background->set_game_field(_game_field);
 
     compose_player();
-}
-
-int Game::run_game()
-{
-    while (!_quit)
-    {
-        // handle_events(e);
-        // update();
-        // render();
-    }
-
-    return 0;
 }
 
 void Game::handle_events(const SDL_Event& event)

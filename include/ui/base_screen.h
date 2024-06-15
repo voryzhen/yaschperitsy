@@ -8,7 +8,7 @@ class BaseScreen
 {
     public:
         BaseScreen(const ResourceManagerUPtr& rm,
-                   const SDL_RendererSPtr& _renderer,
+                   const SDL_RendererUPtr& _renderer,
                    int* current_screen);
         virtual ~BaseScreen();
         virtual void update(const SDL_Event& event);
@@ -18,7 +18,7 @@ class BaseScreen
     protected:
         int* _current_screen{nullptr};
         const ResourceManagerUPtr& _rm;
-        const SDL_RendererSPtr& _renderer;
+        const SDL_RendererUPtr& _renderer;
 };
 
 using BaseScreenUPtr = std::unique_ptr<BaseScreen>;

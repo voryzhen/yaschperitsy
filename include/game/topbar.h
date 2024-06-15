@@ -24,10 +24,10 @@ class Topbar
         {
         }
 
-        void render(const SDL_RendererSPtr& renderer);
+        void render(const SDL_RendererUPtr& renderer);
 
     private:
-        void render_text(const SDL_RendererSPtr& renderer,
+        void render_text(const SDL_RendererUPtr& renderer,
                          const std::string& text, int x, int y);
 
         SDL_Color _text_color{0, 200, 200};

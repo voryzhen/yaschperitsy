@@ -9,7 +9,7 @@ class Button
 {
     public:
         Button(std::string_view text, TTF_FontSPtr font,
-               const SDL_RendererSPtr& _renderer, int x, int y);
+               const SDL_RendererUPtr& _renderer, int x, int y);
         ~Button();
 
         void update(const SDL_Event& event);
@@ -31,7 +31,7 @@ class Button
         TextureSPtr _texture;
         TextureSPtr _texture_on_hover;
         TTF_FontSPtr _font;
-        const SDL_RendererSPtr& _renderer;
+        const SDL_RendererUPtr& _renderer;
 
         std::vector<void (*)()> on_click_listeners;
 };

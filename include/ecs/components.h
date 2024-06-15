@@ -114,7 +114,7 @@ class SpriteComponent : public Component
             _dest_rect.y = static_cast<int>(_position->position().y());
         }
 
-        void render(const SDL_RendererSPtr& renderer) override
+        void render(const SDL_RendererUPtr& renderer) override
         {
             // SDL_RenderCopy(renderer, _texture._texture, &_src_rect,
             //              &_dest_rect);
@@ -279,7 +279,7 @@ class FireReloadComponent : public Component
 {
     public:
         FireReloadComponent() = default;
-        FireReloadComponent(std::int8_t reload) : _reload(reload) {};
+        FireReloadComponent(std::int8_t reload) : _reload(reload){};
 
         void update(const SDL_Event& /*e*/) override
         {

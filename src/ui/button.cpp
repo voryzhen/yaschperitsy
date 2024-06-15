@@ -2,7 +2,7 @@
 #include "SDL_events.h"
 
 Button::Button(std::string_view text, TTF_FontSPtr font,
-               const SDL_RendererSPtr& _renderer, int x, int y)
+               const SDL_RendererUPtr& _renderer, int x, int y)
     : _x(x), _y(y), _font(std::move(font)), _renderer(_renderer)
 {
     SDL_Color _text_color{0, 200, 200};

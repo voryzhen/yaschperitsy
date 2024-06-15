@@ -1,6 +1,10 @@
-# main project
-
 cmake_minimum_required ( VERSION 3.29.3 )
+
+set ( CMAKE_C_COMPILER   "/opt/homebrew/opt/llvm/bin/clang" )
+set ( CMAKE_CXX_COMPILER "/opt/homebrew/opt/llvm/bin/clang++" )
+
+set ( CMAKE_CXX_STANDARD 20 )
+set ( CMAKE_CXX_FLAGS "-Wall -g" )
 
 project ( yaschperitsy )
 
@@ -19,25 +23,17 @@ link_directories (
 
 )
 
-set ( CMAKE_CXX_STANDARD    20      )
-
-if ( APPLE )
-  set ( CMAKE_CXX_FLAGS       "-Wall" )
-endif()
-
-set ( CMAKE_CXX_FLAGS_DEBUG "-g"    )
-set ( CMAKE_BUILD_TYPE      Debug   )
-
 add_executable ( yaschperitsy
 
-  src/app.cpp
-  src/game/game.cpp
   src/main.cpp
+  src/app.cpp
+  src/window.cpp
   src/resource_manager.cpp
+
+  src/game/game.cpp
   src/game/topbar.cpp
   src/game/vector2D.cpp
   src/ui/base_screen.cpp
-  src/window.cpp
   src/ui/screen_manager.cpp
   src/ui/screens.cpp
   src/ui/button.cpp

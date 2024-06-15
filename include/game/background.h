@@ -22,7 +22,7 @@ class Background
 
         TextureSPtr get_texture() { return _background; }
 
-        void render(const SDL_RendererSPtr& renderer)
+        void render(const SDL_RendererUPtr& renderer)
         {
             SDL_Rect dest = {0, 0, _game_field.w, _game_field.h};
             SDL_RenderCopy(renderer.get(), _background->_texture, NULL,

@@ -20,14 +20,14 @@ class ScreenManager
 {
     public:
         ScreenManager(const ResourceManagerUPtr& rm,
-                      const SDL_RendererSPtr& _renderer)
-            : _rm(rm), _renderer(_renderer),
+                      const SDL_RendererUPtr& renderer)
+            : _rm(rm), _renderer(renderer),
               _start_screen(std::make_unique<StartScreen>(
                   _rm, _renderer, (int*)(&_current_screen))),
               _settings_screent(std::make_unique<SettingsScreen>(
                   _rm, _renderer, (int*)(&_current_screen))),
               _play_screen(std::make_unique<PlayScreen>(
-                  _rm, _renderer, (int*)(&_current_screen))) {};
+                  _rm, _renderer, (int*)(&_current_screen))){};
         ~ScreenManager() = default;
 
         int update(const SDL_Event& event);
@@ -36,7 +36,7 @@ class ScreenManager
 
     private:
         const ResourceManagerUPtr& _rm;
-        SDL_RendererSPtr _renderer;
+        const SDL_RendererUPtr& _renderer;
 
         SCREENS _current_screen{SCREENS::start};
 

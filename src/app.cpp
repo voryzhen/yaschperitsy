@@ -1,7 +1,6 @@
 #include "SDL_events.h"
 #include "SDL_render.h"
 #include "resource_manager.h"
-#include "ui/screen_manager.h"
 #include "window.h"
 #include <app.h>
 
@@ -16,17 +15,12 @@ App::App()
     if (_window->is_initialized())
     {
         // Initialization
-        _renderer = _window->get_renderer();
-        _rm = std::make_unique<ResourceManager>(_renderer);
-        _sm = std::make_unique<ScreenManager>(_rm, _renderer);
-
-        // Run app
+        //_renderer = _window->get_renderer();
+        _rm =
+            std::make_unique<ResourceManager>(_window->get_renderer());
+        _sm = std::make_unique<ScreenManager>(_rm,
+                                              _window->get_renderer());
         run_app();
-
-        // std::make_unique<Game>(SCREEN_WIDTH,
-        // SCREEN_HEIGHT, _renderer,
-        //                        _rm)
-        //     ->run_game();
     }
 }
 
@@ -80,15 +74,15 @@ void App::update()
 
 void App::render()
 {
-    SDL_RenderClear(_renderer.get());
+    SDL_RenderClear(_window->get_renderer().get());
 
     // Do your stuff
-    SDL_SetRenderDrawColor(_renderer.get(), default_renderer_color.r,
-                           default_renderer_color.g,
-                           default_renderer_color.b,
-                           default_renderer_color.a);
+    SDL_SetRenderDrawColor(
+        _window->get_renderer().get(), default_renderer_color.r,
+        default_renderer_color.g, default_renderer_color.b,
+        default_renderer_color.a);
     _sm->render();
     //  Your stuff ends
 
-    SDL_RenderPresent(_renderer.get());
+    SDL_RenderPresent(_window->get_renderer().get());
 }

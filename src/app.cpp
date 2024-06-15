@@ -14,6 +14,9 @@ namespace
 SDL_Color default_renderer_color = {28, 28, 28, 255};
 };
 
+namespace yaschperitsy
+{
+
 App::App()
 {
     _window = std::make_unique<Window>();
@@ -89,3 +92,5 @@ void App::render()
 
     SDL_RenderPresent(_window->get_renderer().get());
 }
+
+} // namespace yaschperitsy

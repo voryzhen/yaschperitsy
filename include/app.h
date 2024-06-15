@@ -6,6 +6,9 @@
 
 #include "SDL_events.h"
 
+namespace yaschperitsy
+{
+
 class App
 {
     public:
@@ -32,3 +35,5 @@ class App
         ResourceManagerUPtr _rm;
         ScreenManagerUPtr _sm;
 };
+
+} // namespace yaschperitsy

@@ -18,6 +18,9 @@
 #include <numbers>
 #include <utility>
 
+namespace yaschperitsy::app
+{
+
 class TransformComponent : public Component
 {
     public:
@@ -90,7 +93,7 @@ class SpriteComponent : public Component
     public:
         SpriteComponent() = default;
 
-        SpriteComponent(TextureSPtr texture)
+        SpriteComponent(resource::TextureSPtr texture)
             : _texture(std::move(texture))
         {
         }
@@ -138,7 +141,7 @@ class SpriteComponent : public Component
 
     private:
         TransformComponent* _position{nullptr};
-        TextureSPtr _texture;
+        resource::TextureSPtr _texture;
         SDL_Rect _src_rect{0, 0, 0, 0};
         SDL_Rect _dest_rect{0, 0, 0, 0};
 };
@@ -297,3 +300,5 @@ class FireReloadComponent : public Component
         std::int8_t _reload{8};
         std::int8_t _curr_load{8};
 };
+
+}; // namespace yaschperitsy::app

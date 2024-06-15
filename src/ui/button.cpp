@@ -1,6 +1,9 @@
 #include "ui/button.h"
 #include "SDL_events.h"
 
+namespace yaschperitsy::app
+{
+
 void Button::update() {}
 
 void Button::handle_event(const SDL_Event& event)
@@ -42,10 +45,12 @@ void Button::on_click()
     }
 }
 
-void Button::render(const SDL_RendererUPtr& renderer)
+void Button::render(const resource::SDL_RendererUPtr& renderer)
 {
     SDL_Rect rect = {_x, _y, _textures.normal->_w,
                      _textures.normal->_h};
     const auto texture = hover ? _textures.on_hover : _textures.normal;
     SDL_RenderCopy(renderer.get(), texture->_texture, NULL, &rect);
 }
+
+}; // namespace yaschperitsy::app

@@ -11,10 +11,13 @@
 #include "topbar.h"
 #include <SDL.h>
 
+namespace yaschperitsy::app
+{
+
 class Game
 {
     public:
-        Game(const ResourceManagerUPtr& rm);
+        Game(const resource::ResourceManagerUPtr& rm);
 
         Game(const Game&) = delete;
         Game(const Game&&) = delete;
@@ -46,7 +49,6 @@ class Game
         void compose_player();
 
         unsigned char _fps = 60;
-        // unsigned char _frame_delay = 1000 / _fps;
         bool _quit{false};
 
         GameSettings _game_settings;
@@ -56,8 +58,7 @@ class Game
         SDL_Event _event{};
         Manager _manager{};
 
-        // const SDL_RendererUPtr& _renderer;
-        const ResourceManagerUPtr& _rm;
+        const resource::ResourceManagerUPtr& _rm;
 
         Entity& _player;
         std::unique_ptr<Background> _background;
@@ -65,3 +66,5 @@ class Game
 
         std::unique_ptr<GameStatistic> _stat{new GameStatistic()};
 };
+
+} // namespace yaschperitsy::app

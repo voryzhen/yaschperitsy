@@ -5,6 +5,9 @@
 #include "game/utility.h"
 #include "game/vector2D.h"
 
+namespace yaschperitsy::app
+{
+
 void Game::compose_player()
 {
     _player.add_component<TransformComponent>(
@@ -15,7 +18,7 @@ void Game::compose_player()
     _player.add_component<FireReloadComponent>(8);
 }
 
-Game::Game(const ResourceManagerUPtr& rm)
+Game::Game(const resource::ResourceManagerUPtr& rm)
     : _rm(rm), _player(_manager.add_entity("player")),
       _background(std::make_unique<Background>(
           _rm->get_texture("background"), _game_field)),
@@ -258,3 +261,5 @@ void Game::reset_state()
     _stat->_max_score = std::max(_stat->_max_score, _stat->_score);
     _stat->_score = 0;
 }
+
+} // namespace yaschperitsy::app

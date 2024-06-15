@@ -4,6 +4,9 @@
 #include <memory>
 #include <vector>
 
+namespace yaschperitsy::app
+{
+
 class Entity
 {
     public:
@@ -66,3 +69,5 @@ class Entity
         ComponentArray _component_array{};
         ComponentBitSet _component_bitset;
 };
+
+}; // namespace yaschperitsy::app

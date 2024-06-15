@@ -6,7 +6,7 @@
 
 #include "SDL_events.h"
 
-namespace yaschperitsy
+namespace yaschperitsy::app
 {
 
 class App
@@ -32,8 +32,8 @@ class App
         bool is_running = true;
 
         WindowUPtr _window;
-        ResourceManagerUPtr _rm;
+        resource::ResourceManagerUPtr _rm;
         ScreenManagerUPtr _sm;
 };
 
-} // namespace yaschperitsy
+} // namespace yaschperitsy::app

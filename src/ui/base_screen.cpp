@@ -1,7 +1,10 @@
 #include "ui/base_screen.h"
 #include "resource_manager.h"
 
-BaseScreen::BaseScreen(const ResourceManagerUPtr& rm,
+namespace yaschperitsy::app
+{
+
+BaseScreen::BaseScreen(const resource::ResourceManagerUPtr& rm,
                        int* current_screen)
     : _current_screen(current_screen), _rm(rm){};
 
@@ -11,4 +14,6 @@ void BaseScreen::update() {}
 
 void BaseScreen::handle_events(const SDL_Event& event) {}
 
-void BaseScreen::render(const SDL_RendererUPtr& _renderer) {}
+void BaseScreen::render(const resource::SDL_RendererUPtr& _renderer) {}
+
+}; // namespace yaschperitsy::app

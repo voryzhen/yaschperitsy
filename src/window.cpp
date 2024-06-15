@@ -15,6 +15,9 @@ constexpr int _renderer_flags{SDL_RENDERER_ACCELERATED};
 constexpr int _window_flags{0};
 } // namespace
 
+namespace yaschperitsy::app
+{
+
 Window::Window()
 {
     if (init_sdl())
@@ -87,3 +90,5 @@ Window::~Window()
     IMG_Quit();
     SDL_Quit();
 }
+
+}; // namespace yaschperitsy::app

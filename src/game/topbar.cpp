@@ -2,6 +2,12 @@
 #include "SDL_ttf.h"
 #include <string>
 
+namespace yaschperitsy::app
+{
+
+using SDL_RendererUPtr =
+    std::unique_ptr<SDL_Renderer, decltype(&SDL_DestroyRenderer)>;
+
 void Topbar::render(const SDL_RendererUPtr& renderer)
 {
     render_text(renderer,
@@ -52,3 +58,5 @@ void Topbar::render_text(const SDL_RendererUPtr& renderer,
     SDL_Rect rect = {x, y, w, h};
     SDL_RenderCopy(renderer.get(), text_texture, NULL, &rect);
 }
+
+}; // namespace yaschperitsy::app

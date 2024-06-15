@@ -14,7 +14,7 @@ namespace
 SDL_Color default_renderer_color = {28, 28, 28, 255};
 };
 
-namespace yaschperitsy
+namespace yaschperitsy::app
 {
 
 App::App()
@@ -22,8 +22,8 @@ App::App()
     _window = std::make_unique<Window>();
     if (_window->is_initialized())
     {
-        _rm =
-            std::make_unique<ResourceManager>(_window->get_renderer());
+        _rm = std::make_unique<resource::ResourceManager>(
+            _window->get_renderer());
         _sm = std::make_unique<ScreenManager>(_rm);
         run_app();
     }
@@ -93,4 +93,4 @@ void App::render()
     SDL_RenderPresent(_window->get_renderer().get());
 }
 
-} // namespace yaschperitsy
+} // namespace yaschperitsy::app

@@ -13,6 +13,9 @@
 #include <utility>
 #include <vector>
 
+namespace yaschperitsy::app
+{
+
 class Manager
 {
     public:
@@ -77,3 +80,5 @@ class Manager
     private:
         std::vector<std::unique_ptr<Entity>> _entities;
 };
+
+}; // namespace yaschperitsy::app

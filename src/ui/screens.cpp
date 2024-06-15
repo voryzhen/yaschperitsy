@@ -1,5 +1,8 @@
 #include "ui/screens.h"
 
+namespace yaschperitsy::app
+{
+
 int* StartScreen::_current_screen = nullptr;
 int* SettingsScreen::_current_screen = nullptr;
 
@@ -19,3 +22,5 @@ void on_click_settings_screen_settings()
 {
     *SettingsScreen::_current_screen = 0;
 }
+
+}; // namespace yaschperitsy::app

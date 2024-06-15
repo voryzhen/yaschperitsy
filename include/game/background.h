@@ -8,19 +8,23 @@
 #include "SDL_render.h"
 #include "game_parameters.h"
 
-// using SDL_RendererPtr =
-//   std::unique_ptr<SDL_Renderer, decltype(&SDL_DestroyRenderer)>;
+namespace yaschperitsy::app
+{
+
+using SDL_RendererUPtr =
+    std::unique_ptr<SDL_Renderer, decltype(&SDL_DestroyRenderer)>;
 
 class Background
 {
     public:
-        Background(TextureSPtr background, const GameField& game_field)
+        Background(resource::TextureSPtr background,
+                   const GameField& game_field)
             : _background(std::move(background)),
               _game_field(game_field)
         {
         }
 
-        TextureSPtr get_texture() { return _background; }
+        resource::TextureSPtr get_texture() { return _background; }
 
         void render(const SDL_RendererUPtr& renderer)
         {
@@ -36,6 +40,8 @@ class Background
         }
 
     private:
-        TextureSPtr _background;
+        resource::TextureSPtr _background;
         GameField _game_field;
 };
+
+}; // namespace yaschperitsy::app

@@ -7,6 +7,9 @@
 #include "resource_manager.h"
 #include "screens.h"
 
+namespace yaschperitsy::app
+{
+
 // Refactor to gameState or smth
 enum class SCREENS
 {
@@ -19,7 +22,7 @@ enum class SCREENS
 class ScreenManager
 {
     public:
-        ScreenManager(const ResourceManagerUPtr& rm)
+        ScreenManager(const resource::ResourceManagerUPtr& rm)
             : _rm(rm), _start_screen(std::make_unique<StartScreen>(
                            _rm, (int*)(&_current_screen))),
               _settings_screent(std::make_unique<SettingsScreen>(
@@ -30,10 +33,10 @@ class ScreenManager
 
         int update();
         void handle_events(const SDL_Event& event);
-        void render(const SDL_RendererUPtr& renderer);
+        void render(const resource::SDL_RendererUPtr& renderer);
 
     private:
-        const ResourceManagerUPtr& _rm;
+        const resource::ResourceManagerUPtr& _rm;
         // const SDL_RendererUPtr& _renderer;
 
         SCREENS _current_screen{SCREENS::start};
@@ -44,3 +47,5 @@ class ScreenManager
 };
 
 using ScreenManagerUPtr = std::unique_ptr<ScreenManager>;
+
+}; // namespace yaschperitsy::app

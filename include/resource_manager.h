@@ -8,6 +8,9 @@
 #include "SDL_render.h"
 #include "SDL_ttf.h"
 
+namespace yaschperitsy::app::resource
+{
+
 using SDL_RendererUPtr =
     std::unique_ptr<SDL_Renderer, decltype(&SDL_DestroyRenderer)>;
 
@@ -65,3 +68,5 @@ class ResourceManager
 };
 
 using ResourceManagerUPtr = std::unique_ptr<ResourceManager>;
+
+}; // namespace yaschperitsy::app::resource

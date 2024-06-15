@@ -1,6 +1,9 @@
 #include "SDL_events.h"
 #include <ui/screen_manager.h>
 
+namespace yaschperitsy::app
+{
+
 int ScreenManager::update()
 {
     switch (_current_screen)
@@ -58,3 +61,5 @@ void ScreenManager::handle_events(const SDL_Event& event)
         break;
     }
 }
+
+}; // namespace yaschperitsy::app

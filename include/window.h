@@ -4,6 +4,9 @@
 
 #include <SDL_render.h>
 
+namespace yaschperitsy::app
+{
+
 using SDL_WindowUPtr =
     std::unique_ptr<SDL_Window, decltype(&SDL_DestroyWindow)>;
 
@@ -45,3 +48,5 @@ class Window
 };
 
 using WindowUPtr = std::unique_ptr<Window>;
+
+} // namespace yaschperitsy::app

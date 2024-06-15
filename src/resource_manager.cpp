@@ -10,7 +10,6 @@
 
 namespace
 {
-
 // Textures and fotns info
 using resource_map =
     std::unordered_map<std::string_view, std::string_view>;
@@ -32,7 +31,8 @@ const std::vector<std::string_view> button_titles = {
     "New Game", "Settings", "Exit", "Back"};
 
 // Deleters for SDL_Texture* and TTF_Fonts*
-const auto texture_deleter = [](Texture* t) -> void
+const auto texture_deleter =
+    [](yaschperitsy::app::resource::Texture* t) -> void
 {
     SDL_DestroyTexture(t->_texture);
     delete t;
@@ -42,6 +42,9 @@ const auto font_deleter = [](TTF_Font* font) -> void
 { TTF_CloseFont(font); };
 
 } // namespace
+
+namespace yaschperitsy::app::resource
+{
 
 ResourceManager::ResourceManager(const SDL_RendererUPtr& renderer)
     : _renderer(renderer)
@@ -157,3 +160,5 @@ ResourceManager::get_font(const std::string_view& font_name) const
                    "Can not find loaded font %s", font_name.data());
     return nullptr;
 }
+
+}; // namespace yaschperitsy::app::resource

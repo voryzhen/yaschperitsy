@@ -5,10 +5,13 @@
 #include <string_view>
 #include <vector>
 
+namespace yaschperitsy::app
+{
+
 class Button
 {
     public:
-        Button(ButtonTextures textures, int x, int y)
+        Button(resource::ButtonTextures textures, int x, int y)
             : _textures(textures), _x(x), _y(y)
         {
         }
@@ -16,7 +19,7 @@ class Button
         ~Button() {}
 
         void update();
-        void render(const SDL_RendererUPtr& renderer);
+        void render(const resource::SDL_RendererUPtr& renderer);
         void handle_event(const SDL_Event& event);
 
         void add_on_click_listeners(void (*listener)())
@@ -29,13 +32,15 @@ class Button
         void defocus();
         void on_click();
 
-        ButtonTextures _textures;
+        resource::ButtonTextures _textures;
         int _x = 0;
         int _y = 0;
         bool hover = false;
-        TTF_FontSPtr _font;
+        resource::TTF_FontSPtr _font;
 
         std::vector<void (*)()> on_click_listeners;
 };
 
 using ButtonUPtr = std::unique_ptr<Button>;
+
+}; // namespace yaschperitsy::app

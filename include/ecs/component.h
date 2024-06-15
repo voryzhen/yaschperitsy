@@ -6,6 +6,9 @@
 #include <array>
 #include <bitset>
 
+namespace yaschperitsy::app
+{
+
 using ComponentID = std::size_t;
 
 inline ComponentID get_component_type_id()
@@ -51,3 +54,5 @@ class Component
 
 using ComponentBitSet = std::bitset<max_components>;
 using ComponentArray = std::array<Component*, max_components>;
+
+}; // namespace yaschperitsy::app

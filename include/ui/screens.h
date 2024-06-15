@@ -12,6 +12,9 @@
 #include <utility>
 #include <vector>
 
+namespace yaschperitsy::app
+{
+
 void on_click_start_screen_new_game();
 void on_click_start_screen_settings();
 void on_click_start_screen_exit();
@@ -19,7 +22,8 @@ void on_click_start_screen_exit();
 class StartScreen : public BaseScreen
 {
     public:
-        StartScreen(const ResourceManagerUPtr& rm, int* current_screen)
+        StartScreen(const resource::ResourceManagerUPtr& rm,
+                    int* current_screen)
             : BaseScreen(rm, current_screen)
         {
             _current_screen = current_screen;
@@ -83,7 +87,7 @@ void on_click_settings_screen_settings();
 class SettingsScreen : public BaseScreen
 {
     public:
-        SettingsScreen(const ResourceManagerUPtr& rm,
+        SettingsScreen(const resource::ResourceManagerUPtr& rm,
                        int* current_screen)
             : BaseScreen(rm, current_screen)
         {
@@ -134,7 +138,8 @@ using SettingsScreenUPtr = std::unique_ptr<SettingsScreen>;
 class PlayScreen : public BaseScreen
 {
     public:
-        PlayScreen(const ResourceManagerUPtr& rm, int* current_screen)
+        PlayScreen(const resource::ResourceManagerUPtr& rm,
+                   int* current_screen)
             : BaseScreen(rm, current_screen)
         {
             _game = std::make_unique<Game>(rm);
@@ -157,3 +162,5 @@ class PlayScreen : public BaseScreen
 };
 
 using PlayScreenUPtr = std::unique_ptr<PlayScreen>;
+
+}; // namespace yaschperitsy::app

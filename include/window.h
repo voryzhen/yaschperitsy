@@ -1,7 +1,6 @@
 #pragma once
 
 #include <memory>
-#include <string_view>
 
 #include <SDL_render.h>
 
@@ -22,9 +21,12 @@ class Window
         Window& operator=(const Window&) = delete;
         Window& operator=(const Window&&) = delete;
 
-        SDL_RendererUPtr& get_renderer() { return _renderer; }
-
         bool is_initialized() const { return initialized; }
+
+        const SDL_RendererUPtr& get_renderer() const
+        {
+            return _renderer;
+        }
 
         int get_width() const { return _width; }
 
@@ -32,7 +34,6 @@ class Window
 
     private:
         bool init_sdl();
-        void cleanup();
 
         bool initialized = false;
 

@@ -1,7 +1,8 @@
 #include <window.h>
 
-#include "SDL.h"
-#include "SDL_render.h"
+#include <iostream>
+#include <string_view>
+
 #include <SDL_image.h>
 #include <SDL_ttf.h>
 
@@ -26,26 +27,27 @@ bool Window::init_sdl()
 {
     if (SDL_Init(SDL_INIT_VIDEO) < 0)
     {
-        printf("Couldn't initialize SDL: %s\n", SDL_GetError());
+        std::cout << "Couldn't initialize SDL: " << SDL_GetError()
+                  << std::endl;
         return false;
     }
 
     if (IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG) < 0)
     {
-        printf("Couldn't initialize SDL Image: %s\n", SDL_GetError());
+        std::cout << "Couldn't initialize SDL Image: " << SDL_GetError()
+                  << std::endl;
         return false;
     }
 
-    // NOLINTBEGIN(hicpp-signed-bitwise)
     _window.reset(SDL_CreateWindow(
         title.data(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
         SCREEN_WIDTH, SCREEN_HEIGHT, _window_flags));
-    // NOLINTEND(hicpp-signed-bitwise)
 
     if (_window == nullptr)
     {
-        printf("Failed to open %d x %d window: %s\n", SCREEN_WIDTH,
-               SCREEN_HEIGHT, SDL_GetError());
+        std::cout << "Failed to open " << SCREEN_WIDTH << " x "
+                  << SCREEN_HEIGHT << " window: " << SDL_GetError()
+                  << std::endl;
         return false;
     }
 
@@ -58,26 +60,24 @@ bool Window::init_sdl()
 
     if (_renderer == nullptr)
     {
-        printf("Failed to create renderer: %s\n", SDL_GetError());
+        std::cout << "Failed to create renderer: " << SDL_GetError()
+                  << std::endl;
         return false;
     }
 
     SDL_SetRenderDrawColor(_renderer.get(), 255, 255, 255, 255);
 
-    // Initialize SDL_ttf
     if (TTF_Init() == -1)
     {
-        printf("SDL_ttf could not initialize! SDL_ttf Error: %s\n",
-               TTF_GetError());
+        std::cout << "SDL_ttf could not initialize! SDL_ttf Error: "
+                  << TTF_GetError() << std::endl;
         return false;
     }
 
     return true;
 }
 
-Window::~Window() { cleanup(); }
-
-void Window::cleanup()
+Window::~Window()
 {
     // Clean up
     _renderer.reset(nullptr);

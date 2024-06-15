@@ -3,7 +3,6 @@
 
 #include <SDL.h>
 #include <SDL_image.h>
-#include <memory>
 #include <string_view>
 #include <unordered_map>
 #include <utility>
@@ -18,6 +17,7 @@ const resource_map textures_info = {
     {"player", "assets/player.png"},
     {"player_bullet", "assets/playerBullet.png"},
     {"enemy", "assets/enemy.png"},
+    {"enemy2", "assets/enemy_1.png"},
     {"enemy_bullet", "assets/enemyBullet.png"},
     {"background", "assets/background.png"}};
 

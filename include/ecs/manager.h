@@ -1,5 +1,6 @@
 #pragma once
 
+#include <algorithm>
 #include <ecs/entity.h>
 
 namespace yaschperitsy::ecs

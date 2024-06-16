@@ -5,18 +5,24 @@
 #include "utility/utility.h"
 #include "utility/vector2D.h"
 
+#include "ecs2/components/fire_component.h"
+#include "ecs2/components/keyboard_controller.h"
+#include "ecs2/components/mouse_controller.h"
+#include "ecs2/components/sprite_component.h"
+#include "ecs2/components/transform_component.h"
+
 namespace yaschperitsy::game
 {
 
 void Game::compose_player()
 {
-    _player.add_component<ecs::TransformComponent>(
+    _player->add_component<ecs2::components::TransformComponent>(
         100, 100, _game_settings._player_speed);
-    _player.add_component<ecs::SpriteComponent>(
+    _player->add_component<ecs2::components::SpriteComponent>(
         _rm->get_texture("player"));
-    _player.add_component<ecs::KeyboardController>();
-    _player.add_component<ecs::MouseController>();
-    _player.add_component<ecs::FireReloadComponent>(8);
+    _player->add_component<ecs2::components::KeyboardController>();
+    _player->add_component<ecs2::components::MouseController>();
+    _player->add_component<ecs2::components::FireComponent>(8);
 }
 
 Game::Game(const resource::ResourceManagerUPtr& rm)
@@ -80,26 +86,27 @@ void Game::spawn_enemies()
 {
     if (--enemy_spawn_timer <= 0)
     {
-        auto& enemy = _manager.add_entity("enemy");
-        enemy.add_component<ecs::TransformComponent>(
+        auto enemy = _manager.add_entity("enemy");
+        enemy->add_component<ecs2::components::TransformComponent>(
             _game_field.w, 0, _game_settings._enemy_speed);
 
         // Enemy texture randomizer
         const auto random = get_random<int>(2);
         const auto name = (random == 1) ? "enemy" : "enemy2";
-        enemy.add_component<ecs::SpriteComponent>(
+        enemy->add_component<ecs2::components::SpriteComponent>(
             _rm->get_texture(name), 2, 100);
 
         const auto enemy_rect =
-            enemy.get_component<ecs::SpriteComponent>()
+            enemy->get_component<ecs2::components::SpriteComponent>()
                 ->get_texture_rect();
-        enemy.get_component<ecs::TransformComponent>()->set_position(
-            _game_field.w,
-            get_random<int>(_game_field.h - enemy_rect.h));
+        enemy->get_component<ecs2::components::TransformComponent>()
+            ->set_position(
+                _game_field.w,
+                get_random<int>(_game_field.h - enemy_rect.h));
 
-        enemy.get_component<ecs::TransformComponent>()->set_x_velocity(
-            -1);
-        enemy.add_component<ecs::FireReloadComponent>(60);
+        enemy->get_component<ecs2::components::TransformComponent>()
+            ->set_x_velocity(-1);
+        enemy->add_component<ecs2::components::FireComponent>(60);
 
         // frame rate is 60 fps and every second with random factor
         // TODO: do I need _enemy_spawn_freq ?
@@ -114,21 +121,23 @@ void Game::fire_enemies()
     for (auto& e : _manager.get_entities_by_name("enemy"))
     {
         const auto fire_component =
-            e->get_component<ecs::FireReloadComponent>();
+            e->get_component<ecs2::components::FireComponent>();
         if (fire_component->is_reloaded())
         {
             fire_component->shot();
 
             const auto trasnsform_component =
-                e->get_component<ecs::TransformComponent>()->position();
+                e->get_component<ecs2::components::TransformComponent>()
+                    ->position();
 
-            auto& bullet = _manager.add_entity("enemy_bullet");
-            bullet.add_component<ecs::TransformComponent>(
+            auto bullet = _manager.add_entity("enemy_bullet");
+            bullet->add_component<ecs2::components::TransformComponent>(
                 trasnsform_component.x(), trasnsform_component.y());
-            bullet.add_component<ecs::SpriteComponent>(
+            bullet->add_component<ecs2::components::SpriteComponent>(
                 _rm->get_texture("enemy_bullet"));
-            bullet.get_component<ecs::TransformComponent>()
-                ->set_velocity(Vector2D{-1.0f, 0.0f} *
+            bullet
+                ->get_component<ecs2::components::TransformComponent>()
+                ->set_velocity(Vector2D{-1, 0} *
                                (_game_settings._bullet_speed));
         }
     }
@@ -138,12 +147,12 @@ void Game::destroy_objects()
 {
     for (auto& e : _manager.get_entities())
     {
-        if (e->_name == "player")
+        if (e->name() == "player")
         {
             continue;
         }
         auto sprite_component =
-            e->get_component<ecs::SpriteComponent>();
+            e->get_component<ecs2::components::SpriteComponent>();
         auto pos = sprite_component->get_texture_rect();
         auto x = pos.x;
         auto y = pos.y;
@@ -159,7 +168,7 @@ void Game::destroy_objects()
 void Game::game_update_player()
 {
     const auto fire_component =
-        _player.get_component<ecs::FireReloadComponent>();
+        _player->get_component<ecs2::components::FireComponent>();
 
     if (fire_component->is_reloaded())
     {
@@ -170,17 +179,18 @@ void Game::game_update_player()
         {
             fire_component->shot();
 
-            const auto trasnsform_component =
-                _player.get_component<ecs::TransformComponent>();
+            const auto trasnsform_component = _player->get_component<
+                ecs2::components::TransformComponent>();
             const auto pos = trasnsform_component->position();
 
-            auto& bullet = _manager.add_entity("player_bullet");
-            bullet.add_component<ecs::TransformComponent>(
+            auto bullet = _manager.add_entity("player_bullet");
+            bullet->add_component<ecs2::components::TransformComponent>(
                 pos.x() + 80, pos.y(), trasnsform_component->angle());
-            bullet.add_component<ecs::SpriteComponent>(
+            bullet->add_component<ecs2::components::SpriteComponent>(
                 _rm->get_texture("player_bullet"));
 
-            bullet.get_component<ecs::TransformComponent>()
+            bullet
+                ->get_component<ecs2::components::TransformComponent>()
                 ->set_velocity(trasnsform_component->direction() *
                                _game_settings._bullet_speed);
         }
@@ -224,13 +234,15 @@ void Game::bullet_hit()
         _manager.get_entities_by_name("player_bullet");
 
     // player
-    const auto p_rect = _player.get_component<ecs::SpriteComponent>()
-                            ->get_texture_rect();
+    const auto p_rect =
+        _player->get_component<ecs2::components::SpriteComponent>()
+            ->get_texture_rect();
 
     for (const auto& b : enemies_bullets)
     {
-        const auto rect = b->get_component<ecs::SpriteComponent>()
-                              ->get_texture_rect();
+        const auto rect =
+            b->get_component<ecs2::components::SpriteComponent>()
+                ->get_texture_rect();
         if (intersect(p_rect, rect))
         {
             reset_state();
@@ -242,10 +254,11 @@ void Game::bullet_hit()
         for (const auto& e : enemies)
         {
             const auto b_rect =
-                pb->get_component<ecs::SpriteComponent>()
+                pb->get_component<ecs2::components::SpriteComponent>()
                     ->get_texture_rect();
-            const auto e_rect = e->get_component<ecs::SpriteComponent>()
-                                    ->get_texture_rect();
+            const auto e_rect =
+                e->get_component<ecs2::components::SpriteComponent>()
+                    ->get_texture_rect();
             if (intersect(b_rect, e_rect))
             {
                 e->destroy();
@@ -259,10 +272,10 @@ void Game::reset_state()
 {
     for (auto& e : _manager.get_entities())
     {
-        if (e->_name == "player")
+        if (e->name() == "player")
         {
-            e->get_component<ecs::TransformComponent>()->set_position(
-                100, 100);
+            e->get_component<ecs2::components::TransformComponent>()
+                ->set_position(100, 100);
         }
         else
         {

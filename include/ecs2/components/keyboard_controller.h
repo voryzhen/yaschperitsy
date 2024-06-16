@@ -92,6 +92,8 @@ class KeyboardController : public IComponent
             }
         }
 
+        void render(const app::SDL_RendererUPtr& renderer) override {};
+
     private:
         TransformComponentSPtr _transform_component;
 };

@@ -5,7 +5,8 @@
 
 #include "SDL_events.h"
 #include "background.h"
-#include "ecs/ecs.h"
+#include "ecs2/entity.h"
+#include "ecs2/manager.h"
 #include "game_parameters.h"
 #include "resource_manager.h"
 #include "topbar.h"
@@ -56,11 +57,11 @@ class Game
         int enemy_spawn_timer{0};
 
         SDL_Event _event{};
-        ecs::Manager _manager{};
+        ecs2::Manager _manager{};
 
         const resource::ResourceManagerUPtr& _rm;
 
-        ecs::Entity& _player;
+        ecs2::EntitySPtr _player;
         std::unique_ptr<Background> _background;
         std::unique_ptr<Topbar> _topbar;
 

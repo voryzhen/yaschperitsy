@@ -5,7 +5,8 @@
 
 #include "SDL_events.h"
 #include "background.h"
-#include "ecs/ecs.h"
+#include "ecs/entity.h"
+#include "ecs/manager.h"
 #include "game_parameters.h"
 #include "resource_manager.h"
 #include "topbar.h"
@@ -60,7 +61,7 @@ class Game
 
         const resource::ResourceManagerUPtr& _rm;
 
-        ecs::Entity& _player;
+        ecs::EntitySPtr _player;
         std::unique_ptr<Background> _background;
         std::unique_ptr<Topbar> _topbar;
 

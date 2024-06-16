@@ -1,8 +1,13 @@
 #pragma once
 
-#include "ecs/components.h"
 #include <memory>
+#include <string_view>
 #include <vector>
+
+#include "ecs/icomponent.h"
+#include <window.h>
+
+#include "SDL_events.h"
 
 namespace yaschperitsy::ecs
 {
@@ -10,9 +15,7 @@ namespace yaschperitsy::ecs
 class Entity
 {
     public:
-        Entity() = default;
-
-        Entity(const std::string_view& name) : _name(name) {}
+        Entity(const std::string_view name) : _name(name) {}
 
         void update(const SDL_Event& event)
         {
@@ -32,45 +35,50 @@ class Entity
 
         bool is_active() const { return _active; }
 
+        std::string_view name() const { return _name; }
+
         void destroy() { _active = false; }
 
         template <typename T> bool has_component() const
         {
-            return _component_bitset[get_component_type_id<T>];
+            return _component_bitset[get_component_type_ID<T>()];
+        }
+
+        template <typename T> std::shared_ptr<T> get_component() const
+        {
+            auto icomponent =
+                _component_array[get_component_type_ID<T>()];
+
+            return std::static_pointer_cast<T>(icomponent);
         }
 
         template <typename T, typename... TArgs>
-        T& add_component(TArgs&&... args)
+        std::shared_ptr<T> add_component(TArgs&&... args)
         {
-            T* c(new T(std::forward<TArgs>(args)...));
-            c->owner = this;
-            std::unique_ptr<Component> u_ptr{c};
-            _components.emplace_back(std::move(u_ptr));
+            std::shared_ptr<T> component(
+                new T(std::forward<TArgs>(args)...));
 
-            _component_array[get_component_type_id<T>()] = c;
-            _component_bitset[get_component_type_id<T>()] = true;
+            _components.emplace_back(component);
+            _component_array[get_component_type_ID<T>()] = component;
+            _component_bitset[get_component_type_ID<T>()] = true;
 
-            c->init();
-            return *c;
+            component->owner = this;
+            component->init();
+
+            return component;
         }
-
-        template <typename T> T* get_component() const
-        {
-            auto ptr = _component_array[get_component_type_id<T>()];
-            return static_cast<T*>(ptr);
-        }
-
-        std::string_view _name;
 
     private:
-        bool _active{true};
-        std::vector<std::unique_ptr<Component>> _components;
+        bool _active = true;
+        std::string_view _name;
 
-        ComponentArray _component_array{};
-        ComponentBitSet _component_bitset;
+        SComponentVector _components;
+
+        SComponentArray _component_array;
+        ComponentBitset _component_bitset;
 };
 
 using EntitySPtr = std::shared_ptr<Entity>;
-// using EntityWPtr = std::weak_ptr<Entity>;
+using SEntityVector = std::vector<EntitySPtr>;
 
 }; // namespace yaschperitsy::ecs

@@ -1,17 +1,15 @@
-#define BOOST_TEST_MAIN
-#define BOOST_TEST_MODULE vector_unit_tests
-#define BOOST_TEST_DYN_LINK
+#define BOOST_TEST_MODULE                                              \
+    header - only multiunit yaschperitsy_unit_tests
 
-#include "boost/test/unit_test.hpp"
-#include "game/vector2D.h"
+#include "boost/test/included/unit_test.hpp"
+
+#include "utility/vector2D.h"
 
 BOOST_AUTO_TEST_SUITE(vector_unit_tests_suite)
 
-// NOLINTBEGIN(cppcoreguidelines-avoid-do-while)
-
 BOOST_AUTO_TEST_CASE(vector_ctor)
 {
-    Vector2D a;
+    Vector2D<float> a;
     Vector2D b(.5f, 999.444f);
 
     BOOST_CHECK(std::abs(a.x()) < eps && std::abs(a.y()) < eps);
@@ -128,5 +126,3 @@ BOOST_AUTO_TEST_CASE(vector_math_operators_mult_eq_const)
 }
 
 BOOST_AUTO_TEST_SUITE_END()
-
-// NOLINTEND(cppcoreguidelines-avoid-do-while)

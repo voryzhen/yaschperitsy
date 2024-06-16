@@ -1,11 +1,7 @@
 #pragma once
 
-#include "SDL_events.h"
-#include "ecs/components.h"
 #include <algorithm>
-#include <iostream>
-#include <string_view>
-#include <vector>
+#include <ecs/entity.h>
 
 namespace yaschperitsy::ecs
 {
@@ -38,30 +34,26 @@ class Manager
             _entities.erase(remove_it, _entities.end());
         }
 
-        Entity& add_entity(const std::string_view& name = "")
+        EntitySPtr add_entity(const std::string_view& name = "")
         {
             _entities.emplace_back(new Entity(name));
-            return *_entities.back().get();
+            return _entities.back();
         }
 
-        std::vector<EntitySPtr>
-        get_entities_by_name(const std::string& name)
+        const SEntityVector& get_entities() const { return _entities; }
+
+        SEntityVector get_entities_by_name(const std::string& name)
         {
-            std::vector<EntitySPtr> res;
+            SEntityVector res;
             std::copy_if(_entities.begin(), _entities.end(),
                          std::back_inserter(res),
                          [&](const EntitySPtr& e)
-                         { return e->_name == name; });
+                         { return e->name() == name; });
             return res;
         }
 
-        const std::vector<EntitySPtr>& get_entities() const
-        {
-            return _entities;
-        }
-
     private:
-        std::vector<EntitySPtr> _entities;
+        SEntityVector _entities;
 };
 
 }; // namespace yaschperitsy::ecs

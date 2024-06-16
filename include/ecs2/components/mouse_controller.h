@@ -5,7 +5,7 @@
 #include <ecs2/components/transform_component.h>
 #include <ecs2/entity.h>
 #include <ecs2/icomponent.h>
-#include <game/vector2D.h>
+#include <utility/vector2D.h>
 
 namespace yaschperitsy::ecs2::components
 {
@@ -27,24 +27,24 @@ class MouseController : public IComponent
             int x = 0;
             int y = 0;
             SDL_GetMouseState(&x, &y);
-            _mouse_pos = {static_cast<float>(x), static_cast<float>(y)};
+            _mouse_pos = {x, y};
 
             // update angle
             auto pos = _transform_component->position();
 
-            float dy = static_cast<float>(y) - pos.y();
-            float dx = static_cast<float>(x) - pos.x() + 25;
+            int dy = y - pos.y();
+            int dx = x - pos.x() + 25;
 
-            _angle = -90 + atan2(dy, dx) * (180 / std::numbers::pi);
+            _angle = -90.0f + atan2(dy, dx) * (180 / std::numbers::pi);
 
             _transform_component->set_angle(_angle +
                                             static_cast<float>(90.0));
 
-            float d2 = dy * dy + dx * dx;
-            float d = sqrtf(d2);
+            auto d2 = dy * dy + dx * dx;
+            auto d = sqrt(d2);
 
-            float xx = dx / d;
-            float yy = dy / d;
+            auto xx = static_cast<int>(lround(dx / d));
+            auto yy = static_cast<int>(lround(dy / d));
 
             _direction = Vector2D(xx, yy);
             _transform_component->set_direction(_direction);
@@ -54,8 +54,8 @@ class MouseController : public IComponent
 
     private:
         TransformComponentSPtr _transform_component;
-        Vector2D _mouse_pos;
-        Vector2D _direction;
+        Vector2D<int> _mouse_pos;
+        Vector2D<int> _direction;
         float _angle = 0;
 };
 

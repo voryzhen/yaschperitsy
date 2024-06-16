@@ -1,11 +1,12 @@
 #pragma once
 
+#include <memory>
+
 #include <ecs2/components/transform_component.h>
 #include <ecs2/entity.h>
 #include <ecs2/icomponent.h>
-#include <game/vector2D.h>
-#include <memory>
 #include <resource_manager.h>
+#include <utility/vector2D.h>
 
 namespace yaschperitsy::ecs2::components
 {
@@ -70,7 +71,7 @@ class SpriteComponent : public IComponent
 
         SDL_Rect get_texture_rect()
         {
-            Vector2D pos = {};
+            Vector2D<int> pos = {};
             if (_position != nullptr)
             {
                 pos = _position->position();

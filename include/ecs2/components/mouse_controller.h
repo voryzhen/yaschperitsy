@@ -25,13 +25,13 @@ class MouseController : public IComponent
             int x = 0;
             int y = 0;
             SDL_GetMouseState(&x, &y);
-            _mouse_pos = {x, y};
+            _mouse_pos = {static_cast<float>(x), static_cast<float>(y)};
 
             // update angle
             auto pos = _transform_component->position();
 
             int dy = y - pos.y();
-            int dx = x - pos.x() + 25;
+            int dx = x - pos.x();
 
             _angle = -90.0f + atan2(dy, dx) * (180 / std::numbers::pi);
 
@@ -41,10 +41,10 @@ class MouseController : public IComponent
             auto d2 = dy * dy + dx * dx;
             auto d = sqrt(d2);
 
-            auto xx = static_cast<int>(lround(dx / d));
-            auto yy = static_cast<int>(lround(dy / d));
+            auto xx = dx / d;
+            auto yy = dy / d;
 
-            _direction = Vector2D(xx, yy);
+            _direction = Vector2D<float>(xx, yy);
             _transform_component->set_direction(_direction);
         }
 
@@ -52,8 +52,8 @@ class MouseController : public IComponent
 
     private:
         TransformComponentSPtr _transform_component;
-        Vector2D<int> _mouse_pos;
-        Vector2D<int> _direction;
+        Vector2D<float> _mouse_pos;
+        Vector2D<float> _direction;
         float _angle = 0;
 };
 

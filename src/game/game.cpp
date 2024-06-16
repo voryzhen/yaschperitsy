@@ -137,7 +137,7 @@ void Game::fire_enemies()
                 _rm->get_texture("enemy_bullet"));
             bullet
                 ->get_component<ecs2::components::TransformComponent>()
-                ->set_velocity(Vector2D{-1, 0} *
+                ->set_velocity(Vector2D{-1.0f, .0f} *
                                (_game_settings._bullet_speed));
         }
     }
@@ -184,8 +184,10 @@ void Game::game_update_player()
             const auto pos = trasnsform_component->position();
 
             auto bullet = _manager.add_entity("player_bullet");
+
             bullet->add_component<ecs2::components::TransformComponent>(
-                pos.x() + 80, pos.y(), trasnsform_component->angle());
+                pos.x() + 80, pos.y(), _game_settings._bullet_speed,
+                trasnsform_component->angle());
             bullet->add_component<ecs2::components::SpriteComponent>(
                 _rm->get_texture("player_bullet"));
 
@@ -245,7 +247,7 @@ void Game::bullet_hit()
                 ->get_texture_rect();
         if (intersect(p_rect, rect))
         {
-            reset_state();
+            // reset_state();
         }
     }
 

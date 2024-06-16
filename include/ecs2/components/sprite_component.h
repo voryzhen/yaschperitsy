@@ -70,7 +70,7 @@ class SpriteComponent : public IComponent
 
         SDL_Rect get_texture_rect()
         {
-            Vector2D<int> pos = {};
+            Vector2D<float> pos = {};
             if (_position != nullptr)
             {
                 pos = _position->position();

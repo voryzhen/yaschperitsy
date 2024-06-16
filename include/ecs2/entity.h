@@ -44,23 +44,26 @@ class Entity
             return _component_bitset[get_component_type_ID<T>()];
         }
 
-        template <typename T> IComponentSPtr get_component() const
+        template <typename T> std::shared_ptr<T> get_component() const
         {
-            return _component_array[get_component_type_ID<T>()];
+            auto icomponent =
+                _component_array[get_component_type_ID<T>()];
+
+            return std::static_pointer_cast<T>(icomponent);
         }
 
         template <typename T, typename... TArgs>
-        IComponentSPtr add_component(TArgs&&... args)
+        std::shared_ptr<T> add_component(TArgs&&... args)
         {
-            IComponentSPtr component(
+            std::shared_ptr<T> component(
                 new T(std::forward<TArgs>(args)...));
 
             _components.emplace_back(component);
             _component_array[get_component_type_ID<T>()] = component;
             _component_bitset[get_component_type_ID<T>()] = true;
 
-            component->init();
             component->owner = this;
+            component->init();
 
             return component;
         }

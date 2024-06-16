@@ -59,13 +59,14 @@ project ( yaschperitsy_test )
 
 find_package( Boost COMPONENTS system filesystem unit_test_framework REQUIRED )
 
-include_directories ( ${Boost_INCLUDE_DIR} )
-link_directories ( ${Boost_LIBRARY_DIR} )
+include_directories ( ${Boost_INCLUDE_DIR} ${SDL2_INCLUDE_DIRS} /opt/homebrew/include/SDL2 )
+link_directories ( ${Boost_LIBRARY_DIR} ${SDL2_LIB_DIRS} /opt/homebrew/lib )
 
 add_executable( yaschperitsy_test
 
   tests/test_vector2D.cpp
   tests/test_ecs2_icomponent.cpp
+  tests/test_ecs2_components.cpp
   tests/test_ecs2_manager.cpp
   tests/test_ecs2_entity.cpp
 
@@ -76,6 +77,10 @@ target_link_libraries( yaschperitsy_test
   ${Boost_FILESYSTEM_LIBRARY}
   ${Boost_SYSTEM_LIBRARY}
   ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY}
+  ${SDL2_LIBRARIES}
+  SDL2
+  SDL2_image
+  SDL2_ttf
 
 )
 

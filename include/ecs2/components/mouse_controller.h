@@ -1,5 +1,6 @@
 #pragma once
 
+#include <memory>
 #include <numbers>
 
 #include <ecs2/components/transform_component.h>
@@ -15,11 +16,8 @@ class MouseController : public IComponent
     public:
         void init() override
         {
-            auto transform_component =
+            _transform_component =
                 owner->get_component<TransformComponent>();
-
-            _transform_component = std::make_shared<TransformComponent>(
-                transform_component.get());
         }
 
         void update(const SDL_Event& /*e*/) override

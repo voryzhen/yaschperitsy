@@ -3,6 +3,7 @@
 #include <ecs2/components/transform_component.h>
 #include <ecs2/entity.h>
 #include <ecs2/icomponent.h>
+#include <memory>
 
 namespace yaschperitsy::ecs2::components
 {
@@ -12,11 +13,8 @@ class KeyboardController : public IComponent
     public:
         void init() override
         {
-            auto transform_component =
+            _transform_component =
                 owner->get_component<TransformComponent>();
-
-            _transform_component = std::make_shared<TransformComponent>(
-                transform_component.get());
         }
 
         void update(const SDL_Event& e) override

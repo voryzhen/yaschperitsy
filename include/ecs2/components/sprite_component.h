@@ -8,6 +8,9 @@
 #include <resource_manager.h>
 #include <utility/vector2D.h>
 
+#include "SDL_render.h"
+#include "SDL_timer.h"
+
 namespace yaschperitsy::ecs2::components
 {
 
@@ -30,11 +33,7 @@ class SpriteComponent : public IComponent
 
         void init() override
         {
-            auto transform_component =
-                owner->get_component<TransformComponent>();
-
-            _position = std::make_shared<TransformComponent>(
-                transform_component.get());
+            _position = owner->get_component<TransformComponent>();
 
             _src_rect.x = _src_rect.y = 0;
 

@@ -1,6 +1,7 @@
 #include "resource_manager.h"
 #include "SDL_ttf.h"
 
+#include "vector"
 #include <SDL.h>
 #include <SDL_image.h>
 #include <string_view>

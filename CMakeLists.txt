@@ -4,6 +4,8 @@ cmake_minimum_required ( VERSION 3.29.3 )
 # set ( CMAKE_CXX_COMPILER "/opt/homebrew/opt/llvm/bin/clang++" )
 
 set ( CMAKE_CXX_STANDARD 20 )
+set ( CMAKE_CXX_STANDARD_REQUIRED ON )
+
 set ( CMAKE_CXX_FLAGS "-Wall -g" )
 
 project ( yaschperitsy )
@@ -63,8 +65,12 @@ link_directories ( ${Boost_LIBRARY_DIR} )
 
 add_executable( yaschperitsy_test
 
-  tests/test_vector2D.cpp
   src/game/vector2D.cpp
+
+  tests/test_vector2D.cpp
+  tests/test_ecs2_icomponent.cpp
+  tests/test_ecs2_manager.cpp
+  tests/test_ecs2_entity.cpp
 
 )
 

@@ -28,9 +28,6 @@ constexpr std::size_t max_components = 32;
 
 class Entity;
 
-// using SDL_RendererSPtr =
-// std::unique_ptr<SDL_Renderer, decltype(&SDL_DestroyRenderer)>;
-
 class Component
 {
     public:

@@ -34,7 +34,6 @@ add_executable ( yaschperitsy
 
   src/game/game.cpp
   src/game/topbar.cpp
-  src/game/vector2D.cpp
 
   src/ui/base_screen.cpp
   src/ui/screen_manager.cpp
@@ -64,8 +63,6 @@ include_directories ( ${Boost_INCLUDE_DIR} )
 link_directories ( ${Boost_LIBRARY_DIR} )
 
 add_executable( yaschperitsy_test
-
-  src/game/vector2D.cpp
 
   tests/test_vector2D.cpp
   tests/test_ecs2_icomponent.cpp

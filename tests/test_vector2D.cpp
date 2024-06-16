@@ -3,13 +3,13 @@
 
 #include "boost/test/included/unit_test.hpp"
 
-#include "game/vector2D.h"
+#include "utility/vector2D.h"
 
 BOOST_AUTO_TEST_SUITE(vector_unit_tests_suite)
 
 BOOST_AUTO_TEST_CASE(vector_ctor)
 {
-    Vector2D a;
+    Vector2D<float> a;
     Vector2D b(.5f, 999.444f);
 
     BOOST_CHECK(std::abs(a.x()) < eps && std::abs(a.y()) < eps);

@@ -8,8 +8,8 @@
 #include "SDL_timer.h"
 #include "ecs/component.h"
 #include "ecs/entity.h"
-#include "game/vector2D.h"
 #include "resource_manager.h"
+#include "utility/vector2D.h"
 #include <cmath>
 #include <cstddef>
 #include <cstdint>
@@ -44,16 +44,19 @@ class TransformComponent : public Component
             _speed = speed;
         }
 
-        Vector2D position() const { return _position; }
+        Vector2D<float> position() const { return _position; }
 
-        Vector2D velocity() const { return _velocity; }
+        Vector2D<float> velocity() const { return _velocity; }
 
         void set_position(int x, int y)
         {
             _position = {static_cast<float>(x), static_cast<float>(y)};
         }
 
-        void set_velocity(const Vector2D& vel) { _velocity = vel; }
+        void set_velocity(const Vector2D<float>& vel)
+        {
+            _velocity = vel;
+        }
 
         void set_x_velocity(float x_vel)
         {
@@ -74,19 +77,19 @@ class TransformComponent : public Component
 
         void set_angle(float angle) { _angle = angle; }
 
-        Vector2D direction() { return _direction; }
+        Vector2D<float> direction() { return _direction; }
 
-        void set_direction(Vector2D direction)
+        void set_direction(Vector2D<float> direction)
         {
             _direction = direction;
         }
 
     private:
-        Vector2D _position;
-        Vector2D _velocity;
+        Vector2D<float> _position;
+        Vector2D<float> _velocity;
         int _speed{3};
         float _angle{.0};
-        Vector2D _direction;
+        Vector2D<float> _direction;
 };
 
 class SpriteComponent : public Component
@@ -145,7 +148,7 @@ class SpriteComponent : public Component
 
         SDL_Rect get_texture_rect()
         {
-            Vector2D pos = {};
+            Vector2D<float> pos = {};
             if (_position != nullptr)
             {
                 pos = _position->position();
@@ -294,8 +297,8 @@ class MouseController : public Component
 
     private:
         TransformComponent* _transformComponent{nullptr};
-        Vector2D _mouse_pos;
-        Vector2D _direction;
+        Vector2D<float> _mouse_pos;
+        Vector2D<float> _direction;
         float _angle = 0;
 };
 

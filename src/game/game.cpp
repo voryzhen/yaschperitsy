@@ -2,8 +2,8 @@
 
 #include "SDL_render.h"
 #include "SDL_video.h"
-#include "game/utility.h"
-#include "game/vector2D.h"
+#include "utility/utility.h"
+#include "utility/vector2D.h"
 
 namespace yaschperitsy::game
 {
@@ -128,7 +128,7 @@ void Game::fire_enemies()
             bullet.add_component<ecs::SpriteComponent>(
                 _rm->get_texture("enemy_bullet"));
             bullet.get_component<ecs::TransformComponent>()
-                ->set_velocity(Vector2D{-1, 0} *
+                ->set_velocity(Vector2D{-1.0f, 0.0f} *
                                (_game_settings._bullet_speed));
         }
     }

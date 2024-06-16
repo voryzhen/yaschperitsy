@@ -2,11 +2,11 @@
 
 #include <ecs/manager.h>
 
-BOOST_AUTO_TEST_SUITE(ecs2_manager_unit_tests_suite)
+BOOST_AUTO_TEST_SUITE(ecs_manager_unit_tests_suite)
 
 BOOST_AUTO_TEST_CASE(manager_test)
 {
-    yaschperitsy::ecs2::Manager man;
+    yaschperitsy::ecs::Manager man;
 
     const auto ent = man.add_entity("Entity name");
 

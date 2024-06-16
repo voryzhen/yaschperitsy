@@ -9,7 +9,7 @@
 
 #include "SDL_events.h"
 
-namespace yaschperitsy::ecs2
+namespace yaschperitsy::ecs
 {
 
 class Entity;
@@ -48,4 +48,4 @@ using ComponentBitset = std::bitset<max_components>;
 using SComponentArray = std::array<IComponentSPtr, max_components>;
 using SComponentVector = std::vector<IComponentSPtr>;
 
-}; // namespace yaschperitsy::ecs2
+}; // namespace yaschperitsy::ecs

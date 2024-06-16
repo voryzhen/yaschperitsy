@@ -9,7 +9,7 @@
 
 #include "SDL_events.h"
 
-namespace yaschperitsy::ecs2
+namespace yaschperitsy::ecs
 {
 
 class Entity
@@ -81,4 +81,4 @@ class Entity
 using EntitySPtr = std::shared_ptr<Entity>;
 using SEntityVector = std::vector<EntitySPtr>;
 
-}; // namespace yaschperitsy::ecs2
+}; // namespace yaschperitsy::ecs

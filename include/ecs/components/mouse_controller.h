@@ -8,7 +8,7 @@
 #include <ecs/icomponent.h>
 #include <utility/vector2D.h>
 
-namespace yaschperitsy::ecs2::components
+namespace yaschperitsy::ecs::components
 {
 
 class MouseController : public IComponent
@@ -57,4 +57,4 @@ class MouseController : public IComponent
         float _angle = 0;
 };
 
-}; // namespace yaschperitsy::ecs2::components
+}; // namespace yaschperitsy::ecs::components

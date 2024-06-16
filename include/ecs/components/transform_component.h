@@ -4,7 +4,7 @@
 #include <memory>
 #include <utility/vector2D.h>
 
-namespace yaschperitsy::ecs2::components
+namespace yaschperitsy::ecs::components
 {
 
 class TransformComponent : public IComponent
@@ -79,4 +79,4 @@ class TransformComponent : public IComponent
 
 using TransformComponentSPtr = std::shared_ptr<TransformComponent>;
 
-}; // namespace yaschperitsy::ecs2::components
+}; // namespace yaschperitsy::ecs::components

@@ -8,12 +8,12 @@
 
 #include <ecs/entity.h>
 
-BOOST_AUTO_TEST_SUITE(ecs2_components_unit_tests_suite)
+BOOST_AUTO_TEST_SUITE(ecs_components_unit_tests_suite)
 
 BOOST_AUTO_TEST_CASE(components_test)
 {
-    using namespace yaschperitsy::ecs2;
-    using namespace yaschperitsy::ecs2::components;
+    using namespace yaschperitsy::ecs;
+    using namespace yaschperitsy::ecs::components;
 
     auto ent = Entity("Entity");
     BOOST_CHECK(ent.is_active());
@@ -36,8 +36,8 @@ BOOST_AUTO_TEST_CASE(components_test)
 
 BOOST_AUTO_TEST_CASE(transform_components_test)
 {
-    using namespace yaschperitsy::ecs2;
-    using namespace yaschperitsy::ecs2::components;
+    using namespace yaschperitsy::ecs;
+    using namespace yaschperitsy::ecs::components;
 
     auto ent = Entity("Entity");
     auto transform_comp = ent.add_component<TransformComponent>(5, 5);

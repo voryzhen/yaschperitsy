@@ -2,7 +2,7 @@
 
 #include <ecs/icomponent.h>
 
-namespace yaschperitsy::ecs2::components
+namespace yaschperitsy::ecs::components
 {
 
 class FireComponent : public IComponent
@@ -32,4 +32,4 @@ class FireComponent : public IComponent
         std::int8_t _curr_load{8};
 };
 
-}; // namespace yaschperitsy::ecs2::components
+}; // namespace yaschperitsy::ecs::components

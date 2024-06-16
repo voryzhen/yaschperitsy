@@ -3,7 +3,7 @@
 #include "ecs/icomponent.h"
 #include <ecs/entity.h>
 
-namespace yaschperitsy::ecs2
+namespace yaschperitsy::ecs
 {
 
 class Component : public IComponent
@@ -24,13 +24,13 @@ class Component : public IComponent
         int value = 0;
 };
 
-}; // namespace yaschperitsy::ecs2
+}; // namespace yaschperitsy::ecs
 
 BOOST_AUTO_TEST_SUITE(ecs2_entity_unit_tests_suite)
 
 BOOST_AUTO_TEST_CASE(entity_test)
 {
-    using namespace yaschperitsy::ecs2;
+    using namespace yaschperitsy::ecs;
 
     auto ent = Entity("Entity");
     BOOST_CHECK(ent.is_active());
@@ -42,7 +42,7 @@ BOOST_AUTO_TEST_CASE(entity_test)
 
 BOOST_AUTO_TEST_CASE(entity_component_test)
 {
-    using namespace yaschperitsy::ecs2;
+    using namespace yaschperitsy::ecs;
 
     // clang-format off
 

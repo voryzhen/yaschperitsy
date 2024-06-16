@@ -2,20 +2,20 @@
 
 #include "ecs/icomponent.h"
 
-BOOST_AUTO_TEST_SUITE(ecs2_icomponent_unit_tests_suite)
+BOOST_AUTO_TEST_SUITE(ecs_icomponent_unit_tests_suite)
 
 BOOST_AUTO_TEST_CASE(get_component_type_id)
 {
-    BOOST_CHECK(yaschperitsy::ecs2::get_component_type_ID() == 0);
-    BOOST_CHECK(yaschperitsy::ecs2::get_component_type_ID() == 1);
-    BOOST_CHECK(yaschperitsy::ecs2::get_component_type_ID() == 2);
-    BOOST_CHECK(yaschperitsy::ecs2::get_component_type_ID() == 3);
-    BOOST_CHECK(yaschperitsy::ecs2::get_component_type_ID() == 4);
+    BOOST_CHECK(yaschperitsy::ecs::get_component_type_ID() == 0);
+    BOOST_CHECK(yaschperitsy::ecs::get_component_type_ID() == 1);
+    BOOST_CHECK(yaschperitsy::ecs::get_component_type_ID() == 2);
+    BOOST_CHECK(yaschperitsy::ecs::get_component_type_ID() == 3);
+    BOOST_CHECK(yaschperitsy::ecs::get_component_type_ID() == 4);
 }
 
 BOOST_AUTO_TEST_CASE(get_template_component_type_id)
 {
-    using namespace yaschperitsy::ecs2;
+    using namespace yaschperitsy::ecs;
 
     // clang-format off
 

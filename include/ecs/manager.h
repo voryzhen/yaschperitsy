@@ -2,7 +2,7 @@
 
 #include <ecs/entity.h>
 
-namespace yaschperitsy::ecs2
+namespace yaschperitsy::ecs
 {
 
 class Manager
@@ -55,4 +55,4 @@ class Manager
         SEntityVector _entities;
 };
 
-}; // namespace yaschperitsy::ecs2
+}; // namespace yaschperitsy::ecs

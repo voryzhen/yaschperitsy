@@ -65,10 +65,10 @@ link_directories ( ${Boost_LIBRARY_DIR} ${SDL2_LIB_DIRS} /opt/homebrew/lib )
 add_executable( yaschperitsy_test
 
   tests/test_vector2D.cpp
-  tests/test_ecs2_icomponent.cpp
-  tests/test_ecs2_components.cpp
-  tests/test_ecs2_manager.cpp
-  tests/test_ecs2_entity.cpp
+  tests/test_ecs_icomponent.cpp
+  tests/test_ecs_components.cpp
+  tests/test_ecs_manager.cpp
+  tests/test_ecs_entity.cpp
 
 )
 

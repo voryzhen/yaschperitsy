@@ -5,7 +5,7 @@
 #include <ecs/icomponent.h>
 #include <memory>
 
-namespace yaschperitsy::ecs2::components
+namespace yaschperitsy::ecs::components
 {
 
 class KeyboardController : public IComponent
@@ -98,4 +98,4 @@ class KeyboardController : public IComponent
         TransformComponentSPtr _transform_component;
 };
 
-}; // namespace yaschperitsy::ecs2::components
+}; // namespace yaschperitsy::ecs::components

@@ -57,11 +57,11 @@ class Game
         int enemy_spawn_timer{0};
 
         SDL_Event _event{};
-        ecs2::Manager _manager{};
+        ecs::Manager _manager{};
 
         const resource::ResourceManagerUPtr& _rm;
 
-        ecs2::EntitySPtr _player;
+        ecs::EntitySPtr _player;
         std::unique_ptr<Background> _background;
         std::unique_ptr<Topbar> _topbar;
 

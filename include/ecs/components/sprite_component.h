@@ -11,7 +11,7 @@
 #include "SDL_render.h"
 #include "SDL_timer.h"
 
-namespace yaschperitsy::ecs2::components
+namespace yaschperitsy::ecs::components
 {
 
 class SpriteComponent : public IComponent
@@ -92,4 +92,4 @@ class SpriteComponent : public IComponent
         int _speed = 100;
 };
 
-}; // namespace yaschperitsy::ecs2::components
+}; // namespace yaschperitsy::ecs::components

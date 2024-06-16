@@ -2,9 +2,9 @@
 
 #include <memory>
 
-#include <ecs2/components/transform_component.h>
-#include <ecs2/entity.h>
-#include <ecs2/icomponent.h>
+#include <ecs/components/transform_component.h>
+#include <ecs/entity.h>
+#include <ecs/icomponent.h>
 #include <resource_manager.h>
 #include <utility/vector2D.h>
 

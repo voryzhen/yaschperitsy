@@ -1,6 +1,6 @@
 #pragma once
 
-#include <ecs2/icomponent.h>
+#include <ecs/icomponent.h>
 #include <memory>
 #include <utility/vector2D.h>
 

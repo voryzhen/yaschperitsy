@@ -1,6 +1,6 @@
 #pragma once
 
-#include <ecs2/icomponent.h>
+#include <ecs/icomponent.h>
 
 namespace yaschperitsy::ecs2::components
 {

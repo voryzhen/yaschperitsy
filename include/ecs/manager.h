@@ -1,6 +1,6 @@
 #pragma once
 
-#include <ecs2/entity.h>
+#include <ecs/entity.h>
 
 namespace yaschperitsy::ecs2
 {

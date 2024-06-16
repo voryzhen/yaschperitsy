@@ -5,8 +5,8 @@
 
 #include "SDL_events.h"
 #include "background.h"
-#include "ecs2/entity.h"
-#include "ecs2/manager.h"
+#include "ecs/entity.h"
+#include "ecs/manager.h"
 #include "game_parameters.h"
 #include "resource_manager.h"
 #include "topbar.h"

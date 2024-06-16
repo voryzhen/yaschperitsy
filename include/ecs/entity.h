@@ -4,7 +4,7 @@
 #include <string_view>
 #include <vector>
 
-#include "ecs2/icomponent.h"
+#include "ecs/icomponent.h"
 #include <window.h>
 
 #include "SDL_events.h"

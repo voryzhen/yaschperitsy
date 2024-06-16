@@ -5,11 +5,11 @@
 #include "utility/utility.h"
 #include "utility/vector2D.h"
 
-#include "ecs2/components/fire_component.h"
-#include "ecs2/components/keyboard_controller.h"
-#include "ecs2/components/mouse_controller.h"
-#include "ecs2/components/sprite_component.h"
-#include "ecs2/components/transform_component.h"
+#include "ecs/components/fire_component.h"
+#include "ecs/components/keyboard_controller.h"
+#include "ecs/components/mouse_controller.h"
+#include "ecs/components/sprite_component.h"
+#include "ecs/components/transform_component.h"
 
 namespace yaschperitsy::game
 {

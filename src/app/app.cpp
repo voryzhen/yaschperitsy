@@ -1,18 +1,4 @@
-#include "SDL_events.h"
-#include "SDL_render.h"
-#include "app/resource_manager.h"
-#include "app/window.h"
 #include <app/app.h>
-
-#include <SDL_image.h>
-#include <SDL_ttf.h>
-#include <cstddef>
-#include <memory>
-
-namespace
-{
-SDL_Color default_renderer_color = {28, 28, 28, 255};
-};
 
 namespace yaschperitsy::app
 {
@@ -80,16 +66,7 @@ void App::update()
 void App::render()
 {
     SDL_RenderClear(_window->get_renderer().get());
-
-    // Do your stuff
-    SDL_SetRenderDrawColor(
-        _window->get_renderer().get(), default_renderer_color.r,
-        default_renderer_color.g, default_renderer_color.b,
-        default_renderer_color.a);
-
     _sm->render(_window->get_renderer());
-    //  Your stuff ends
-
     SDL_RenderPresent(_window->get_renderer().get());
 }
 

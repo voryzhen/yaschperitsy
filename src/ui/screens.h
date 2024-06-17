@@ -55,6 +55,13 @@ class StartScreen : public BaseScreen
 
         void render(const app::SDL_RendererUPtr& _renderer) override
         {
+            // Set bg color
+            SDL_SetRenderDrawColor(
+                _renderer.get(), screen_background_color.r,
+                screen_background_color.g, screen_background_color.b,
+                screen_background_color.a);
+
+            // Draw buttons
             for (auto& btn : btns)
             {
                 btn->render(_renderer);
@@ -112,6 +119,13 @@ class SettingsScreen : public BaseScreen
 
         void render(const app::SDL_RendererUPtr& _renderer) override
         {
+            // Set bg color
+            SDL_SetRenderDrawColor(
+                _renderer.get(), screen_background_color.r,
+                screen_background_color.g, screen_background_color.b,
+                screen_background_color.a);
+
+            // Draw buttons
             for (auto& btn : btns)
             {
                 btn->render(_renderer);

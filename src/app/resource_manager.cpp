@@ -1,12 +1,9 @@
-#include "resource_manager.h"
-#include "SDL_ttf.h"
+#include <app/resource_manager.h>
 
-#include "vector"
-#include <SDL.h>
+#include <iostream>
+#include <vector>
+
 #include <SDL_image.h>
-#include <string_view>
-#include <unordered_map>
-#include <utility>
 
 namespace
 {
@@ -28,6 +25,7 @@ const resource_map fonts_info = {{"lazy", "assets/lazy.ttf"}};
 
 SDL_Color _button_text_color{0, 200, 200};
 SDL_Color _button_on_hover_text_color{0, 100, 200};
+
 const std::vector<std::string_view> button_titles = {
     "New Game", "Settings", "Exit", "Back"};
 
@@ -100,8 +98,8 @@ ResourceManager::load_texture(const std::string_view& filename)
 
     if (texture == nullptr)
     {
-        printf("Failed to load texture! SDL_Image Error: %s\n",
-               TTF_GetError());
+        std::cout << "Failed to load texture! SDL_Image Error: "
+                  << TTF_GetError() << std::endl;
     }
     return texture;
 }
@@ -115,8 +113,8 @@ TTF_Font* ResourceManager::load_font(const std::string_view& filename)
 
     if (font == nullptr)
     {
-        printf("Failed to load lazy font! SDL_ttf Error: %s\n",
-               TTF_GetError());
+        std::cout << "Failed to load lazy font! SDL_ttf Error: "
+                  << TTF_GetError() << std::endl;
     }
     return font;
 }

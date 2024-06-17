@@ -1,12 +1,11 @@
 #pragma once
 
-#include <iostream>
 #include <memory>
 #include <string_view>
 #include <unordered_map>
 
-#include "SDL_render.h"
-#include "SDL_ttf.h"
+#include <SDL_render.h>
+#include <SDL_ttf.h>
 
 namespace yaschperitsy::resource
 {
@@ -36,6 +35,11 @@ struct ButtonTextures
         TextureSPtr on_hover;
 };
 
+using TexturesMap = std::unordered_map<std::string_view, TextureSPtr>;
+using ButtonTexturesMap =
+    std::unordered_map<std::string_view, ButtonTextures>;
+using FontsMap = std::unordered_map<std::string_view, TTF_FontSPtr>;
+
 class ResourceManager
 {
     public:
@@ -60,11 +64,9 @@ class ResourceManager
         SDL_Texture* load_texture(const std::string_view& filename);
         TTF_Font* load_font(const std::string_view& filename);
 
-        std::unordered_map<std::string_view, TextureSPtr> _textures;
-
-        std::unordered_map<std::string_view, ButtonTextures>
-            _button_textures;
-        std::unordered_map<std::string_view, TTF_FontSPtr> _fonts;
+        TexturesMap _textures;
+        ButtonTexturesMap _button_textures;
+        FontsMap _fonts;
 };
 
 using ResourceManagerUPtr = std::unique_ptr<ResourceManager>;

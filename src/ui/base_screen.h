@@ -18,6 +18,8 @@ class BaseScreen
         render(const resource::SDL_RendererUPtr& _renderer);
         virtual void handle_events(const SDL_Event& event);
 
+        SDL_Color screen_background_color = {28, 28, 28, 255};
+
     protected:
         int* _current_screen{nullptr};
         const resource::ResourceManagerUPtr& _rm;

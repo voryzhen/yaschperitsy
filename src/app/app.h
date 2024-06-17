@@ -28,12 +28,12 @@ class App
         void update();
         void render();
 
-        SDL_Event event{};
-        bool is_running = true;
+        SDL_Event _event{};
+        bool _running = true;
 
         WindowUPtr _window;
-        resource::ResourceManagerUPtr _rm;
-        ui::ScreenManagerUPtr _sm;
+        resource::ResourceManagerUPtr _resource_manager;
+        ui::ScreenManagerUPtr _screen_manager;
 };
 
 } // namespace yaschperitsy::app

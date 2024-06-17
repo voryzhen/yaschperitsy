@@ -22,7 +22,7 @@ Window::Window()
 {
     if (init_sdl())
     {
-        initialized = true;
+        _initialized = true;
     }
 }
 

@@ -13,6 +13,7 @@ using SDL_WindowUPtr =
 using SDL_RendererUPtr =
     std::unique_ptr<SDL_Renderer, decltype(&SDL_DestroyRenderer)>;
 
+// TODO: add resize
 class Window
 {
     public:
@@ -24,7 +25,7 @@ class Window
         Window& operator=(const Window&) = delete;
         Window& operator=(const Window&&) = delete;
 
-        bool is_initialized() const { return initialized; }
+        bool is_initialized() const { return _initialized; }
 
         const SDL_RendererUPtr& get_renderer() const
         {
@@ -38,10 +39,10 @@ class Window
     private:
         bool init_sdl();
 
-        bool initialized = false;
+        bool _initialized = false;
 
-        int _width{0};
-        int _height{0};
+        int _width = 0;
+        int _height = 0;
 
         SDL_WindowUPtr _window{nullptr, SDL_DestroyWindow};
         SDL_RendererUPtr _renderer{nullptr, SDL_DestroyRenderer};

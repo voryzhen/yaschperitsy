@@ -8,9 +8,10 @@ App::App()
     _window = std::make_unique<Window>();
     if (_window->is_initialized())
     {
-        _rm = std::make_unique<resource::ResourceManager>(
+        _resource_manager = std::make_unique<resource::ResourceManager>(
             _window->get_renderer());
-        _sm = std::make_unique<ui::ScreenManager>(_rm);
+        _screen_manager =
+            std::make_unique<ui::ScreenManager>(_resource_manager);
         run_app();
     }
 }
@@ -24,7 +25,7 @@ void App::run_app()
     unsigned char _fps = 60;
     unsigned char _frame_delay = 1000 / _fps;
 
-    while (is_running)
+    while (_running)
     {
         frame_start = SDL_GetTicks();
 
@@ -43,30 +44,30 @@ void App::run_app()
 
 void App::handle_events()
 {
-    SDL_PollEvent(&event);
-    switch (event.type)
+    SDL_PollEvent(&_event);
+    switch (_event.type)
     {
     case SDL_QUIT:
-        is_running = false;
+        _running = false;
     default:
         break;
     }
-    _sm->handle_events(event);
+    _screen_manager->handle_events(_event);
 }
 
 void App::update()
 {
-    auto res = _sm->update();
+    auto res = _screen_manager->update();
     if (res == -1)
     {
-        is_running = false;
+        _running = false;
     }
 }
 
 void App::render()
 {
     SDL_RenderClear(_window->get_renderer().get());
-    _sm->render(_window->get_renderer());
+    _screen_manager->render(_window->get_renderer());
     SDL_RenderPresent(_window->get_renderer().get());
 }
 

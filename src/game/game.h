@@ -35,6 +35,7 @@ class Game
         void game_update_enemies();
         void spawn_enemies();
         void fire_enemies();
+        void update_enemies_direction();
 
         // Player logic
         void game_update_player();

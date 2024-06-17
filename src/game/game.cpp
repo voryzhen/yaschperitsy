@@ -160,7 +160,6 @@ void Game::update_enemies_direction()
         transform_comp->set_velocity(dir);
         transform_comp->set_direction(dir);
         transform_comp->set_angle(angle);
-        std::cout << "" << std::endl;
     }
 }
 

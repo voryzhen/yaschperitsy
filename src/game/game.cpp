@@ -40,7 +40,7 @@ Vector2D<float> get_enemies_velocity(Vector2D<int> pos)
     int dy = center.y() - pos.y();
     int dx = center.x() - pos.x();
 
-    float _angle = -90.0f + atan2(dy, dx) * (180 / std::numbers::pi);
+    // float _angle = -90.0f + atan2(dy, dx) * (180 / std::numbers::pi);
 
     // _transform_component->set_angle(_angle +
     // static_cast<float>(90.0));
@@ -178,9 +178,9 @@ void Game::spawn_enemies()
         enemy->add_component<ecs::components::SpriteComponent>(
             _rm->get_texture(name), 2, 100);
 
-        const auto enemy_rect =
-            enemy->get_component<ecs::components::SpriteComponent>()
-                ->get_texture_rect();
+        // const auto enemy_rect =
+        // enemy->get_component<ecs::components::SpriteComponent>()
+        // ->get_texture_rect();
 
         int angle{0};
         Vector2D<int> enemies_pos = get_enemies_position(angle);

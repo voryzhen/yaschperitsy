@@ -1,8 +1,8 @@
 #pragma once
 
+#include <algorithm>
 #include <memory>
 #include <string_view>
-#include <vector>
 
 #include "ecs/icomponent.h"
 #include <app/window.h>
@@ -19,18 +19,14 @@ class Entity
 
         void update(const SDL_Event& event)
         {
-            for (auto& c : _components)
-            {
-                c->update(event);
-            }
+            std::for_each(_components.begin(), _components.end(),
+                          [&](auto& c) { c->update(event); });
         }
 
         void render(const app::SDL_RendererUPtr& renderer)
         {
-            for (auto& c : _components)
-            {
-                c->render(renderer);
-            }
+            std::for_each(_components.begin(), _components.end(),
+                          [&](auto& c) { c->render(renderer); });
         }
 
         bool is_active() const { return _active; }

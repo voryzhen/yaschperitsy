@@ -11,18 +11,14 @@ class Manager
     public:
         void update(const SDL_Event& event)
         {
-            for (auto& e : _entities)
-            {
-                e->update(event);
-            }
+            std::for_each(_entities.begin(), _entities.end(),
+                          [&](auto& e) { e->update(event); });
         }
 
         void render(const app::SDL_RendererUPtr& renderer)
         {
-            for (auto& e : _entities)
-            {
-                e->render(renderer);
-            }
+            std::for_each(_entities.begin(), _entities.end(),
+                          [&](auto& e) { e->render(renderer); });
         }
 
         void refresh()

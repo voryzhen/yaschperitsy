@@ -4,7 +4,7 @@
 #include <utility>
 
 #include "SDL_events.h"
-#include "resource_manager.h"
+#include "app/resource_manager.h"
 #include "screens.h"
 
 namespace yaschperitsy::ui
@@ -28,7 +28,7 @@ class ScreenManager
               _settings_screent(std::make_unique<SettingsScreen>(
                   _rm, (int*)(&_current_screen))),
               _play_screen(std::make_unique<PlayScreen>(
-                  _rm, (int*)(&_current_screen))){};
+                  _rm, (int*)(&_current_screen))) {};
         ~ScreenManager() = default;
 
         int update();

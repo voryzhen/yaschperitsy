@@ -1,15 +1,13 @@
 #pragma once
 
-#include <cstdint>
-#include <memory>
-
-#include "SDL_events.h"
+#include "app/resource_manager.h"
 #include "background.h"
 #include "ecs/entity.h"
 #include "ecs/manager.h"
 #include "game_parameters.h"
-#include "resource_manager.h"
 #include "topbar.h"
+
+#include "SDL_events.h"
 #include <SDL.h>
 
 namespace yaschperitsy::game
@@ -65,7 +63,7 @@ class Game
         std::unique_ptr<Background> _background;
         std::unique_ptr<Topbar> _topbar;
 
-        std::unique_ptr<GameStatistic> _stat{new GameStatistic()};
+        GameStatisticUPtr _stat{new GameStatistic()};
 };
 
 } // namespace yaschperitsy::game

@@ -1,15 +1,9 @@
 #include <game/game.h>
 
-#include "SDL_render.h"
-#include "SDL_video.h"
 #include "utility/utility.h"
 #include "utility/vector2D.h"
 
-#include "ecs/components/fire_component.h"
-#include "ecs/components/keyboard_controller.h"
-#include "ecs/components/mouse_controller.h"
-#include "ecs/components/sprite_component.h"
-#include "ecs/components/transform_component.h"
+#include "ecs/components/components.h"
 
 namespace yaschperitsy::game
 {

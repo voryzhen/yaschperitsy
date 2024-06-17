@@ -1,8 +1,8 @@
 #include "SDL_events.h"
 #include "SDL_render.h"
-#include "resource_manager.h"
-#include "window.h"
-#include <app.h>
+#include "app/resource_manager.h"
+#include "app/window.h"
+#include <app/app.h>
 
 #include <SDL_image.h>
 #include <SDL_ttf.h>

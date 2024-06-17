@@ -1,12 +1,12 @@
 #include "ui/base_screen.h"
-#include "resource_manager.h"
+#include "app/resource_manager.h"
 
 namespace yaschperitsy::ui
 {
 
 BaseScreen::BaseScreen(const resource::ResourceManagerUPtr& rm,
                        int* current_screen)
-    : _current_screen(current_screen), _rm(rm){};
+    : _current_screen(current_screen), _rm(rm) {};
 
 BaseScreen::~BaseScreen() {}
 

@@ -3,8 +3,8 @@
 #include <utility>
 
 #include "SDL_ttf.h"
+#include "app/resource_manager.h"
 #include "memory"
-#include "resource_manager.h"
 #include "string"
 
 #include "SDL_render.h"

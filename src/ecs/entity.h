@@ -5,7 +5,7 @@
 #include <vector>
 
 #include "ecs/icomponent.h"
-#include <window.h>
+#include <app/window.h>
 
 #include "SDL_events.h"
 

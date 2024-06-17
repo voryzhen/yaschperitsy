@@ -4,11 +4,11 @@
 #include "base_screen.h"
 #include "game/game.h"
 #include "ui/button.h"
+#include <app/resource_manager.h>
 #include <exception>
 #include <iostream>
 #include <memory>
 #include <ostream>
-#include <resource_manager.h>
 #include <utility>
 #include <vector>
 

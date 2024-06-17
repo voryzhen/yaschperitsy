@@ -1,8 +1,8 @@
 #pragma once
 
 #include "SDL_events.h"
+#include <app/resource_manager.h>
 #include <memory>
-#include <resource_manager.h>
 
 namespace yaschperitsy::ui
 {

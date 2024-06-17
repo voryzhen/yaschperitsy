@@ -2,10 +2,10 @@
 
 #include <memory>
 
+#include <app/resource_manager.h>
 #include <ecs/components/transform_component.h>
 #include <ecs/entity.h>
 #include <ecs/icomponent.h>
-#include <resource_manager.h>
 #include <utility/vector2D.h>
 
 #include "SDL_render.h"

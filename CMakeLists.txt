@@ -12,7 +12,7 @@ project ( yaschperitsy )
 
 include_directories ( 
 
-  include
+  src
   /opt/homebrew/include/SDL2
   ${SDL2_INCLUDE_DIRS}
 
@@ -28,9 +28,9 @@ link_directories (
 add_executable ( yaschperitsy
 
   src/main.cpp
-  src/app.cpp
-  src/window.cpp
-  src/resource_manager.cpp
+  src/app/app.cpp
+  src/app/window.cpp
+  src/app/resource_manager.cpp
 
   src/game/game.cpp
   src/game/topbar.cpp

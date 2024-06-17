@@ -1,7 +1,7 @@
 #pragma once
 
+#include <app/resource_manager.h>
 #include <memory>
-#include <resource_manager.h>
 #include <utility>
 #include <vector>
 

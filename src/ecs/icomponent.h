@@ -5,7 +5,7 @@
 #include <cstdint>
 #include <memory>
 
-#include <window.h>
+#include <app/window.h>
 
 #include "SDL_events.h"
 

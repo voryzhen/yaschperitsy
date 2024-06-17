@@ -1,7 +1,6 @@
 #pragma once
 
-#include <cstddef>
-#include <cstdint>
+#include <memory>
 
 struct GameField
 {
@@ -20,6 +19,8 @@ struct GameStatistic
         size_t _score{0};
         size_t _max_score{0};
 };
+
+using GameStatisticUPtr = std::unique_ptr<GameStatistic>;
 
 struct GameSettings
 {

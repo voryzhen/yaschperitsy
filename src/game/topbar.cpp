@@ -13,8 +13,14 @@ void Topbar::render(const SDL_RendererUPtr& renderer)
     render_text(renderer,
                 "Total Score: " + std::to_string(_stat->_score), 5, 5);
     render_text(renderer,
-                "Max Score: " + std::to_string(_stat->_max_score), 500,
+                "Max Score: " + std::to_string(_stat->_max_score), 400,
                 5);
+
+    auto text = _stat->_enemies_total_num != _stat->_score
+                    ? "Remaining yaschperitsy: " +
+                          std::to_string(_stat->_enemies_num)
+                    : "You win";
+    render_text(renderer, text, 800, 5);
 }
 
 void Topbar::render_text(const SDL_RendererUPtr& renderer,

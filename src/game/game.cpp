@@ -199,8 +199,10 @@ void Game::update_enemies_direction()
 
 void Game::spawn_enemies()
 {
-    if (--enemy_spawn_timer <= 0)
+    if (--enemy_spawn_timer <= 0 && _stat->_enemies_num > 0)
     {
+        _stat->_enemies_num--;
+
         // TODO: Create a fabric for different entities
         auto enemy = _manager.add_entity("enemy");
         enemy->add_component<ecs::components::TransformComponent>(
@@ -293,7 +295,8 @@ void Game::destroy_objects()
         auto x = pos.x;
         auto y = pos.y;
 
-        if (x < -100 || x > 1580 || y < -100 || y > 900)
+        // Relating to rad of enemies generation
+        if (x < -1000 || x > 2300 || y < -1000 || y > 1900)
         {
             e->destroy();
         }
@@ -348,7 +351,7 @@ void Game::bullet_hit()
                 ->texture_rect();
         if (intersect(p_rect, rect))
         {
-            // reset_state();
+            reset_state();
         }
     }
 
@@ -360,7 +363,7 @@ void Game::bullet_hit()
                 ->texture_rect();
         if (intersect(p_rect, rect))
         {
-            // reset_state();
+            reset_state();
         }
     }
 
@@ -402,6 +405,7 @@ void Game::reset_state()
     }
     _stat->_max_score = std::max(_stat->_max_score, _stat->_score);
     _stat->_score = 0;
+    _stat->_enemies_num = _stat->_enemies_total_num;
 }
 
 } // namespace yaschperitsy::game

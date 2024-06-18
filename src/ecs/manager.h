@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <ecs/entity.h>
+#include <iterator>
 
 namespace yaschperitsy::ecs
 {

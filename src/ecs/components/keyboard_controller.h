@@ -1,5 +1,6 @@
 #pragma once
 
+#include "ecs/components/sprite_component.h"
 #include <ecs/components/transform_component.h>
 #include <ecs/entity.h>
 #include <ecs/icomponent.h>
@@ -73,28 +74,34 @@ class KeyboardController : public IComponent
                     break;
                 }
             }
-            // TODO: refactor, very - very
-            {
-                auto pos = _transform_component->position();
-                auto vel = _transform_component->velocity();
 
-                if (pos.x() + 3 * vel.x() < 0 ||
-                    pos.x() + 3 * vel.x() > 1230)
-                {
-                    _transform_component->set_x_velocity(.0f);
-                }
-
-                if (pos.y() + 3 * vel.y() < 0 ||
-                    pos.y() + 3 * vel.y() > 670)
-                {
-                    _transform_component->set_y_velocity(.0f);
-                }
-            }
+            check_borders();
         }
 
         void render(const app::SDL_RendererUPtr& renderer) override {};
 
     private:
+        void check_borders()
+        {
+            auto pos = _transform_component->position();
+            auto vel = _transform_component->velocity();
+            auto next_pos = pos + vel * _transform_component->speed();
+
+            auto ent_rect = _transform_component->owner
+                                ->get_component<SpriteComponent>()
+                                ->texture_rect();
+
+            if (next_pos.x() < 0 || next_pos.x() > (1280. - ent_rect.w))
+            {
+                _transform_component->set_x_velocity(.0f);
+            }
+
+            if (next_pos.y() < 0 || next_pos.y() > (720. - ent_rect.h))
+            {
+                _transform_component->set_y_velocity(.0f);
+            }
+        }
+
         TransformComponentSPtr _transform_component;
 };
 

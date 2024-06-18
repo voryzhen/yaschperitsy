@@ -15,6 +15,10 @@ template <typename T> class Vector2D
 
         T y() const { return _y; }
 
+        void set_x(T x) { _x = x; }
+
+        void set_y(T y) { _y = y; }
+
         Vector2D& operator+=(const Vector2D& vec)
         {
             _x += vec._x;

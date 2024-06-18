@@ -13,9 +13,9 @@ class FireComponent : public IComponent
 
         void update(const SDL_Event& /*e*/) override
         {
-            if (_curr_load > 0)
+            if (_reloading > 0)
             {
-                _curr_load--;
+                _reloading--;
             }
         }
 
@@ -23,13 +23,13 @@ class FireComponent : public IComponent
 
         void render(const app::SDL_RendererUPtr& renderer) override {}
 
-        bool is_reloaded() const { return _curr_load == 0; }
+        bool reloaded() const { return _reloading == 0; }
 
-        void shot() { _curr_load = _reload; }
+        void shot() { _reloading = _reload; }
 
     private:
         std::int8_t _reload{8};
-        std::int8_t _curr_load{8};
+        std::int8_t _reloading{8};
 };
 
 }; // namespace yaschperitsy::ecs::components

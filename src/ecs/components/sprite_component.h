@@ -1,15 +1,11 @@
 #pragma once
 
-#include <memory>
-
 #include <app/resource_manager.h>
 #include <ecs/components/transform_component.h>
 #include <ecs/entity.h>
 #include <ecs/icomponent.h>
-#include <utility/vector2D.h>
 
 #include "SDL_render.h"
-#include "SDL_timer.h"
 
 namespace yaschperitsy::ecs::components
 {
@@ -22,6 +18,7 @@ class SpriteComponent : public IComponent
         SpriteComponent(resource::TextureSPtr texture)
             : _texture(std::move(texture))
         {
+            set_rects();
         }
 
         SpriteComponent(resource::TextureSPtr texture, int frames,
@@ -29,19 +26,12 @@ class SpriteComponent : public IComponent
             : _texture(std::move(texture)), _animated(true),
               _frames(frames), _speed(speed)
         {
+            set_rects();
         }
 
         void init() override
         {
             _position = owner->get_component<TransformComponent>();
-
-            _src_rect.x = _src_rect.y = 0;
-
-            _src_rect.h = _texture->_h;
-            _src_rect.w = _texture->_w;
-
-            _dest_rect.h = _texture->_h;
-            _dest_rect.w = _texture->_w;
         }
 
         void update(const SDL_Event& /*e*/) override
@@ -68,24 +58,29 @@ class SpriteComponent : public IComponent
                              _flip ? SDL_FLIP_NONE : SDL_FLIP_VERTICAL);
         }
 
-        SDL_Rect get_texture_rect()
+        SDL_Rect texture_rect()
         {
-            Vector2D<float> pos = {};
-            if (_position != nullptr)
-            {
-                pos = _position->position();
-            }
+            auto pos = _position->position();
             return {static_cast<int>(pos.x()),
                     static_cast<int>(pos.y()), _texture->_w,
                     _texture->_h};
         }
 
     private:
+        void set_rects()
+        {
+            _src_rect.h = _texture->_h;
+            _src_rect.w = _texture->_w;
+            _dest_rect.h = _texture->_h;
+            _dest_rect.w = _texture->_w;
+        }
+
         TransformComponentSPtr _position;
         resource::TextureSPtr _texture;
         SDL_Rect _src_rect{0, 0, 0, 0};
         SDL_Rect _dest_rect{0, 0, 0, 0};
 
+        // Sprite settings
         bool _animated = false;
         bool _flip = true;
         int _frames = 2;

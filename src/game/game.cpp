@@ -180,7 +180,7 @@ void Game::spawn_enemies()
 
         // const auto enemy_rect =
         // enemy->get_component<ecs::components::SpriteComponent>()
-        // ->get_texture_rect();
+        // ->texture_rect();
 
         int angle{0};
         Vector2D<int> enemies_pos = get_enemies_position(angle);
@@ -212,7 +212,7 @@ void Game::fire_enemies()
     {
         const auto fire_component =
             e->get_component<ecs::components::FireComponent>();
-        if (fire_component->is_reloaded())
+        if (fire_component->reloaded())
         {
             fire_component->shot();
 
@@ -247,7 +247,7 @@ void Game::destroy_objects()
         }
         auto sprite_component =
             e->get_component<ecs::components::SpriteComponent>();
-        auto pos = sprite_component->get_texture_rect();
+        auto pos = sprite_component->texture_rect();
         auto x = pos.x;
         auto y = pos.y;
 
@@ -264,7 +264,7 @@ void Game::game_update_player()
     const auto fire_component =
         _player->get_component<ecs::components::FireComponent>();
 
-    if (fire_component->is_reloaded())
+    if (fire_component->reloaded())
     {
         if ((_event.type == SDL_KEYDOWN &&
              _event.key.keysym.sym == SDLK_f) ||
@@ -329,14 +329,14 @@ void Game::bullet_hit()
     // player
     const auto p_rect =
         _player->get_component<ecs::components::SpriteComponent>()
-            ->get_texture_rect();
+            ->texture_rect();
 
     // enemies strike
     for (const auto& b : enemies_bullets)
     {
         const auto rect =
             b->get_component<ecs::components::SpriteComponent>()
-                ->get_texture_rect();
+                ->texture_rect();
         if (intersect(p_rect, rect))
         {
             // reset_state();
@@ -348,7 +348,7 @@ void Game::bullet_hit()
     {
         const auto rect =
             b->get_component<ecs::components::SpriteComponent>()
-                ->get_texture_rect();
+                ->texture_rect();
         if (intersect(p_rect, rect))
         {
             // reset_state();
@@ -364,10 +364,10 @@ void Game::bullet_hit()
         {
             const auto b_rect =
                 pb->get_component<ecs::components::SpriteComponent>()
-                    ->get_texture_rect();
+                    ->texture_rect();
             const auto e_rect =
                 e->get_component<ecs::components::SpriteComponent>()
-                    ->get_texture_rect();
+                    ->texture_rect();
             if (intersect(b_rect, e_rect))
             {
                 e->destroy();

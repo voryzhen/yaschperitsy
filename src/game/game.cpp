@@ -7,82 +7,12 @@
 #include "utility/utility.h"
 #include "utility/vector2D.h"
 
+// NOLINTNEXTLINE
 #include "ecs/components/components.h"
 
-namespace
-{
-
-Vector2D<float> get_updated_direction(Vector2D<float> aim,
-                                      Vector2D<float> pos, int& angle)
-{
-    int dy = aim.y() - pos.y();
-    int dx = aim.x() - pos.x();
-
-    angle = 180.0 + atan2(dy, dx) * (180 / std::numbers::pi);
-    if (angle > 360.0)
-    {
-        angle -= 360.0;
-    }
-
-    auto d2 = dy * dy + dx * dx;
-    auto d = sqrt(d2);
-
-    auto xx = dx / d;
-    auto yy = dy / d;
-
-    return Vector2D<float>(xx, yy);
-}
-
-Vector2D<float> get_enemies_velocity(Vector2D<int> pos)
-{
-    Vector2D<int> center = {640, 360};
-
-    int dy = center.y() - pos.y();
-    int dx = center.x() - pos.x();
-
-    // float _angle = -90.0f + atan2(dy, dx) * (180 / std::numbers::pi);
-
-    // _transform_component->set_angle(_angle +
-    // static_cast<float>(90.0));
-
-    auto d2 = dy * dy + dx * dx;
-    auto d = sqrt(d2);
-
-    auto xx = dx / d;
-    auto yy = dy / d;
-
-    return Vector2D<float>(xx, yy);
-}
-
-// TODO: refactor very very
-constexpr int rad2 = (640 * 640 + 360 * 360);
-const int rad = static_cast<int>(sqrt(rad2));
-
-Vector2D<int>
-get_enemies_position(int& random_angle) // very bad but I am lazy
-{
-    random_angle = get_random<int>(360);
-    int x = rad * cos(random_angle) + 640;
-    int y = rad * sin(random_angle) + 360;
-
-    return {x, y};
-};
-
-}; // namespace
-
+// Main Game functions
 namespace yaschperitsy::game
 {
-
-void Game::compose_player()
-{
-    _player->add_component<ecs::components::TransformComponent>(
-        100, 100, _game_settings._player_speed);
-    _player->add_component<ecs::components::SpriteComponent>(
-        _rm->get_texture("player"));
-    _player->add_component<ecs::components::KeyboardController>();
-    _player->add_component<ecs::components::MouseController>();
-    _player->add_component<ecs::components::FireComponent>(8);
-}
 
 Game::Game(const resource::ResourceManagerUPtr& rm)
     : _rm(rm), _player(_manager.add_entity("player")),
@@ -100,7 +30,6 @@ Game::Game(const resource::ResourceManagerUPtr& rm)
 
 void Game::handle_events(const SDL_Event& event)
 {
-    // SDL_PollEvent(&_event);
     _event = event;
     switch (_event.type)
     {
@@ -115,27 +44,132 @@ void Game::handle_events(const SDL_Event& event)
 
 void Game::update()
 {
-    game_update_enemies();
-    game_update_player();
+    update_enemies();
+    update_player();
     destroy_objects();
 
     _manager.refresh();
-    _manager.update(_event);
+    _manager.update(_event); // refactor
 }
 
 void Game::render(const SDL_RendererUPtr& renderer)
 {
-    // SDL_RenderClear(_renderer.get());
-
     _background->render(renderer);
     _manager.render(renderer);
-
     _topbar->render(renderer);
-
-    // SDL_RenderPresent(_renderer.get());
 }
 
-void Game::game_update_enemies()
+}; // namespace yaschperitsy::game
+
+namespace
+{
+
+Vector2D<float> get_updated_direction(Vector2D<float> aim,
+                                      Vector2D<float> pos, int& angle)
+{
+    int dy = static_cast<int>(aim.y() - pos.y());
+    int dx = static_cast<int>(aim.x() - pos.x());
+
+    angle = static_cast<int>(180.0 +
+                             atan2(dy, dx) * (180 / std::numbers::pi));
+    angle = angle % 360;
+
+    auto d2 = dy * dy + dx * dx;
+    auto d = sqrt(d2);
+
+    auto xx = static_cast<float>(dx / d);
+    auto yy = static_cast<float>(dy / d);
+
+    return {xx, yy};
+}
+
+Vector2D<float> get_enemies_velocity(Vector2D<int> pos)
+{
+    Vector2D<int> center = {640, 360};
+
+    int dy = center.y() - pos.y();
+    int dx = center.x() - pos.x();
+
+    auto d2 = dy * dy + dx * dx;
+    auto d = sqrt(d2);
+
+    auto xx = static_cast<float>(dx / d);
+    auto yy = static_cast<float>(dy / d);
+
+    return {xx, yy};
+}
+
+// TODO: refactor very very
+constexpr int rad2 = (640 * 640 + 360 * 360);
+const int rad = static_cast<int>(sqrt(rad2));
+
+Vector2D<int>
+get_enemies_position(int& random_angle) // very bad but I am lazy
+{
+    random_angle = get_random<int>(360);
+    int x = static_cast<int>(rad * cos(random_angle) + 640);
+    int y = static_cast<int>(rad * sin(random_angle) + 360);
+
+    return {x, y};
+};
+
+}; // namespace
+
+// Player functions
+namespace yaschperitsy::game
+{
+
+void Game::compose_player()
+{
+    _player->add_component<ecs::components::TransformComponent>(
+        640, 360, _game_settings._player_speed);
+    _player->add_component<ecs::components::SpriteComponent>(
+        _rm->get_texture("player"));
+    _player->add_component<ecs::components::KeyboardController>();
+    _player->add_component<ecs::components::MouseController>();
+    _player->add_component<ecs::components::FireComponent>(8);
+}
+
+void Game::update_player()
+{
+    const auto fire_component =
+        _player->get_component<ecs::components::FireComponent>();
+
+    if (fire_component->reloaded())
+    {
+        if ((_event.type == SDL_KEYDOWN &&
+             _event.key.keysym.sym == SDLK_f) ||
+            (_event.type == SDL_MOUSEBUTTONDOWN &&
+             _event.button.button == SDL_BUTTON_LEFT))
+        {
+            fire_component->shot();
+
+            const auto trasnsform_component = _player->get_component<
+                ecs::components::TransformComponent>();
+            const auto pos = trasnsform_component->position();
+
+            auto bullet = _manager.add_entity("player_bullet");
+
+            bullet->add_component<ecs::components::TransformComponent>(
+                pos.x() + 80, pos.y(), _game_settings._bullet_speed,
+                trasnsform_component->angle());
+            bullet->add_component<ecs::components::SpriteComponent>(
+                _rm->get_texture("player_bullet"));
+
+            bullet->get_component<ecs::components::TransformComponent>()
+                ->set_velocity(trasnsform_component->direction() *
+                               _game_settings._bullet_speed);
+        }
+    }
+}
+
+}; // namespace yaschperitsy::game
+
+// Enemy function
+namespace yaschperitsy::game
+{
+
+void Game::update_enemies()
 {
     spawn_enemies();
     fire_enemies();
@@ -159,7 +193,7 @@ void Game::update_enemies_direction()
 
         transform_comp->set_velocity(dir);
         transform_comp->set_direction(dir);
-        transform_comp->set_angle(angle);
+        transform_comp->set_angle(static_cast<float>(angle));
     }
 }
 
@@ -187,10 +221,12 @@ void Game::spawn_enemies()
         auto enemy_transform_comp =
             enemy->get_component<ecs::components::TransformComponent>();
 
-        enemy_transform_comp->set_position(enemies_pos.x(),
-                                           enemies_pos.y());
-        enemy_transform_comp->set_angle(angle *
-                                        (180 / std::numbers::pi));
+        enemy_transform_comp->set_position(
+            static_cast<float>(enemies_pos.x()),
+            static_cast<float>(enemies_pos.y()));
+
+        enemy_transform_comp->set_angle(
+            static_cast<float>(angle * (180 / std::numbers::pi)));
 
         // get velocity aimed to the center
         Vector2D<float> vel = get_enemies_velocity(enemies_pos);
@@ -237,6 +273,12 @@ void Game::fire_enemies()
     }
 }
 
+} // namespace yaschperitsy::game
+
+// Other functions
+namespace yaschperitsy::game
+{
+
 void Game::destroy_objects()
 {
     for (auto& e : _manager.get_entities())
@@ -257,39 +299,6 @@ void Game::destroy_objects()
         }
     }
     bullet_hit();
-}
-
-void Game::game_update_player()
-{
-    const auto fire_component =
-        _player->get_component<ecs::components::FireComponent>();
-
-    if (fire_component->reloaded())
-    {
-        if ((_event.type == SDL_KEYDOWN &&
-             _event.key.keysym.sym == SDLK_f) ||
-            (_event.type == SDL_MOUSEBUTTONDOWN &&
-             _event.button.button == SDL_BUTTON_LEFT))
-        {
-            fire_component->shot();
-
-            const auto trasnsform_component = _player->get_component<
-                ecs::components::TransformComponent>();
-            const auto pos = trasnsform_component->position();
-
-            auto bullet = _manager.add_entity("player_bullet");
-
-            bullet->add_component<ecs::components::TransformComponent>(
-                pos.x() + 80, pos.y(), _game_settings._bullet_speed,
-                trasnsform_component->angle());
-            bullet->add_component<ecs::components::SpriteComponent>(
-                _rm->get_texture("player_bullet"));
-
-            bullet->get_component<ecs::components::TransformComponent>()
-                ->set_velocity(trasnsform_component->direction() *
-                               _game_settings._bullet_speed);
-        }
-    }
 }
 
 namespace

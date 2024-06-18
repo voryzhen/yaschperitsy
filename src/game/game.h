@@ -32,21 +32,20 @@ class Game
 
     private:
         // Enemies logic
-        void game_update_enemies();
+        void update_enemies();
         void spawn_enemies();
         void fire_enemies();
         void update_enemies_direction();
 
         // Player logic
-        void game_update_player();
+        void compose_player();
+        void update_player();
 
-        void destroy_objects();
-
+        // Bullet logic
         void bullet_hit();
 
+        void destroy_objects();
         void reset_state();
-
-        void compose_player();
 
         unsigned char _fps = 60;
         bool _quit{false};

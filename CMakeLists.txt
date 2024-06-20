@@ -10,13 +10,9 @@ set ( CMAKE_CXX_STANDARD_REQUIRED ON )
 
 project ( yaschperitsy )
 
-if ( APPLE )
-
 find_package(SDL2 REQUIRED)
 find_package(SDL2_image REQUIRED)
 find_package(SDL2_ttf REQUIRED)
-
-endif()
 
 include_directories ( 
 

@@ -8,9 +8,13 @@ set ( CMAKE_CXX_STANDARD_REQUIRED ON )
 
 # set ( CMAKE_CXX_FLAGS "-Wall" )
 
+if ( APPLE )
+
 set ( SDL2_LIBRARIES SDL2 SDL2_image SDL2_ttf )
 set ( SDL2_LIB_DIRS "/opt/homebrew/lib" )
 set ( SDL2_INCLUDE_DIRS src /opt/homebrew/include/SDL2 )
+
+endif()
 
 project ( yaschperitsy )
 

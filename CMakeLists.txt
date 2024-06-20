@@ -6,26 +6,15 @@ cmake_minimum_required ( VERSION 3.29.3 )
 set ( CMAKE_CXX_STANDARD 20 )
 set ( CMAKE_CXX_STANDARD_REQUIRED ON )
 
-set ( CMAKE_CXX_FLAGS "-Wall" )
+# set ( CMAKE_CXX_FLAGS "-Wall" )
+
+set ( SDL2_LIBRARIES SDL2 SDL2_image SDL2_ttf )
+set ( SDL2_LIB_DIRS "/opt/homebrew/lib" )
+set ( SDL2_INCLUDE_DIRS src /opt/homebrew/include/SDL2 )
 
 project ( yaschperitsy )
 
-include_directories ( 
-
-  src
-  /opt/homebrew/include/SDL2
-  ${SDL2_INCLUDE_DIRS}
-
-)
-
-link_directories (
-
-  /opt/homebrew/lib
-  ${SDL2_LIB_DIRS}
-
-)
-
-add_executable ( yaschperitsy
+set ( SOURCE
 
   src/main.cpp
   src/app/app.cpp
@@ -42,14 +31,10 @@ add_executable ( yaschperitsy
 
 )
 
-target_link_libraries ( yaschperitsy 
-
-  SDL2
-  SDL2_image
-  SDL2_ttf
-  ${SDL2_LIBRARIES}
-
-)
+add_executable             ( yaschperitsy         ${SOURCE} )
+target_include_directories ( yaschperitsy PRIVATE ${SDL2_INCLUDE_DIRS} )
+target_link_directories    ( yaschperitsy PRIVATE ${SDL2_LIB_DIRS} )
+target_link_libraries      ( yaschperitsy         ${SDL2_LIBRARIES} )
 
 # tests
 

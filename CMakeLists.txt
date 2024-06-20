@@ -28,10 +28,12 @@ set ( SOURCE
 if ( APPLE )
 
   # find_package ( SDL2 REQUIRED )
+  # TODO:
+  # find_package returns wrong path on my local machine. Why ???
 
-  set ( SDL2_LIBRARIES SDL2 SDL2_image SDL2_ttf )
-  set ( SDL2_LIB_DIRS "/opt/homebrew/lib" )
   set ( SDL2_INCLUDE_DIRS ${SDL2_INCLUDE_DIRS} /opt/homebrew/include/SDL2 )
+  set ( SDL2_LIB_DIRS "/opt/homebrew/lib" )
+  set ( SDL2_LIBRARIES SDL2 SDL2_image SDL2_ttf )
 
 endif()
 

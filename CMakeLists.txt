@@ -8,18 +8,6 @@ set ( CMAKE_CXX_STANDARD_REQUIRED ON )
 
 # set ( CMAKE_CXX_FLAGS "-Wall" )
 
-set ( SDL2_INCLUDE_DIRS ${SDL2_INCLUDE_DIRS} src )
-
-if ( APPLE )
-
-set ( SDL2_LIBRARIES SDL2 SDL2_image SDL2_ttf )
-set ( SDL2_LIB_DIRS "/opt/homebrew/lib" )
-set ( SDL2_INCLUDE_DIRS ${SDL2_INCLUDE_DIRS} /opt/homebrew/include/SDL2 )
-
-endif()
-
-project ( yaschperitsy )
-
 set ( SOURCE
 
   src/main.cpp
@@ -37,10 +25,26 @@ set ( SOURCE
 
 )
 
+if ( APPLE )
+
+  # find_package ( SDL2 REQUIRED )
+
+  set ( SDL2_LIBRARIES SDL2 SDL2_image SDL2_ttf )
+  set ( SDL2_LIB_DIRS "/opt/homebrew/lib" )
+  set ( SDL2_INCLUDE_DIRS ${SDL2_INCLUDE_DIRS} /opt/homebrew/include/SDL2 )
+
+endif()
+
+set ( INCLUDE_DIRS ${SDL2_INCLUDE_DIRS} src )
+set ( LIB_DIRS     ${SDL2_LIB_DIRS} )
+set ( LIBRARIES    ${SDL2_LIBRARIES} )
+
+project ( yaschperitsy )
+
 add_executable             ( yaschperitsy         ${SOURCE} )
-target_include_directories ( yaschperitsy PRIVATE ${SDL2_INCLUDE_DIRS} )
-target_link_directories    ( yaschperitsy PRIVATE ${SDL2_LIB_DIRS} )
-target_link_libraries      ( yaschperitsy         ${SDL2_LIBRARIES} )
+target_include_directories ( yaschperitsy PRIVATE ${INCLUDE_DIRS} )
+target_link_directories    ( yaschperitsy PRIVATE ${LIB_DIRS} )
+target_link_libraries      ( yaschperitsy         ${LIBRARIES} )
 
 # tests
 
@@ -50,8 +54,8 @@ project ( yaschperitsy_test )
 
 find_package( Boost COMPONENTS system filesystem unit_test_framework REQUIRED )
 
-include_directories ( ${Boost_INCLUDE_DIR} ${SDL2_INCLUDE_DIRS} /opt/homebrew/include/SDL2 )
-link_directories ( ${Boost_LIBRARY_DIR} ${SDL2_LIB_DIRS} /opt/homebrew/lib )
+include_directories ( ${Boost_INCLUDE_DIR} ${INCLUDE_DIRS} )
+link_directories ( ${Boost_LIBRARY_DIR} ${LIB_DIRS} )
 
 add_executable( yaschperitsy_test
 
@@ -69,9 +73,7 @@ target_link_libraries( yaschperitsy_test
   ${Boost_SYSTEM_LIBRARY}
   ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY}
   ${SDL2_LIBRARIES}
-  SDL2
-  SDL2_image
-  SDL2_ttf
+  ${LIBRARIES}
 
 )
 

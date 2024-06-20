@@ -6,23 +6,23 @@ cmake_minimum_required ( VERSION 3.29.3 )
 set ( CMAKE_CXX_STANDARD 20 )
 set ( CMAKE_CXX_STANDARD_REQUIRED ON )
 
-set ( CMAKE_CXX_FLAGS "-Wall" )
+# set ( CMAKE_CXX_FLAGS "-Wall" )
 
 project ( yaschperitsy )
+
+find_package(SDL2 REQUIRED)
+find_package(SDL2_image REQUIRED)
+find_package(SDL2_ttf REQUIRED)
 
 include_directories ( 
 
   src
-  /opt/homebrew/include/SDL2
   ${SDL2_INCLUDE_DIRS}
 
 )
 
 link_directories (
-
-  /opt/homebrew/lib
   ${SDL2_LIB_DIRS}
-
 )
 
 add_executable ( yaschperitsy
@@ -44,10 +44,10 @@ add_executable ( yaschperitsy
 
 target_link_libraries ( yaschperitsy 
 
-  SDL2
-  SDL2_image
-  SDL2_ttf
-  ${SDL2_LIBRARIES}
+  SDL2::SDL2
+  SDL2::SDL2main
+  SDL2_image::SDL2_image
+  SDL2_ttf::SDL2_ttf
 
 )
 
@@ -59,8 +59,8 @@ project ( yaschperitsy_test )
 
 find_package( Boost COMPONENTS system filesystem unit_test_framework REQUIRED )
 
-include_directories ( ${Boost_INCLUDE_DIR} ${SDL2_INCLUDE_DIRS} /opt/homebrew/include/SDL2 )
-link_directories ( ${Boost_LIBRARY_DIR} ${SDL2_LIB_DIRS} /opt/homebrew/lib )
+include_directories ( ${Boost_INCLUDE_DIR} ${SDL2_INCLUDE_DIRS} )
+link_directories ( ${Boost_LIBRARY_DIR} ${SDL2_LIB_DIRS} )
 
 add_executable( yaschperitsy_test
 
@@ -78,9 +78,11 @@ target_link_libraries( yaschperitsy_test
   ${Boost_SYSTEM_LIBRARY}
   ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY}
   ${SDL2_LIBRARIES}
-  SDL2
-  SDL2_image
-  SDL2_ttf
+
+  SDL2::SDL2
+  SDL2::SDL2main
+  SDL2_image::SDL2_image
+  SDL2_ttf::SDL2_ttf
 
 )
 

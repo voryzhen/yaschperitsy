@@ -41,8 +41,9 @@ target_link_libraries (
 
   yaschperitsy PRIVATE
   
-  SDL2::SDL2main SDL2::SDL2 
+  SDL2::SDL2main
+  SDL2::SDL2
   SDL2_image::SDL2_image
-  SDL2_ttf::SDL2_ttf
+  sdl_ttf::sdl_ttf
 
 )

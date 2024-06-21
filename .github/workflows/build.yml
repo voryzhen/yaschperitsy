@@ -65,17 +65,19 @@ jobs:
       - name: Cmake setup
         run: cmake --preset conan-default
 
-      - name: Compile build
+      - name: Cmake build
         run: cmake --build --preset conan-release
 
-      - name: Pack
+      - name: Compose
         run:  |
           {
             mkdir yaschperitsy
             mv ./build/Release/yaschperitsy.exe yaschperitsy/
             mv ./assets yaschperitsy/
-            Compress-Archive -Path ./yaschperitsy -DestinationPath ./yaschperitsy_win.zip
           }
+
+      - name: Pack
+        run: Compress-Archive -Path ./yaschperitsy -DestinationPath ./yaschperitsy_win.zip
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4

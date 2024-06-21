@@ -61,8 +61,6 @@ jobs:
           {
             conan profile detect
             conan install . --build=missing -s compiler.cppstd=gnu20
-            cmake --list-presets > ./myfile.txt
-            cmake --list-presets
           }
 
       # - name: Cmake
@@ -74,7 +72,7 @@ jobs:
       - name: Pack
         run: |
           mkdir yaschperitsy
-          cmake --list-presets > ./myfile.txt
+          cmake ls > ./myfile.txt
           mv ./myfile.txt yaschperitsy/
 
           Compress-Archive -Path ./yaschperitsy -DestinationPath ./yaschperitsy_win.zip

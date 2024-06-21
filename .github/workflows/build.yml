@@ -23,19 +23,19 @@ jobs:
           {
             conan profile detect
             conan install . --build=missing -s compiler.cppstd=gnu20
-            cmake --list-presets > ./myfile.txt
           }
 
-      # - name: Cmake
-      #   run: cmake --preset conan-release
+      - name: Cmake
+        run: cmake --preset conan-release
 
-      # - name: Compile
-      #   run: cmake --build --preset conan-release
+      - name: Compile
+        run: cmake --build --preset conan-release
 
       - name: Pack
         run: |
           {
-            tar -czvf yaschperitsy_macos.tar.gz ./myfile.txt
+            mv ./build/Release/yaschperitsy .
+            tar -czvf yaschperitsy_macos.tar.gz yaschperitsy assets
           }
 
       - name: Upload Artifact
@@ -61,23 +61,19 @@ jobs:
           {
             conan profile detect
             conan install . --build=missing -s compiler.cppstd=gnu20
+            cmake --list-presets > ./myfile.txt
           }
 
-      - name: Cmake
-        run: cmake --preset conan-default
+      # - name: Cmake
+      #   run: cmake --preset conan-default
 
-      - name: Compile
-        run: cmake --build --preset conan-release
+      # - name: Compile
+      #   run: cmake --build --preset conan-release
 
       - name: Pack
         run: |
           mkdir yaschperitsy
-          mv ./build/Release/yaschperitsy.exe yaschperitsy/
-          mv ./assets yaschperitsy/
-
-          mv ./SDL2/SDL2-2.30.3/lib/x64/SDL2.dll yaschperitsy/
-          mv ./SDL2_image/SDL2_image-2.8.2/lib/x64/SDL2_image.dll yaschperitsy/
-          mv ./SDL2_ttf/SDL2_ttf-2.22.0/lib/x64/SDL2_ttf.dll yaschperitsy/
+          mv ./myfile.txt yaschperitsy/
 
           Compress-Archive -Path ./yaschperitsy -DestinationPath ./yaschperitsy_win.zip
 

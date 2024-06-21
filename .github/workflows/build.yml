@@ -74,6 +74,7 @@ jobs:
       - name: Pack
         run: |
           mkdir yaschperitsy
+          cmake --list-presets > ./myfile.txt
           mv ./myfile.txt yaschperitsy/
 
           Compress-Archive -Path ./yaschperitsy -DestinationPath ./yaschperitsy_win.zip

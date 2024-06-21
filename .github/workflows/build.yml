@@ -60,7 +60,7 @@ jobs:
         run: conan profile detect
 
       - name: Conan install
-        run: conan install . --build=missing -s compiler.cppstd=gnu20
+        run: conan install . --build=missing -s compiler.cppstd=20
 
       - name: Cmake
         run: cmake --preset conan-default

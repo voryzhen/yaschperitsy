@@ -59,10 +59,8 @@ jobs:
             pip install conan
             conan profile detect
             conan install . --build=missing -s compiler.cppstd=gnu20
+            cmake --preset conan-default
           }
-
-      - name: Cmake
-        run: cmake --preset conan-default
 
       - name: Compile
         run: cmake --build --preset conan-release

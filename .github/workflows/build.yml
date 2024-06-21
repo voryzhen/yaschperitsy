@@ -60,10 +60,8 @@ jobs:
             conan profile detect
             conan install . --build=missing -s compiler.cppstd=gnu20
             cmake --preset conan-default
+            cmake --build --preset conan-release
           }
-
-      - name: Compile
-        run: cmake --build --preset conan-release
 
       - name: Pack
         run: |

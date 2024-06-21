@@ -64,7 +64,7 @@ jobs:
           }
 
       - name: Cmake
-        run: cmake --preset conan-release
+        run: cmake --preset conan-default
 
       - name: Compile
         run: cmake --build --preset conan-release

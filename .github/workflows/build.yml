@@ -54,7 +54,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Conan
-        run: choco install conan
+        run: pip install conan
 
       - name: Run conan
         run: |

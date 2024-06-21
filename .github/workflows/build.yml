@@ -77,7 +77,7 @@ jobs:
           }
 
       - name: Pack
-        run: Compress-Archive -Path ./yaschperitsy -DestinationPath ./yaschperitsy_win.zip
+        run: Compress-Archive -Path yaschperitsy/ -DestinationPath ./yaschperitsy_win.zip
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4

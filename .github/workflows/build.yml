@@ -23,19 +23,19 @@ jobs:
           {
             conan profile detect
             conan install . --build=missing -s compiler.cppstd=gnu20
+            cmake --list-presets > ./myfile.txt
           }
 
-      - name: Cmake
-        run: cmake --preset conan-release
+      # - name: Cmake
+      #   run: cmake --preset conan-release
 
-      - name: Compile
-        run: cmake --build --preset conan-release
+      # - name: Compile
+      #   run: cmake --build --preset conan-release
 
       - name: Pack
         run: |
           {
-            mv ./build/Release/yaschperitsy .
-            tar -czvf yaschperitsy_macos.tar.gz yaschperitsy assets
+            tar -czvf yaschperitsy_macos.tar.gz ./myfile.txt
           }
 
       - name: Upload Artifact

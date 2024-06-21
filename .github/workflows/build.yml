@@ -53,8 +53,12 @@ jobs:
 
       - uses: actions/checkout@v2
 
-      - name: Install Conan
-        run: pip install conan
+      - name: Install programs
+        run: |
+          {
+            pip install conan
+            choco install 7zip
+          }
 
       - name: Conan detect profile
         run: conan profile detect

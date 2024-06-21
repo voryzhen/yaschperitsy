@@ -53,7 +53,7 @@ jobs:
 
       - uses: actions/checkout@v2
 
-      - name: Boost
+      - name: Conan
         run: choco install conan
 
       - name: Run conan
@@ -72,7 +72,7 @@ jobs:
       - name: Pack
         run: |
           mkdir yaschperitsy
-          ls > ./myfile.txt
+          conan profile detect > ./myfile.txt
           mv ./myfile.txt yaschperitsy/
 
           Compress-Archive -Path ./yaschperitsy -DestinationPath ./yaschperitsy_win.zip

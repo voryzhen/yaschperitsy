@@ -12,10 +12,18 @@
 namespace yaschperitsy::ecs
 {
 
+enum class EntityType
+{
+    player = 0,
+    enemy,
+    ebullet,
+    pbullet
+};
+
 class Entity
 {
     public:
-        Entity(const std::string_view name) : _name(name) {}
+        Entity(EntityType type) : _entity_type(type) {}
 
         void update(const SDL_Event& event)
         {
@@ -31,7 +39,7 @@ class Entity
 
         bool is_active() const { return _active; }
 
-        std::string_view name() const { return _name; }
+        EntityType type() const { return _entity_type; }
 
         void destroy() { _active = false; }
 
@@ -66,7 +74,7 @@ class Entity
 
     private:
         bool _active = true;
-        std::string_view _name;
+        EntityType _entity_type{EntityType::enemy};
 
         SComponentVector _components;
 

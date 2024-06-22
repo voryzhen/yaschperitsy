@@ -1,31 +1,32 @@
 #include <cmath>
 #include <game/game.h>
 
+#include "ecs/components/fire_component.h"
+#include "ecs/components/sprite_component.h"
 #include "ecs/components/transform_component.h"
+#include "ecs/entity.h"
 #include "numbers"
 
 #include "utility/utility.h"
 #include "utility/vector2D.h"
-
-// NOLINTNEXTLINE
-#include "ecs/components/components.h"
 
 // Main Game functions
 namespace yaschperitsy::game
 {
 
 Game::Game(const resource::ResourceManagerUPtr& rm)
-    : _rm(rm), _player(_manager.add_entity("player")),
+    : _rm(rm),
+      _player(_manager.add_entity(ecs::EntityType::player, 640, 360,
+                                  _game_settings._player_speed,
+                                  _rm->get_texture("player"))),
+      // Refactor as Component ?
       _background(std::make_unique<Background>(
           _rm->get_texture("background"), _game_field)),
       _topbar(std::make_unique<Topbar>(_rm->get_font("lazy"), _stat))
 
 {
-
     _game_field = GameField(1280, 720); // TODO:
     _background->set_game_field(_game_field);
-
-    compose_player();
 }
 
 void Game::handle_events(const SDL_Event& event)
@@ -119,17 +120,6 @@ get_enemies_position(int& random_angle) // very bad but I am lazy
 namespace yaschperitsy::game
 {
 
-void Game::compose_player()
-{
-    _player->add_component<ecs::components::TransformComponent>(
-        640, 360, _game_settings._player_speed);
-    _player->add_component<ecs::components::SpriteComponent>(
-        _rm->get_texture("player"));
-    _player->add_component<ecs::components::KeyboardController>();
-    _player->add_component<ecs::components::MouseController>();
-    _player->add_component<ecs::components::FireComponent>(8);
-}
-
 void Game::update_player()
 {
     const auto fire_component =
@@ -137,6 +127,7 @@ void Game::update_player()
 
     if (fire_component->reloaded())
     {
+        // refactor with FireComponent Update
         if ((_event.type == SDL_KEYDOWN &&
              _event.key.keysym.sym == SDLK_f) ||
             (_event.type == SDL_MOUSEBUTTONDOWN &&
@@ -144,21 +135,23 @@ void Game::update_player()
         {
             fire_component->shot();
 
-            const auto trasnsform_component = _player->get_component<
+            const auto p_tran_comp = _player->get_component<
                 ecs::components::TransformComponent>();
-            const auto pos = trasnsform_component->position();
+            const auto pos = p_tran_comp->position();
 
-            auto bullet = _manager.add_entity("player_bullet");
-
-            bullet->add_component<ecs::components::TransformComponent>(
-                pos.x() + 80, pos.y(), _game_settings._bullet_speed,
-                trasnsform_component->angle());
-            bullet->add_component<ecs::components::SpriteComponent>(
+            auto bullet = _manager.add_entity(
+                ecs::EntityType::pbullet, pos.x() + 80, pos.y(),
+                _game_settings._bullet_speed,
                 _rm->get_texture("player_bullet"));
 
-            bullet->get_component<ecs::components::TransformComponent>()
-                ->set_velocity(trasnsform_component->direction() *
-                               _game_settings._bullet_speed);
+            auto bullet_trans_comp = bullet->get_component<
+                ecs::components::TransformComponent>();
+
+            bullet_trans_comp->set_angle(p_tran_comp->angle());
+
+            bullet_trans_comp->set_velocity(
+                p_tran_comp->direction() *
+                _game_settings._bullet_speed);
         }
     }
 }
@@ -178,7 +171,7 @@ void Game::update_enemies()
 
 void Game::update_enemies_direction()
 {
-    for (auto& e : _manager.get_entities_by_name("enemy"))
+    for (auto& e : _manager.get_entities(ecs::EntityType::enemy))
     {
         auto transform_comp =
             e->get_component<ecs::components::TransformComponent>();
@@ -204,19 +197,14 @@ void Game::spawn_enemies()
         _stat->_enemies_num--;
 
         // TODO: Create a fabric for different entities
-        auto enemy = _manager.add_entity("enemy");
-        enemy->add_component<ecs::components::TransformComponent>(
-            _game_field.w, 0, _game_settings._enemy_speed);
-
         // Enemy texture randomizer
         const auto random = get_random<int>(2);
+        // 2 different enemies
         const auto name = (random == 1) ? "enemy" : "enemy2";
-        enemy->add_component<ecs::components::SpriteComponent>(
-            _rm->get_texture(name), 2, 100);
 
-        // const auto enemy_rect =
-        // enemy->get_component<ecs::components::SpriteComponent>()
-        // ->texture_rect();
+        auto enemy = _manager.add_entity(
+            ecs::EntityType::enemy, static_cast<float>(_game_field.w),
+            0., _game_settings._enemy_speed, _rm->get_texture(name));
 
         int angle{0};
         Vector2D<int> enemies_pos = get_enemies_position(angle);
@@ -234,7 +222,6 @@ void Game::spawn_enemies()
         Vector2D<float> vel = get_enemies_velocity(enemies_pos);
         enemy_transform_comp->set_velocity(vel);
         enemy_transform_comp->set_direction(vel);
-        enemy->add_component<ecs::components::FireComponent>(60);
 
         // frame rate is 60 fps and every second with random factor
         // TODO: do I need _enemy_spawn_freq ?
@@ -246,7 +233,7 @@ void Game::spawn_enemies()
 
 void Game::fire_enemies()
 {
-    for (auto& e : _manager.get_entities_by_name("enemy"))
+    for (auto& e : _manager.get_entities(ecs::EntityType::enemy))
     {
         const auto fire_component =
             e->get_component<ecs::components::FireComponent>();
@@ -254,23 +241,21 @@ void Game::fire_enemies()
         {
             fire_component->shot();
 
-            const auto enemy_trasnsform_component =
+            const auto enemy_trans_comp =
                 e->get_component<ecs::components::TransformComponent>();
-            const auto enemy_pos =
-                enemy_trasnsform_component->position();
+            const auto enemy_pos = enemy_trans_comp->position();
 
-            auto bullet = _manager.add_entity("enemy_bullet");
-
-            auto transform_comp = bullet->add_component<
-                ecs::components::TransformComponent>(enemy_pos.x(),
-                                                     enemy_pos.y());
-
-            bullet->add_component<ecs::components::SpriteComponent>(
+            auto bullet = _manager.add_entity(
+                ecs::EntityType::ebullet, enemy_pos.x(), enemy_pos.y(),
+                _game_settings._bullet_speed,
                 _rm->get_texture("enemy_bullet"));
 
+            auto transform_comp = bullet->get_component<
+                ecs::components::TransformComponent>();
             transform_comp->set_velocity(
-                enemy_trasnsform_component->direction() *
+                enemy_trans_comp->direction() *
                 (_game_settings._bullet_speed));
+            // There is no angle because texture has round symmetry
         }
     }
 }
@@ -285,7 +270,7 @@ void Game::destroy_objects()
 {
     for (auto& e : _manager.get_entities())
     {
-        if (e->name() == "player")
+        if (e->type() == ecs::EntityType::player)
         {
             continue;
         }
@@ -329,60 +314,54 @@ bool intersect(SDL_Rect r1, SDL_Rect r2)
     return true;
 }
 
+bool intersect(const ecs::EntitySPtr& ent1, const ecs::EntitySPtr& ent2)
+{
+    const auto rect1 =
+        ent1->get_component<ecs::components::SpriteComponent>()
+            ->texture_rect();
+    const auto rect2 =
+        ent2->get_component<ecs::components::SpriteComponent>()
+            ->texture_rect();
+    return intersect(rect1, rect2);
+}
+
 } // namespace
 
 void Game::bullet_hit()
 {
-    const auto enemies = _manager.get_entities_by_name("enemy");
-    // const auto enemies = _manager.get_entities_by_name("enemy");
     const auto enemies_bullets =
-        _manager.get_entities_by_name("enemy_bullet");
-
-    // player
-    const auto p_rect =
-        _player->get_component<ecs::components::SpriteComponent>()
-            ->texture_rect();
+        _manager.get_entities(ecs::EntityType::ebullet);
 
     // enemies strike
-    for (const auto& b : enemies_bullets)
+    for (const auto& ebullet : enemies_bullets)
     {
-        const auto rect =
-            b->get_component<ecs::components::SpriteComponent>()
-                ->texture_rect();
-        if (intersect(p_rect, rect))
+        if (intersect(_player, ebullet))
         {
-            reset_state();
+            // reset_state();
         }
     }
 
     // enemies bite
-    for (const auto& b : enemies)
+    const auto enemies = _manager.get_entities(ecs::EntityType::enemy);
+
+    for (const auto& enemy : enemies)
     {
-        const auto rect =
-            b->get_component<ecs::components::SpriteComponent>()
-                ->texture_rect();
-        if (intersect(p_rect, rect))
+        if (intersect(_player, enemy))
         {
-            reset_state();
+            // reset_state();
         }
     }
 
     const auto player_bullets =
-        _manager.get_entities_by_name("player_bullet");
+        _manager.get_entities(ecs::EntityType::pbullet);
 
-    for (const auto& pb : player_bullets)
+    for (const auto& pbullet : player_bullets)
     {
-        for (const auto& e : enemies)
+        for (const auto& enemy : enemies)
         {
-            const auto b_rect =
-                pb->get_component<ecs::components::SpriteComponent>()
-                    ->texture_rect();
-            const auto e_rect =
-                e->get_component<ecs::components::SpriteComponent>()
-                    ->texture_rect();
-            if (intersect(b_rect, e_rect))
+            if (intersect(pbullet, enemy))
             {
-                e->destroy();
+                enemy->destroy();
                 _stat->_score++;
             }
         }
@@ -393,16 +372,17 @@ void Game::reset_state()
 {
     for (auto& e : _manager.get_entities())
     {
-        if (e->name() == "player")
+        if (e->type() == ecs::EntityType::player)
         {
             e->get_component<ecs::components::TransformComponent>()
-                ->set_position(100, 100);
+                ->set_position(640, 360);
         }
         else
         {
             e->destroy();
         }
     }
+
     _stat->_max_score = std::max(_stat->_max_score, _stat->_score);
     _stat->_score = 0;
     _stat->_enemies_num = _stat->_enemies_total_num;

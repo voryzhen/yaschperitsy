@@ -18,6 +18,8 @@ set ( SOURCE
   src/game/game.cpp
   src/game/topbar.cpp
 
+  src/ecs/game_fabric.cpp
+
   src/ui/base_screen.cpp
   src/ui/screen_manager.cpp
   src/ui/screens.cpp

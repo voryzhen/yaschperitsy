@@ -1,8 +1,11 @@
 #pragma once
 
 #include <algorithm>
+#include <app/resource_manager.h>
 #include <ecs/entity.h>
+#include <ecs/game_fabric.h>
 #include <iterator>
+#include <utility>
 
 namespace yaschperitsy::ecs
 {
@@ -31,21 +34,49 @@ class Manager
             _entities.erase(remove_it, _entities.end());
         }
 
-        EntitySPtr add_entity(const std::string_view& name = "")
+        EntitySPtr add_entity(EntityType type, float x_pox, float y_pox,
+                              int speed,
+                              const resource::TextureSPtr& texture)
         {
-            _entities.emplace_back(new Entity(name));
+            switch (type)
+            {
+            case EntityType::player:
+                _entities.emplace_back(
+                    yaschperitsy::ecs::GameFabric::create_player(
+                        x_pox, y_pox, speed, texture));
+                break;
+            case EntityType::enemy:
+                _entities.emplace_back(
+                    yaschperitsy::ecs::GameFabric::create_enemy(
+                        x_pox, y_pox, speed, texture));
+                break;
+            case EntityType::pbullet:
+                _entities.emplace_back(
+                    yaschperitsy::ecs::GameFabric::create_pbullet(
+                        x_pox, y_pox, speed, texture));
+                break;
+            case EntityType::ebullet:
+                _entities.emplace_back(
+                    yaschperitsy::ecs::GameFabric::create_ebullet(
+                        x_pox, y_pox, speed, texture));
+                break;
+            default:
+                break;
+            };
+
             return _entities.back();
         }
 
         const SEntityVector& get_entities() const { return _entities; }
 
-        SEntityVector get_entities_by_name(const std::string& name)
+        // TODO: delete
+        SEntityVector get_entities(EntityType type)
         {
             SEntityVector res;
             std::copy_if(_entities.begin(), _entities.end(),
                          std::back_inserter(res),
                          [&](const EntitySPtr& e)
-                         { return e->name() == name; });
+                         { return e->type() == type; });
             return res;
         }
 

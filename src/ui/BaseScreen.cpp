@@ -1,5 +1,4 @@
-#include "ui/base_screen.h"
-#include "app/resource_manager.h"
+#include "ui/BaseScreen.h"
 
 namespace yaschperitsy::ui
 {

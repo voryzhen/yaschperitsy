@@ -1,14 +1,14 @@
 #include <cmath>
-#include <game/game.h>
+#include <game/Game.h>
 
-#include "ecs/components/fire_component.h"
-#include "ecs/components/sprite_component.h"
-#include "ecs/components/transform_component.h"
-#include "ecs/entity.h"
+#include "ecs/Entity.h"
+#include "ecs/components/FireComponent.h"
+#include "ecs/components/SpriteComponent.h"
+#include "ecs/components/TransformComponent.h"
 #include "numbers"
 
-#include "utility/utility.h"
-#include "utility/vector2D.h"
+#include "utility/Utility.h"
+#include "utility/Vector2D.h"
 
 // Main Game functions
 namespace yaschperitsy::game

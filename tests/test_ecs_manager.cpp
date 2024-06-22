@@ -1,6 +1,6 @@
 #include "boost/test/unit_test.hpp"
 
-#include <ecs/manager.h>
+#include <ecs/Manager.h>
 
 BOOST_AUTO_TEST_SUITE(ecs_manager_unit_tests_suite)
 

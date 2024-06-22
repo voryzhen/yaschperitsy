@@ -1,4 +1,4 @@
-#include <app/app.h>
+#include <app/App.h>
 
 namespace yaschperitsy::app
 {

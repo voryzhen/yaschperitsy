@@ -3,10 +3,10 @@
 #include <memory>
 #include <numbers>
 
-#include <ecs/components/transform_component.h>
-#include <ecs/entity.h>
-#include <ecs/icomponent.h>
-#include <utility/vector2D.h>
+#include <ecs/Entity.h>
+#include <ecs/IComponent.h>
+#include <ecs/components/TransformComponent.h>
+#include <utility/Vector2D.h>
 
 namespace yaschperitsy::ecs::components
 {

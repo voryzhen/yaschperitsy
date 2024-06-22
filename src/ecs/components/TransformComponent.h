@@ -1,7 +1,7 @@
 #pragma once
 
-#include <ecs/icomponent.h>
-#include <utility/vector2D.h>
+#include <ecs/IComponent.h>
+#include <utility/Vector2D.h>
 
 namespace yaschperitsy::ecs::components
 {

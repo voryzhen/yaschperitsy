@@ -11,19 +11,19 @@ set ( CMAKE_CXX_STANDARD_REQUIRED ON )
 set ( SOURCE
 
   src/main.cpp
-  src/app/app.cpp
-  src/app/window.cpp
-  src/app/resource_manager.cpp
+  src/app/App.cpp
+  src/app/Window.cpp
+  src/app/ResourceManager.cpp
 
-  src/game/game.cpp
-  src/game/topbar.cpp
+  src/game/Game.cpp
+  src/game/Topbar.cpp
 
-  src/ecs/game_fabric.cpp
+  src/ecs/EntityCreator.cpp
 
-  src/ui/base_screen.cpp
-  src/ui/screen_manager.cpp
-  src/ui/screens.cpp
-  src/ui/button.cpp
+  src/ui/BaseScreen.cpp
+  src/ui/ScreenManager.cpp
+  src/ui/Screens.cpp
+  src/ui/Button.cpp
 
 )
 

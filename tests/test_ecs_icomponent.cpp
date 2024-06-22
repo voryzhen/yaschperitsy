@@ -1,6 +1,6 @@
 #include "boost/test/unit_test.hpp"
 
-#include "ecs/icomponent.h"
+#include "ecs/IComponent.h"
 
 BOOST_AUTO_TEST_SUITE(ecs_icomponent_unit_tests_suite)
 

@@ -4,8 +4,8 @@
 #include <memory>
 #include <string_view>
 
-#include "ecs/icomponent.h"
-#include <app/window.h>
+#include "ecs/IComponent.h"
+#include <app/Window.h>
 
 #include "SDL_events.h"
 

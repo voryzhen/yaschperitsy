@@ -1,4 +1,4 @@
-#include "game/topbar.h"
+#include "game/Topbar.h"
 #include "SDL_ttf.h"
 #include <string>
 

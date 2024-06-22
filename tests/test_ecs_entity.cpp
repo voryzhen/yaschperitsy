@@ -1,7 +1,7 @@
 #include "boost/test/unit_test.hpp"
 
-#include "ecs/icomponent.h"
-#include <ecs/entity.h>
+#include "ecs/IComponent.h"
+#include <ecs/Entity.h>
 
 namespace yaschperitsy::ecs
 {

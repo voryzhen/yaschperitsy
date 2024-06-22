@@ -1,4 +1,4 @@
-#include "ui/button.h"
+#include "ui/Button.h"
 #include "SDL_events.h"
 
 namespace yaschperitsy::ui

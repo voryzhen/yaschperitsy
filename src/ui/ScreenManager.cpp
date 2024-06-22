@@ -1,5 +1,5 @@
 #include "SDL_events.h"
-#include <ui/screen_manager.h>
+#include <ui/ScreenManager.h>
 
 namespace yaschperitsy::ui
 {

@@ -1,12 +1,12 @@
 #pragma once
 
-#include <app/resource_manager.h>
+#include <app/ResourceManager.h>
 #include <memory>
 #include <utility>
 #include <vector>
 
+#include "GameParameters.h"
 #include "SDL_render.h"
-#include "game_parameters.h"
 
 namespace yaschperitsy::game
 {

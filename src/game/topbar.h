@@ -3,13 +3,13 @@
 #include <utility>
 
 #include "SDL_ttf.h"
-#include "app/resource_manager.h"
+#include "app/ResourceManager.h"
 #include "memory"
 #include "string"
 
 #include "SDL_render.h"
 
-#include "game_parameters.h"
+#include "GameParameters.h"
 #include <memory>
 
 namespace yaschperitsy::game

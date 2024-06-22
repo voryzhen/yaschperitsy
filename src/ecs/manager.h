@@ -1,9 +1,9 @@
 #pragma once
 
 #include <algorithm>
-#include <app/resource_manager.h>
-#include <ecs/entity.h>
-#include <ecs/game_fabric.h>
+#include <app/ResourceManager.h>
+#include <ecs/Entity.h>
+#include <ecs/EntityCreator.h>
 #include <iterator>
 #include <utility>
 

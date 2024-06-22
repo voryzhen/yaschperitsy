@@ -1,7 +1,7 @@
 #pragma once
 
-#include "app/resource_manager.h"
-#include <ecs/entity.h>
+#include "app/ResourceManager.h"
+#include <ecs/Entity.h>
 #include <memory>
 
 namespace yaschperitsy::ecs

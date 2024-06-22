@@ -1,9 +1,9 @@
 #pragma once
 
-#include <app/resource_manager.h>
-#include <ecs/components/transform_component.h>
-#include <ecs/entity.h>
-#include <ecs/icomponent.h>
+#include <app/ResourceManager.h>
+#include <ecs/Entity.h>
+#include <ecs/IComponent.h>
+#include <ecs/components/TransformComponent.h>
 
 #include "SDL_render.h"
 

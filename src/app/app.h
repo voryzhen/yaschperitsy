@@ -1,8 +1,8 @@
 #pragma once
 
-#include <app/resource_manager.h>
-#include <app/window.h>
-#include <ui/screen_manager.h>
+#include <app/ResourceManager.h>
+#include <app/Window.h>
+#include <ui/ScreenManager.h>
 
 #include "SDL_events.h"
 

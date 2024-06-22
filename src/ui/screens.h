@@ -1,10 +1,10 @@
 #pragma once
 
+#include "BaseScreen.h"
 #include "SDL_events.h"
-#include "base_screen.h"
-#include "game/game.h"
-#include "ui/button.h"
-#include <app/resource_manager.h>
+#include "game/Game.h"
+#include "ui/Button.h"
+#include <app/ResourceManager.h>
 #include <exception>
 #include <iostream>
 #include <memory>

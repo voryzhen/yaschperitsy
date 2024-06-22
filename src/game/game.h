@@ -1,11 +1,11 @@
 #pragma once
 
-#include "app/resource_manager.h"
-#include "background.h"
-#include "ecs/entity.h"
-#include "ecs/manager.h"
-#include "game_parameters.h"
-#include "topbar.h"
+#include "Background.h"
+#include "GameParameters.h"
+#include "Topbar.h"
+#include "app/ResourceManager.h"
+#include "ecs/Entity.h"
+#include "ecs/Manager.h"
 
 #include "SDL_events.h"
 #include <SDL.h>

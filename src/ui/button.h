@@ -1,6 +1,6 @@
 #pragma once
 
-#include "app/resource_manager.h"
+#include "app/ResourceManager.h"
 #include <memory>
 #include <string_view>
 #include <vector>

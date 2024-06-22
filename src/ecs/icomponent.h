@@ -5,7 +5,7 @@
 #include <memory>
 #include <vector>
 
-#include <app/window.h>
+#include <app/Window.h>
 
 #include "SDL_events.h"
 

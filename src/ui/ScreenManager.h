@@ -4,8 +4,8 @@
 #include <utility>
 
 #include "SDL_events.h"
-#include "app/resource_manager.h"
-#include "screens.h"
+#include "Screens.h"
+#include "app/ResourceManager.h"
 
 namespace yaschperitsy::ui
 {

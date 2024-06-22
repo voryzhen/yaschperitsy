@@ -29,6 +29,13 @@ class SpriteComponent : public IComponent
             set_rects();
         }
 
+        void set_sprite_settings(int frames, int speed)
+        {
+            _animated = true;
+            _frames = frames;
+            _speed = speed;
+        }
+
         void init() override
         {
             _position = owner->get_component<TransformComponent>();

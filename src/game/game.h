@@ -38,13 +38,12 @@ class Game
         void update_enemies_direction();
 
         // Player logic
-        void compose_player();
         void update_player();
 
         // Bullet logic
+        void destroy_objects();
         void bullet_hit();
 
-        void destroy_objects();
         void reset_state();
 
         unsigned char _fps = 60;

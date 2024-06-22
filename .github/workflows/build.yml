@@ -68,6 +68,7 @@ jobs:
       - name: Cmake build
         run: cmake --build --preset conan-release
 
+        # TODO: refactor this
       - name: Compose1
         run: mkdir yaschperitsy
 

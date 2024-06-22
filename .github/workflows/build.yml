@@ -16,24 +16,25 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Prepare
-        run: brew install SDL2 SDL2_image SDL2_ttf boost
+        run: brew install conan
 
-      - name: Compile
+      - name: Run conan
         run: |
           {
-            mkdir build
-            cd build
-            cmake ..
-            cmake --build .
+            conan profile detect
+            conan install . --build=missing -s compiler.cppstd=gnu20
           }
 
-      - name: Test
-        run: ./build/yaschperitsy_test
+      - name: Cmake
+        run: cmake --preset conan-release
+
+      - name: Compile
+        run: cmake --build --preset conan-release
 
       - name: Pack
         run: |
           {
-            mv ./build/yaschperitsy .
+            mv ./build/Release/yaschperitsy .
             tar -czvf yaschperitsy_macos.tar.gz yaschperitsy assets
           }
 
@@ -52,36 +53,32 @@ jobs:
 
       - uses: actions/checkout@v2
 
-      - name: Download SDLs
-        run: |
-          curl.exe -JLO https://github.com/libsdl-org/SDL/releases/download/release-2.30.3/SDL2-devel-2.30.3-VC.zip
-          curl.exe -JLO https://github.com/libsdl-org/SDL_image/releases/download/release-2.8.2/SDL2_image-devel-2.8.2-VC.zip
-          curl.exe -JLO https://github.com/libsdl-org/SDL_ttf/releases/download/release-2.22.0/SDL2_ttf-devel-2.22.0-VC.zip
-          Expand-Archive ./SDL2-devel-2.30.3-VC.zip -DestinationPath ./SDL2
-          Expand-Archive ./SDL2_image-devel-2.8.2-VC.zip -DestinationPath ./SDL2_image
-          Expand-Archive ./SDL2_ttf-devel-2.22.0-VC.zip -DestinationPath ./SDL2_ttf
+      - name: Install programs
+        run: pip install conan
 
-#      - name: Boost
-#        run: choco install boost-msvc-14.2
+      - name: Conan detect profile
+        run: conan profile detect
 
-      - name: Cmake
-        run: |
-          mkdir build
-          cd build
-          cmake .. -DCMAKE_BUILD_TYPE=Release -DSDL2_INCLUDE_DIRS="./SDL2/SDL2-2.30.3/include;./SDL2_image/SDL2_image-2.8.2/include;./SDL2_ttf/SDL2_ttf-2.22.0/include" -DSDL2_LIBRARIES="SDL2;SDL2main;SDL2_image;SDL2_ttf" -DSDL2_LIB_DIRS="./SDL2/SDL2-2.30.3/lib/x64;./SDL2_image/SDL2_image-2.8.2/lib/x64;./SDL2_ttf/SDL2_ttf-2.22.0/lib/x64"
-          cmake --build . --config Release
+      - name: Conan install deps
+        run: conan install . --build=missing -s compiler.cppstd=20
+
+      - name: Cmake setup
+        run: cmake --preset conan-default
+
+      - name: Cmake build
+        run: cmake --build --preset conan-release
+
+      - name: Compose1
+        run: mkdir yaschperitsy
+
+      - name: Compose2
+        run: mv ./build/Release/yaschperitsy.exe yaschperitsy/
+
+      - name: Compose3
+        run: mv ./assets yaschperitsy/
 
       - name: Pack
-        run: |
-          mkdir yaschperitsy
-          mv ./build/Release/yaschperitsy.exe yaschperitsy/
-          mv ./assets yaschperitsy/
-
-          mv ./SDL2/SDL2-2.30.3/lib/x64/SDL2.dll yaschperitsy/
-          mv ./SDL2_image/SDL2_image-2.8.2/lib/x64/SDL2_image.dll yaschperitsy/
-          mv ./SDL2_ttf/SDL2_ttf-2.22.0/lib/x64/SDL2_ttf.dll yaschperitsy/
-
-          Compress-Archive -Path ./yaschperitsy -DestinationPath ./yaschperitsy_win.zip
+        run: Compress-Archive -Path yaschperitsy/ -DestinationPath ./yaschperitsy_win.zip
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4

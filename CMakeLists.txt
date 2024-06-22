@@ -25,58 +25,25 @@ set ( SOURCE
 
 )
 
-if ( APPLE )
-
-  # find_package ( SDL2 REQUIRED )
-  # TODO:
-  # find_package returns wrong path on my local machine. Why ???
-
-  set ( SDL2_INCLUDE_DIRS ${SDL2_INCLUDE_DIRS} /opt/homebrew/include/SDL2 )
-  set ( SDL2_LIB_DIRS "/opt/homebrew/lib" )
-  set ( SDL2_LIBRARIES SDL2 SDL2_image SDL2_ttf )
-
-endif()
-
-set ( INCLUDE_DIRS ${SDL2_INCLUDE_DIRS} src )
-set ( LIB_DIRS     ${SDL2_LIB_DIRS} )
-set ( LIBRARIES    ${SDL2_LIBRARIES} )
-
 project ( yaschperitsy )
 
-add_executable             ( yaschperitsy         ${SOURCE} )
-target_include_directories ( yaschperitsy PRIVATE ${INCLUDE_DIRS} )
-target_link_directories    ( yaschperitsy PRIVATE ${LIB_DIRS} )
-target_link_libraries      ( yaschperitsy         ${LIBRARIES} )
+find_package ( SDL2       REQUIRED CONFIG )
+find_package ( SDL2_image REQUIRED CONFIG )
+find_package ( SDL2_ttf   REQUIRED CONFIG )
 
-# tests
+add_executable ( yaschperitsy ${SOURCE} )
 
-if ( APPLE )
+target_include_directories ( yaschperitsy PRIVATE ${SDL2_INCLUDE_DIRS} src )
 
-project ( yaschperitsy_test )
+target_link_directories    ( yaschperitsy PRIVATE ${SDL2_LIB_DIRS} )
 
-find_package( Boost COMPONENTS system filesystem unit_test_framework REQUIRED )
+target_link_libraries ( 
 
-include_directories ( ${Boost_INCLUDE_DIR} ${INCLUDE_DIRS} )
-link_directories ( ${Boost_LIBRARY_DIR} ${LIB_DIRS} )
-
-add_executable( yaschperitsy_test
-
-  tests/test_vector2D.cpp
-  tests/test_ecs_icomponent.cpp
-  tests/test_ecs_components.cpp
-  tests/test_ecs_manager.cpp
-  tests/test_ecs_entity.cpp
+  yaschperitsy PRIVATE
+  
+  SDL2::SDL2main
+  SDL2::SDL2
+  SDL2_image::SDL2_image
+  sdl_ttf::sdl_ttf
 
 )
-
-target_link_libraries( yaschperitsy_test
-
-  ${Boost_FILESYSTEM_LIBRARY}
-  ${Boost_SYSTEM_LIBRARY}
-  ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY}
-  ${SDL2_LIBRARIES}
-  ${LIBRARIES}
-
-)
-
-endif()

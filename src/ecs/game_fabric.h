@@ -7,7 +7,7 @@
 namespace yaschperitsy::ecs
 {
 
-class GameFabric
+class EntityCreator
 {
     public:
         static EntitySPtr create_player(float x_pox, float y_pox,
@@ -28,7 +28,5 @@ class GameFabric
                                         float y_pox, int speed,
                                         resource::TextureSPtr texture);
 };
-
-using GameFabricUPtr = std::unique_ptr<GameFabric>;
 
 }; // namespace yaschperitsy::ecs

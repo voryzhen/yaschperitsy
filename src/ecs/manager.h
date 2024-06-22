@@ -42,22 +42,22 @@ class Manager
             {
             case EntityType::player:
                 _entities.emplace_back(
-                    yaschperitsy::ecs::GameFabric::create_player(
+                    yaschperitsy::ecs::EntityCreator::create_player(
                         x_pox, y_pox, speed, texture));
                 break;
             case EntityType::enemy:
                 _entities.emplace_back(
-                    yaschperitsy::ecs::GameFabric::create_enemy(
+                    yaschperitsy::ecs::EntityCreator::create_enemy(
                         x_pox, y_pox, speed, texture));
                 break;
             case EntityType::pbullet:
                 _entities.emplace_back(
-                    yaschperitsy::ecs::GameFabric::create_pbullet(
+                    yaschperitsy::ecs::EntityCreator::create_pbullet(
                         x_pox, y_pox, speed, texture));
                 break;
             case EntityType::ebullet:
                 _entities.emplace_back(
-                    yaschperitsy::ecs::GameFabric::create_ebullet(
+                    yaschperitsy::ecs::EntityCreator::create_ebullet(
                         x_pox, y_pox, speed, texture));
                 break;
             default:

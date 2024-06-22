@@ -12,9 +12,9 @@
 namespace yaschperitsy::ecs
 {
 
-EntitySPtr GameFabric::create_entity(EntityType type, float x_pox,
-                                     float y_pox, int speed,
-                                     resource::TextureSPtr texture)
+EntitySPtr EntityCreator::create_entity(EntityType type, float x_pox,
+                                        float y_pox, int speed,
+                                        resource::TextureSPtr texture)
 {
     auto entity = std::make_shared<Entity>(type);
     entity->add_component<components::TransformComponent>(x_pox, y_pox,
@@ -23,9 +23,9 @@ EntitySPtr GameFabric::create_entity(EntityType type, float x_pox,
     return entity;
 }
 
-EntitySPtr GameFabric::create_player(float x_pox, float y_pox,
-                                     int speed,
-                                     resource::TextureSPtr texture)
+EntitySPtr EntityCreator::create_player(float x_pox, float y_pox,
+                                        int speed,
+                                        resource::TextureSPtr texture)
 {
     auto entity = create_entity(EntityType::player, x_pox, y_pox, speed,
                                 std::move(texture));
@@ -35,8 +35,9 @@ EntitySPtr GameFabric::create_player(float x_pox, float y_pox,
     return entity;
 }
 
-EntitySPtr GameFabric::create_enemy(float x_pox, float y_pox, int speed,
-                                    resource::TextureSPtr texture)
+EntitySPtr EntityCreator::create_enemy(float x_pox, float y_pox,
+                                       int speed,
+                                       resource::TextureSPtr texture)
 {
     auto entity = create_entity(EntityType::enemy, x_pox, y_pox, speed,
                                 std::move(texture));
@@ -46,18 +47,18 @@ EntitySPtr GameFabric::create_enemy(float x_pox, float y_pox, int speed,
     return entity;
 }
 
-EntitySPtr GameFabric::create_ebullet(float x_pox, float y_pox,
-                                      int speed,
-                                      resource::TextureSPtr texture)
+EntitySPtr EntityCreator::create_ebullet(float x_pox, float y_pox,
+                                         int speed,
+                                         resource::TextureSPtr texture)
 {
     auto entity = create_entity(EntityType::ebullet, x_pox, y_pox,
                                 speed, std::move(texture));
     return entity;
 }
 
-EntitySPtr GameFabric::create_pbullet(float x_pox, float y_pox,
-                                      int speed,
-                                      resource::TextureSPtr texture)
+EntitySPtr EntityCreator::create_pbullet(float x_pox, float y_pox,
+                                         int speed,
+                                         resource::TextureSPtr texture)
 {
     auto entity = create_entity(EntityType::pbullet, x_pox, y_pox,
                                 speed, std::move(texture));

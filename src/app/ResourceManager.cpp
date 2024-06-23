@@ -13,18 +13,19 @@ using resource_map =
 
 const resource_map textures_info = {
     // clang-format off
-    {"player"        , "assets/player.png"},
-    {"player_bullet" , "assets/player_bullet.png"},
+    {"player"        , "assets/player/player.png"},
+    {"player_bullet" , "assets/player/player_bullet.png"},
 
     {"yaschperitsa_1"        , "assets/yaschperitsy/yaschperitsa_1.png"},
     {"yaschperitsa_2"        , "assets/yaschperitsy/yaschperitsa_2.png"},
-    {"yaschperitsy_fireball" , "assets/yaschperitsy_fireball.png"},
+    {"yaschperitsy_fireball" , "assets/yaschperitsy/yaschperitsy_fireball.png"},
 
     {"background" , "assets/background.png"}
     // clang-format on
 };
 
-const resource_map fonts_info = {{"lazy", "assets/lazy.ttf"}};
+const resource_map fonts_info = {
+    {"alegreya", "assets/fonts/alegreya.ttf"}};
 
 // Button texture info
 
@@ -69,7 +70,7 @@ ResourceManager::ResourceManager(const SDL_RendererUPtr& renderer)
     for (const auto& name : button_titles)
     {
         SDL_Surface* text_surface = TTF_RenderText_Solid(
-            _fonts["lazy"].get(), name.data(), _button_text_color);
+            _fonts["alegreya"].get(), name.data(), _button_text_color);
 
         auto _texture =
             TextureSPtr(new Texture(SDL_CreateTextureFromSurface(
@@ -79,7 +80,7 @@ ResourceManager::ResourceManager(const SDL_RendererUPtr& renderer)
         SDL_FreeSurface(text_surface);
 
         text_surface =
-            TTF_RenderText_Solid(_fonts["lazy"].get(), name.data(),
+            TTF_RenderText_Solid(_fonts["alegreya"].get(), name.data(),
                                  _button_on_hover_text_color);
 
         auto _texture_on_hover =
@@ -118,7 +119,7 @@ TTF_Font* ResourceManager::load_font(const std::string_view& filename)
 
     if (font == nullptr)
     {
-        std::cout << "Failed to load lazy font! SDL_ttf Error: "
+        std::cout << "Failed to load alegreya.ttf font! SDL_ttf Error: "
                   << TTF_GetError() << std::endl;
     }
     return font;

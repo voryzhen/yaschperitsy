@@ -24,7 +24,8 @@ Game::Game(const resource::ResourceManagerUPtr& rm)
       // Refactor as Component ?
       _background(std::make_unique<Background>(
           _rm->get_texture("background"), _game_field)),
-      _topbar(std::make_unique<Topbar>(_rm->get_font("lazy"), _stat))
+      _topbar(
+          std::make_unique<Topbar>(_rm->get_font("alegreya"), _stat))
 
 {
     _game_field = GameField(1280, 720); // TODO:

@@ -15,7 +15,7 @@ class Component : public IComponent
 
         void init() override {}
 
-        void update(const SDL_Event& e) override { value++; }
+        void update(const SDL_Event& /*e*/) override { value++; }
 
         void render(const app::SDL_RendererUPtr& renderer) override {}
 
@@ -32,9 +32,10 @@ BOOST_AUTO_TEST_CASE(entity_test)
 {
     using namespace yaschperitsy::ecs;
 
-    auto ent = Entity("Entity");
+    auto ent = Entity(yaschperitsy::ecs::EntityType::ammunition);
     BOOST_CHECK(ent.is_active());
-    BOOST_CHECK(ent.name() == "Entity");
+    BOOST_CHECK(ent.type() ==
+                yaschperitsy::ecs::EntityType::ammunition);
 
     ent.destroy();
     BOOST_CHECK(!ent.is_active());
@@ -52,7 +53,7 @@ BOOST_AUTO_TEST_CASE(entity_component_test)
 
     // clang-format on
 
-    auto ent = Entity("Entity");
+    auto ent = Entity(yaschperitsy::ecs::EntityType::ammunition);
     auto comp1 = ent.add_component<Comp1>(1);
     auto comp2 = ent.add_component<Comp2>(2);
     auto comp3 = ent.add_component<Comp3>(3);

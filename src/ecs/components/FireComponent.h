@@ -1,5 +1,6 @@
 #pragma once
 
+#include "utility/Vector2D.h"
 #include <ecs/IComponent.h>
 
 namespace yaschperitsy::ecs::components

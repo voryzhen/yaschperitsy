@@ -49,3 +49,45 @@ target_link_libraries (
   sdl_ttf::sdl_ttf
 
 )
+
+# ----------
+
+if ( APPLE )
+
+  project ( yaschperitsy_test )
+
+  # set ( CMAKE_BUILD_TYPE "Debug" )
+
+  find_package( Boost COMPONENTS system filesystem unit_test_framework REQUIRED )
+
+  add_executable( yaschperitsy_test
+
+    tests/test_vector2D.cpp
+    tests/test_ecs_icomponent.cpp
+    tests/test_ecs_components.cpp
+    tests/test_ecs_manager.cpp
+    tests/test_ecs_entity.cpp
+    tests/test_entity_creator.cpp
+
+    src/ecs/EntityCreator.cpp
+
+    )
+
+  target_include_directories ( yaschperitsy_test PRIVATE ${Boost_INCLUDE_DIR} ${SDL2_INCLUDE_DIRS} src )
+  target_link_directories    ( yaschperitsy_test PRIVATE ${Boost_LIBRARY_DIR} ${SDL2_LIB_DIRS} )
+  
+
+  target_link_libraries( yaschperitsy_test
+
+    ${Boost_FILESYSTEM_LIBRARY}
+    ${Boost_SYSTEM_LIBRARY}
+    ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY}
+
+    SDL2::SDL2main
+    SDL2::SDL2
+    SDL2_image::SDL2_image
+    sdl_ttf::sdl_ttf
+
+  )
+
+  endif()

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "game/entities/Ammunition.h"
+#include "game/entities/Organism.h"
 #include <algorithm>
 #include <app/ResourceManager.h>
 #include <ecs/Entity.h>
@@ -34,35 +36,13 @@ class Manager
             _entities.erase(remove_it, _entities.end());
         }
 
-        EntitySPtr add_entity(EntityType type, float x_pox, float y_pox,
-                              int speed,
+        template <typename Ent, typename Settings>
+        EntitySPtr add_entity(Settings settings, float x_pox,
+                              float y_pox, int speed,
                               const resource::TextureSPtr& texture)
         {
-            switch (type)
-            {
-            case EntityType::player:
-                _entities.emplace_back(
-                    yaschperitsy::ecs::EntityCreator::create_player(
-                        x_pox, y_pox, speed, texture));
-                break;
-            case EntityType::enemy:
-                _entities.emplace_back(
-                    yaschperitsy::ecs::EntityCreator::create_enemy(
-                        x_pox, y_pox, speed, texture));
-                break;
-            case EntityType::pbullet:
-                _entities.emplace_back(
-                    yaschperitsy::ecs::EntityCreator::create_pbullet(
-                        x_pox, y_pox, speed, texture));
-                break;
-            case EntityType::ebullet:
-                _entities.emplace_back(
-                    yaschperitsy::ecs::EntityCreator::create_ebullet(
-                        x_pox, y_pox, speed, texture));
-                break;
-            default:
-                break;
-            };
+            _entities.emplace_back(EntityCreator::create_entity<Ent>(
+                settings, x_pox, y_pox, speed, texture));
 
             return _entities.back();
         }

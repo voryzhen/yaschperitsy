@@ -15,9 +15,8 @@ namespace yaschperitsy::ecs
 enum class EntityType
 {
     player = 0,
-    enemy,
-    ebullet,
-    pbullet
+    yaschperitsa,
+    ammunition
 };
 
 class Entity
@@ -74,7 +73,7 @@ class Entity
 
     private:
         bool _active = true;
-        EntityType _entity_type{EntityType::enemy};
+        EntityType _entity_type{EntityType::yaschperitsa};
 
         SComponentVector _components;
 

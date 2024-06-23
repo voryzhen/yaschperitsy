@@ -21,6 +21,7 @@ struct GameStatistic
         std::uint8_t _max_score{0};
         std::uint8_t _enemies_num{10};
         std::uint8_t _enemies_total_num{10};
+        std::uint8_t _curr_hp{0};
 };
 
 using GameStatisticUPtr = std::unique_ptr<GameStatistic>;

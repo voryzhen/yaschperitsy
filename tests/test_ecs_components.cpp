@@ -15,7 +15,7 @@ BOOST_AUTO_TEST_CASE(components_test)
     using namespace yaschperitsy::ecs;
     using namespace yaschperitsy::ecs::components;
 
-    auto ent = Entity("Entity");
+    auto ent = Entity(yaschperitsy::ecs::EntityType::ammunition);
     BOOST_CHECK(ent.is_active());
 
     auto fire_comp = ent.add_component<FireComponent>(5);
@@ -39,7 +39,7 @@ BOOST_AUTO_TEST_CASE(transform_components_test)
     using namespace yaschperitsy::ecs;
     using namespace yaschperitsy::ecs::components;
 
-    auto ent = Entity("Entity");
+    auto ent = Entity(yaschperitsy::ecs::EntityType::ammunition);
     auto transform_comp = ent.add_component<TransformComponent>(5, 5);
     BOOST_CHECK(ent.has_component<TransformComponent>());
 

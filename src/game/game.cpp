@@ -1,11 +1,11 @@
-#include <cmath>
 #include <game/Game.h>
 
-#include "ecs/Entity.h"
-#include "ecs/components/FireComponent.h"
-#include "ecs/components/SpriteComponent.h"
-#include "ecs/components/TransformComponent.h"
 #include "numbers"
+#include <cmath>
+#include <memory>
+
+#include "game/entities/Ammunition.h"
+#include "game/entities/Organism.h"
 
 #include "utility/Utility.h"
 #include "utility/Vector2D.h"
@@ -16,9 +16,11 @@ namespace yaschperitsy::game
 
 Game::Game(const resource::ResourceManagerUPtr& rm)
     : _rm(rm),
-      _player(_manager.add_entity(ecs::EntityType::player, 640, 360,
-                                  _game_settings._player_speed,
-                                  _rm->get_texture("player"))),
+      _player(std::static_pointer_cast<Organism>(
+          _manager.add_entity<Organism>(ecs::EntityType::player, 640,
+                                        360,
+                                        _game_settings._player_speed,
+                                        _rm->get_texture("player")))),
       // Refactor as Component ?
       _background(std::make_unique<Background>(
           _rm->get_texture("background"), _game_field)),
@@ -48,6 +50,9 @@ void Game::update()
     update_enemies();
     update_player();
     destroy_objects();
+
+    // kostyl
+    _stat->_curr_hp = _player->health();
 
     _manager.refresh();
     _manager.update(_event); // refactor
@@ -138,10 +143,19 @@ void Game::update_player()
             const auto p_tran_comp = _player->get_component<
                 ecs::components::TransformComponent>();
             const auto pos = p_tran_comp->position();
+            const auto dir = p_tran_comp->direction();
 
-            auto bullet = _manager.add_entity(
-                ecs::EntityType::pbullet, pos.x() + 80, pos.y(),
-                _game_settings._bullet_speed,
+            // TODO: Very cool logic and magic numbers :)
+            // The goal is to shot from gun, not from backpack
+            auto bullet_pos = pos;
+            bullet_pos.set_x(bullet_pos.x() + 40);
+            bullet_pos.set_y(bullet_pos.y() + 40);
+            bullet_pos.set_x(bullet_pos.x() + (57 + 26) * dir.x());
+            bullet_pos.set_y(bullet_pos.y() + (57 + 26) * dir.y());
+
+            auto bullet = _manager.add_entity<Ammunition>(
+                AmmunitionType::plasma_shot, bullet_pos.x(),
+                bullet_pos.y(), _game_settings._bullet_speed,
                 _rm->get_texture("player_bullet"));
 
             auto bullet_trans_comp = bullet->get_component<
@@ -171,7 +185,7 @@ void Game::update_enemies()
 
 void Game::update_enemies_direction()
 {
-    for (auto& e : _manager.get_entities(ecs::EntityType::enemy))
+    for (auto& e : _manager.get_entities(ecs::EntityType::yaschperitsa))
     {
         auto transform_comp =
             e->get_component<ecs::components::TransformComponent>();
@@ -202,9 +216,10 @@ void Game::spawn_enemies()
         // 2 different enemies
         const auto name = (random == 1) ? "enemy" : "enemy2";
 
-        auto enemy = _manager.add_entity(
-            ecs::EntityType::enemy, static_cast<float>(_game_field.w),
-            0., _game_settings._enemy_speed, _rm->get_texture(name));
+        auto enemy = _manager.add_entity<Organism>(
+            ecs::EntityType::yaschperitsa,
+            static_cast<float>(_game_field.w), 0.,
+            _game_settings._enemy_speed, _rm->get_texture(name));
 
         int angle{0};
         Vector2D<int> enemies_pos = get_enemies_position(angle);
@@ -233,7 +248,7 @@ void Game::spawn_enemies()
 
 void Game::fire_enemies()
 {
-    for (auto& e : _manager.get_entities(ecs::EntityType::enemy))
+    for (auto& e : _manager.get_entities(ecs::EntityType::yaschperitsa))
     {
         const auto fire_component =
             e->get_component<ecs::components::FireComponent>();
@@ -244,10 +259,13 @@ void Game::fire_enemies()
             const auto enemy_trans_comp =
                 e->get_component<ecs::components::TransformComponent>();
             const auto enemy_pos = enemy_trans_comp->position();
+            const auto dir = enemy_trans_comp->direction();
 
-            auto bullet = _manager.add_entity(
-                ecs::EntityType::ebullet, enemy_pos.x(), enemy_pos.y(),
-                _game_settings._bullet_speed,
+            auto bullet_pos = enemy_pos;
+
+            auto bullet = _manager.add_entity<Ammunition>(
+                AmmunitionType::yaschperitsy_fireball, bullet_pos.x(),
+                bullet_pos.y(), _game_settings._bullet_speed,
                 _rm->get_texture("enemy_bullet"));
 
             auto transform_comp = bullet->get_component<
@@ -329,41 +347,52 @@ bool intersect(const ecs::EntitySPtr& ent1, const ecs::EntitySPtr& ent2)
 
 void Game::bullet_hit()
 {
-    const auto enemies_bullets =
-        _manager.get_entities(ecs::EntityType::ebullet);
+    const auto bullets =
+        _manager.get_entities(ecs::EntityType::ammunition);
+    const auto enemies =
+        _manager.get_entities(ecs::EntityType::yaschperitsa);
 
-    // enemies strike
-    for (const auto& ebullet : enemies_bullets)
+    // strike
+    for (const auto& bullet_ent : bullets)
     {
-        if (intersect(_player, ebullet))
+        if (intersect(_player, bullet_ent))
         {
-            // reset_state();
+            auto damage =
+                std::static_pointer_cast<Ammunition>(bullet_ent)
+                    ->damage();
+
+            _player->damage(damage);
+
+            if (_player->health() < 1)
+            {
+                reset_state();
+            }
+        }
+
+        for (const auto& enemy : enemies)
+        {
+            if (intersect(enemy, bullet_ent))
+            {
+                auto type =
+                    std::static_pointer_cast<Ammunition>(bullet_ent)
+                        ->ammo_type();
+
+                // Immune to their own fireballs
+                if (type == AmmunitionType::plasma_shot)
+                {
+                    enemy->destroy();
+                    _stat->_score++;
+                }
+            }
         }
     }
 
     // enemies bite
-    const auto enemies = _manager.get_entities(ecs::EntityType::enemy);
-
     for (const auto& enemy : enemies)
     {
         if (intersect(_player, enemy))
         {
             // reset_state();
-        }
-    }
-
-    const auto player_bullets =
-        _manager.get_entities(ecs::EntityType::pbullet);
-
-    for (const auto& pbullet : player_bullets)
-    {
-        for (const auto& enemy : enemies)
-        {
-            if (intersect(pbullet, enemy))
-            {
-                enemy->destroy();
-                _stat->_score++;
-            }
         }
     }
 }
@@ -372,16 +401,12 @@ void Game::reset_state()
 {
     for (auto& e : _manager.get_entities())
     {
-        if (e->type() == ecs::EntityType::player)
-        {
-            e->get_component<ecs::components::TransformComponent>()
-                ->set_position(640, 360);
-        }
-        else
+        if (e->type() != ecs::EntityType::player)
         {
             e->destroy();
         }
     }
+    _player->reset_state();
 
     _stat->_max_score = std::max(_stat->_max_score, _stat->_score);
     _stat->_score = 0;

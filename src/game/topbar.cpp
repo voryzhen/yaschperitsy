@@ -13,16 +13,20 @@ void Topbar::render(const SDL_RendererUPtr& renderer)
     render_text(renderer,
                 "Total Score: " + std::to_string(_stat->_score), 5, 5);
     render_text(renderer,
-                "Max Score: " + std::to_string(_stat->_max_score), 400,
+                "Max Score: " + std::to_string(_stat->_max_score), 300,
+                5);
+
+    render_text(renderer, "HP: " + std::to_string(_stat->_curr_hp), 600,
                 5);
 
     auto text = _stat->_enemies_total_num != _stat->_score
                     ? "Remaining yaschperitsy: " +
                           std::to_string(_stat->_enemies_num)
                     : "You win";
-    render_text(renderer, text, 800, 5);
+    render_text(renderer, text, 900, 5);
 }
 
+// TODO: refactor text surface creator
 void Topbar::render_text(const SDL_RendererUPtr& renderer,
                          const std::string& text, int x, int y)
 {

@@ -8,7 +8,9 @@
 #include "ecs/Manager.h"
 
 #include "SDL_events.h"
+#include "game/entities/Organism.h"
 #include <SDL.h>
+#include <memory>
 
 namespace yaschperitsy::game
 {
@@ -58,7 +60,7 @@ class Game
 
         const resource::ResourceManagerUPtr& _rm;
 
-        ecs::EntitySPtr _player;
+        std::shared_ptr<Organism> _player;
         std::unique_ptr<Background> _background;
         std::unique_ptr<Topbar> _topbar;
 

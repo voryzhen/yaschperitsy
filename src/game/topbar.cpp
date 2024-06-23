@@ -19,9 +19,9 @@ void Topbar::render(const SDL_RendererUPtr& renderer)
     render_text(renderer, "HP: " + std::to_string(_stat->_curr_hp), 600,
                 5);
 
-    auto text = _stat->_enemies_total_num != _stat->_score
+    auto text = _stat->_yaschperitsy_total_num != _stat->_score
                     ? "Remaining yaschperitsy: " +
-                          std::to_string(_stat->_enemies_num)
+                          std::to_string(_stat->_yaschperitsy_num)
                     : "You win";
     render_text(renderer, text, 900, 5);
 }

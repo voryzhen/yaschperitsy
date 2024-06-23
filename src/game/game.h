@@ -33,11 +33,11 @@ class Game
         void render(const SDL_RendererUPtr& renderer);
 
     private:
-        // Enemies logic
-        void update_enemies();
-        void spawn_enemies();
-        void fire_enemies();
-        void update_enemies_direction();
+        // Yaschperitsy logic
+        void update_yaschperitsy();
+        void spawn_yaschperitsy();
+        void fire_yaschperitsy();
+        void update_yaschperitsy_direction();
 
         // Player logic
         void update_player();
@@ -53,7 +53,7 @@ class Game
 
         GameSettings _game_settings;
         GameField _game_field;
-        int enemy_spawn_timer{0};
+        int yaschperitsy_spawn_timer{0};
 
         SDL_Event _event{};
         ecs::Manager _manager{};

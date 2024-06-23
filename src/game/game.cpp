@@ -47,7 +47,7 @@ void Game::handle_events(const SDL_Event& event)
 
 void Game::update()
 {
-    update_enemies();
+    update_yaschperitsy();
     update_player();
     destroy_objects();
 
@@ -89,7 +89,7 @@ Vector2D<float> get_updated_direction(Vector2D<float> aim,
     return {xx, yy};
 }
 
-Vector2D<float> get_enemies_velocity(Vector2D<int> pos)
+Vector2D<float> get_yaschperitsy_velocity(Vector2D<int> pos)
 {
     Vector2D<int> center = {640, 360};
 
@@ -110,7 +110,7 @@ constexpr int rad2 = (640 * 640 + 360 * 360);
 const int rad = static_cast<int>(sqrt(rad2));
 
 Vector2D<int>
-get_enemies_position(int& random_angle) // very bad but I am lazy
+get_yaschperitsa_position(int& random_angle) // very bad but I am lazy
 {
     random_angle = get_random<int>(360);
     int x = static_cast<int>(rad * cos(random_angle) + 640);
@@ -172,18 +172,18 @@ void Game::update_player()
 
 }; // namespace yaschperitsy::game
 
-// Enemy function
+// Yaschperitsy function
 namespace yaschperitsy::game
 {
 
-void Game::update_enemies()
+void Game::update_yaschperitsy()
 {
-    spawn_enemies();
-    fire_enemies();
-    update_enemies_direction();
+    spawn_yaschperitsy();
+    fire_yaschperitsy();
+    update_yaschperitsy_direction();
 }
 
-void Game::update_enemies_direction()
+void Game::update_yaschperitsy_direction()
 {
     for (auto& e : _manager.get_entities(ecs::EntityType::yaschperitsa))
     {
@@ -204,49 +204,52 @@ void Game::update_enemies_direction()
     }
 }
 
-void Game::spawn_enemies()
+void Game::spawn_yaschperitsy()
 {
-    if (--enemy_spawn_timer <= 0 && _stat->_enemies_num > 0)
+    if (--yaschperitsy_spawn_timer <= 0 && _stat->_yaschperitsy_num > 0)
     {
-        _stat->_enemies_num--;
+        _stat->_yaschperitsy_num--;
 
-        // TODO: Create a fabric for different entities
-        // Enemy texture randomizer
+        // Yaschperitsy texture randomizer
         const auto random = get_random<int>(2);
-        // 2 different enemies
-        const auto name = (random == 1) ? "enemy" : "enemy2";
+        // 2 different yaschperitsy
+        const auto name =
+            (random == 1) ? "yaschperitsa_1" : "yaschperitsa_2";
 
-        auto enemy = _manager.add_entity<Organism>(
+        auto yaschperitsa = _manager.add_entity<Organism>(
             ecs::EntityType::yaschperitsa,
             static_cast<float>(_game_field.w), 0.,
-            _game_settings._enemy_speed, _rm->get_texture(name));
+            _game_settings._yaschperitsy_speed, _rm->get_texture(name));
 
         int angle{0};
-        Vector2D<int> enemies_pos = get_enemies_position(angle);
-        auto enemy_transform_comp =
-            enemy->get_component<ecs::components::TransformComponent>();
+        Vector2D<int> yaschperitsa_pos =
+            get_yaschperitsa_position(angle);
+        auto yaschperitsa_transform_comp =
+            yaschperitsa
+                ->get_component<ecs::components::TransformComponent>();
 
-        enemy_transform_comp->set_position(
-            static_cast<float>(enemies_pos.x()),
-            static_cast<float>(enemies_pos.y()));
+        yaschperitsa_transform_comp->set_position(
+            static_cast<float>(yaschperitsa_pos.x()),
+            static_cast<float>(yaschperitsa_pos.y()));
 
-        enemy_transform_comp->set_angle(
+        yaschperitsa_transform_comp->set_angle(
             static_cast<float>(angle * (180 / std::numbers::pi)));
 
         // get velocity aimed to the center
-        Vector2D<float> vel = get_enemies_velocity(enemies_pos);
-        enemy_transform_comp->set_velocity(vel);
-        enemy_transform_comp->set_direction(vel);
+        Vector2D<float> vel =
+            get_yaschperitsy_velocity(yaschperitsa_pos);
+        yaschperitsa_transform_comp->set_velocity(vel);
+        yaschperitsa_transform_comp->set_direction(vel);
 
         // frame rate is 60 fps and every second with random factor
-        // TODO: do I need _enemy_spawn_freq ?
-        enemy_spawn_timer =
-            _game_settings._enemy_spawn_freq *
+        // TODO: do I need _yaschperitsa_spawn_freq ?
+        yaschperitsy_spawn_timer =
+            _game_settings._yaschperitsy_spawn_freq *
             static_cast<int>(_fps * get_random<double>(2.0));
     }
 }
 
-void Game::fire_enemies()
+void Game::fire_yaschperitsy()
 {
     for (auto& e : _manager.get_entities(ecs::EntityType::yaschperitsa))
     {
@@ -256,22 +259,23 @@ void Game::fire_enemies()
         {
             fire_component->shot();
 
-            const auto enemy_trans_comp =
+            const auto yaschperitsa_trans_comp =
                 e->get_component<ecs::components::TransformComponent>();
-            const auto enemy_pos = enemy_trans_comp->position();
-            const auto dir = enemy_trans_comp->direction();
+            const auto yaschperitsa_pos =
+                yaschperitsa_trans_comp->position();
+            const auto dir = yaschperitsa_trans_comp->direction();
 
-            auto bullet_pos = enemy_pos;
+            auto bullet_pos = yaschperitsa_pos;
 
             auto bullet = _manager.add_entity<Ammunition>(
                 AmmunitionType::yaschperitsy_fireball, bullet_pos.x(),
                 bullet_pos.y(), _game_settings._bullet_speed,
-                _rm->get_texture("enemy_bullet"));
+                _rm->get_texture("yaschperitsy_fireball"));
 
             auto transform_comp = bullet->get_component<
                 ecs::components::TransformComponent>();
             transform_comp->set_velocity(
-                enemy_trans_comp->direction() *
+                yaschperitsa_trans_comp->direction() *
                 (_game_settings._bullet_speed));
             // There is no angle because texture has round symmetry
         }
@@ -298,7 +302,7 @@ void Game::destroy_objects()
         auto x = pos.x;
         auto y = pos.y;
 
-        // Relating to rad of enemies generation
+        // Relating to rad of yaschperitsy generation
         if (x < -1000 || x > 2300 || y < -1000 || y > 1900)
         {
             e->destroy();
@@ -349,7 +353,7 @@ void Game::bullet_hit()
 {
     const auto bullets =
         _manager.get_entities(ecs::EntityType::ammunition);
-    const auto enemies =
+    const auto yaschperitsy =
         _manager.get_entities(ecs::EntityType::yaschperitsa);
 
     // strike
@@ -369,9 +373,9 @@ void Game::bullet_hit()
             }
         }
 
-        for (const auto& enemy : enemies)
+        for (const auto& yaschperitsa : yaschperitsy)
         {
-            if (intersect(enemy, bullet_ent))
+            if (intersect(yaschperitsa, bullet_ent))
             {
                 auto type =
                     std::static_pointer_cast<Ammunition>(bullet_ent)
@@ -380,17 +384,17 @@ void Game::bullet_hit()
                 // Immune to their own fireballs
                 if (type == AmmunitionType::plasma_shot)
                 {
-                    enemy->destroy();
+                    yaschperitsa->destroy();
                     _stat->_score++;
                 }
             }
         }
     }
 
-    // enemies bite
-    for (const auto& enemy : enemies)
+    // yaschperitsy bite
+    for (const auto& yaschperitsa : yaschperitsy)
     {
-        if (intersect(_player, enemy))
+        if (intersect(_player, yaschperitsa))
         {
             // reset_state();
         }
@@ -410,7 +414,7 @@ void Game::reset_state()
 
     _stat->_max_score = std::max(_stat->_max_score, _stat->_score);
     _stat->_score = 0;
-    _stat->_enemies_num = _stat->_enemies_total_num;
+    _stat->_yaschperitsy_num = _stat->_yaschperitsy_total_num;
 }
 
 } // namespace yaschperitsy::game

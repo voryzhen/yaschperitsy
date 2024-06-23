@@ -17,9 +17,9 @@ BOOST_AUTO_TEST_CASE(empty_entity_creator)
         EntityType::player, 0, 0, 0, nullptr);
     BOOST_CHECK(player->type() == EntityType::player);
 
-    auto enemy = EntityCreator::create_entity<Organism>(
+    auto yaschperitsa = EntityCreator::create_entity<Organism>(
         EntityType::yaschperitsa, 0, 0, 0, nullptr);
-    BOOST_CHECK(enemy->type() == EntityType::yaschperitsa);
+    BOOST_CHECK(yaschperitsa->type() == EntityType::yaschperitsa);
 
     auto bullet = EntityCreator::create_entity<Ammunition>(
         AmmunitionType::yaschperitsy_fireball, 0, 0, 0, nullptr);

@@ -12,12 +12,17 @@ using resource_map =
     std::unordered_map<std::string_view, std::string_view>;
 
 const resource_map textures_info = {
-    {"player", "assets/player.png"},
-    {"player_bullet", "assets/playerBullet.png"},
-    {"enemy", "assets/enemies/enemy_1.png"},
-    {"enemy2", "assets/enemies/enemy_2.png"},
-    {"enemy_bullet", "assets/enemyBullet.png"},
-    {"background", "assets/background.png"}};
+    // clang-format off
+    {"player"        , "assets/player.png"},
+    {"player_bullet" , "assets/player_bullet.png"},
+
+    {"yaschperitsa_1"        , "assets/yaschperitsy/yaschperitsa_1.png"},
+    {"yaschperitsa_2"        , "assets/yaschperitsy/yaschperitsa_2.png"},
+    {"yaschperitsy_fireball" , "assets/yaschperitsy_fireball.png"},
+
+    {"background" , "assets/background.png"}
+    // clang-format on
+};
 
 const resource_map fonts_info = {{"lazy", "assets/lazy.ttf"}};
 

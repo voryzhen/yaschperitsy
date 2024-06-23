@@ -36,20 +36,20 @@ class Manager
             _entities.erase(remove_it, _entities.end());
         }
 
-        template <typename Ent, typename Settings>
-        EntitySPtr add_entity(Settings settings, float x_pox,
+        template <typename EntityClass, typename EntitySettings>
+        EntitySPtr add_entity(EntitySettings settings, float x_pox,
                               float y_pox, int speed,
                               const resource::TextureSPtr& texture)
         {
-            _entities.emplace_back(EntityCreator::create_entity<Ent>(
-                settings, x_pox, y_pox, speed, texture));
+            _entities.emplace_back(
+                EntityCreator::create_entity<EntityClass>(
+                    settings, x_pox, y_pox, speed, texture));
 
             return _entities.back();
         }
 
         const SEntityVector& get_entities() const { return _entities; }
 
-        // TODO: delete
         SEntityVector get_entities(EntityType type)
         {
             SEntityVector res;

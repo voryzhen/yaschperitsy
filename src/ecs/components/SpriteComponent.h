@@ -48,7 +48,7 @@ class SpriteComponent : public IComponent
                 // TODO:
                 // Here I should update _dest_rect as soon as I have
                 // multiple sprite in one source
-                // But I just will flip
+                // But now I just vertically flip one texture
                 // Frames must be equals 2
                 _flip = static_cast<bool>((SDL_GetTicks() / _speed) %
                                           _frames);

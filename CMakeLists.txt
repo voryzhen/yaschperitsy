@@ -6,7 +6,7 @@ cmake_minimum_required ( VERSION 3.29.3 )
 set ( CMAKE_CXX_STANDARD 20 )
 set ( CMAKE_CXX_STANDARD_REQUIRED ON )
 
-# set ( CMAKE_CXX_FLAGS "-Wall" )
+# set ( CMAKE_CXX_FLAGS "-Wall -g" )
 
 set ( SOURCE
 
@@ -22,8 +22,12 @@ set ( SOURCE
 
   src/ui/BaseScreen.cpp
   src/ui/ScreenManager.cpp
-  src/ui/Screens.cpp
   src/ui/Button.cpp
+
+  src/ui/screens/StartScreen.cpp
+  src/ui/screens/SettingsScreen.cpp
+  src/ui/screens/GameScreen.cpp
+  src/ui/screens/GameEndScreen.cpp
 
 )
 

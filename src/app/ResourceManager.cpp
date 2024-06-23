@@ -32,8 +32,9 @@ const resource_map fonts_info = {
 SDL_Color _button_text_color{0, 200, 200};
 SDL_Color _button_on_hover_text_color{0, 100, 200};
 
+// TODO: Refactor - add label class
 const std::vector<std::string_view> button_titles = {
-    "New Game", "Settings", "Exit", "Back"};
+    "New Game", "Settings", "Exit", "Back", "Reset", "You win"};
 
 // Deleters for SDL_Texture* and TTF_Fonts*
 const auto texture_deleter =

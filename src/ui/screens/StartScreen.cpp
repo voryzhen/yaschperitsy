@@ -1,10 +1,9 @@
-#include "ui/Screens.h"
+#include "StartScreen.h"
 
 namespace yaschperitsy::ui
 {
 
 int* StartScreen::_current_screen = nullptr;
-int* SettingsScreen::_current_screen = nullptr;
 
 void on_click_start_screen_new_game()
 {
@@ -17,10 +16,5 @@ void on_click_start_screen_settings()
 }
 
 void on_click_start_screen_exit() { *StartScreen::_current_screen = 2; }
-
-void on_click_settings_screen_settings()
-{
-    *SettingsScreen::_current_screen = 0;
-}
 
 }; // namespace yaschperitsy::ui

@@ -4,8 +4,9 @@
 #include <utility>
 
 #include "SDL_events.h"
-#include "Screens.h"
 #include "app/ResourceManager.h"
+#include "screens/Screens.h"
+#include "ui/screens/GameEndScreen.h"
 
 namespace yaschperitsy::ui
 {
@@ -16,19 +17,24 @@ enum class SCREENS
     start,
     settings,
     exit,
-    play
+    play,
+    gameend
 };
 
 class ScreenManager
 {
     public:
+        // TODO: refactor
         ScreenManager(const resource::ResourceManagerUPtr& rm)
             : _rm(rm), _start_screen(std::make_unique<StartScreen>(
                            _rm, (int*)(&_current_screen))),
               _settings_screent(std::make_unique<SettingsScreen>(
                   _rm, (int*)(&_current_screen))),
-              _play_screen(std::make_unique<PlayScreen>(
+              _play_screen(std::make_unique<GameScreen>(
+                  _rm, (int*)(&_current_screen))),
+              _game_end_screen(std::make_unique<GameEndScreen>(
                   _rm, (int*)(&_current_screen))) {};
+
         ~ScreenManager() = default;
 
         int update();
@@ -43,7 +49,8 @@ class ScreenManager
 
         StartScreenUPtr _start_screen;
         SettingsScreenUPtr _settings_screent;
-        PlayScreenUPtr _play_screen;
+        GameScreenUPtr _play_screen;
+        GameEndScreenUPtr _game_end_screen;
 };
 
 using ScreenManagerUPtr = std::unique_ptr<ScreenManager>;

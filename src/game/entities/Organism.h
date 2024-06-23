@@ -20,8 +20,11 @@ class Organism : public yaschperitsy::ecs::Entity
         void reset_state()
         {
             _health = 100;
-            get_component<ecs::components::TransformComponent>()
-                ->set_position(640, 360);
+            auto transform_comp =
+                get_component<ecs::components::TransformComponent>();
+
+            transform_comp->set_position(640, 360);
+            transform_comp->set_velocity({0.0, 0.0});
         }
 
     private:

@@ -13,7 +13,7 @@ class BaseScreen
         BaseScreen(const resource::ResourceManagerUPtr& rm,
                    int* current_screen);
         virtual ~BaseScreen();
-        virtual void update();
+        virtual int update();
         virtual void
         render(const resource::SDL_RendererUPtr& _renderer);
         virtual void handle_events(const SDL_Event& event);

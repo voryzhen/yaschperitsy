@@ -46,7 +46,7 @@ void Game::handle_events(const SDL_Event& event)
     }
 }
 
-void Game::update()
+int Game::update()
 {
     update_yaschperitsy();
     update_player();
@@ -56,7 +56,17 @@ void Game::update()
     _stat->_curr_hp = _player->health();
 
     _manager.refresh();
-    _manager.update(_event); // refactor
+    _manager.update(_event);
+
+    if (_stat->_curr_hp < 1 || _stat->_score == 10)
+    {
+        _end = true;
+        return -4; // TODO: Magic nums for now
+    }
+    else
+    {
+        return 0;
+    }
 }
 
 void Game::render(const SDL_RendererUPtr& renderer)
@@ -372,6 +382,7 @@ void Game::bullet_hit()
             {
                 reset_state();
             }
+            bullet_ent->destroy();
         }
 
         for (const auto& yaschperitsa : yaschperitsy)
@@ -386,6 +397,7 @@ void Game::bullet_hit()
                 if (type == AmmunitionType::plasma_shot)
                 {
                     yaschperitsa->destroy();
+                    bullet_ent->destroy();
                     _stat->_score++;
                 }
             }
@@ -404,18 +416,22 @@ void Game::bullet_hit()
 
 void Game::reset_state()
 {
-    for (auto& e : _manager.get_entities())
+    if (_end)
     {
-        if (e->type() != ecs::EntityType::player)
+        _end = false;
+        for (auto& e : _manager.get_entities())
         {
-            e->destroy();
+            if (e->type() != ecs::EntityType::player)
+            {
+                e->destroy();
+            }
         }
-    }
-    _player->reset_state();
+        _player->reset_state();
 
-    _stat->_max_score = std::max(_stat->_max_score, _stat->_score);
-    _stat->_score = 0;
-    _stat->_yaschperitsy_num = _stat->_yaschperitsy_total_num;
+        _stat->_max_score = std::max(_stat->_max_score, _stat->_score);
+        _stat->_score = 0;
+        _stat->_yaschperitsy_num = _stat->_yaschperitsy_total_num;
+    }
 }
 
 } // namespace yaschperitsy::game

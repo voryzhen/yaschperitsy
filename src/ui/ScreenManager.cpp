@@ -15,10 +15,19 @@ int ScreenManager::update()
         _settings_screent->update();
         break;
     case SCREENS::play:
-        _play_screen->update();
+    {
+        auto res = _play_screen->update();
+        if (res == -4)
+        {
+            _current_screen = SCREENS::gameend;
+        }
         break;
+    }
     case SCREENS::exit:
         return -1;
+        break;
+    case SCREENS::gameend:
+        _game_end_screen->update();
         break;
     default:
         break;
@@ -39,6 +48,9 @@ void ScreenManager::render(const app::SDL_RendererUPtr& renderer)
     case SCREENS::play:
         _play_screen->render(renderer);
         break;
+    case SCREENS::gameend:
+        _game_end_screen->render(renderer);
+        break;
     default:
         break;
     }
@@ -56,6 +68,9 @@ void ScreenManager::handle_events(const SDL_Event& event)
         break;
     case SCREENS::play:
         _play_screen->handle_events(event);
+        break;
+    case SCREENS::gameend:
+        _game_end_screen->handle_events(event);
         break;
     default:
         break;

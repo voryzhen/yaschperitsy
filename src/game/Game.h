@@ -29,8 +29,10 @@ class Game
 
         // Main logic
         void handle_events(const SDL_Event& event);
-        void update();
+        int update();
         void render(const SDL_RendererUPtr& renderer);
+
+        void reset_state();
 
     private:
         // Yaschperitsy logic
@@ -46,10 +48,9 @@ class Game
         void destroy_objects();
         void bullet_hit();
 
-        void reset_state();
-
         unsigned char _fps = 60;
         bool _quit{false};
+        bool _end{false};
 
         GameSettings _game_settings;
         GameField _game_field;

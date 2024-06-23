@@ -16,7 +16,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Prepare
-        run: brew install conan
+        run: brew install conan boost
 
       - name: Run conan
         run: |

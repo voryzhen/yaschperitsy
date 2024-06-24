@@ -15,7 +15,7 @@ class KeyboardController : public IComponent
         void init() override
         {
             _transform_component =
-                owner->get_component<TransformComponent>();
+                owner.lock()->get_component<TransformComponent>();
         }
 
         void update(const SDL_Event& e) override
@@ -87,7 +87,7 @@ class KeyboardController : public IComponent
             auto vel = _transform_component->velocity();
             auto next_pos = pos + vel * _transform_component->speed();
 
-            auto ent_rect = _transform_component->owner
+            auto ent_rect = _transform_component->owner.lock()
                                 ->get_component<SpriteComponent>()
                                 ->texture_rect();
 

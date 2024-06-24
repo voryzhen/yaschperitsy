@@ -38,7 +38,8 @@ class SpriteComponent : public IComponent
 
         void init() override
         {
-            _position = owner->get_component<TransformComponent>();
+            _position =
+                owner.lock()->get_component<TransformComponent>();
         }
 
         void update(const SDL_Event& /*e*/) override

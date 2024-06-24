@@ -17,7 +17,7 @@ class MouseController : public IComponent
         void init() override
         {
             _transform_component =
-                owner->get_component<TransformComponent>();
+                owner.lock()->get_component<TransformComponent>();
         }
 
         void update(const SDL_Event& /*e*/) override

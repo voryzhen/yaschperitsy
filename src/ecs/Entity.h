@@ -19,7 +19,7 @@ enum class EntityType
     ammunition
 };
 
-class Entity
+class Entity : public std::enable_shared_from_this<Entity>
 {
     public:
         Entity(EntityType type) : _entity_type(type) {}
@@ -65,7 +65,7 @@ class Entity
             _component_array[get_component_type_ID<T>()] = component;
             _component_bitset[get_component_type_ID<T>()] = true;
 
-            component->owner = this;
+            component->owner = this->weak_from_this();
             component->init();
 
             return component;

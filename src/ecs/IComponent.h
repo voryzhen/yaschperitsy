@@ -34,7 +34,7 @@ constexpr std::uint64_t max_components = 32;
 class IComponent
 {
     public:
-        Entity* owner{nullptr};
+        std::weak_ptr<Entity> owner;
         virtual void init() = 0;
         virtual void update(const SDL_Event& e) = 0;
         virtual void render(const app::SDL_RendererUPtr& renderer) = 0;

@@ -50,10 +50,8 @@ bool Window::init_sdl()
 
     if (_window == nullptr)
     {
-        logging::Logger::get_logger()->error("Couldn't "
-                                             "open window. "
-                                             "Error: {0}",
-                                             SDL_GetError());
+        logging::Logger::get_logger()->error(
+            "Couldn't open window. Error: {0}", SDL_GetError());
         return false;
     }
 
@@ -66,11 +64,8 @@ bool Window::init_sdl()
 
     if (_renderer == nullptr)
     {
-        logging::Logger::get_logger()->error("Couldn't "
-                                             "create "
-                                             "renderer. "
-                                             "Error: {0}",
-                                             SDL_GetError());
+        logging::Logger::get_logger()->error(
+            "Couldn't create renderer. Error: {0}", SDL_GetError());
         return false;
     }
 
@@ -78,11 +73,8 @@ bool Window::init_sdl()
 
     if (TTF_Init() == -1)
     {
-        logging::Logger::get_logger()->error("Couldn't "
-                                             "initialize "
-                                             "SDL_ttf. "
-                                             "Error: {0}",
-                                             TTF_GetError());
+        logging::Logger::get_logger()->error(
+            "Couldn't initialize SDL_ttf. Error: {0}", TTF_GetError());
         return false;
     }
 

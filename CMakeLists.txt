@@ -14,6 +14,7 @@ set ( SOURCE
   src/app/App.cpp
   src/app/Window.cpp
   src/app/ResourceManager.cpp
+  src/app/Log.cpp
 
   src/game/Game.cpp
   src/game/Topbar.cpp
@@ -37,6 +38,8 @@ find_package ( SDL2       REQUIRED CONFIG )
 find_package ( SDL2_image REQUIRED CONFIG )
 find_package ( SDL2_ttf   REQUIRED CONFIG )
 
+find_package ( spdlog REQUIRED )
+
 add_executable ( yaschperitsy ${SOURCE} )
 
 target_include_directories ( yaschperitsy PRIVATE ${SDL2_INCLUDE_DIRS} src )
@@ -51,6 +54,8 @@ target_link_libraries (
   SDL2::SDL2
   SDL2_image::SDL2_image
   sdl_ttf::sdl_ttf
+
+  spdlog::spdlog
 
 )
 

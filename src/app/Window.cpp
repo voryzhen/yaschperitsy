@@ -1,10 +1,9 @@
 #include <app/Window.h>
 
-#include <iostream>
-#include <string_view>
-
+#include "Log.h"
 #include <SDL_image.h>
 #include <SDL_ttf.h>
+#include <string_view>
 
 namespace
 {
@@ -23,6 +22,8 @@ Window::Window()
     if (init_sdl())
     {
         _initialized = true;
+        logging::Logger::get_logger()->info(
+            "SDL initialized successfully.");
     }
 }
 
@@ -30,15 +31,16 @@ bool Window::init_sdl()
 {
     if (SDL_Init(SDL_INIT_VIDEO) < 0)
     {
-        std::cout << "Couldn't initialize SDL: " << SDL_GetError()
-                  << std::endl;
+        logging::Logger::get_logger()->error(
+            "Couldn't initialize SDL. Error: {0}", SDL_GetError());
         return false;
     }
 
     if (IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG) < 0)
     {
-        std::cout << "Couldn't initialize SDL Image: " << SDL_GetError()
-                  << std::endl;
+        logging::Logger::get_logger()->error(
+            "Couldn't initialize SDL Image. Error: {0}",
+            SDL_GetError());
         return false;
     }
 
@@ -48,9 +50,8 @@ bool Window::init_sdl()
 
     if (_window == nullptr)
     {
-        std::cout << "Failed to open " << SCREEN_WIDTH << " x "
-                  << SCREEN_HEIGHT << " window: " << SDL_GetError()
-                  << std::endl;
+        logging::Logger::get_logger()->error(
+            "Couldn't open window. Error: {0}", SDL_GetError());
         return false;
     }
 
@@ -63,8 +64,8 @@ bool Window::init_sdl()
 
     if (_renderer == nullptr)
     {
-        std::cout << "Failed to create renderer: " << SDL_GetError()
-                  << std::endl;
+        logging::Logger::get_logger()->error(
+            "Couldn't create renderer. Error: {0}", SDL_GetError());
         return false;
     }
 
@@ -72,8 +73,8 @@ bool Window::init_sdl()
 
     if (TTF_Init() == -1)
     {
-        std::cout << "SDL_ttf could not initialize! SDL_ttf Error: "
-                  << TTF_GetError() << std::endl;
+        logging::Logger::get_logger()->error(
+            "Couldn't initialize SDL_ttf. Error: {0}", TTF_GetError());
         return false;
     }
 
@@ -82,7 +83,8 @@ bool Window::init_sdl()
 
 Window::~Window()
 {
-    // Clean up
+    logging::Logger::get_logger()->info("Cleaning up.");
+
     _renderer.reset(nullptr);
     _window.reset(nullptr);
 

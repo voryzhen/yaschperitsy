@@ -64,6 +64,8 @@ class ResourceManager
         SDL_Texture* load_texture(const std::string_view& filename);
         TTF_Font* load_font(const std::string_view& filename);
 
+        void init_buttons(const TTF_FontSPtr& font);
+
         TexturesMap _textures;
         ButtonTexturesMap _button_textures;
         FontsMap _fonts;

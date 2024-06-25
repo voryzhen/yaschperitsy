@@ -1,6 +1,11 @@
 #include <app/ResourceManager.h>
 
-#include <iostream>
+#include "Log.h"
+#include "SDL_error.h"
+
+#include <cstddef>
+#include <string>
+#include <string_view>
 #include <vector>
 
 #include <SDL_image.h>
@@ -55,23 +60,65 @@ namespace yaschperitsy::resource
 ResourceManager::ResourceManager(const SDL_RendererUPtr& renderer)
     : _renderer(renderer)
 {
+    std::vector<std::string_view> missing_resources;
+
     for (const auto& [name, path] : textures_info)
     {
-        _textures.insert(
-            {name, TextureSPtr(new Texture(load_texture(path)),
-                               texture_deleter)});
+        auto texture_ptr = load_texture(path);
+        if (texture_ptr != nullptr)
+        {
+            _textures.insert(
+                {name, TextureSPtr(new Texture(texture_ptr),
+                                   texture_deleter)});
+        }
+        else
+        {
+            missing_resources.push_back(name);
+        }
     }
 
     for (const auto& [name, path] : fonts_info)
     {
-        _fonts.insert(
-            {name, TTF_FontSPtr(load_font(path), font_deleter)});
+        auto font_ptr = load_font(path);
+        if (font_ptr != nullptr)
+        {
+            _fonts.insert(
+                {name, TTF_FontSPtr(load_font(path), font_deleter)});
+        }
+        else
+        {
+            missing_resources.push_back(name);
+        }
     }
 
+    if (const auto font = _fonts["alegreya"]; font != nullptr)
+    {
+        init_buttons(font);
+    }
+
+    if (missing_resources.empty())
+    {
+        app::logging::Logger::get_logger()->info(
+            "All resources successfully loaded");
+    }
+    else
+    {
+        std::string miss_res;
+        for (const auto& res : missing_resources)
+        {
+            miss_res += (std::string{" "} + res.data());
+        }
+        app::logging::Logger::get_logger()->warn(
+            "Some resources not loaded: [" + miss_res + " ]");
+    }
+}
+
+void ResourceManager::init_buttons(const TTF_FontSPtr& font)
+{
     for (const auto& name : button_titles)
     {
         SDL_Surface* text_surface = TTF_RenderText_Solid(
-            _fonts["alegreya"].get(), name.data(), _button_text_color);
+            font.get(), name.data(), _button_text_color);
 
         auto _texture =
             TextureSPtr(new Texture(SDL_CreateTextureFromSurface(
@@ -80,9 +127,8 @@ ResourceManager::ResourceManager(const SDL_RendererUPtr& renderer)
 
         SDL_FreeSurface(text_surface);
 
-        text_surface =
-            TTF_RenderText_Solid(_fonts["alegreya"].get(), name.data(),
-                                 _button_on_hover_text_color);
+        text_surface = TTF_RenderText_Solid(
+            font.get(), name.data(), _button_on_hover_text_color);
 
         auto _texture_on_hover =
             TextureSPtr(new Texture(SDL_CreateTextureFromSurface(
@@ -98,31 +144,30 @@ ResourceManager::ResourceManager(const SDL_RendererUPtr& renderer)
 SDL_Texture*
 ResourceManager::load_texture(const std::string_view& filename)
 {
-    SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO,
-                   "Loading %s", filename.begin());
-
     auto texture = IMG_LoadTexture(_renderer.get(), filename.data());
 
     if (texture == nullptr)
     {
-        std::cout << "Failed to load texture! SDL_Image Error: "
-                  << TTF_GetError() << std::endl;
+        app::logging::Logger::get_logger()->error(
+            "Failed to load texture from asset : {0}. SDL_Image "
+            "Error: {1}",
+            filename.begin(), SDL_GetError());
     }
+
     return texture;
 }
 
 TTF_Font* ResourceManager::load_font(const std::string_view& filename)
 {
-    SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO,
-                   "Loading %s", filename.begin());
-
     auto font = TTF_OpenFont(filename.data(), 28);
 
     if (font == nullptr)
     {
-        std::cout << "Failed to load alegreya.ttf font! SDL_ttf Error: "
-                  << TTF_GetError() << std::endl;
+        app::logging::Logger::get_logger()->error(
+            "Failed to load font : {0}. SDL_ttf Error: {1}",
+            filename.begin(), TTF_GetError());
     }
+
     return font;
 }
 
@@ -134,8 +179,8 @@ ResourceManager::get_texture(const std::string_view& texture) const
     {
         return txtr->second;
     }
-    SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO,
-                   "Can not find loaded texture %s", texture.data());
+    app::logging::Logger::get_logger()->error(
+        "Can't find loaded texture {0}", texture.data());
 
     return nullptr;
 }
@@ -148,8 +193,8 @@ ButtonTextures ResourceManager::get_button_texture(
     {
         return txtr->second;
     }
-    SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO,
-                   "Can not find loaded texture %s", texture.data());
+    app::logging::Logger::get_logger()->error(
+        "Can't find loaded button's texture {0}", texture.data());
 
     return {};
 }
@@ -162,8 +207,10 @@ ResourceManager::get_font(const std::string_view& font_name) const
     {
         return font->second;
     }
-    SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO,
-                   "Can not find loaded font %s", font_name.data());
+
+    app::logging::Logger::get_logger()->error(
+        "Can't find loaded font {0}", font_name.data());
+
     return nullptr;
 }
 

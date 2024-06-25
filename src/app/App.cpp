@@ -1,11 +1,16 @@
 #include <app/App.h>
 
+#include "Log.h"
+
 namespace yaschperitsy::app
 {
 
 App::App()
 {
+    app::logging::Logger::init();
+
     _window = std::make_unique<Window>();
+
     if (_window->is_initialized())
     {
         _resource_manager = std::make_unique<resource::ResourceManager>(

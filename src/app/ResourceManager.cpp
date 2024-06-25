@@ -149,9 +149,9 @@ ResourceManager::load_texture(const std::string_view& filename)
     if (texture == nullptr)
     {
         app::logging::Logger::get_logger()->error(
-            "Failed to load texture from asset : {0}. SDL_Image "
-            "Error: {1}",
-            filename.begin(), SDL_GetError());
+            "Failed to load texture from asset : {0}. SDL_Image Error: "
+            "{1}",
+            filename.data(), SDL_GetError());
     }
 
     return texture;
@@ -165,7 +165,7 @@ TTF_Font* ResourceManager::load_font(const std::string_view& filename)
     {
         app::logging::Logger::get_logger()->error(
             "Failed to load font : {0}. SDL_ttf Error: {1}",
-            filename.begin(), TTF_GetError());
+            filename.data(), TTF_GetError());
     }
 
     return font;

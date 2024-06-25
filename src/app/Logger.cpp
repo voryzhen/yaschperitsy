@@ -1,4 +1,4 @@
-#include <app/Log.h>
+#include <app/Logger.h>
 
 #include "spdlog/sinks/stdout_color_sinks.h"
 #include "spdlog/spdlog.h"

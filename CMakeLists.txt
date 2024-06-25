@@ -14,7 +14,7 @@ set ( SOURCE
   src/app/App.cpp
   src/app/Window.cpp
   src/app/ResourceManager.cpp
-  src/app/Log.cpp
+  src/app/Logger.cpp
 
   src/game/Game.cpp
   src/game/Topbar.cpp

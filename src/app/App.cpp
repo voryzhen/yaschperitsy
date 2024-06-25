@@ -1,6 +1,6 @@
 #include <app/App.h>
 
-#include "Log.h"
+#include "Logger.h"
 
 namespace yaschperitsy::app
 {

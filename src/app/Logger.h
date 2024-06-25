@@ -11,7 +11,7 @@ class Logger
     public:
         static void init();
 
-        static std::shared_ptr<spdlog::logger>& get_logger()
+        inline static std::shared_ptr<spdlog::logger>& get_logger()
         {
             return _yaschperitsy_logger;
         }

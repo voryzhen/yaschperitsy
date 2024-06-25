@@ -1,6 +1,6 @@
 #include <app/ResourceManager.h>
 
-#include "Log.h"
+#include "Logger.h"
 #include "SDL_error.h"
 
 #include <cstddef>

@@ -1,6 +1,6 @@
 #include <app/Window.h>
 
-#include "Log.h"
+#include "Logger.h"
 #include <SDL_image.h>
 #include <SDL_ttf.h>
 #include <string_view>

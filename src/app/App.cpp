@@ -1,6 +1,10 @@
 #include <app/App.h>
+#include <functional>
+#include <utility>
 
 #include "Logger.h"
+#include "app/Window.h"
+#include "app/events/Event.h"
 
 namespace yaschperitsy::app
 {
@@ -11,10 +15,13 @@ App::App()
 
     _window = std::make_unique<Window>();
 
-    if (_window->is_initialized())
+    if (_window != nullptr)
     {
+        _window->set_event_callback([this](events::EventSPtr e)
+                                    { on_event(std::move(e)); });
+
         _resource_manager = std::make_unique<resource::ResourceManager>(
-            _window->get_renderer());
+            _window->renderer());
         _screen_manager =
             std::make_unique<ui::ScreenManager>(_resource_manager);
         run_app();
@@ -34,6 +41,9 @@ void App::run_app()
     {
         frame_start = SDL_GetTicks();
 
+        // New api
+        _window->update();
+
         handle_events();
         update();
         render();
@@ -50,13 +60,6 @@ void App::run_app()
 void App::handle_events()
 {
     SDL_PollEvent(&_event);
-    switch (_event.type)
-    {
-    case SDL_QUIT:
-        _running = false;
-    default:
-        break;
-    }
     _screen_manager->handle_events(_event);
 }
 
@@ -71,9 +74,9 @@ void App::update()
 
 void App::render()
 {
-    SDL_RenderClear(_window->get_renderer().get());
-    _screen_manager->render(_window->get_renderer());
-    SDL_RenderPresent(_window->get_renderer().get());
+    SDL_RenderClear(_window->renderer().get());
+    _screen_manager->render(_window->renderer());
+    SDL_RenderPresent(_window->renderer().get());
 }
 
 } // namespace yaschperitsy::app

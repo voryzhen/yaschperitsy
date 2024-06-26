@@ -6,7 +6,7 @@ cmake_minimum_required ( VERSION 3.29.3 )
 set ( CMAKE_CXX_STANDARD 20 )
 set ( CMAKE_CXX_STANDARD_REQUIRED ON )
 
-# set ( CMAKE_CXX_FLAGS "-Wall -g" )
+set ( CMAKE_CXX_FLAGS "-Wall -g" )
 
 set ( SOURCE
 
@@ -79,6 +79,12 @@ if ( APPLE )
     tests/test_entity_creator.cpp
 
     src/ecs/EntityCreator.cpp
+
+    tests/events_system/app_events.cpp
+    tests/events_system/mouse_events.cpp
+    tests/events_system/keyboard_events.cpp
+
+    tests/events_system/event_dispatcher.cpp
 
     )
 

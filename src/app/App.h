@@ -2,9 +2,12 @@
 
 #include <app/ResourceManager.h>
 #include <app/Window.h>
+#include <iostream>
 #include <ui/ScreenManager.h>
 
 #include "SDL_events.h"
+#include "app/Logger.h"
+#include "app/events/Event.h"
 
 namespace yaschperitsy::app
 {
@@ -16,10 +19,14 @@ class App
 
         ~App() {}
 
-        App(const App&) = delete;
-        App(const App&&) = delete;
-        App& operator=(const App&) = delete;
-        App& operator=(const App&&) = delete;
+        void on_event(events::EventSPtr event)
+        {
+            logging::Logger::get_logger()->info(event->as_string());
+            if (event->event_type() == events::EventType::WindowClose)
+            {
+                _running = false;
+            }
+        }
 
     private:
         void run_app();

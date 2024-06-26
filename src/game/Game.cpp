@@ -274,7 +274,6 @@ void Game::fire_yaschperitsy()
                 e->get_component<ecs::components::TransformComponent>();
             const auto yaschperitsa_pos =
                 yaschperitsa_trans_comp->position();
-            const auto dir = yaschperitsa_trans_comp->direction();
 
             auto bullet_pos = yaschperitsa_pos;
 

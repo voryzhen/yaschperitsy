@@ -3,9 +3,11 @@
 #include "Logger.h"
 #include "SDL_events.h"
 #include "SDL_video.h"
+
 #include "app/events/AppEvent.h"
-#include "app/events/Event.h"
 #include "app/events/KeyEvent.h"
+#include "app/events/MouseEvent.h"
+
 #include <SDL_image.h>
 #include <SDL_ttf.h>
 #include <memory>
@@ -106,53 +108,58 @@ void Window::update()
 
     switch (e.type)
     {
+    // Window event
     case SDL_WINDOWEVENT:
         if (e.window.event == SDL_WINDOWEVENT_RESIZED ||
             e.window.event == SDL_WINDOWEVENT_SIZE_CHANGED)
         {
-            process_window_resize_event();
+            _data._width = e.window.data1;
+            _data._height = e.window.data2;
+            SDL_RenderPresent(_renderer.get());
+
+            _data._event_callback(
+                std::make_shared<events::WindowResizeEvent>(
+                    _data._width, _data._height));
         }
         else if (e.window.event == SDL_WINDOWEVENT_CLOSE)
         {
-            process_window_close_event();
+            _data._event_callback(
+                std::make_shared<events::WindowCloseEvent>());
         }
         break;
-    case SDL_KEYUP:
-        process_keyboard_released_event();
-        break;
+    // Keyboard event
     case SDL_KEYDOWN:
-        process_keyboard_pressed_event();
+        _data._event_callback(std::make_shared<events::KeyPressedEvent>(
+            e.key.keysym.scancode, e.key.repeat));
+        break;
+    case SDL_KEYUP:
+        _data._event_callback(
+            std::make_shared<events::KeyReleasedEvent>(
+                e.key.keysym.scancode));
+        break;
+    // Mouse event
+    case SDL_MOUSEMOTION:
+        _data._event_callback(std::make_shared<events::MouseMovedEvent>(
+            e.motion.x, e.motion.y));
+        break;
+    case SDL_MOUSEBUTTONDOWN:
+        _data._event_callback(
+            std::make_shared<events::MouseButtonPressedEvent>(
+                e.button.button));
+        break;
+    case SDL_MOUSEBUTTONUP:
+        _data._event_callback(
+            std::make_shared<events::MouseButtonReleasedEvent>(
+                e.button.button));
+        break;
+    case SDL_MOUSEWHEEL:
+        _data._event_callback(
+            std::make_shared<events::MouseScrolledEvent>(e.wheel.x,
+                                                         e.wheel.y));
         break;
     default:
         break;
     }
-}
-
-void Window::process_window_resize_event()
-{
-    _data._width = e.window.data1;
-    _data._height = e.window.data2;
-    SDL_RenderPresent(_renderer.get());
-
-    _data._event_callback(std::make_shared<events::WindowResizeEvent>(
-        _data._width, _data._height));
-}
-
-void Window::process_window_close_event()
-{
-    _data._event_callback(std::make_shared<events::WindowCloseEvent>());
-}
-
-void Window::process_keyboard_released_event()
-{
-    _data._event_callback(std::make_shared<events::KeyReleasedEvent>(
-        e.key.keysym.scancode));
-}
-
-void Window::process_keyboard_pressed_event()
-{
-    _data._event_callback(std::make_shared<events::KeyPressedEvent>(
-        e.key.keysym.scancode, e.key.repeat));
 }
 
 Window::~Window()

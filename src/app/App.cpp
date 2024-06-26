@@ -1,6 +1,4 @@
 #include <app/App.h>
-#include <functional>
-#include <utility>
 
 #include "Logger.h"
 #include "app/Window.h"
@@ -17,8 +15,9 @@ App::App()
 
     if (_window != nullptr)
     {
-        _window->set_event_callback([this](events::EventSPtr e)
-                                    { on_event(std::move(e)); });
+        _window->set_event_callback(
+            [this](const events::EventSPtr& event)
+            { on_event(event); });
 
         _resource_manager = std::make_unique<resource::ResourceManager>(
             _window->renderer());

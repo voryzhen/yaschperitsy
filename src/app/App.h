@@ -17,9 +17,7 @@ class App
     public:
         App();
 
-        ~App() {}
-
-        void on_event(events::EventSPtr event)
+        void on_event(const events::EventSPtr& event)
         {
             logging::Logger::get_logger()->info(event->as_string());
             if (event->event_type() == events::EventType::WindowClose)

@@ -23,7 +23,7 @@ using SDL_WindowUPtr =
 using SDL_RendererUPtr =
     std::unique_ptr<SDL_Renderer, decltype(&SDL_DestroyRenderer)>;
 
-using EventCallbackFn = std::function<void(events::EventSPtr)>;
+using EventCallbackFn = std::function<void(const events::EventSPtr&)>;
 
 class Window
 {
@@ -48,11 +48,6 @@ class Window
         bool init_sdl();
         bool create_window(const WindowProps& win_props);
 
-        void process_window_resize_event();
-        void process_window_close_event();
-        void process_keyboard_released_event();
-        void process_keyboard_pressed_event();
-
         struct WindowData
         {
                 unsigned int _width = 0;
@@ -61,7 +56,7 @@ class Window
         };
 
         WindowData _data;
-        SDL_Event e;
+        SDL_Event e{};
 
         SDL_WindowUPtr _window{nullptr, SDL_DestroyWindow};
         SDL_RendererUPtr _renderer{nullptr, SDL_DestroyRenderer};

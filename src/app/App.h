@@ -3,6 +3,7 @@
 #include <app/Logger.h> // TODO: remove ?
 #include <app/ResourceManager.h>
 #include <app/Window.h>
+#include <app/events/AppEvent.h>
 #include <app/events/Event.h>
 #include <ui/ScreenManager.h>
 
@@ -15,15 +16,7 @@ class App
 {
     public:
         App();
-
-        void on_event(const events::EventSPtr& event)
-        {
-            logging::Logger::get_logger()->info(event->as_string());
-            if (event->event_type() == events::EventType::WindowClose)
-            {
-                _running = false;
-            }
-        }
+        void on_event(const events::EventSPtr& event);
 
     private:
         void run_app();
@@ -31,6 +24,8 @@ class App
         void handle_events();
         void update();
         void render();
+
+        bool on_window_close(const events::WindowCloseEventSPtr& event);
 
         SDL_Event _event{};
         bool _running = true;

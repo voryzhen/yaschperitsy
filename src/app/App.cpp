@@ -1,5 +1,7 @@
 #include <app/App.h>
 
+#include "app/events/AppEvent.h"
+
 namespace yaschperitsy::app
 {
 
@@ -72,6 +74,23 @@ void App::render()
     SDL_RenderClear(_window->renderer().get());
     _screen_manager->render(_window->renderer());
     SDL_RenderPresent(_window->renderer().get());
+}
+
+void App::on_event(const events::EventSPtr& event)
+{
+    logging::Logger::get_logger()->info(event->as_string());
+
+    events::EventDispatcher dispatcher(event);
+
+    dispatcher.dispatch<events::WindowCloseEvent>(
+        [this](const events::WindowCloseEventSPtr& event)
+        { return on_window_close(event); });
+}
+
+bool App::on_window_close(const events::WindowCloseEventSPtr& event)
+{
+    _running = false;
+    return true;
 }
 
 } // namespace yaschperitsy::app

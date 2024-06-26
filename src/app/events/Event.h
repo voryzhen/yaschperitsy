@@ -72,7 +72,7 @@ class EventDispatcher
         using EventFunction = std::function<bool(std::shared_ptr<T>)>;
 
     public:
-        EventDispatcher(EventSPtr& event) : _event(event) {}
+        EventDispatcher(const EventSPtr& event) : _event(event) {}
 
         template <typename T> bool dispatch(EventFunction<T> function)
         {
@@ -86,7 +86,7 @@ class EventDispatcher
         }
 
     private:
-        EventSPtr& _event;
+        const EventSPtr& _event;
 };
 
 inline std::ostream& operator<<(std::ostream& os, const Event& event)

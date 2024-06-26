@@ -1,8 +1,6 @@
 #pragma once
 
-#include "SDL_keycode.h"
 #include <functional>
-#include <memory>
 #include <ostream>
 #include <string>
 

@@ -1,13 +1,12 @@
 #pragma once
 
+#include <app/Logger.h> // TODO: remove ?
 #include <app/ResourceManager.h>
 #include <app/Window.h>
-#include <iostream>
+#include <app/events/Event.h>
 #include <ui/ScreenManager.h>
 
-#include "SDL_events.h"
-#include "app/Logger.h"
-#include "app/events/Event.h"
+#include <SDL_events.h>
 
 namespace yaschperitsy::app
 {

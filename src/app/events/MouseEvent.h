@@ -1,9 +1,9 @@
 #pragma once
 
-#include "Event.h"
 #include <memory>
 #include <sstream>
-#include <string>
+
+#include <app/events/Event.h>
 
 namespace yaschperitsy::app::events
 {

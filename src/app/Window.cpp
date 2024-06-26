@@ -1,17 +1,13 @@
 #include <app/Window.h>
 
-#include "Logger.h"
-#include "SDL_events.h"
-#include "SDL_video.h"
+#include <app/Logger.h>
 
-#include "app/events/AppEvent.h"
-#include "app/events/KeyEvent.h"
-#include "app/events/MouseEvent.h"
+#include <app/events/AppEvent.h>
+#include <app/events/KeyEvent.h>
+#include <app/events/MouseEvent.h>
 
 #include <SDL_image.h>
 #include <SDL_ttf.h>
-#include <memory>
-#include <string_view>
 
 namespace
 {

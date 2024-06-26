@@ -1,10 +1,11 @@
 #pragma once
 
-#include "SDL_events.h"
-#include "app/events/Event.h"
 #include <functional>
 #include <memory>
 
+#include <app/events/Event.h>
+
+#include <SDL_events.h>
 #include <SDL_render.h>
 
 namespace yaschperitsy::app

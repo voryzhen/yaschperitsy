@@ -1,9 +1,5 @@
 #include <app/App.h>
 
-#include "Logger.h"
-#include "app/Window.h"
-#include "app/events/Event.h"
-
 namespace yaschperitsy::app
 {
 

@@ -1,12 +1,72 @@
 #include <core/App.h>
 #include <memory>
 
-#include "core/Layer.h"
 #include "core/Logger.h"
 #include "core/events/AppEvent.h"
 
 namespace yaschperitsy::core
 {
+
+// New api
+
+App::App()
+{
+    _window = std::make_unique<Window>();
+
+    if (_window != nullptr)
+    {
+        _window->set_event_callback(
+            [this](const events::EventSPtr& event)
+            { on_event(event); });
+    }
+}
+
+App::~App() {}
+
+void App::new_run_app()
+{
+    // while ( true ) {}
+    logging::Logger::get_logger()->info("Runned");
+
+    while (_running)
+    {
+        _window->update();
+    }
+}
+
+void App::on_event(const events::EventSPtr& event)
+{
+    events::EventDispatcher dispatcher(event);
+
+    dispatcher.dispatch<events::WindowCloseEvent>(
+        [this](const events::WindowCloseEventSPtr& event)
+        { return on_window_close(event); });
+
+    for (auto& it : _layer_stack)
+    {
+        if (event->is_handled())
+        {
+            break;
+        }
+        it->on_event(event);
+    }
+}
+
+bool App::on_window_close(const events::WindowCloseEventSPtr& /*event*/)
+{
+    _running = false;
+    return true;
+}
+
+//==========================================
+//==========================================
+//==========================================
+//==========================================
+//==========================================
+//==========================================
+//==========================================
+//==========================================
+// Old api
 
 const resource::ResourceMap textures_info = {
     // clang-format off
@@ -24,7 +84,7 @@ const resource::ResourceMap textures_info = {
 const resource::ResourceMap fonts_info = {
     {"alegreya", "assets/fonts/alegreya.ttf"}};
 
-App::App()
+App::App(bool old)
 {
     logging::Logger::init();
 
@@ -124,32 +184,6 @@ void App::render()
     SDL_RenderClear(_window->renderer().get());
     _screen_manager->render(_window->renderer());
     SDL_RenderPresent(_window->renderer().get());
-}
-
-void App::on_event(const events::EventSPtr& event)
-{
-    events::EventDispatcher dispatcher(event);
-
-    dispatcher.dispatch<events::WindowCloseEvent>(
-        [this](const events::WindowCloseEventSPtr& event)
-        { return on_window_close(event); });
-
-    logging::Logger::get_logger()->info(_layer_stack.size());
-
-    for (auto& it : _layer_stack)
-    {
-        if (event->is_handled())
-        {
-            break;
-        }
-        it->on_event(event);
-    }
-}
-
-bool App::on_window_close(const events::WindowCloseEventSPtr& /*event*/)
-{
-    _running = false;
-    return true;
 }
 
 } // namespace yaschperitsy::core

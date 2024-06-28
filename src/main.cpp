@@ -1,7 +1,11 @@
-#include <core/App.h>
+#include "core/Logger.h"
+#include "new_game/App.h"
 
 int main(int /* argc */, char* /* args */[])
 {
-    yaschperitsy::core::App app;
+    yaschperitsy::core::logging::Logger::init();
+
+    yaschperitsy::game::NewGame game;
+    game.new_run_app();
     return 0;
 }

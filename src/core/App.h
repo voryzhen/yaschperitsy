@@ -17,7 +17,13 @@ namespace yaschperitsy::core
 class App
 {
     public:
+        // New api
         App();
+        virtual ~App();
+        void new_run_app();
+
+        // Old api
+        App(bool old);
         void on_event(const events::EventSPtr& event);
 
         void push_layer(const LayerSPtr& layer)

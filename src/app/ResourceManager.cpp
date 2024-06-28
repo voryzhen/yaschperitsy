@@ -12,28 +12,7 @@
 
 namespace
 {
-// Textures and fotns info
-using resource_map =
-    std::unordered_map<std::string_view, std::string_view>;
-
-const resource_map textures_info = {
-    // clang-format off
-    {"player"        , "assets/player/player.png"},
-    {"player_bullet" , "assets/player/player_bullet.png"},
-
-    {"yaschperitsa_1"        , "assets/yaschperitsy/yaschperitsa_1.png"},
-    {"yaschperitsa_2"        , "assets/yaschperitsy/yaschperitsa_2.png"},
-    {"yaschperitsy_fireball" , "assets/yaschperitsy/yaschperitsy_fireball.png"},
-
-    {"background" , "assets/background.png"}
-    // clang-format on
-};
-
-const resource_map fonts_info = {
-    {"alegreya", "assets/fonts/alegreya.ttf"}};
-
 // Button texture info
-
 SDL_Color _button_text_color{0, 200, 200};
 SDL_Color _button_on_hover_text_color{0, 100, 200};
 
@@ -60,7 +39,11 @@ namespace yaschperitsy::resource
 ResourceManager::ResourceManager(const SDL_RendererUPtr& renderer)
     : _renderer(renderer)
 {
-    std::vector<std::string_view> missing_resources;
+}
+
+bool ResourceManager::load_textures(const ResourceMap& textures_info)
+{
+    std::vector<std::string_view> missing_textures;
 
     for (const auto& [name, path] : textures_info)
     {
@@ -73,9 +56,32 @@ ResourceManager::ResourceManager(const SDL_RendererUPtr& renderer)
         }
         else
         {
-            missing_resources.push_back(name);
+            missing_textures.push_back(name);
         }
     }
+
+    if (missing_textures.empty())
+    {
+        app::logging::Logger::get_logger()->info(
+            "All textures successfully loaded");
+        return true;
+    }
+    else
+    {
+        std::string miss_res;
+        for (const auto& res : missing_textures)
+        {
+            miss_res += (std::string{" "} + res.data());
+        }
+        app::logging::Logger::get_logger()->warn(
+            "The following textures not loaded: [" + miss_res + " ]");
+        return false;
+    }
+}
+
+bool ResourceManager::load_fonts(const ResourceMap& fonts_info)
+{
+    std::vector<std::string_view> missing_fonts;
 
     for (const auto& [name, path] : fonts_info)
     {
@@ -87,7 +93,7 @@ ResourceManager::ResourceManager(const SDL_RendererUPtr& renderer)
         }
         else
         {
-            missing_resources.push_back(name);
+            missing_fonts.push_back(name);
         }
     }
 
@@ -96,20 +102,22 @@ ResourceManager::ResourceManager(const SDL_RendererUPtr& renderer)
         init_buttons(font);
     }
 
-    if (missing_resources.empty())
+    if (missing_fonts.empty())
     {
         app::logging::Logger::get_logger()->info(
-            "All resources successfully loaded");
+            "All fonts successfully loaded");
+        return true;
     }
     else
     {
         std::string miss_res;
-        for (const auto& res : missing_resources)
+        for (const auto& res : missing_fonts)
         {
             miss_res += (std::string{" "} + res.data());
         }
         app::logging::Logger::get_logger()->warn(
-            "Some resources not loaded: [" + miss_res + " ]");
+            "The following fonts not loaded: [" + miss_res + " ]");
+        return false;
     }
 }
 

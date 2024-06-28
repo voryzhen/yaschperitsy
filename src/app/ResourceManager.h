@@ -10,6 +10,9 @@
 namespace yaschperitsy::resource
 {
 
+using ResourceMap =
+    std::unordered_map<std::string_view, std::string_view>;
+
 using SDL_RendererUPtr =
     std::unique_ptr<SDL_Renderer, decltype(&SDL_DestroyRenderer)>;
 
@@ -45,10 +48,8 @@ class ResourceManager
     public:
         ResourceManager(const SDL_RendererUPtr& renderer);
 
-        ResourceManager(const ResourceManager&) = delete;
-        ResourceManager(const ResourceManager&&) = delete;
-        ResourceManager& operator=(const ResourceManager&) = delete;
-        ResourceManager& operator=(const ResourceManager&&) = delete;
+        bool load_textures(const ResourceMap& textures_info);
+        bool load_fonts(const ResourceMap& fonts_info);
 
         ~ResourceManager() = default;
 

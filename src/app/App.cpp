@@ -5,6 +5,22 @@
 namespace yaschperitsy::app
 {
 
+const resource::ResourceMap textures_info = {
+    // clang-format off
+    {"player"        , "assets/player/player.png"},
+    {"player_bullet" , "assets/player/player_bullet.png"},
+
+    {"yaschperitsa_1"        , "assets/yaschperitsy/yaschperitsa_1.png"},
+    {"yaschperitsa_2"        , "assets/yaschperitsy/yaschperitsa_2.png"},
+    {"yaschperitsy_fireball" , "assets/yaschperitsy/yaschperitsy_fireball.png"},
+
+    {"background" , "assets/background.png"}
+    // clang-format on
+};
+
+const resource::ResourceMap fonts_info = {
+    {"alegreya", "assets/fonts/alegreya.ttf"}};
+
 App::App()
 {
     app::logging::Logger::init();
@@ -19,6 +35,10 @@ App::App()
 
         _resource_manager = std::make_unique<resource::ResourceManager>(
             _window->renderer());
+
+        _resource_manager->load_textures(textures_info);
+        _resource_manager->load_fonts(fonts_info);
+
         _screen_manager =
             std::make_unique<ui::ScreenManager>(_resource_manager);
         run_app();
@@ -87,7 +107,7 @@ void App::on_event(const events::EventSPtr& event)
         { return on_window_close(event); });
 }
 
-bool App::on_window_close(const events::WindowCloseEventSPtr& event)
+bool App::on_window_close(const events::WindowCloseEventSPtr& /*event*/)
 {
     _running = false;
     return true;

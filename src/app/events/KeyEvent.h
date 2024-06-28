@@ -5,7 +5,7 @@
 
 #include <app/events/Event.h>
 
-namespace yaschperitsy::app::events
+namespace yaschperitsy::core::events
 {
 
 class KeyEvent : public Event
@@ -92,4 +92,4 @@ class KeyReleasedEvent : public KeyEvent
 using KeyPressedEventSPtr = std::shared_ptr<KeyPressedEvent>;
 using KeyReleasedEventSPtr = std::shared_ptr<KeyReleasedEvent>;
 
-}; // namespace yaschperitsy::app::events
+}; // namespace yaschperitsy::core::events

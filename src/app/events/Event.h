@@ -4,7 +4,7 @@
 #include <ostream>
 #include <string>
 
-namespace yaschperitsy::app::events
+namespace yaschperitsy::core::events
 {
 
 enum class EventType
@@ -94,4 +94,4 @@ inline std::ostream& operator<<(std::ostream& os, const Event& event)
     return os << event.as_string();
 }
 
-}; // namespace yaschperitsy::app::events
+}; // namespace yaschperitsy::core::events

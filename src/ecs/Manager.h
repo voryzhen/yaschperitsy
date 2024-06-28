@@ -21,7 +21,7 @@ class Manager
                           [&](auto& e) { e->update(event); });
         }
 
-        void render(const app::SDL_RendererUPtr& renderer)
+        void render(const core::SDL_RendererUPtr& renderer)
         {
             std::for_each(_entities.begin(), _entities.end(),
                           [&](auto& e) { e->render(renderer); });

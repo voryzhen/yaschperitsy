@@ -29,7 +29,7 @@ class GameScreen : public BaseScreen
             return _game->update();
         }
 
-        void render(const app::SDL_RendererUPtr& _renderer) override
+        void render(const core::SDL_RendererUPtr& _renderer) override
         {
             _game->render(_renderer);
         }

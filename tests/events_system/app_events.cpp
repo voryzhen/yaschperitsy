@@ -8,7 +8,7 @@ BOOST_AUTO_TEST_SUITE(events_system_app_events_unit_tests_suite)
 
 BOOST_AUTO_TEST_CASE(app_window_resize_event_test)
 {
-    using namespace yaschperitsy::app::events;
+    using namespace yaschperitsy::core::events;
 
     WindowResizeEvent e(1200, 100);
 
@@ -27,7 +27,7 @@ BOOST_AUTO_TEST_CASE(app_window_resize_event_test)
 
 BOOST_AUTO_TEST_CASE(app_window_close_event_test)
 {
-    using namespace yaschperitsy::app::events;
+    using namespace yaschperitsy::core::events;
 
     WindowCloseEvent e;
 
@@ -43,7 +43,7 @@ BOOST_AUTO_TEST_CASE(app_window_close_event_test)
 
 BOOST_AUTO_TEST_CASE(app_window_tick_event_test)
 {
-    using namespace yaschperitsy::app::events;
+    using namespace yaschperitsy::core::events;
 
     AppTickEvent e;
 
@@ -59,7 +59,7 @@ BOOST_AUTO_TEST_CASE(app_window_tick_event_test)
 
 BOOST_AUTO_TEST_CASE(app_window_update_event_test)
 {
-    using namespace yaschperitsy::app::events;
+    using namespace yaschperitsy::core::events;
 
     AppUpdateEvent e;
 
@@ -75,7 +75,7 @@ BOOST_AUTO_TEST_CASE(app_window_update_event_test)
 
 BOOST_AUTO_TEST_CASE(app_window_render_event_test)
 {
-    using namespace yaschperitsy::app::events;
+    using namespace yaschperitsy::core::events;
 
     AppRenderEvent e;
 

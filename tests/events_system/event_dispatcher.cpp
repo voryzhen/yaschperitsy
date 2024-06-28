@@ -9,20 +9,20 @@
 BOOST_AUTO_TEST_SUITE(events_system_event_dispatcher_unit_tests_suite)
 
 bool event_function_true(
-    yaschperitsy::app::events::AppRenderEventSPtr e)
+    yaschperitsy::core::events::AppRenderEventSPtr e)
 {
     return (e->as_string() == std::string{"AppRender"});
 };
 
 bool event_function_false(
-    std::shared_ptr<yaschperitsy::app::events::AppRenderEvent> e)
+    std::shared_ptr<yaschperitsy::core::events::AppRenderEvent> e)
 {
     return (e->as_string() != std::string{"AppRender"});
 };
 
 BOOST_AUTO_TEST_CASE(event_dispatcher_test)
 {
-    using namespace yaschperitsy::app::events;
+    using namespace yaschperitsy::core::events;
 
     EventSPtr e = std::make_shared<AppRenderEvent>();
     EventDispatcher ed(e);

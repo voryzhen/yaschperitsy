@@ -58,7 +58,7 @@ class TransformComponent : public IComponent
             _position += (_velocity * _speed);
         }
 
-        void render(const app::SDL_RendererUPtr& renderer) override {}
+        void render(const core::SDL_RendererUPtr& renderer) override {}
 
         void init() override {}
 

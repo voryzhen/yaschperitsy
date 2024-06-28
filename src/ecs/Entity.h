@@ -30,7 +30,7 @@ class Entity : public std::enable_shared_from_this<Entity>
                           [&](auto& c) { c->update(event); });
         }
 
-        void render(const app::SDL_RendererUPtr& renderer)
+        void render(const core::SDL_RendererUPtr& renderer)
         {
             std::for_each(_components.begin(), _components.end(),
                           [&](auto& c) { c->render(renderer); });

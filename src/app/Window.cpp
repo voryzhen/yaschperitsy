@@ -20,7 +20,7 @@ constexpr int _renderer_flags{SDL_RENDERER_ACCELERATED};
 constexpr int _window_flags{SDL_WINDOW_RESIZABLE};
 } // namespace
 
-namespace yaschperitsy::app
+namespace yaschperitsy::core
 {
 
 Window::Window()
@@ -170,4 +170,4 @@ Window::~Window()
     SDL_Quit();
 }
 
-}; // namespace yaschperitsy::app
+}; // namespace yaschperitsy::core

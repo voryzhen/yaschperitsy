@@ -5,7 +5,7 @@
 
 #include <app/events/Event.h>
 
-namespace yaschperitsy::app::events
+namespace yaschperitsy::core::events
 {
 
 class WindowResizeEvent : public Event
@@ -155,4 +155,4 @@ using AppTickEventSPtr = std::shared_ptr<AppTickEvent>;
 using AppUpdateEventSPtr = std::shared_ptr<AppUpdateEvent>;
 using AppRenderEventSPtr = std::shared_ptr<AppRenderEvent>;
 
-}; // namespace yaschperitsy::app::events
+}; // namespace yaschperitsy::core::events

@@ -2,6 +2,6 @@
 
 int main(int /* argc */, char* /* args */[])
 {
-    yaschperitsy::app::App app;
+    yaschperitsy::core::App app;
     return 0;
 }

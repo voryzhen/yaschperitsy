@@ -62,7 +62,7 @@ bool ResourceManager::load_textures(const ResourceMap& textures_info)
 
     if (missing_textures.empty())
     {
-        app::logging::Logger::get_logger()->info(
+        core::logging::Logger::get_logger()->info(
             "All textures successfully loaded");
         return true;
     }
@@ -73,7 +73,7 @@ bool ResourceManager::load_textures(const ResourceMap& textures_info)
         {
             miss_res += (std::string{" "} + res.data());
         }
-        app::logging::Logger::get_logger()->warn(
+        core::logging::Logger::get_logger()->warn(
             "The following textures not loaded: [" + miss_res + " ]");
         return false;
     }
@@ -104,7 +104,7 @@ bool ResourceManager::load_fonts(const ResourceMap& fonts_info)
 
     if (missing_fonts.empty())
     {
-        app::logging::Logger::get_logger()->info(
+        core::logging::Logger::get_logger()->info(
             "All fonts successfully loaded");
         return true;
     }
@@ -115,7 +115,7 @@ bool ResourceManager::load_fonts(const ResourceMap& fonts_info)
         {
             miss_res += (std::string{" "} + res.data());
         }
-        app::logging::Logger::get_logger()->warn(
+        core::logging::Logger::get_logger()->warn(
             "The following fonts not loaded: [" + miss_res + " ]");
         return false;
     }
@@ -156,7 +156,7 @@ ResourceManager::load_texture(const std::string_view& filename)
 
     if (texture == nullptr)
     {
-        app::logging::Logger::get_logger()->error(
+        core::logging::Logger::get_logger()->error(
             "Failed to load texture from asset : {0}. SDL_Image Error: "
             "{1}",
             filename.data(), SDL_GetError());
@@ -171,7 +171,7 @@ TTF_Font* ResourceManager::load_font(const std::string_view& filename)
 
     if (font == nullptr)
     {
-        app::logging::Logger::get_logger()->error(
+        core::logging::Logger::get_logger()->error(
             "Failed to load font : {0}. SDL_ttf Error: {1}",
             filename.data(), TTF_GetError());
     }
@@ -187,7 +187,7 @@ ResourceManager::get_texture(const std::string_view& texture) const
     {
         return txtr->second;
     }
-    app::logging::Logger::get_logger()->error(
+    core::logging::Logger::get_logger()->error(
         "Can't find loaded texture {0}", texture.data());
 
     return nullptr;
@@ -201,7 +201,7 @@ ButtonTextures ResourceManager::get_button_texture(
     {
         return txtr->second;
     }
-    app::logging::Logger::get_logger()->error(
+    core::logging::Logger::get_logger()->error(
         "Can't find loaded button's texture {0}", texture.data());
 
     return {};
@@ -216,7 +216,7 @@ ResourceManager::get_font(const std::string_view& font_name) const
         return font->second;
     }
 
-    app::logging::Logger::get_logger()->error(
+    core::logging::Logger::get_logger()->error(
         "Can't find loaded font {0}", font_name.data());
 
     return nullptr;

@@ -5,7 +5,7 @@
 
 #include <app/events/Event.h>
 
-namespace yaschperitsy::app::events
+namespace yaschperitsy::core::events
 {
 
 class MouseMovedEvent : public Event
@@ -183,4 +183,4 @@ using MouseButtonPressedEventSPtr =
 using MouseButtonReleasedEventSPtr =
     std::shared_ptr<MouseButtonReleasedEvent>;
 
-}; // namespace yaschperitsy::app::events
+}; // namespace yaschperitsy::core::events

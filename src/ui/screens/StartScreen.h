@@ -49,7 +49,7 @@ class StartScreen : public BaseScreen
             return 0;
         }
 
-        void render(const app::SDL_RendererUPtr& _renderer) override
+        void render(const core::SDL_RendererUPtr& _renderer) override
         {
             // Set bg color
             SDL_SetRenderDrawColor(

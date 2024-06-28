@@ -35,7 +35,7 @@ int ScreenManager::update()
     return 0;
 }
 
-void ScreenManager::render(const app::SDL_RendererUPtr& renderer)
+void ScreenManager::render(const core::SDL_RendererUPtr& renderer)
 {
     switch (_current_screen)
     {

@@ -37,7 +37,7 @@ class IComponent
         std::weak_ptr<Entity> owner;
         virtual void init() = 0;
         virtual void update(const SDL_Event& e) = 0;
-        virtual void render(const app::SDL_RendererUPtr& renderer) = 0;
+        virtual void render(const core::SDL_RendererUPtr& renderer) = 0;
         virtual ~IComponent() {};
 };
 

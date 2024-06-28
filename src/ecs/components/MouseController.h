@@ -48,7 +48,7 @@ class MouseController : public IComponent
             _transform_component->set_direction(_direction);
         }
 
-        void render(const app::SDL_RendererUPtr& renderer) override {}
+        void render(const core::SDL_RendererUPtr& renderer) override {}
 
     private:
         TransformComponentSPtr _transform_component;

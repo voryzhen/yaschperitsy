@@ -2,7 +2,7 @@
 
 #include "app/events/AppEvent.h"
 
-namespace yaschperitsy::app
+namespace yaschperitsy::core
 {
 
 const resource::ResourceMap textures_info = {
@@ -23,7 +23,7 @@ const resource::ResourceMap fonts_info = {
 
 App::App()
 {
-    app::logging::Logger::init();
+    logging::Logger::init();
 
     _window = std::make_unique<Window>();
 
@@ -113,4 +113,4 @@ bool App::on_window_close(const events::WindowCloseEventSPtr& /*event*/)
     return true;
 }
 
-} // namespace yaschperitsy::app
+} // namespace yaschperitsy::core

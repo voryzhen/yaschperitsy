@@ -8,7 +8,7 @@
 #include <SDL_events.h>
 #include <SDL_render.h>
 
-namespace yaschperitsy::app
+namespace yaschperitsy::core
 {
 
 struct WindowProps
@@ -65,4 +65,4 @@ class Window
 
 using WindowUPtr = std::unique_ptr<Window>;
 
-} // namespace yaschperitsy::app
+} // namespace yaschperitsy::core

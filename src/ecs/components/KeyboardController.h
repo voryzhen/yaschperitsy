@@ -78,7 +78,7 @@ class KeyboardController : public IComponent
             check_borders();
         }
 
-        void render(const app::SDL_RendererUPtr& renderer) override {};
+        void render(const core::SDL_RendererUPtr& renderer) override {};
 
     private:
         void check_borders()

@@ -9,7 +9,7 @@
 
 #include <SDL_events.h>
 
-namespace yaschperitsy::app
+namespace yaschperitsy::core
 {
 
 class App
@@ -35,4 +35,4 @@ class App
         ui::ScreenManagerUPtr _screen_manager;
 };
 
-} // namespace yaschperitsy::app
+} // namespace yaschperitsy::core

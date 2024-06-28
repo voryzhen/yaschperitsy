@@ -7,7 +7,7 @@ BOOST_AUTO_TEST_SUITE(events_system_keyboard_events_unit_tests_suite)
 
 BOOST_AUTO_TEST_CASE(keyboard_pressed_event_test)
 {
-    using namespace yaschperitsy::app::events;
+    using namespace yaschperitsy::core::events;
 
     KeyPressedEvent e(50, true);
 
@@ -30,7 +30,7 @@ BOOST_AUTO_TEST_CASE(keyboard_pressed_event_test)
 
 BOOST_AUTO_TEST_CASE(keyboard_released_event_test)
 {
-    using namespace yaschperitsy::app::events;
+    using namespace yaschperitsy::core::events;
 
     KeyReleasedEvent e(50);
 

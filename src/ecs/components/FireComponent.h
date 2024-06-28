@@ -22,7 +22,7 @@ class FireComponent : public IComponent
 
         void init() override {}
 
-        void render(const app::SDL_RendererUPtr& renderer) override {}
+        void render(const core::SDL_RendererUPtr& renderer) override {}
 
         bool reloaded() const { return _reloading == 0; }
 

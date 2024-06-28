@@ -4,7 +4,7 @@
 
 #include <spdlog/spdlog.h>
 
-namespace yaschperitsy::app::logging
+namespace yaschperitsy::core::logging
 {
 
 class Logger
@@ -21,4 +21,4 @@ class Logger
         static std::shared_ptr<spdlog::logger> _yaschperitsy_logger;
 };
 
-}; // namespace yaschperitsy::app::logging
+}; // namespace yaschperitsy::core::logging

@@ -3,7 +3,7 @@
 #include <functional>
 #include <memory>
 
-#include <app/events/Event.h>
+#include <core/events/Event.h>
 
 #include <SDL_events.h>
 #include <SDL_render.h>

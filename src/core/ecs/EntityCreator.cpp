@@ -1,5 +1,5 @@
-#include "ecs/Entity.h"
-#include <ecs/EntityCreator.h>
+#include "core/ecs/Entity.h"
+#include <core/ecs/EntityCreator.h>
 
 #include <game/entities/Ammunition.h>
 #include <game/entities/Organism.h>

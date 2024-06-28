@@ -3,9 +3,9 @@
 #include "game/entities/Ammunition.h"
 #include "game/entities/Organism.h"
 #include <algorithm>
-#include <app/ResourceManager.h>
-#include <ecs/Entity.h>
-#include <ecs/EntityCreator.h>
+#include <core/ResourceManager.h>
+#include <core/ecs/Entity.h>
+#include <core/ecs/EntityCreator.h>
 #include <iterator>
 #include <utility>
 

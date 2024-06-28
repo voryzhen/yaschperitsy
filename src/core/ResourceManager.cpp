@@ -1,4 +1,4 @@
-#include <app/ResourceManager.h>
+#include <core/ResourceManager.h>
 
 #include "Logger.h"
 #include "SDL_error.h"

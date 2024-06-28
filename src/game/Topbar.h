@@ -3,7 +3,7 @@
 #include <utility>
 
 #include "SDL_ttf.h"
-#include "app/ResourceManager.h"
+#include "core/ResourceManager.h"
 #include "memory"
 #include "string"
 

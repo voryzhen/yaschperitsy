@@ -11,15 +11,16 @@ set ( CMAKE_CXX_FLAGS "-Wall -g" )
 set ( SOURCE
 
   src/main.cpp
-  src/app/App.cpp
-  src/app/Window.cpp
-  src/app/ResourceManager.cpp
-  src/app/Logger.cpp
+  src/core/App.cpp
+  src/core/Window.cpp
+  src/core/ResourceManager.cpp
+  src/core/Logger.cpp
+  src/core/LayerStack.cpp
 
   src/game/Game.cpp
   src/game/Topbar.cpp
 
-  src/ecs/EntityCreator.cpp
+  src/core/ecs/EntityCreator.cpp
 
   src/ui/BaseScreen.cpp
   src/ui/ScreenManager.cpp
@@ -78,7 +79,7 @@ if ( APPLE )
     tests/test_ecs_entity.cpp
     tests/test_entity_creator.cpp
 
-    src/ecs/EntityCreator.cpp
+    src/core/ecs/EntityCreator.cpp
 
     tests/events_system/app_events.cpp
     tests/events_system/mouse_events.cpp

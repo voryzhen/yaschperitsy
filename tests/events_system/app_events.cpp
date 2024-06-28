@@ -1,7 +1,7 @@
-#include "app/events/Event.h"
 #include "boost/test/unit_test.hpp"
+#include "core/events/Event.h"
 
-#include "app/events/AppEvent.h"
+#include "core/events/AppEvent.h"
 #include <string>
 
 BOOST_AUTO_TEST_SUITE(events_system_app_events_unit_tests_suite)

@@ -1,10 +1,10 @@
 #pragma once
 
 #include "SDL_events.h"
-#include "app/Window.h"
+#include "core/Window.h"
 #include "ui/BaseScreen.h"
 #include "ui/Button.h"
-#include <app/ResourceManager.h>
+#include <core/ResourceManager.h>
 #include <vector>
 
 namespace yaschperitsy::ui

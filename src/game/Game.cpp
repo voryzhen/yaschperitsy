@@ -1,6 +1,6 @@
 #include <game/Game.h>
 
-#include "app/ResourceManager.h"
+#include "core/ResourceManager.h"
 #include "numbers"
 #include <cmath>
 #include <memory>

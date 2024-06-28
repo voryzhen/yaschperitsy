@@ -1,6 +1,9 @@
-#include <app/App.h>
+#include <core/App.h>
+#include <memory>
 
-#include "app/events/AppEvent.h"
+#include "core/Layer.h"
+#include "core/Logger.h"
+#include "core/events/AppEvent.h"
 
 namespace yaschperitsy::core
 {
@@ -41,6 +44,33 @@ App::App()
 
         _screen_manager =
             std::make_unique<ui::ScreenManager>(_resource_manager);
+
+        //-----------
+        //-----------
+        // TMP!!!!!
+        // class ExampleLayer : public Layer
+        // {
+        // public:
+        // ExampleLayer() : Layer("Example") {}
+
+        // virtual void on_event(const events::EventSPtr& event)
+        // {
+        // logging::Logger::get_logger()->info(
+        // event->as_string());
+        // }
+
+        // virtual void on_update()
+        // {
+        // logging::Logger::get_logger()->info(
+        // "Example Layer Update");
+        // }
+        // };
+
+        // push_layer(std::make_shared<ExampleLayer>());
+        // logging::Logger::get_logger()->info(_layer_stack.size());
+        //-----------
+        //-----------
+
         run_app();
     }
 }
@@ -98,13 +128,22 @@ void App::render()
 
 void App::on_event(const events::EventSPtr& event)
 {
-    logging::Logger::get_logger()->info(event->as_string());
-
     events::EventDispatcher dispatcher(event);
 
     dispatcher.dispatch<events::WindowCloseEvent>(
         [this](const events::WindowCloseEventSPtr& event)
         { return on_window_close(event); });
+
+    logging::Logger::get_logger()->info(_layer_stack.size());
+
+    for (auto& it : _layer_stack)
+    {
+        if (event->is_handled())
+        {
+            break;
+        }
+        it->on_event(event);
+    }
 }
 
 bool App::on_window_close(const events::WindowCloseEventSPtr& /*event*/)

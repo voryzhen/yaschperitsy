@@ -3,9 +3,9 @@
 #include <memory>
 #include <numbers>
 
-#include <ecs/Entity.h>
-#include <ecs/IComponent.h>
-#include <ecs/components/TransformComponent.h>
+#include <core/ecs/Entity.h>
+#include <core/ecs/IComponent.h>
+#include <core/ecs/components/TransformComponent.h>
 #include <utility/Vector2D.h>
 
 namespace yaschperitsy::ecs::components

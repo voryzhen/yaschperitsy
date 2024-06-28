@@ -1,4 +1,4 @@
-#include <app/App.h>
+#include <core/App.h>
 
 int main(int /* argc */, char* /* args */[])
 {

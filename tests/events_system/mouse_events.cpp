@@ -1,6 +1,6 @@
 #include "boost/test/unit_test.hpp"
 
-#include "app/events/MouseEvent.h"
+#include "core/events/MouseEvent.h"
 #include <string>
 
 BOOST_AUTO_TEST_SUITE(events_system_mouse_events_unit_tests_suite)

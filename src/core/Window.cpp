@@ -1,10 +1,10 @@
-#include <app/Window.h>
+#include <core/Window.h>
 
-#include <app/Logger.h>
+#include <core/Logger.h>
 
-#include <app/events/AppEvent.h>
-#include <app/events/KeyEvent.h>
-#include <app/events/MouseEvent.h>
+#include <core/events/AppEvent.h>
+#include <core/events/KeyEvent.h>
+#include <core/events/MouseEvent.h>
 
 #include <SDL_image.h>
 #include <SDL_ttf.h>

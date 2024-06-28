@@ -3,9 +3,9 @@
 #include "Background.h"
 #include "GameParameters.h"
 #include "Topbar.h"
-#include "app/ResourceManager.h"
-#include "ecs/Entity.h"
-#include "ecs/Manager.h"
+#include "core/ResourceManager.h"
+#include "core/ecs/Entity.h"
+#include "core/ecs/Manager.h"
 
 #include "SDL_events.h"
 #include "game/entities/Organism.h"

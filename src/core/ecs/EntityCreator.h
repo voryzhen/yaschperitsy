@@ -1,9 +1,9 @@
 #pragma once
 
-#include "app/ResourceManager.h"
+#include "core/ResourceManager.h"
 #include "game/entities/Ammunition.h"
 #include "game/entities/Organism.h"
-#include <ecs/Entity.h>
+#include <core/ecs/Entity.h>
 #include <memory>
 #include <utility>
 

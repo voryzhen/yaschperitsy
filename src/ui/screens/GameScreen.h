@@ -3,7 +3,7 @@
 #include "SDL_events.h"
 #include "game/Game.h"
 #include "ui/BaseScreen.h"
-#include <app/ResourceManager.h>
+#include <core/ResourceManager.h>
 
 namespace yaschperitsy::ui
 {

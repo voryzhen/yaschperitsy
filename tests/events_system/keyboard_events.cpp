@@ -1,6 +1,6 @@
 #include "boost/test/unit_test.hpp"
 
-#include "app/events/KeyEvent.h"
+#include "core/events/KeyEvent.h"
 #include <string>
 
 BOOST_AUTO_TEST_SUITE(events_system_keyboard_events_unit_tests_suite)

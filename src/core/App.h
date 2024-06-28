@@ -1,10 +1,12 @@
 #pragma once
 
-#include <app/Logger.h> // TODO: remove ?
-#include <app/ResourceManager.h>
-#include <app/Window.h>
-#include <app/events/AppEvent.h>
-#include <app/events/Event.h>
+#include "core/Layer.h"
+#include "core/LayerStack.h"
+#include <core/Logger.h> // TODO: remove ?
+#include <core/ResourceManager.h>
+#include <core/Window.h>
+#include <core/events/AppEvent.h>
+#include <core/events/Event.h>
 #include <ui/ScreenManager.h>
 
 #include <SDL_events.h>
@@ -17,6 +19,16 @@ class App
     public:
         App();
         void on_event(const events::EventSPtr& event);
+
+        void push_layer(const LayerSPtr& layer)
+        {
+            _layer_stack.push_layer(layer);
+        }
+
+        void pop_layer(const LayerSPtr& layer)
+        {
+            _layer_stack.pop_layer(layer);
+        }
 
     private:
         void run_app();
@@ -33,6 +45,8 @@ class App
         WindowUPtr _window;
         resource::ResourceManagerUPtr _resource_manager;
         ui::ScreenManagerUPtr _screen_manager;
+
+        LayerStack _layer_stack;
 };
 
 } // namespace yaschperitsy::core

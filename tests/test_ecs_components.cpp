@@ -1,12 +1,12 @@
 #include "boost/test/unit_test.hpp"
 
-#include "ecs/components/FireComponent.h"
-#include "ecs/components/KeyboardController.h"
-#include "ecs/components/MouseController.h"
-#include "ecs/components/SpriteComponent.h"
-#include "ecs/components/TransformComponent.h"
+#include "core/ecs/components/FireComponent.h"
+#include "core/ecs/components/KeyboardController.h"
+#include "core/ecs/components/MouseController.h"
+#include "core/ecs/components/SpriteComponent.h"
+#include "core/ecs/components/TransformComponent.h"
 
-#include <ecs/Entity.h>
+#include <core/ecs/Entity.h>
 
 BOOST_AUTO_TEST_SUITE(ecs_components_unit_tests_suite)
 

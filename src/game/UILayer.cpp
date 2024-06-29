@@ -5,9 +5,7 @@ namespace yaschperitsy::game
 
 void UILayer::on_update(const core::SDL_RendererUPtr& ren)
 {
-    SDL_SetRenderDrawColor(ren.get(), curr_color.r, curr_color.g,
-                           curr_color.b, curr_color.a);
-    SDL_RenderFillRect(ren.get(), &r);
+    btn.render(ren);
 }
 
 void UILayer::on_event(const core::events::EventSPtr& event)
@@ -30,9 +28,9 @@ void UILayer::on_event(const core::events::EventSPtr& event)
 bool UILayer::on_mouse_btn_pressed(
     const core::events::MouseButtonPressedEventSPtr& e)
 {
-    if ((abs(75 - e->y_pos()) < 25) && (abs(125 - e->x_pos()) < 75))
+    if (btn.intersect(e->x_pos(), e->y_pos()))
     {
-        curr_color = pressed_color;
+        btn.on_pressed();
     }
 
     return true;
@@ -41,9 +39,9 @@ bool UILayer::on_mouse_btn_pressed(
 bool UILayer::on_mouse_btn_released(
     const core::events::MouseButtonReleasedEventSPtr& e)
 {
-    if ((abs(75 - e->y_pos()) < 25) && (abs(125 - e->x_pos()) < 75))
+    if (btn.intersect(e->x_pos(), e->y_pos()))
     {
-        curr_color = free_color;
+        btn.on_released();
     }
 
     return true;
@@ -52,13 +50,13 @@ bool UILayer::on_mouse_btn_released(
 bool UILayer::on_mouse_btn_moved(
     const core::events::MouseMovedEventSPtr& e)
 {
-    if ((abs(75 - e->y_pos()) < 25) && (abs(125 - e->x_pos()) < 75))
+    if (btn.intersect(e->x_pos(), e->y_pos()))
     {
-        curr_color = hover_color;
+        btn.on_hover();
     }
     else
     {
-        curr_color = free_color;
+        btn.on_loose_focus();
     }
 
     return true;

@@ -18,6 +18,9 @@ App::App()
         _window->set_event_callback(
             [this](const events::EventSPtr& event)
             { on_event(event); });
+
+        _resource_manager = std::make_unique<resource::ResourceManager>(
+            _window->renderer());
     }
 }
 
@@ -25,12 +28,21 @@ App::~App() {}
 
 void App::new_run_app()
 {
-    // while ( true ) {}
+
     logging::Logger::get_logger()->info("Runned");
 
     while (_running)
     {
+        SDL_SetRenderDrawColor(_window->renderer().get(), 0, 0, 0, 255);
+        SDL_RenderClear(_window->renderer().get());
+
+        for (auto& layer : _layer_stack)
+        {
+            layer->on_update(_window->renderer());
+        }
         _window->update();
+
+        SDL_RenderPresent(_window->renderer().get());
     }
 }
 
@@ -56,6 +68,16 @@ bool App::on_window_close(const events::WindowCloseEventSPtr& /*event*/)
 {
     _running = false;
     return true;
+}
+
+bool App::load_assets(const resource::ResourceMap& textures)
+{
+    return _resource_manager->load_textures(textures);
+}
+
+bool App::load_fonts(const resource::ResourceMap& fonts)
+{
+    return _resource_manager->load_fonts(fonts);
 }
 
 //==========================================

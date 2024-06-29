@@ -1,6 +1,7 @@
 #pragma once
 
 #include "core/Logger.h"
+#include "core/Window.h"
 #include "core/events/Event.h"
 #include <memory>
 #include <string_view>
@@ -19,7 +20,9 @@ class Layer
 
         virtual void on_detach() {}
 
-        virtual void on_update() {}
+        virtual void on_update(const core::SDL_RendererUPtr& renderer)
+        {
+        }
 
         virtual void on_event(const events::EventSPtr& event) {}
 

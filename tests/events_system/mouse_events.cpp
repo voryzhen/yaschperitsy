@@ -51,7 +51,7 @@ BOOST_AUTO_TEST_CASE(mouse_pressed_event_test)
 {
     using namespace yaschperitsy::core::events;
 
-    MouseButtonPressedEvent e(1);
+    MouseButtonPressedEvent e(1, 15, 41);
 
     BOOST_CHECK(e.is_in_category(EventCategory::EventCategoryMouse));
     BOOST_CHECK(e.is_in_category(EventCategory::EventCategoryInput));
@@ -65,13 +65,15 @@ BOOST_AUTO_TEST_CASE(mouse_pressed_event_test)
     BOOST_CHECK(e.static_type() == EventType::MouseButtonPressed);
 
     BOOST_CHECK(e.mouse_button() == 1);
+    BOOST_CHECK(e.x_pos() == 15);
+    BOOST_CHECK(e.y_pos() == 41);
 }
 
 BOOST_AUTO_TEST_CASE(mouse_released_event_test)
 {
     using namespace yaschperitsy::core::events;
 
-    MouseButtonReleasedEvent e(2);
+    MouseButtonReleasedEvent e(2, 21, 81);
 
     BOOST_CHECK(e.is_in_category(EventCategory::EventCategoryMouse));
     BOOST_CHECK(e.is_in_category(EventCategory::EventCategoryInput));
@@ -85,6 +87,8 @@ BOOST_AUTO_TEST_CASE(mouse_released_event_test)
     BOOST_CHECK(e.static_type() == EventType::MouseButtonReleased);
 
     BOOST_CHECK(e.mouse_button() == 2);
+    BOOST_CHECK(e.x_pos() == 21);
+    BOOST_CHECK(e.y_pos() == 81);
 }
 
 BOOST_AUTO_TEST_SUITE_END()

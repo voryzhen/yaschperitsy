@@ -14,6 +14,9 @@
 namespace yaschperitsy::core
 {
 
+using ResourceMap =
+    std::unordered_map<std::string_view, std::string_view>;
+
 class App
 {
     public:
@@ -21,6 +24,8 @@ class App
         App();
         virtual ~App();
         void new_run_app();
+        bool load_assets(const resource::ResourceMap&);
+        bool load_fonts(const resource::ResourceMap&);
 
         // Old api
         App(bool old);

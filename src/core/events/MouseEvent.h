@@ -110,16 +110,26 @@ class MouseButtonEvent : public Event
                        EventCategory::EventCategoryInput);
         }
 
+        inline int x_pos() const { return _x_pos; }
+
+        inline int y_pos() const { return _y_pos; }
+
     protected:
-        MouseButtonEvent(int button) : _button(button) {}
+        MouseButtonEvent(int button, int x_pos, int y_pos)
+            : _button(button), _x_pos(x_pos), _y_pos(y_pos)
+        {
+        }
 
         int _button = 0;
+        int _x_pos = 0;
+        int _y_pos = 0;
 };
 
 class MouseButtonPressedEvent : public MouseButtonEvent
 {
     public:
-        MouseButtonPressedEvent(int button) : MouseButtonEvent(button)
+        MouseButtonPressedEvent(int button, int x_pos, int y_pos)
+            : MouseButtonEvent(button, x_pos, y_pos)
         {
         }
 
@@ -149,7 +159,8 @@ class MouseButtonPressedEvent : public MouseButtonEvent
 class MouseButtonReleasedEvent : public MouseButtonEvent
 {
     public:
-        MouseButtonReleasedEvent(int button) : MouseButtonEvent(button)
+        MouseButtonReleasedEvent(int button, int x_pos, int y_pos)
+            : MouseButtonEvent(button, x_pos, y_pos)
         {
         }
 

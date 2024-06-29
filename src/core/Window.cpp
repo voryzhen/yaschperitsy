@@ -141,12 +141,12 @@ void Window::update()
     case SDL_MOUSEBUTTONDOWN:
         _data._event_callback(
             std::make_shared<events::MouseButtonPressedEvent>(
-                e.button.button));
+                e.button.button, e.button.x, e.button.y));
         break;
     case SDL_MOUSEBUTTONUP:
         _data._event_callback(
             std::make_shared<events::MouseButtonReleasedEvent>(
-                e.button.button));
+                e.button.button, e.button.x, e.button.y));
         break;
     case SDL_MOUSEWHEEL:
         _data._event_callback(

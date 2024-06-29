@@ -1,12 +1,12 @@
-#include <game/Game.h>
+#include "OldGame.h"
 
 #include "core/ResourceManager.h"
 #include "numbers"
 #include <cmath>
 #include <memory>
 
-#include "game/entities/Ammunition.h"
-#include "game/entities/Organism.h"
+#include "old_game/entities/Ammunition.h"
+#include "old_game/entities/Organism.h"
 
 #include "utility/Utility.h"
 #include "utility/Vector2D.h"
@@ -15,7 +15,7 @@
 namespace yaschperitsy::game
 {
 
-Game::Game(const resource::ResourceManagerUPtr& rm)
+OldGame::OldGame(const resource::ResourceManagerUPtr& rm)
     : _rm(rm),
       _player(std::static_pointer_cast<Organism>(
           _manager.add_entity<Organism>(ecs::EntityType::player, 640,
@@ -33,7 +33,7 @@ Game::Game(const resource::ResourceManagerUPtr& rm)
     _background->set_game_field(_game_field);
 }
 
-void Game::handle_events(const SDL_Event& event)
+void OldGame::handle_events(const SDL_Event& event)
 {
     _event = event;
     switch (_event.type)
@@ -47,7 +47,7 @@ void Game::handle_events(const SDL_Event& event)
     }
 }
 
-int Game::update()
+int OldGame::update()
 {
     update_yaschperitsy();
     update_player();
@@ -70,7 +70,7 @@ int Game::update()
     }
 }
 
-void Game::render(const SDL_RendererUPtr& renderer)
+void OldGame::render(const SDL_RendererUPtr& renderer)
 {
     _background->render(renderer);
     _manager.render(renderer);
@@ -137,7 +137,7 @@ get_yaschperitsa_position(int& random_angle) // very bad but I am lazy
 namespace yaschperitsy::game
 {
 
-void Game::update_player()
+void OldGame::update_player()
 {
     const auto fire_component =
         _player->get_component<ecs::components::FireComponent>();
@@ -188,14 +188,14 @@ void Game::update_player()
 namespace yaschperitsy::game
 {
 
-void Game::update_yaschperitsy()
+void OldGame::update_yaschperitsy()
 {
     spawn_yaschperitsy();
     fire_yaschperitsy();
     update_yaschperitsy_direction();
 }
 
-void Game::update_yaschperitsy_direction()
+void OldGame::update_yaschperitsy_direction()
 {
     for (auto& e : _manager.get_entities(ecs::EntityType::yaschperitsa))
     {
@@ -216,7 +216,7 @@ void Game::update_yaschperitsy_direction()
     }
 }
 
-void Game::spawn_yaschperitsy()
+void OldGame::spawn_yaschperitsy()
 {
     if (--yaschperitsy_spawn_timer <= 0 && _stat->_yaschperitsy_num > 0)
     {
@@ -261,7 +261,7 @@ void Game::spawn_yaschperitsy()
     }
 }
 
-void Game::fire_yaschperitsy()
+void OldGame::fire_yaschperitsy()
 {
     for (auto& e : _manager.get_entities(ecs::EntityType::yaschperitsa))
     {
@@ -299,7 +299,7 @@ void Game::fire_yaschperitsy()
 namespace yaschperitsy::game
 {
 
-void Game::destroy_objects()
+void OldGame::destroy_objects()
 {
     for (auto& e : _manager.get_entities())
     {
@@ -360,7 +360,7 @@ bool intersect(const ecs::EntitySPtr& ent1, const ecs::EntitySPtr& ent2)
 
 } // namespace
 
-void Game::bullet_hit()
+void OldGame::bullet_hit()
 {
     const auto bullets =
         _manager.get_entities(ecs::EntityType::ammunition);
@@ -414,7 +414,7 @@ void Game::bullet_hit()
     }
 }
 
-void Game::reset_state()
+void OldGame::reset_state()
 {
     if (_end)
     {

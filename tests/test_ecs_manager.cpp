@@ -1,7 +1,7 @@
 #include "boost/test/unit_test.hpp"
 #include "core/ecs/Entity.h"
-#include "game/entities/Ammunition.h"
-#include "game/entities/Organism.h"
+#include "old_game/entities/Ammunition.h"
+#include "old_game/entities/Organism.h"
 
 #include <core/ecs/Manager.h>
 

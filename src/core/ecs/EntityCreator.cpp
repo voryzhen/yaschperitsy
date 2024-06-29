@@ -1,8 +1,8 @@
 #include "core/ecs/Entity.h"
 #include <core/ecs/EntityCreator.h>
 
-#include <game/entities/Ammunition.h>
-#include <game/entities/Organism.h>
+#include <old_game/entities/Ammunition.h>
+#include <old_game/entities/Organism.h>
 
 #include <memory>
 #include <utility>

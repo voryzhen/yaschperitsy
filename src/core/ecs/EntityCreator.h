@@ -1,8 +1,8 @@
 #pragma once
 
 #include "core/ResourceManager.h"
-#include "game/entities/Ammunition.h"
-#include "game/entities/Organism.h"
+#include "old_game/entities/Ammunition.h"
+#include "old_game/entities/Organism.h"
 #include <core/ecs/Entity.h>
 #include <memory>
 #include <utility>

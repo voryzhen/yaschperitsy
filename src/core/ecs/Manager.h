@@ -1,7 +1,7 @@
 #pragma once
 
-#include "game/entities/Ammunition.h"
-#include "game/entities/Organism.h"
+#include "old_game/entities/Ammunition.h"
+#include "old_game/entities/Organism.h"
 #include <algorithm>
 #include <core/ResourceManager.h>
 #include <core/ecs/Entity.h>

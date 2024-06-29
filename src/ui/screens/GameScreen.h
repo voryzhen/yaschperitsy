@@ -1,7 +1,7 @@
 #pragma once
 
 #include "SDL_events.h"
-#include "game/Game.h"
+#include "old_game/OldGame.h"
 #include "ui/BaseScreen.h"
 #include <core/ResourceManager.h>
 
@@ -15,7 +15,7 @@ class GameScreen : public BaseScreen
                    int* current_screen)
             : BaseScreen(rm, current_screen)
         {
-            _game = std::make_unique<game::Game>(rm);
+            _game = std::make_unique<game::OldGame>(rm);
         }
 
         void handle_events(const SDL_Event& event) override
@@ -35,7 +35,7 @@ class GameScreen : public BaseScreen
         }
 
     private:
-        std::unique_ptr<game::Game> _game;
+        std::unique_ptr<game::OldGame> _game;
 };
 
 using GameScreenUPtr = std::unique_ptr<GameScreen>;

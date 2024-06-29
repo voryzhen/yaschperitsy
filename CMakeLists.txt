@@ -17,8 +17,8 @@ set ( SOURCE
   src/core/Logger.cpp
   src/core/LayerStack.cpp
 
-  src/game/Game.cpp
-  src/game/Topbar.cpp
+  src/old_game/OldGame.cpp
+  src/old_game/Topbar.cpp
 
   src/core/ecs/EntityCreator.cpp
 

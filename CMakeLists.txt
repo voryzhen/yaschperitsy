@@ -20,6 +20,7 @@ set ( SOURCE
   src/old_game/OldGame.cpp
   src/old_game/Topbar.cpp
 
+  src/game/UILayer.cpp
   src/game/Game.cpp
 
   src/core/ecs/EntityCreator.cpp

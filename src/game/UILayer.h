@@ -13,15 +13,7 @@ namespace yaschperitsy::game
 class UILayer : public core::Layer
 {
     public:
-        UILayer() : core::Layer("UI Layer")
-        {
-            SDL_Rect geom = {50, 50, 150, 50};
-            btn.set_geom(geom);
-            SDL_Color c = {0, 0, 255, 0};
-            SDL_Color hc = {0, 255, 0, 0};
-            SDL_Color pc = {255, 0, 0, 0};
-            btn.set_colors(c, hc, pc);
-        }
+        UILayer() : core::Layer("UI Layer") {}
 
         void on_update(const core::SDL_RendererUPtr& ren) override;
         void on_event(const core::events::EventSPtr& event) override;
@@ -34,7 +26,10 @@ class UILayer : public core::Layer
         bool
         on_mouse_btn_moved(const core::events::MouseMovedEventSPtr& e);
 
-        ui::UIButton btn;
+        ui::UIButton btn{{50, 50, 150, 50},
+                         {0, 0, 255, 0},
+                         {0, 255, 0, 0},
+                         {255, 0, 0, 0}};
 };
 
 }; // namespace yaschperitsy::game

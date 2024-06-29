@@ -1,10 +1,10 @@
 #pragma once
 
 #include "SDL_events.h"
-#include "app/Window.h"
+#include "core/Window.h"
 #include "ui/BaseScreen.h"
 #include "ui/Button.h"
-#include <app/ResourceManager.h>
+#include <core/ResourceManager.h>
 #include <vector>
 
 namespace yaschperitsy::ui
@@ -49,7 +49,7 @@ class StartScreen : public BaseScreen
             return 0;
         }
 
-        void render(const app::SDL_RendererUPtr& _renderer) override
+        void render(const core::SDL_RendererUPtr& _renderer) override
         {
             // Set bg color
             SDL_SetRenderDrawColor(

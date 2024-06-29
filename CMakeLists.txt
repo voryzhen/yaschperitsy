@@ -6,20 +6,24 @@ cmake_minimum_required ( VERSION 3.29.3 )
 set ( CMAKE_CXX_STANDARD 20 )
 set ( CMAKE_CXX_STANDARD_REQUIRED ON )
 
-# set ( CMAKE_CXX_FLAGS "-Wall -g" )
+set ( CMAKE_CXX_FLAGS "-Wall -g" )
 
 set ( SOURCE
 
   src/main.cpp
-  src/app/App.cpp
-  src/app/Window.cpp
-  src/app/ResourceManager.cpp
-  src/app/Log.cpp
+  src/core/App.cpp
+  src/core/Window.cpp
+  src/core/ResourceManager.cpp
+  src/core/Logger.cpp
+  src/core/LayerStack.cpp
 
+  src/old_game/OldGame.cpp
+  src/old_game/Topbar.cpp
+
+  src/game/UILayer.cpp
   src/game/Game.cpp
-  src/game/Topbar.cpp
 
-  src/ecs/EntityCreator.cpp
+  src/core/ecs/EntityCreator.cpp
 
   src/ui/BaseScreen.cpp
   src/ui/ScreenManager.cpp
@@ -78,7 +82,13 @@ if ( APPLE )
     tests/test_ecs_entity.cpp
     tests/test_entity_creator.cpp
 
-    src/ecs/EntityCreator.cpp
+    src/core/ecs/EntityCreator.cpp
+
+    tests/events_system/app_events.cpp
+    tests/events_system/mouse_events.cpp
+    tests/events_system/keyboard_events.cpp
+
+    tests/events_system/event_dispatcher.cpp
 
     )
 

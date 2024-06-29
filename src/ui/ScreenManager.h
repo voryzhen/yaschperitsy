@@ -4,7 +4,7 @@
 #include <utility>
 
 #include "SDL_events.h"
-#include "app/ResourceManager.h"
+#include "core/ResourceManager.h"
 #include "screens/Screens.h"
 #include "ui/screens/GameEndScreen.h"
 

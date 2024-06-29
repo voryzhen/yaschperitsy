@@ -1,9 +1,9 @@
 #include "boost/test/unit_test.hpp"
-#include "ecs/Entity.h"
-#include "game/entities/Ammunition.h"
-#include "game/entities/Organism.h"
+#include "core/ecs/Entity.h"
+#include "old_game/entities/Ammunition.h"
+#include "old_game/entities/Organism.h"
 
-#include <ecs/Manager.h>
+#include <core/ecs/Manager.h>
 
 BOOST_AUTO_TEST_SUITE(ecs_manager_unit_tests_suite)
 

@@ -1,7 +1,7 @@
 #include "boost/test/unit_test.hpp"
 
-#include "ecs/IComponent.h"
-#include <ecs/Entity.h>
+#include "core/ecs/IComponent.h"
+#include <core/ecs/Entity.h>
 
 namespace yaschperitsy::ecs
 {
@@ -17,7 +17,7 @@ class Component : public IComponent
 
         void update(const SDL_Event& /*e*/) override { value++; }
 
-        void render(const app::SDL_RendererUPtr& renderer) override {}
+        void render(const core::SDL_RendererUPtr& renderer) override {}
 
         ~Component() {}
 

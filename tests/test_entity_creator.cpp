@@ -1,9 +1,9 @@
 #include "boost/test/unit_test.hpp"
-#include "game/entities/Ammunition.h"
-#include "game/entities/Organism.h"
+#include "old_game/entities/Ammunition.h"
+#include "old_game/entities/Organism.h"
 
-#include <ecs/Entity.h>
-#include <ecs/EntityCreator.h>
+#include <core/ecs/Entity.h>
+#include <core/ecs/EntityCreator.h>
 #include <memory>
 
 BOOST_AUTO_TEST_SUITE(entity_creator_unit_tests_suite)

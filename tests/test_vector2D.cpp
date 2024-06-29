@@ -3,7 +3,7 @@
 
 #include "boost/test/included/unit_test.hpp"
 
-#include "utility/Vector2D.h"
+#include "core/utility/Vector2D.h"
 
 BOOST_AUTO_TEST_SUITE(vector_unit_tests_suite)
 

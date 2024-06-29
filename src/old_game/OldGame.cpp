@@ -8,8 +8,8 @@
 #include "old_game/entities/Ammunition.h"
 #include "old_game/entities/Organism.h"
 
-#include "utility/Utility.h"
-#include "utility/Vector2D.h"
+#include <core/utility/Utility.h>
+#include <core/utility/Vector2D.h>
 
 // Main Game functions
 namespace yaschperitsy::game

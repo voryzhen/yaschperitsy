@@ -1,10 +1,15 @@
 #pragma once
 
+#include <memory>
+#include <utility>
+
 #include "SDL_pixels.h"
 #include "SDL_rect.h"
 #include "core/Layer.h"
+#include "core/ResourceManager.h"
 #include "core/Window.h"
 #include "core/events/MouseEvent.h"
+#include "core/resource_management/Resource.h"
 #include "ui/UIButton.h"
 
 namespace yaschperitsy::game
@@ -13,7 +18,10 @@ namespace yaschperitsy::game
 class UILayer : public core::Layer
 {
     public:
-        UILayer() : core::Layer("UI Layer") {}
+        UILayer(std::vector<std::shared_ptr<ui::UIButton>> btns)
+            : core::Layer("UI Layer"), _btns(btns)
+        {
+        }
 
         void on_update(const core::SDL_RendererUPtr& ren) override;
         void on_event(const core::events::EventSPtr& event) override;
@@ -26,10 +34,7 @@ class UILayer : public core::Layer
         bool
         on_mouse_btn_moved(const core::events::MouseMovedEventSPtr& e);
 
-        ui::UIButton btn{{50, 50, 150, 50},
-                         {0, 0, 255, 0},
-                         {0, 255, 0, 0},
-                         {255, 0, 0, 0}};
+        std::vector<std::shared_ptr<ui::UIButton>> _btns;
 };
 
 }; // namespace yaschperitsy::game

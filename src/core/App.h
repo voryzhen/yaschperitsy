@@ -41,6 +41,11 @@ class App
             _layer_stack.pop_layer(layer);
         }
 
+        const SDL_RendererUPtr& renderer() const
+        {
+            return _window->renderer();
+        }
+
     private:
         void run_app();
 

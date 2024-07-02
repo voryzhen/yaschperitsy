@@ -1,8 +1,13 @@
 #pragma once
 
+#include <string_view>
+#include <utility>
+
 #include "SDL_pixels.h"
 #include "SDL_rect.h"
+#include "core/Logger.h"
 #include "core/Window.h"
+#include "core/resource_management/Resource.h"
 
 namespace yaschperitsy::ui
 {
@@ -12,41 +17,25 @@ class UIButton
     public:
         UIButton() = default;
 
-        UIButton(SDL_Rect button_geom, SDL_Color button_color)
-            : UIButton(button_geom, button_color, button_color,
-                       button_color)
+        UIButton(int x, int y, const std::string_view& name,
+                 resource_management::TextureSPtr free_texture,
+                 resource_management::TextureSPtr pressed_texture,
+                 resource_management::TextureSPtr hover_texture)
+            : _name(name), _free_texture(std::move(free_texture)),
+              _pressed_texture(std::move(pressed_texture)),
+              _hover_texture(std::move(hover_texture)),
+              _curr_texture(_free_texture)
         {
-        }
-
-        UIButton(SDL_Rect button_geom, SDL_Color button_color,
-                 SDL_Color hover_color, SDL_Color pressed_color)
-            : _geom(button_geom), _button_current_color(button_color),
-              _button_free_color(button_color),
-              _button_pressed_color(pressed_color),
-              _button_hover_color(hover_color)
-        {
-        }
-
-        void set_geom(SDL_Rect geom) { _geom = geom; }
-
-        void set_color(SDL_Color clr) { _button_current_color = clr; }
-
-        void set_colors(SDL_Color clr, SDL_Color hclr, SDL_Color pclr)
-        {
-            _button_current_color = clr;
-            _button_free_color = clr;
-
-            _button_hover_color = hclr;
-            _button_pressed_color = pclr;
+            _free_texture->set_pos(x, y);
+            _pressed_texture->set_pos(x, y);
+            _hover_texture->set_pos(x, y);
+            _curr_texture->set_pos(x, y);
+            _geom = _curr_texture->geom();
         }
 
         void render(const core::SDL_RendererUPtr& ren)
         {
-            SDL_SetRenderDrawColor(ren.get(), _button_current_color.r,
-                                   _button_current_color.g,
-                                   _button_current_color.b,
-                                   _button_current_color.a);
-            SDL_RenderFillRect(ren.get(), &_geom);
+            _curr_texture->render(ren);
         }
 
         bool is_hover() const { return _hovered; }
@@ -56,27 +45,28 @@ class UIButton
         void on_hover()
         {
             _hovered = true;
-            _button_current_color =
-                _pressed ? _button_pressed_color : _button_hover_color;
+            _curr_texture =
+                _pressed ? _pressed_texture : _hover_texture;
         }
 
         void on_loose_focus()
         {
             _hovered = false;
-            _button_current_color = _button_free_color;
+            _curr_texture = _free_texture;
         }
 
         void on_pressed()
         {
             _pressed = true;
-            _button_current_color = _button_pressed_color;
+            _curr_texture = _pressed_texture;
+            core::logging::Logger::get_logger()->info(
+                "{0} button pressed. Do callback", _name);
         }
 
         void on_released()
         {
             _pressed = false;
-            _button_current_color =
-                _hovered ? _button_hover_color : _button_free_color;
+            _curr_texture = _hovered ? _hover_texture : _free_texture;
         }
 
         bool intersect(int x_pos, int y_pos) const
@@ -96,11 +86,14 @@ class UIButton
         bool _hovered = false;
         bool _pressed = false;
 
-        SDL_Rect _geom{0, 0, 0, 0};
-        SDL_Color _button_current_color{0, 0, 0, 0};
-        SDL_Color _button_free_color{0, 0, 0, 0};
-        SDL_Color _button_pressed_color{0, 0, 0, 0};
-        SDL_Color _button_hover_color{0, 0, 0, 0};
+        std::string_view _name;
+
+        SDL_Rect _geom{};
+
+        resource_management::TextureSPtr _free_texture;
+        resource_management::TextureSPtr _pressed_texture;
+        resource_management::TextureSPtr _hover_texture;
+        resource_management::TextureSPtr _curr_texture;
 };
 
 }; // namespace yaschperitsy::ui

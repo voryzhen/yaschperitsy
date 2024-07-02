@@ -34,6 +34,8 @@ set ( SOURCE
   src/ui/screens/GameScreen.cpp
   src/ui/screens/GameEndScreen.cpp
 
+  src/core/resource_management/ResourceManager.cpp
+
 )
 
 project ( yaschperitsy )
@@ -72,6 +74,7 @@ if ( APPLE )
   # set ( CMAKE_BUILD_TYPE "Debug" )
 
   find_package( Boost COMPONENTS system filesystem unit_test_framework REQUIRED )
+  find_package ( spdlog REQUIRED )
 
   add_executable( yaschperitsy_test
 
@@ -83,12 +86,15 @@ if ( APPLE )
     tests/test_entity_creator.cpp
 
     src/core/ecs/EntityCreator.cpp
+    # src/core/Window.cpp
+    # src/core/resource_management/ResourceManager.cpp
 
     tests/events_system/app_events.cpp
     tests/events_system/mouse_events.cpp
     tests/events_system/keyboard_events.cpp
 
     tests/events_system/event_dispatcher.cpp
+    tests/resource_management/test_resource_management.cpp
 
     )
 
@@ -106,6 +112,8 @@ if ( APPLE )
     SDL2::SDL2
     SDL2_image::SDL2_image
     sdl_ttf::sdl_ttf
+
+    spdlog::spdlog
 
   )
 

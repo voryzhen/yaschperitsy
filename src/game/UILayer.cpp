@@ -5,7 +5,10 @@ namespace yaschperitsy::game
 
 void UILayer::on_update(const core::SDL_RendererUPtr& ren)
 {
-    btn.render(ren);
+    for (const auto& _btn : _btns)
+    {
+        _btn->render(ren);
+    }
 }
 
 void UILayer::on_event(const core::events::EventSPtr& event)
@@ -28,9 +31,12 @@ void UILayer::on_event(const core::events::EventSPtr& event)
 bool UILayer::on_mouse_btn_pressed(
     const core::events::MouseButtonPressedEventSPtr& e)
 {
-    if (btn.intersect(e->x_pos(), e->y_pos()))
+    for (const auto& _btn : _btns)
     {
-        btn.on_pressed();
+        if (_btn->intersect(e->x_pos(), e->y_pos()))
+        {
+            _btn->on_pressed();
+        }
     }
 
     return true;
@@ -39,9 +45,12 @@ bool UILayer::on_mouse_btn_pressed(
 bool UILayer::on_mouse_btn_released(
     const core::events::MouseButtonReleasedEventSPtr& e)
 {
-    if (btn.intersect(e->x_pos(), e->y_pos()))
+    for (const auto& _btn : _btns)
     {
-        btn.on_released();
+        if (_btn->intersect(e->x_pos(), e->y_pos()))
+        {
+            _btn->on_released();
+        }
     }
 
     return true;
@@ -50,16 +59,18 @@ bool UILayer::on_mouse_btn_released(
 bool UILayer::on_mouse_btn_moved(
     const core::events::MouseMovedEventSPtr& e)
 {
-    if (btn.intersect(e->x_pos(), e->y_pos()))
+    for (const auto& _btn : _btns)
     {
-        btn.on_hover();
-    }
-    else
-    {
-        btn.on_loose_focus();
+        if (_btn->intersect(e->x_pos(), e->y_pos()))
+        {
+            _btn->on_hover();
+        }
+        else
+        {
+            _btn->on_loose_focus();
+        }
     }
 
     return true;
 }
-
 }; // namespace yaschperitsy::game

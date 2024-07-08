@@ -1,15 +1,14 @@
 #include "boost/test/unit_test.hpp"
 
-#include "core/events/KeyEvent.h"
-#include <string>
+#include <core/events/KeyEvent.hpp>
 
-BOOST_AUTO_TEST_SUITE(events_system_keyboard_events_unit_tests_suite)
+BOOST_AUTO_TEST_SUITE(keyboard_events_unit_tests_suite)
 
 BOOST_AUTO_TEST_CASE(keyboard_pressed_event_test)
 {
     using namespace yaschperitsy::core::events;
 
-    KeyPressedEvent e(50, true);
+    KeyPressedEvent e(50, 51, true);
 
     BOOST_CHECK(e.is_in_category(EventCategory::EventCategoryKeyboard));
     BOOST_CHECK(e.is_in_category(EventCategory::EventCategoryInput));
@@ -25,6 +24,7 @@ BOOST_AUTO_TEST_CASE(keyboard_pressed_event_test)
     BOOST_CHECK(e.static_type() == EventType::KeyPressed);
 
     BOOST_CHECK(e.key_code() == 50);
+    BOOST_CHECK(e.key_sym() == 51);
     BOOST_CHECK(e.repeated() == true);
 }
 
@@ -32,7 +32,7 @@ BOOST_AUTO_TEST_CASE(keyboard_released_event_test)
 {
     using namespace yaschperitsy::core::events;
 
-    KeyReleasedEvent e(50);
+    KeyReleasedEvent e(50, 51);
 
     BOOST_CHECK(e.is_in_category(EventCategory::EventCategoryKeyboard));
     BOOST_CHECK(e.is_in_category(EventCategory::EventCategoryInput));
@@ -48,6 +48,7 @@ BOOST_AUTO_TEST_CASE(keyboard_released_event_test)
     BOOST_CHECK(e.static_type() == EventType::KeyReleased);
 
     BOOST_CHECK(e.key_code() == 50);
+    BOOST_CHECK(e.key_sym() == 51);
 }
 
 BOOST_AUTO_TEST_SUITE_END()

@@ -3,7 +3,7 @@
 #include <memory>
 #include <sstream>
 
-#include <core/events/Event.h>
+#include <core/events/Event.hpp>
 
 namespace yaschperitsy::core::events
 {
@@ -56,7 +56,7 @@ class WindowResizeEvent : public Event
 class WindowCloseEvent : public Event
 {
     public:
-        WindowCloseEvent() {}
+        WindowCloseEvent() = default;
 
         static EventType static_type()
         {
@@ -83,7 +83,7 @@ class WindowCloseEvent : public Event
 class AppTickEvent : public Event
 {
     public:
-        AppTickEvent() {}
+        AppTickEvent() = default;
 
         static EventType static_type() { return EventType::AppTick; }
 
@@ -104,7 +104,7 @@ class AppTickEvent : public Event
 class AppUpdateEvent : public Event
 {
     public:
-        AppUpdateEvent() {}
+        AppUpdateEvent() = default;
 
         static EventType static_type() { return EventType::AppUpdate; }
 
@@ -128,7 +128,7 @@ class AppUpdateEvent : public Event
 class AppRenderEvent : public Event
 {
     public:
-        AppRenderEvent() {}
+        AppRenderEvent() = default;
 
         static EventType static_type() { return EventType::AppRender; }
 

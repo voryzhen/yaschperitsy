@@ -3,6 +3,7 @@
 #include <functional>
 #include <ostream>
 #include <string>
+#include <utility>
 
 namespace yaschperitsy::core::events
 {
@@ -72,7 +73,7 @@ class EventDispatcher
         using EventFunction = std::function<bool(std::shared_ptr<T>)>;
 
     public:
-        EventDispatcher(const EventSPtr& event) : _event(event) {}
+        EventDispatcher(EventSPtr event) : _event(std::move(event)) {}
 
         template <typename T> bool dispatch(EventFunction<T> function)
         {
@@ -86,7 +87,7 @@ class EventDispatcher
         }
 
     private:
-        const EventSPtr& _event;
+        EventSPtr _event;
 };
 
 inline std::ostream& operator<<(std::ostream& os, const Event& event)

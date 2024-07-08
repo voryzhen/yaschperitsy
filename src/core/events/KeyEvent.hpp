@@ -3,7 +3,7 @@
 #include <memory>
 #include <sstream>
 
-#include <core/events/Event.h>
+#include <core/events/Event.hpp>
 
 namespace yaschperitsy::core::events
 {
@@ -21,17 +21,23 @@ class KeyEvent : public Event
 
         inline int key_code() const { return _key_code; }
 
+        inline int key_sym() const { return _key_sym; }
+
     protected:
-        KeyEvent(int key_code) : _key_code(key_code) {}
+        KeyEvent(int key_code, int key_sym)
+            : _key_code(key_code), _key_sym(key_sym)
+        {
+        }
 
         int _key_code = 0;
+        int _key_sym = 0;
 };
 
 class KeyPressedEvent : public KeyEvent
 {
     public:
-        KeyPressedEvent(int key_code, bool repeated)
-            : KeyEvent(key_code), _repeated(repeated)
+        KeyPressedEvent(int key_code, int key_sym, bool repeated)
+            : KeyEvent(key_code, key_sym), _repeated(repeated)
         {
         }
 
@@ -64,7 +70,10 @@ class KeyPressedEvent : public KeyEvent
 class KeyReleasedEvent : public KeyEvent
 {
     public:
-        KeyReleasedEvent(int key_code) : KeyEvent(key_code) {}
+        KeyReleasedEvent(int key_code, int key_sym)
+            : KeyEvent(key_code, key_sym)
+        {
+        }
 
         std::string as_string() const override
         {

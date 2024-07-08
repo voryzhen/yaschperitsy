@@ -1,9 +1,8 @@
 #include "boost/test/unit_test.hpp"
 
-#include "core/events/MouseEvent.h"
-#include <string>
+#include <core/events/MouseEvent.hpp>
 
-BOOST_AUTO_TEST_SUITE(events_system_mouse_events_unit_tests_suite)
+BOOST_AUTO_TEST_SUITE(mouse_events_unit_tests_suite)
 
 BOOST_AUTO_TEST_CASE(mouse_moved_event_test)
 {
@@ -47,7 +46,7 @@ BOOST_AUTO_TEST_CASE(mouse_scrolled_event_test)
     BOOST_CHECK(e.y_offset() == 100);
 }
 
-BOOST_AUTO_TEST_CASE(mouse_pressed_event_test)
+BOOST_AUTO_TEST_CASE(mouse_button_pressed_event_test)
 {
     using namespace yaschperitsy::core::events;
 
@@ -69,7 +68,7 @@ BOOST_AUTO_TEST_CASE(mouse_pressed_event_test)
     BOOST_CHECK(e.y_pos() == 41);
 }
 
-BOOST_AUTO_TEST_CASE(mouse_released_event_test)
+BOOST_AUTO_TEST_CASE(mouse_button_released_event_test)
 {
     using namespace yaschperitsy::core::events;
 

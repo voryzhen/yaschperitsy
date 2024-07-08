@@ -1,10 +1,10 @@
 #pragma once
 
-#include "core/Logger.h"
-#include "core/Window.h"
-#include "core/events/Event.h"
 #include <memory>
 #include <string_view>
+
+#include "core/Window.hpp"
+#include "core/events/Event.hpp"
 
 namespace yaschperitsy::core
 {
@@ -14,15 +14,13 @@ class Layer
     public:
         Layer(const std::string_view& name = "Layer") : _name(name) {}
 
-        virtual ~Layer() {}
+        virtual ~Layer() = default;
 
         virtual void on_attach() {}
 
         virtual void on_detach() {}
 
-        virtual void on_update(const core::SDL_RendererUPtr& renderer)
-        {
-        }
+        virtual void on_update(const core::SDLRendererUPtr& renderer) {}
 
         virtual void on_event(const events::EventSPtr& event) {}
 

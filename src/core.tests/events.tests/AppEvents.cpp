@@ -1,12 +1,13 @@
+#define BOOST_TEST_MODULE header - only multiunit core_events_unit_tests
+
 #include "boost/test/unit_test.hpp"
-#include "core/events/Event.h"
 
-#include "core/events/AppEvent.h"
-#include <string>
+#include <core/events/AppEvent.hpp>
+#include <core/events/Event.hpp>
 
-BOOST_AUTO_TEST_SUITE(events_system_app_events_unit_tests_suite)
+BOOST_AUTO_TEST_SUITE(app_events_unit_tests_suite)
 
-BOOST_AUTO_TEST_CASE(app_window_resize_event_test)
+BOOST_AUTO_TEST_CASE(window_resize_event_test)
 {
     using namespace yaschperitsy::core::events;
 
@@ -25,7 +26,7 @@ BOOST_AUTO_TEST_CASE(app_window_resize_event_test)
     BOOST_CHECK(e.height() == 100);
 }
 
-BOOST_AUTO_TEST_CASE(app_window_close_event_test)
+BOOST_AUTO_TEST_CASE(window_close_event_test)
 {
     using namespace yaschperitsy::core::events;
 
@@ -41,7 +42,7 @@ BOOST_AUTO_TEST_CASE(app_window_close_event_test)
     BOOST_CHECK(e.static_type() == EventType::WindowClose);
 }
 
-BOOST_AUTO_TEST_CASE(app_window_tick_event_test)
+BOOST_AUTO_TEST_CASE(window_tick_event_test)
 {
     using namespace yaschperitsy::core::events;
 
@@ -57,7 +58,7 @@ BOOST_AUTO_TEST_CASE(app_window_tick_event_test)
     BOOST_CHECK(e.static_type() == EventType::AppTick);
 }
 
-BOOST_AUTO_TEST_CASE(app_window_update_event_test)
+BOOST_AUTO_TEST_CASE(window_update_event_test)
 {
     using namespace yaschperitsy::core::events;
 
@@ -73,7 +74,7 @@ BOOST_AUTO_TEST_CASE(app_window_update_event_test)
     BOOST_CHECK(e.static_type() == EventType::AppUpdate);
 }
 
-BOOST_AUTO_TEST_CASE(app_window_render_event_test)
+BOOST_AUTO_TEST_CASE(window_render_event_test)
 {
     using namespace yaschperitsy::core::events;
 

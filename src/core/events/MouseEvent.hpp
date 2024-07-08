@@ -3,7 +3,7 @@
 #include <memory>
 #include <sstream>
 
-#include <core/events/Event.h>
+#include <core/events/Event.hpp>
 
 namespace yaschperitsy::core::events
 {

@@ -1,4 +1,5 @@
-#include "LayerStack.h"
+#include "LayerStack.hpp"
+
 #include <algorithm>
 
 namespace yaschperitsy::core
@@ -6,10 +7,8 @@ namespace yaschperitsy::core
 
 LayerStack::~LayerStack()
 {
-    for (auto& layer : _layers)
-    {
-        layer->on_detach();
-    }
+    std::for_each(_layers.begin(), _layers.end(),
+                  [](auto& layer) { layer->on_detach(); });
 }
 
 void LayerStack::push_layer(const LayerSPtr& layer)

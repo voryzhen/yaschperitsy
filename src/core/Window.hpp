@@ -1,30 +1,29 @@
 #pragma once
 
-#include <functional>
 #include <memory>
 
-#include <core/events/Event.h>
+#include <core/events/Event.hpp>
 
-#include <SDL_events.h>
-#include <SDL_render.h>
+#include "SDL_events.h"
+#include "SDL_render.h"
 
 namespace yaschperitsy::core
 {
+
+using SDLWindowUPtr =
+    std::unique_ptr<SDL_Window, decltype(&SDL_DestroyWindow)>;
+
+using SDLRendererUPtr =
+    std::unique_ptr<SDL_Renderer, decltype(&SDL_DestroyRenderer)>;
+
+using EventCallbackFn = std::function<void(const events::EventSPtr&)>;
 
 struct WindowProps
 {
         unsigned int _height = 0;
         unsigned int _width = 0;
-        std::string_view _title = 0;
+        std::string_view _title;
 };
-
-using SDL_WindowUPtr =
-    std::unique_ptr<SDL_Window, decltype(&SDL_DestroyWindow)>;
-
-using SDL_RendererUPtr =
-    std::unique_ptr<SDL_Renderer, decltype(&SDL_DestroyRenderer)>;
-
-using EventCallbackFn = std::function<void(const events::EventSPtr&)>;
 
 class Window
 {
@@ -32,7 +31,9 @@ class Window
         Window();
         ~Window();
 
-        const SDL_RendererUPtr& renderer() const { return _renderer; }
+        const SDLWindowUPtr& window() const { return _window; };
+
+        const SDLRendererUPtr& renderer() const { return _renderer; };
 
         unsigned int width() const { return _data._width; }
 
@@ -46,7 +47,7 @@ class Window
         void update();
 
     private:
-        bool init_sdl();
+        static bool init_sdl();
         bool create_window(const WindowProps& win_props);
 
         struct WindowData
@@ -57,12 +58,13 @@ class Window
         };
 
         WindowData _data;
+
         SDL_Event e{};
 
-        SDL_WindowUPtr _window{nullptr, SDL_DestroyWindow};
-        SDL_RendererUPtr _renderer{nullptr, SDL_DestroyRenderer};
+        SDLWindowUPtr _window{nullptr, SDL_DestroyWindow};
+        SDLRendererUPtr _renderer{nullptr, SDL_DestroyRenderer};
 };
 
 using WindowUPtr = std::unique_ptr<Window>;
 
-} // namespace yaschperitsy::core
+}; // namespace yaschperitsy::core

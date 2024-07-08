@@ -1,12 +1,9 @@
 #include "boost/test/unit_test.hpp"
-#include "core/events/Event.h"
 
-#include "core/events/AppEvent.h"
-#include <functional>
-#include <memory>
-#include <string>
+#include <core/events/AppEvent.hpp>
+#include <core/events/Event.hpp>
 
-BOOST_AUTO_TEST_SUITE(events_system_event_dispatcher_unit_tests_suite)
+BOOST_AUTO_TEST_SUITE(event_dispatcher_unit_tests_suite)
 
 bool event_function_true(
     yaschperitsy::core::events::AppRenderEventSPtr e)
@@ -17,11 +14,12 @@ bool event_function_true(
 bool event_function_false(
     std::shared_ptr<yaschperitsy::core::events::AppRenderEvent> e)
 {
-    return (e->as_string() != std::string{"AppRender"});
+    return !event_function_true(e);
 };
 
 BOOST_AUTO_TEST_CASE(event_dispatcher_test)
 {
+
     using namespace yaschperitsy::core::events;
 
     EventSPtr e = std::make_shared<AppRenderEvent>();
@@ -29,6 +27,7 @@ BOOST_AUTO_TEST_CASE(event_dispatcher_test)
 
     auto is_dispatched = ed.dispatch(
         std::function<bool(AppRenderEventSPtr)>(event_function_true));
+
     BOOST_CHECK(is_dispatched);
     BOOST_CHECK(e->is_handled());
 

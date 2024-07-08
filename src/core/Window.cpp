@@ -1,13 +1,16 @@
-#include <core/Window.h>
+#include <core/Window.hpp>
 
-#include <core/Logger.h>
+#include <core/Logger.hpp>
 
-#include <core/events/AppEvent.h>
-#include <core/events/KeyEvent.h>
-#include <core/events/MouseEvent.h>
+#include <core/events/AppEvent.hpp>
+#include <core/events/KeyEvent.hpp>
+#include <core/events/MouseEvent.hpp>
 
 #include <SDL_image.h>
 #include <SDL_ttf.h>
+
+namespace yaschperitsy::core
+{
 
 namespace
 {
@@ -19,9 +22,6 @@ constexpr std::string_view _sdl_hint_flags{
 constexpr int _renderer_flags{SDL_RENDERER_ACCELERATED};
 constexpr int _window_flags{SDL_WINDOW_RESIZABLE};
 } // namespace
-
-namespace yaschperitsy::core
-{
 
 Window::Window()
 {
@@ -71,10 +71,12 @@ bool Window::create_window(const WindowProps& win_props)
     _data._height = win_props._height;
     _data._width = win_props._width;
 
+    // NOLINTBEGIN
     _window.reset(SDL_CreateWindow(
         win_props._title.data(), SDL_WINDOWPOS_UNDEFINED,
         SDL_WINDOWPOS_UNDEFINED, _data._width, _data._height,
         _window_flags));
+    // NOLINTEND
 
     if (_window == nullptr)
     {
@@ -126,12 +128,12 @@ void Window::update()
     // Keyboard event
     case SDL_KEYDOWN:
         _data._event_callback(std::make_shared<events::KeyPressedEvent>(
-            e.key.keysym.scancode, e.key.repeat));
+            e.key.keysym.scancode, e.key.keysym.sym, e.key.repeat));
         break;
     case SDL_KEYUP:
         _data._event_callback(
             std::make_shared<events::KeyReleasedEvent>(
-                e.key.keysym.scancode));
+                e.key.keysym.scancode, e.key.keysym.sym));
         break;
     // Mouse event
     case SDL_MOUSEMOTION:

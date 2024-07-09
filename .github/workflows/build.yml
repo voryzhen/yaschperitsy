@@ -34,8 +34,8 @@ jobs:
       - name: Pack
         run: |
           {
-            mv ./build/Release/yaschperitsy .
-            tar -czvf yaschperitsy_macos.tar.gz yaschperitsy assets
+            mv ./build/Release/src/game/game .
+            tar -czvf yaschperitsy_macos.tar.gz game assets
           }
 
       - name: Upload Artifact

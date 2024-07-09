@@ -21,8 +21,6 @@ target_link_libraries(
 
     events.tests
 
-    ${Boost_FILESYSTEM_LIBRARY}
-    ${Boost_SYSTEM_LIBRARY}
-    ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY}
+    ${Boost_LIBRARIES}
 
 )

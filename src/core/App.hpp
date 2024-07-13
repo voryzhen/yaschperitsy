@@ -1,8 +1,9 @@
 #pragma once
 
-#include <core/LayerStack.hpp>
+#include "core/renderer/Renderer.hpp"
 #include <core/Window.hpp>
 #include <core/events/AppEvent.hpp>
+#include <core/scene/LayerStack.hpp>
 
 namespace yaschperitsy::core
 {
@@ -32,6 +33,7 @@ class App
 
         bool _running = true;
         WindowUPtr _window;
+        renderer::RendererUPtr _renderer;
         LayerStack _layer_stack;
 };
 

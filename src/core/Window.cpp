@@ -19,7 +19,6 @@ constexpr int _sdl_flags{SDL_INIT_VIDEO};
 constexpr std::string_view _sdl_hint_flags{
     SDL_HINT_RENDER_SCALE_QUALITY};
 
-constexpr int _renderer_flags{SDL_RENDERER_ACCELERATED};
 constexpr int _window_flags{SDL_WINDOW_RESIZABLE};
 } // namespace
 
@@ -85,18 +84,6 @@ bool Window::create_window(const WindowProps& win_props)
         return false;
     }
 
-    _renderer.reset(
-        SDL_CreateRenderer(_window.get(), -1, _renderer_flags));
-
-    if (_renderer == nullptr)
-    {
-        logging::Logger::get_logger()->error(
-            "Couldn't create renderer. Error: {0}", SDL_GetError());
-        return false;
-    }
-
-    SDL_SetRenderDrawColor(_renderer.get(), 255, 255, 255, 255);
-
     return true;
 }
 
@@ -113,7 +100,7 @@ void Window::update()
         {
             _data._width = e.window.data1;
             _data._height = e.window.data2;
-            SDL_RenderPresent(_renderer.get());
+            // SDL_RenderPresent(_renderer.get());
 
             _data._event_callback(
                 std::make_shared<events::WindowResizeEvent>(
@@ -164,7 +151,7 @@ Window::~Window()
 {
     logging::Logger::get_logger()->info("Cleaning up.");
 
-    _renderer.reset(nullptr);
+    // _renderer.reset(nullptr);
     _window.reset(nullptr);
 
     TTF_Quit();

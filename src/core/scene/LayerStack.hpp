@@ -1,6 +1,6 @@
 #pragma once
 
-#include <core/Layer.hpp>
+#include <core/scene/Layer.hpp>
 
 #include <vector>
 
@@ -21,6 +21,13 @@ class LayerStack
         LayersSVector::iterator begin() { return _layers.begin(); }
 
         LayersSVector::iterator end() { return _layers.end(); }
+
+        LayersSVector::const_iterator cbegin() const
+        {
+            return _layers.cbegin();
+        }
+
+        LayersSVector::const_iterator cend() const { return _layers.cend(); }
 
         std::size_t size() { return _layers.size(); }
 

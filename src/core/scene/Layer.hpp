@@ -3,7 +3,7 @@
 #include <memory>
 #include <string_view>
 
-#include "core/Window.hpp"
+#include "SDL_render.h"
 #include "core/events/Event.hpp"
 
 namespace yaschperitsy::core
@@ -20,7 +20,9 @@ class Layer
 
         virtual void on_detach() {}
 
-        virtual void on_update(const core::SDLRendererUPtr& renderer) {}
+        virtual void on_update() {}
+
+        virtual void render(SDL_Renderer*) {}
 
         virtual void on_event(const events::EventSPtr& event) {}
 

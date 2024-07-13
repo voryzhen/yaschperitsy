@@ -13,9 +13,6 @@ namespace yaschperitsy::core
 using SDLWindowUPtr =
     std::unique_ptr<SDL_Window, decltype(&SDL_DestroyWindow)>;
 
-using SDLRendererUPtr =
-    std::unique_ptr<SDL_Renderer, decltype(&SDL_DestroyRenderer)>;
-
 using EventCallbackFn = std::function<void(const events::EventSPtr&)>;
 
 struct WindowProps
@@ -33,7 +30,8 @@ class Window
 
         const SDLWindowUPtr& window() const { return _window; };
 
-        const SDLRendererUPtr& renderer() const { return _renderer; };
+        // const SDLRendererUPtr& renderer() const { return _renderer;
+        // };
 
         unsigned int width() const { return _data._width; }
 
@@ -62,7 +60,7 @@ class Window
         SDL_Event e{};
 
         SDLWindowUPtr _window{nullptr, SDL_DestroyWindow};
-        SDLRendererUPtr _renderer{nullptr, SDL_DestroyRenderer};
+        // SDLRendererUPtr _renderer{nullptr, SDL_DestroyRenderer};
 };
 
 using WindowUPtr = std::unique_ptr<Window>;

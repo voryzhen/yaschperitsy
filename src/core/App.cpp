@@ -1,3 +1,9 @@
+#include "SDL_rect.h"
+#include "SDL_render.h"
+#include "core/events/Event.hpp"
+#include "core/events/MouseEvent.hpp"
+#include "core/renderer/Renderer.hpp"
+#include "core/scene/Layer.hpp"
 #include <core/App.hpp>
 
 #include <core/Logger.hpp>
@@ -16,9 +22,10 @@ App::App()
 
     if (_window != nullptr)
     {
-        _window->set_event_callback(
-            [this](const events::EventSPtr& event)
-            { on_event(event); });
+        _renderer = std::make_unique<renderer::Renderer>(_window->window());
+
+        _window->set_event_callback([this](const events::EventSPtr& event)
+                                    { on_event(event); });
     }
 }
 
@@ -52,18 +59,49 @@ void App::run_app()
 
     logging::Logger::get_logger()->info("Runned");
 
+    class ExampleLayer : public Layer
+    {
+        public:
+            SDL_Rect rect = {50, 50, 100, 100};
+            SDL_Rect dest = {50, 50, 100, 100};
+            SDL_Color color = {50, 50, 100, 255};
+
+            void render(SDL_Renderer* ren) override
+            {
+                SDL_SetRenderDrawColor(ren, color.r, color.g, color.b, color.a);
+                SDL_RenderFillRect(ren, &rect);
+            }
+
+            void on_event(const events::EventSPtr& event) override
+            {
+                if (event->event_type() == events::EventType::MouseMoved)
+                {
+                    auto e = std::dynamic_pointer_cast<events::MouseMovedEvent>(
+                        event);
+                    color.b = e->x_pos() % 255;
+                    color.r = e->y_pos() % 255;
+                }
+            }
+    };
+
+    auto l = std::make_shared<ExampleLayer>();
+    _layer_stack.push_layer(l);
+
     while (_running)
     {
-        SDL_SetRenderDrawColor(_window->renderer().get(), 0, 0, 0, 255);
-        SDL_RenderClear(_window->renderer().get());
+        _renderer->prepare_scene();
+        _renderer->render_scene(_layer_stack); // TODO: For now
+        _renderer->present_scene();
 
         for (auto& layer : _layer_stack)
         {
-            layer->on_update(_window->renderer());
+            layer->on_update();
+            auto color = std::dynamic_pointer_cast<ExampleLayer>(layer)->color;
+            logging::Logger::get_logger()->info("{0},{1},{2},{3}", color.r,
+                                                color.g, color.b, color.a);
         }
-        _window->update();
 
-        SDL_RenderPresent(_window->renderer().get());
+        _window->update();
     }
 }
 

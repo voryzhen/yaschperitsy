@@ -7,8 +7,10 @@ add_library (
     App.cpp
     Window.cpp
     Logger.cpp
-    Layer.cpp
-    LayerStack.cpp
+    scene/Layer.cpp
+    scene/LayerStack.cpp
+
+    renderer/Renderer.cpp
 
     input/Input.cpp
 

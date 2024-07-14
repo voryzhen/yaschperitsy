@@ -1,9 +1,7 @@
 #pragma once
 
-#include <utility>
-
 #include "core/renderer/Renderer.hpp"
-#include "core/renderer/Scene.hpp"
+#include "core/scene/Scene.hpp"
 #include <core/Window.hpp>
 #include <core/events/AppEvent.hpp>
 #include <core/scene/LayerStack.hpp>
@@ -24,7 +22,10 @@ class App
 
         void pop_layer(const LayerSPtr& layer) { _scene->pop_layer(layer); }
 
-        void set_scene(renderer::SceneSPtr scene) { _scene = std::move(scene); }
+        void set_scene(const renderer::SceneSPtr& scene)
+        {
+            _scene.reset(scene.get());
+        }
 
     private:
         void on_event(const events::EventSPtr& event);
@@ -34,7 +35,6 @@ class App
         WindowUPtr _window;
         renderer::RendererUPtr _renderer;
         renderer::SceneSPtr _scene{nullptr};
-        // LayerStack _layer_stack;
 };
 
 }; // namespace yaschperitsy::core

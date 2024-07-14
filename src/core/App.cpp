@@ -2,7 +2,7 @@
 
 #include "core/events/Event.hpp"
 #include "core/renderer/Renderer.hpp"
-#include "core/renderer/Scene.hpp"
+#include "core/scene/Scene.hpp"
 #include <core/Logger.hpp>
 #include <core/events/AppEvent.hpp>
 #include <core/input/Input.hpp>

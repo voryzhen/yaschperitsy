@@ -4,7 +4,10 @@ set (
 
     SOURCE
 
+    game/main_menu/MainMenu.cpp
+
     game/Game.cpp
+
     main.cpp
 
 )

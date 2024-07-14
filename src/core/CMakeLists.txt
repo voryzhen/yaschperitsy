@@ -9,6 +9,7 @@ add_library (
     Logger.cpp
     scene/Layer.cpp
     scene/LayerStack.cpp
+    scene/Scene.cpp
 
     renderer/Renderer.cpp
 

@@ -1,6 +1,6 @@
 #include "Renderer.hpp"
 #include "SDL_render.h"
-#include "core/renderer/Scene.hpp"
+#include "core/scene/Scene.hpp"
 #include <core/Logger.hpp>
 
 namespace yaschperitsy::core::renderer

@@ -2,6 +2,6 @@
 
 int main()
 {
-    Game game;
+    yaschperitsy::game::Game game;
     game.run_app();
 }

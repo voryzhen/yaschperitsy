@@ -25,11 +25,11 @@ class Scene
 
         void pop_layer(const LayerSPtr& layer) { _layers.pop_layer(layer); }
 
-        void on_update()
+        void update()
         {
             for (auto& l : _layers)
             {
-                l->on_update();
+                l->update();
             }
         }
 

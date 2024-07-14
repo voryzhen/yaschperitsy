@@ -94,7 +94,7 @@ void App::run_app()
         _renderer->render_scene(_scene); // TODO: For now
         _renderer->present_scene();
 
-        _scene->on_update(); // TODO: unify
+        _scene->update(); // TODO: unify
         _window->update();
     }
 }

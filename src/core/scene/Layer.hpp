@@ -20,7 +20,7 @@ class Layer
 
         virtual void on_detach() {}
 
-        virtual void on_update() {}
+        virtual void update() {}
 
         virtual void render(SDL_Renderer*) {}
 

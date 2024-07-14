@@ -1,7 +1,6 @@
 #include "Button.hpp"
 #include "core/events/Event.hpp"
 #include "core/events/MouseEvent.hpp"
-#include "core/renderer/Renderer.hpp"
 
 namespace yaschperitsy::game::ui::button
 {
@@ -12,8 +11,8 @@ void Button::render(SDL_Renderer* ren)
                                     : _btn = _btn_textures[2])
                      : _btn_textures[0];
 
-    SDL_RenderCopyEx(core::renderer::Renderer::renderer().get(), _btn, &rect,
-                     &dest, 0, nullptr, SDL_RendererFlip::SDL_FLIP_NONE);
+    SDL_RenderCopyEx(ren, _btn, &rect, &dest, 0, nullptr,
+                     SDL_RendererFlip::SDL_FLIP_NONE);
 }
 
 void Button::on_event(const yaschperitsy::core::events::EventSPtr& event)
@@ -54,7 +53,7 @@ bool Button::is_intersect(int x, int y) const
     return true;
 }
 
-bool Button::released(const core::events::MouseButtonReleasedEventSPtr& e)
+bool Button::released(const core::events::MouseButtonReleasedEventSPtr& /*e*/)
 {
     _is_pressed = false;
     // _is_hover = true;

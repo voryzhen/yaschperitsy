@@ -3,7 +3,6 @@
 #include "SDL_render.h"
 #include "core/Window.hpp"
 #include "core/renderer/Scene.hpp"
-#include "core/scene/LayerStack.hpp"
 #include <memory>
 
 namespace yaschperitsy::core::renderer

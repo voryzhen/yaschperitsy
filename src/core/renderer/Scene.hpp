@@ -1,10 +1,11 @@
 #pragma once
 
+#include <algorithm>
+#include <memory>
+
 #include "core/events/Event.hpp"
 #include "core/scene/Layer.hpp"
 #include "core/scene/LayerStack.hpp"
-#include <algorithm>
-#include <memory>
 
 namespace yaschperitsy::core::renderer
 {

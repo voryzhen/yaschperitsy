@@ -1,11 +1,12 @@
 #pragma once
 
+#include <utility>
+
 #include "core/renderer/Renderer.hpp"
 #include "core/renderer/Scene.hpp"
 #include <core/Window.hpp>
 #include <core/events/AppEvent.hpp>
 #include <core/scene/LayerStack.hpp>
-#include <utility>
 
 namespace yaschperitsy::core
 {

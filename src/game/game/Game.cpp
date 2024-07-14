@@ -1,6 +1,6 @@
 #include "Game.hpp"
-#include "core/events/MouseEvent.hpp"
 
+#include "core/events/MouseEvent.hpp"
 #include <core/Logger.hpp>
 
 class ExampleLayer : public yaschperitsy::core::Layer

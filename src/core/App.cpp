@@ -1,17 +1,11 @@
-#include "SDL_rect.h"
-#include "SDL_render.h"
-#include "core/events/Event.hpp"
-#include "core/events/MouseEvent.hpp"
-#include "core/renderer/Renderer.hpp"
-#include "core/renderer/Scene.hpp"
-#include "core/scene/Layer.hpp"
-#include "core/scene/LayerStack.hpp"
 #include <core/App.hpp>
 
+#include "core/events/Event.hpp"
+#include "core/renderer/Renderer.hpp"
+#include "core/renderer/Scene.hpp"
 #include <core/Logger.hpp>
 #include <core/events/AppEvent.hpp>
 #include <core/input/Input.hpp>
-#include <memory>
 
 namespace yaschperitsy::core
 {
@@ -64,7 +58,7 @@ void App::run_app()
         _renderer->render_scene(_scene); // TODO: For now
         _renderer->present_scene();
 
-        _scene->update(); // TODO: unify
+        _scene->update();
         _window->update();
     }
 }

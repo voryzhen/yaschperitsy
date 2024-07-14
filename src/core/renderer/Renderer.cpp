@@ -6,6 +6,8 @@
 namespace yaschperitsy::core::renderer
 {
 
+SDLRendererUPtr Renderer::_renderer{nullptr, SDL_DestroyRenderer};
+
 namespace
 {
 constexpr int _renderer_flags{SDL_RENDERER_ACCELERATED};

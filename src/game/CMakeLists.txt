@@ -5,6 +5,7 @@ set (
     SOURCE
 
     game/main_menu/MainMenu.cpp
+    game/button/Button.cpp
 
     game/Game.cpp
 

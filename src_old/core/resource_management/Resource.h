@@ -35,27 +35,20 @@ class Texture : public Resource
     public:
         Texture(SDL_Texture* texture) : _texture(texture)
         {
-            SDL_QueryTexture(_texture, nullptr, nullptr, &_src.w,
-                             &_src.h);
+            SDL_QueryTexture(_texture, nullptr, nullptr, &_src.w, &_src.h);
             _dst.w = _src.w;
             _dst.h = _src.h;
         }
 
         void render(const core::SDL_RendererUPtr& ren)
         {
-            SDL_RenderCopyEx(ren.get(), _texture, &_src, &_dst, 0,
-                             nullptr, SDL_RendererFlip::SDL_FLIP_NONE);
+            SDL_RenderCopyEx(ren.get(), _texture, &_src, &_dst, 0, nullptr,
+                             SDL_RendererFlip::SDL_FLIP_NONE);
         }
 
-        static ResourceType static_type()
-        {
-            return ResourceType::texture;
-        }
+        static ResourceType static_type() { return ResourceType::texture; }
 
-        virtual ResourceType type() const override
-        {
-            return static_type();
-        }
+        virtual ResourceType type() const override { return static_type(); }
 
         SDL_Texture* texture() const { return _texture; }
 
@@ -87,10 +80,7 @@ class Font : public Resource
 
         static ResourceType static_type() { return ResourceType::font; }
 
-        virtual ResourceType type() const override
-        {
-            return static_type();
-        }
+        virtual ResourceType type() const override { return static_type(); }
 
     private:
         TTF_Font* _font = nullptr;

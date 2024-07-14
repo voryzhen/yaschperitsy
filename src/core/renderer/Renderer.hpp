@@ -17,14 +17,17 @@ class Renderer
         Renderer(const SDLWindowUPtr& window);
         ~Renderer();
 
-        const SDLRendererUPtr& sdl_renderer() const { return _renderer; }
+        // const SDLRendererUPtr& sdl_renderer() const { return _renderer; }
+
+        // TODO: Refactor very-very
+        static SDLRendererUPtr& renderer() { return _renderer; }
 
         void prepare_scene();
         void render_scene(const SceneSPtr& scene);
         void present_scene();
 
     private:
-        SDLRendererUPtr _renderer{nullptr, SDL_DestroyRenderer};
+        static SDLRendererUPtr _renderer;
 };
 
 using RendererUPtr = std::unique_ptr<Renderer>;

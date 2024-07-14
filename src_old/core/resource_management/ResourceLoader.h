@@ -42,8 +42,7 @@ class TextTextureLoader
             if (text_surface == nullptr)
             {
                 core::logging::Logger::get_logger()->error(
-                    "Failed to create surface. Error: {0}",
-                    SDL_GetError());
+                    "Failed to create surface. Error: {0}", SDL_GetError());
             }
 
             auto text_texture =
@@ -52,8 +51,7 @@ class TextTextureLoader
             if (text_texture == nullptr)
             {
                 core::logging::Logger::get_logger()->error(
-                    "Failed to render text. Error: {0}",
-                    SDL_GetError());
+                    "Failed to render text. Error: {0}", SDL_GetError());
             }
 
             SDL_FreeSurface(text_surface);
@@ -65,8 +63,7 @@ class TextTextureLoader
 class FontLoader
 {
     public:
-        static FontSPtr load(const std::string_view& filename,
-                             int ptsize)
+        static FontSPtr load(const std::string_view& filename, int ptsize)
         {
             auto font = TTF_OpenFont(filename.data(), ptsize);
 

@@ -1,26 +1,20 @@
 #include "MainMenu.hpp"
 
-#include "core/events/MouseEvent.hpp"
-
 namespace yaschperitsy::game::ui::main_menu
 {
 
 void MainMenuLayer::render(SDL_Renderer* ren)
 {
-    SDL_SetRenderDrawColor(ren, color.r, color.g, color.b, color.a);
-    SDL_RenderFillRect(ren, &rect);
+    new_game_button.render(ren);
+    settings_button.render(ren);
+    exit_button.render(ren);
 }
 
 void MainMenuLayer::on_event(const yaschperitsy::core::events::EventSPtr& event)
 {
-    if (event->event_type() ==
-        yaschperitsy::core::events::EventType::MouseMoved)
-    {
-        auto e = std::dynamic_pointer_cast<
-            yaschperitsy::core::events::MouseMovedEvent>(event);
-        color.b = e->x_pos() % 255;
-        color.r = e->y_pos() % 255;
-    }
+    new_game_button.on_event(event);
+    settings_button.on_event(event);
+    exit_button.on_event(event);
 }
 
 }; // namespace yaschperitsy::game::ui::main_menu

@@ -7,9 +7,12 @@ add_library (
     App.cpp
     Window.cpp
     Logger.cpp
+
     scene/Layer.cpp
     scene/LayerStack.cpp
     scene/Scene.cpp
+
+    resource_manager/ResourceManager.cpp
 
     renderer/Renderer.cpp
 

@@ -1,5 +1,6 @@
 #include "Renderer.hpp"
 #include "SDL_render.h"
+#include "core/renderer/Scene.hpp"
 #include "core/scene/Layer.hpp"
 
 #include <algorithm>
@@ -34,10 +35,9 @@ void Renderer::prepare_scene()
     SDL_RenderClear(_renderer.get());
 }
 
-void Renderer::render_scene(const LayerStack& scene)
+void Renderer::render_scene(const SceneSPtr& scene)
 {
-    std::for_each(scene.cbegin(), scene.cend(),
-                  [this](const LayerSPtr& l) { l->render(_renderer.get()); });
+    scene->render(_renderer.get());
 }
 
 void Renderer::present_scene() { SDL_RenderPresent(_renderer.get()); }

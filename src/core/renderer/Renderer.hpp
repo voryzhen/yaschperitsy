@@ -2,6 +2,7 @@
 
 #include "SDL_render.h"
 #include "core/Window.hpp"
+#include "core/renderer/Scene.hpp"
 #include "core/scene/LayerStack.hpp"
 #include <memory>
 
@@ -20,7 +21,7 @@ class Renderer
         const SDLRendererUPtr& sdl_renderer() const { return _renderer; }
 
         void prepare_scene();
-        void render_scene(const LayerStack& scene);
+        void render_scene(const SceneSPtr& scene);
         void present_scene();
 
     private:

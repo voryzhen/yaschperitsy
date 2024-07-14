@@ -3,7 +3,9 @@
 #include "core/events/Event.hpp"
 #include "core/events/MouseEvent.hpp"
 #include "core/renderer/Renderer.hpp"
+#include "core/renderer/Scene.hpp"
 #include "core/scene/Layer.hpp"
+#include "core/scene/LayerStack.hpp"
 #include <core/App.hpp>
 
 #include <core/Logger.hpp>
@@ -13,6 +15,31 @@
 
 namespace yaschperitsy::core
 {
+
+class ExampleLayer : public Layer
+{
+    public:
+        SDL_Rect rect = {50, 50, 100, 100};
+        SDL_Rect dest = {50, 50, 100, 100};
+        SDL_Color color = {50, 50, 100, 255};
+
+        void render(SDL_Renderer* ren) override
+        {
+            SDL_SetRenderDrawColor(ren, color.r, color.g, color.b, color.a);
+            SDL_RenderFillRect(ren, &rect);
+        }
+
+        void on_event(const events::EventSPtr& event) override
+        {
+            if (event->event_type() == events::EventType::MouseMoved)
+            {
+                auto e =
+                    std::dynamic_pointer_cast<events::MouseMovedEvent>(event);
+                color.b = e->x_pos() % 255;
+                color.r = e->y_pos() % 255;
+            }
+        }
+};
 
 App::App()
 {
@@ -26,6 +53,12 @@ App::App()
 
         _window->set_event_callback([this](const events::EventSPtr& event)
                                     { on_event(event); });
+
+        // Make example layer
+        auto l = std::make_shared<ExampleLayer>();
+        LayerStack layer_stack;
+        layer_stack.push_layer(l);
+        _scene = std::make_unique<renderer::Scene>(layer_stack);
     }
 }
 
@@ -37,13 +70,9 @@ void App::on_event(const events::EventSPtr& event)
         [this](const events::WindowCloseEventSPtr& event)
         { return on_window_close(event); });
 
-    for (auto& it : _layer_stack)
+    if (!event->is_handled())
     {
-        if (event->is_handled())
-        {
-            break;
-        }
-        it->on_event(event);
+        _scene->on_event(event);
     }
 }
 
@@ -59,48 +88,13 @@ void App::run_app()
 
     logging::Logger::get_logger()->info("Runned");
 
-    class ExampleLayer : public Layer
-    {
-        public:
-            SDL_Rect rect = {50, 50, 100, 100};
-            SDL_Rect dest = {50, 50, 100, 100};
-            SDL_Color color = {50, 50, 100, 255};
-
-            void render(SDL_Renderer* ren) override
-            {
-                SDL_SetRenderDrawColor(ren, color.r, color.g, color.b, color.a);
-                SDL_RenderFillRect(ren, &rect);
-            }
-
-            void on_event(const events::EventSPtr& event) override
-            {
-                if (event->event_type() == events::EventType::MouseMoved)
-                {
-                    auto e = std::dynamic_pointer_cast<events::MouseMovedEvent>(
-                        event);
-                    color.b = e->x_pos() % 255;
-                    color.r = e->y_pos() % 255;
-                }
-            }
-    };
-
-    auto l = std::make_shared<ExampleLayer>();
-    _layer_stack.push_layer(l);
-
     while (_running)
     {
         _renderer->prepare_scene();
-        _renderer->render_scene(_layer_stack); // TODO: For now
+        _renderer->render_scene(_scene); // TODO: For now
         _renderer->present_scene();
 
-        for (auto& layer : _layer_stack)
-        {
-            layer->on_update();
-            auto color = std::dynamic_pointer_cast<ExampleLayer>(layer)->color;
-            logging::Logger::get_logger()->info("{0},{1},{2},{3}", color.r,
-                                                color.g, color.b, color.a);
-        }
-
+        _scene->on_update(); // TODO: unify
         _window->update();
     }
 }

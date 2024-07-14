@@ -5,6 +5,7 @@
 #include <core/Window.hpp>
 #include <core/events/AppEvent.hpp>
 #include <core/scene/LayerStack.hpp>
+#include <utility>
 
 namespace yaschperitsy::core
 {
@@ -21,6 +22,8 @@ class App
         void push_layer(const LayerSPtr& layer) { _scene->push_layer(layer); }
 
         void pop_layer(const LayerSPtr& layer) { _scene->pop_layer(layer); }
+
+        void set_scene(renderer::SceneSPtr scene) { _scene = std::move(scene); }
 
     private:
         void on_event(const events::EventSPtr& event);

@@ -17,8 +17,12 @@ class Scene
 
         void render(SDL_Renderer* render)
         {
-            std::for_each(_layers.cbegin(), _layers.cend(),
-                          [render](const LayerSPtr& l) { l->render(render); });
+            if (_layers.size() != 0u)
+            {
+                std::for_each(_layers.cbegin(), _layers.cend(),
+                              [render](const LayerSPtr& l)
+                              { l->render(render); });
+            }
         }
 
         void push_layer(const LayerSPtr& layer) { _layers.push_layer(layer); }

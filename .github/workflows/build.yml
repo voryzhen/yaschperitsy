@@ -73,7 +73,7 @@ jobs:
         run: mkdir yaschperitsy
 
       - name: Compose2
-        run: mv ./build/Release/src/game/game.exe yaschperitsy/
+        run: mv ./build/src/game/Release/game.exe yaschperitsy/
 
       - name: Compose3
         run: mv ./assets yaschperitsy/

@@ -1,8 +1,11 @@
 #include "Game.hpp"
+
 #include "game/game/Assets.hpp"
-#include "game/game/main_menu/EntityLayer.hpp"
-#include "game/game/main_menu/SettingsMenu.hpp"
-#include "main_menu/MainMenu.hpp"
+#include "game/game/layers/EntityLayer.hpp"
+#include "game/game/layers/MainMenuLayer.hpp"
+#include "game/game/layers/PauseMenuLayer.hpp"
+#include "game/game/layers/SettingsMenuLayer.hpp"
+#include "game/game/scenes/GameScene.hpp"
 
 #include <core/Logger.hpp>
 #include <memory>
@@ -25,34 +28,44 @@ Game::Game()
 
 void Game::create_game_scene()
 {
-    auto settings_layer = std::make_shared<ui::main_menu::EntityLayer>();
+    auto settings_layer = std::make_shared<layers::EntityLayer>();
     yaschperitsy::core::LayerStack layer_stack;
     layer_stack.push_layer(settings_layer);
-    _game_scene =
-        std::make_shared<yaschperitsy::core::renderer::Scene>(layer_stack);
+    _game_scene = std::make_shared<scenes::GameScene>("game", layer_stack);
+}
+
+void Game::create_pause_menu_scene()
+{
+    auto pause_layer = std::make_shared<layers::PauseMenuLayer>(
+        [this](const yaschperitsy::core::events::EventSPtr& event)
+        { on_button_event(event); });
+    yaschperitsy::core::LayerStack pause_layer_stack;
+    pause_layer_stack.push_layer(pause_layer);
+    _pause_menu_scene = std::make_shared<yaschperitsy::core::renderer::Scene>(
+        "pause", pause_layer_stack);
 }
 
 void Game::create_settings_scene()
 {
-    auto settings_layer = std::make_shared<ui::main_menu::SettingsMenuLayer>(
+    auto settings_layer = std::make_shared<layers::SettingsMenuLayer>(
         [this](const yaschperitsy::core::events::EventSPtr& event)
         { on_button_event(event); });
     yaschperitsy::core::LayerStack settings_layer_stack;
     settings_layer_stack.push_layer(settings_layer);
     _settings_menu_scene =
         std::make_shared<yaschperitsy::core::renderer::Scene>(
-            settings_layer_stack);
+            "settings", settings_layer_stack);
 }
 
 void Game::create_main_menu_scene()
 {
-    auto main_menu_layer = std::make_shared<ui::main_menu::MainMenuLayer>(
+    auto main_menu_layer = std::make_shared<layers::MainMenuLayer>(
         [this](const yaschperitsy::core::events::EventSPtr& event)
         { on_button_event(event); });
     yaschperitsy::core::LayerStack layer_stack;
     layer_stack.push_layer(main_menu_layer);
-    _main_menu_scene =
-        std::make_shared<yaschperitsy::core::renderer::Scene>(layer_stack);
+    _main_menu_scene = std::make_shared<yaschperitsy::core::renderer::Scene>(
+        "main menu", layer_stack);
 }
 
 Game::~Game()
@@ -92,6 +105,11 @@ bool Game::on_button_click(const events::UIEventSPtr& event)
     case 4:
     {
         set_scene(_main_menu_scene);
+        break;
+    }
+    case 5:
+    {
+        set_scene(_game_scene);
         break;
     }
     }

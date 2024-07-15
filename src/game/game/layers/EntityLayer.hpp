@@ -5,7 +5,7 @@
 #include "core/scene/Layer.hpp"
 #include "game/game/Assets.hpp"
 
-namespace yaschperitsy::game::ui::main_menu // TODO: rename
+namespace yaschperitsy::game::layers
 {
 
 class EntityLayer : public yaschperitsy::core::Layer
@@ -32,4 +32,4 @@ class EntityLayer : public yaschperitsy::core::Layer
         SDL_Rect dest{};
 };
 
-}; // namespace yaschperitsy::game::ui::main_menu
+}; // namespace yaschperitsy::game::layers

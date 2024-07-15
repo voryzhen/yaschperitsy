@@ -1,6 +1,8 @@
 #pragma once
 
 #include <memory>
+#include <string>
+#include <utility>
 
 #include "core/events/Event.hpp"
 #include "core/scene/Layer.hpp"
@@ -13,18 +15,31 @@ class Scene
 {
     public:
         Scene() = default;
+
+        Scene(std::string name) : _name(std::move(name)) {}
+
         Scene(const LayerStack& layers) : _layers(layers) {};
 
-        void render(SDL_Renderer* render);
+        Scene(std::string name, const LayerStack& layers)
+            : _name(std::move(name)), _layers(layers)
+        {
+        }
 
-        void push_layer(const LayerSPtr& layer);
+        virtual ~Scene() = default;
 
-        void pop_layer(const LayerSPtr& layer);
+        virtual void render(SDL_Renderer* render);
 
-        void update();
-        void on_event(const events::EventSPtr& e);
+        virtual void push_layer(const LayerSPtr& layer);
+
+        virtual void pop_layer(const LayerSPtr& layer);
+
+        virtual void update();
+        virtual void on_event(const events::EventSPtr& e);
+
+        virtual inline std::string name() const { return _name; }
 
     private:
+        std::string _name = "Simple Scene";
         LayerStack _layers;
 };
 

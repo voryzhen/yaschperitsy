@@ -4,9 +4,12 @@ set (
 
     SOURCE
 
-    game/main_menu/MainMenu.cpp
-    game/main_menu/SettingsMenu.cpp
-    game/main_menu/EntityLayer.cpp
+    game/layers/EntityLayer.cpp
+    game/layers/MainMenuLayer.cpp
+    game/layers/PauseMenuLayer.cpp
+    game/layers/SettingsMenuLayer.cpp
+
+    game/scenes/GameScene.cpp
 
     game/button/Button.cpp
 

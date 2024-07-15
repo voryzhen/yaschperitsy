@@ -1,7 +1,7 @@
 #include "EntityLayer.hpp"
 #include "game/game/Assets.hpp"
 
-namespace yaschperitsy::game::ui::main_menu
+namespace yaschperitsy::game::layers
 {
 
 void EntityLayer::render(SDL_Renderer* ren)
@@ -14,4 +14,4 @@ void EntityLayer::on_event(const yaschperitsy::core::events::EventSPtr& event)
 {
 }
 
-}; // namespace yaschperitsy::game::ui::main_menu
+}; // namespace yaschperitsy::game::layers

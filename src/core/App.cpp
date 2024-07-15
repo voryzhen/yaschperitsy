@@ -59,6 +59,8 @@ void App::run_app()
 
         _window->update();
         _scene->update();
+
+        update();
     }
 }
 

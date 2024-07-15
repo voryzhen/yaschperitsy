@@ -1,6 +1,8 @@
 #pragma once
 
+#include "SDL_scancode.h"
 #include "core/Logger.hpp"
+#include "core/input/Input.hpp"
 #include "core/scene/Scene.hpp"
 #include "game/game/events/UIEvent.hpp"
 #include <core/App.hpp>
@@ -26,19 +28,33 @@ class Game : public yaschperitsy::core::App
             App::shutdown();
         };
 
+        void update() override
+        {
+            if (core::input::Input::is_key_pressed(SDL_SCANCODE_ESCAPE))
+            {
+                if (scene() == "game")
+                {
+                    set_scene(_pause_menu_scene);
+                }
+            }
+        }
+
     private:
         inline void create_scenes()
         {
             create_game_scene();
             create_settings_scene();
             create_main_menu_scene();
+            create_pause_menu_scene();
         }
 
         void create_game_scene();
         void create_settings_scene();
         void create_main_menu_scene();
+        void create_pause_menu_scene();
 
         yaschperitsy::core::renderer::SceneSPtr _main_menu_scene{nullptr};
+        yaschperitsy::core::renderer::SceneSPtr _pause_menu_scene{nullptr};
         yaschperitsy::core::renderer::SceneSPtr _settings_menu_scene{nullptr};
         yaschperitsy::core::renderer::SceneSPtr _game_scene{nullptr};
 };

@@ -3,13 +3,13 @@
 #include "core/scene/Layer.hpp"
 #include "game/game/button/Button.hpp"
 
-namespace yaschperitsy::game::ui::main_menu
+namespace yaschperitsy::game::layers
 {
 
 class SettingsMenuLayer : public yaschperitsy::core::Layer
 {
     public:
-        SettingsMenuLayer(const EventCallbackFn& callback)
+        SettingsMenuLayer(const ui::EventCallbackFn& callback)
         {
             _back_button.set_event_callback(callback);
         };
@@ -24,7 +24,7 @@ class SettingsMenuLayer : public yaschperitsy::core::Layer
         on_event(const yaschperitsy::core::events::EventSPtr& event) override;
 
     private:
-        Button _back_button{200, 200, 300, 50, "Back", 4};
+        ui::Button _back_button{200, 200, 300, 50, "Back", 4};
 };
 
-}; // namespace yaschperitsy::game::ui::main_menu
+}; // namespace yaschperitsy::game::layers

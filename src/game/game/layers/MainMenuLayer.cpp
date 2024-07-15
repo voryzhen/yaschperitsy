@@ -1,6 +1,6 @@
-#include "MainMenu.hpp"
+#include "MainMenuLayer.hpp"
 
-namespace yaschperitsy::game::ui::main_menu
+namespace yaschperitsy::game::layers
 {
 
 void MainMenuLayer::render(SDL_Renderer* ren)
@@ -17,4 +17,4 @@ void MainMenuLayer::on_event(const yaschperitsy::core::events::EventSPtr& event)
     exit_button.on_event(event);
 }
 
-}; // namespace yaschperitsy::game::ui::main_menu
+}; // namespace yaschperitsy::game::layers

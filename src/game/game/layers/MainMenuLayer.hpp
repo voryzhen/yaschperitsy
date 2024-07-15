@@ -3,13 +3,13 @@
 #include "core/scene/Layer.hpp"
 #include "game/game/button/Button.hpp"
 
-namespace yaschperitsy::game::ui::main_menu
+namespace yaschperitsy::game::layers
 {
 
 class MainMenuLayer : public yaschperitsy::core::Layer
 {
     public:
-        MainMenuLayer(const EventCallbackFn& callback)
+        MainMenuLayer(const ui::EventCallbackFn& callback)
         {
             new_game_button.set_event_callback(callback);
             settings_button.set_event_callback(callback);
@@ -26,9 +26,9 @@ class MainMenuLayer : public yaschperitsy::core::Layer
         on_event(const yaschperitsy::core::events::EventSPtr& event) override;
 
     private:
-        Button new_game_button{200, 200, 300, 50, "New game", 1};
-        Button settings_button{200, 260, 300, 50, "Settings", 2};
-        Button exit_button{200, 320, 300, 50, "Exit", 3};
+        ui::Button new_game_button{200, 200, 300, 50, "New game", 1};
+        ui::Button settings_button{200, 260, 300, 50, "Settings", 2};
+        ui::Button exit_button{200, 320, 300, 50, "Exit", 3};
 };
 
-}; // namespace yaschperitsy::game::ui::main_menu
+}; // namespace yaschperitsy::game::layers

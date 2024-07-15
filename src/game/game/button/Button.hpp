@@ -10,7 +10,7 @@
 #include <array>
 #include <string_view>
 
-namespace yaschperitsy::game::ui::button
+namespace yaschperitsy::game::ui
 {
 
 class Button
@@ -40,8 +40,6 @@ class Button
 
         ~Button()
         {
-            // SDL_DestroyTexture(_btn);
-
             SDL_DestroyTexture(_btn_textures[0]);
             SDL_DestroyTexture(_btn_textures[1]);
             SDL_DestroyTexture(_btn_textures[2]);
@@ -77,4 +75,4 @@ class Button
         bool is_intersect(int x, int y) const;
 };
 
-}; // namespace yaschperitsy::game::ui::button
+}; // namespace yaschperitsy::game::ui

@@ -17,8 +17,6 @@ class Renderer
         Renderer(const SDLWindowUPtr& window);
         ~Renderer();
 
-        // const SDLRendererUPtr& sdl_renderer() const { return _renderer; }
-
         // TODO: Refactor very-very
         static SDLRendererUPtr& renderer() { return _renderer; }
 

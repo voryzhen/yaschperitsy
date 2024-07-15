@@ -14,7 +14,8 @@ class Game : public yaschperitsy::core::App
         ~Game();
 
     private:
-        yaschperitsy::core::renderer::SceneSPtr _scene{nullptr};
+        yaschperitsy::core::renderer::SceneSPtr _main_menu_scene{nullptr};
+        yaschperitsy::core::renderer::SceneSPtr _settings_menu_scene{nullptr};
 };
 
 }; // namespace yaschperitsy::game

@@ -2,7 +2,7 @@
 #include "core/events/Event.hpp"
 #include "core/events/MouseEvent.hpp"
 
-namespace yaschperitsy::game::ui::button
+namespace yaschperitsy::game::ui
 {
 
 void Button::render(SDL_Renderer* ren)
@@ -98,4 +98,4 @@ bool Button::hover(const core::events::MouseMovedEventSPtr& e)
     return true;
 }
 
-}; // namespace yaschperitsy::game::ui::button
+}; // namespace yaschperitsy::game::ui

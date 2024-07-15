@@ -6,10 +6,10 @@
 namespace yaschperitsy::game::ui::main_menu
 {
 
-class MainMenuLayer : public yaschperitsy::core::Layer
+class SettingsMenuLayer : public yaschperitsy::core::Layer
 {
     public:
-        MainMenuLayer() = default;
+        SettingsMenuLayer() = default;
 
         SDL_Rect rect = {50, 50, 300, 100};
         SDL_Rect dest = {50, 50, 300, 100};
@@ -21,9 +21,7 @@ class MainMenuLayer : public yaschperitsy::core::Layer
         on_event(const yaschperitsy::core::events::EventSPtr& event) override;
 
     private:
-        Button new_game_button{200, 200, 300, 50, "New game"};
-        Button settings_button{200, 260, 300, 50, "Settings"};
-        Button exit_button{200, 320, 300, 50, "Exit"};
+        Button _back_button{200, 200, 300, 50, "Back"};
 };
 
 }; // namespace yaschperitsy::game::ui::main_menu

@@ -1,5 +1,6 @@
 #include "ResourceManager.hpp"
 
+#include "SDL_image.h"
 #include "core/Logger.hpp"
 #include "core/renderer/Renderer.hpp"
 
@@ -18,6 +19,21 @@ FontUPtr ResourceManager::load_font(const std::string_view& filename,
             TTF_GetError());
     }
     return {font, font_deleter};
+}
+
+TextureUPtr ResourceManager::load_texture(const std::string_view& filename)
+{
+    auto texture =
+        IMG_LoadTexture(renderer::Renderer::renderer().get(), filename.data());
+
+    if (texture == nullptr)
+    {
+        core::logging::Logger::get_logger()->error(
+            "Failed to load texture from asset : {0}. SDL_Image Error: {1}",
+            filename.data(), SDL_GetError());
+    }
+
+    return {texture, texture_deleter};
 }
 
 TextureUPtr ResourceManager::create_font_texture(const std::string_view& text,

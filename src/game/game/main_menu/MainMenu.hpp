@@ -2,7 +2,6 @@
 
 #include "core/scene/Layer.hpp"
 #include "game/game/button/Button.hpp"
-#include "game/game/events/UIEvent.hpp"
 
 namespace yaschperitsy::game::ui::main_menu
 {

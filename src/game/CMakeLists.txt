@@ -6,6 +6,7 @@ set (
 
     game/main_menu/MainMenu.cpp
     game/main_menu/SettingsMenu.cpp
+    game/main_menu/EntityLayer.cpp
 
     game/button/Button.cpp
 

@@ -20,6 +20,8 @@ class ResourceManager
     public:
         static FontUPtr load_font(const std::string_view& filename, int ptsize);
 
+        static TextureUPtr load_texture(const std::string_view& filename);
+
         static TextureUPtr create_font_texture(const std::string_view& text,
                                                const FontUPtr& font,
                                                SDL_Color color);

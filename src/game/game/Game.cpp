@@ -1,5 +1,6 @@
 #include "Game.hpp"
 #include "game/game/Assets.hpp"
+#include "game/game/main_menu/EntityLayer.hpp"
 #include "game/game/main_menu/SettingsMenu.hpp"
 #include "main_menu/MainMenu.hpp"
 
@@ -22,7 +23,14 @@ Game::Game()
     set_scene(_main_menu_scene);
 }
 
-void Game::create_game_scene() {}
+void Game::create_game_scene()
+{
+    auto settings_layer = std::make_shared<ui::main_menu::EntityLayer>();
+    yaschperitsy::core::LayerStack layer_stack;
+    layer_stack.push_layer(settings_layer);
+    _game_scene =
+        std::make_shared<yaschperitsy::core::renderer::Scene>(layer_stack);
+}
 
 void Game::create_settings_scene()
 {
@@ -50,6 +58,7 @@ void Game::create_main_menu_scene()
 Game::~Game()
 {
     yaschperitsy::core::logging::Logger::get_logger()->info("~Game");
+    assets::Assets::clean();
 }
 
 void Game::on_button_event(const yaschperitsy::core::events::EventSPtr& event)
@@ -66,8 +75,10 @@ bool Game::on_button_click(const events::UIEventSPtr& event)
     switch (event->code())
     {
     case 1:
-        core::logging::Logger::get_logger()->info("btn New game is pressed");
+    {
+        set_scene(_game_scene);
         break;
+    }
     case 2:
     {
         set_scene(_settings_menu_scene);

@@ -5,13 +5,11 @@
 #include <core/events/Event.hpp>
 
 #include "SDL_events.h"
-#include "SDL_render.h"
 
 namespace yaschperitsy::core
 {
 
-using SDLWindowUPtr =
-    std::unique_ptr<SDL_Window, decltype(&SDL_DestroyWindow)>;
+using SDLWindowUPtr = std::unique_ptr<SDL_Window, decltype(&SDL_DestroyWindow)>;
 
 using EventCallbackFn = std::function<void(const events::EventSPtr&)>;
 
@@ -60,7 +58,6 @@ class Window
         SDL_Event e{};
 
         SDLWindowUPtr _window{nullptr, SDL_DestroyWindow};
-        // SDLRendererUPtr _renderer{nullptr, SDL_DestroyRenderer};
 };
 
 using WindowUPtr = std::unique_ptr<Window>;

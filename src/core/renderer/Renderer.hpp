@@ -14,17 +14,17 @@ using SDLRendererUPtr =
 class Renderer
 {
     public:
-        Renderer(const SDLWindowUPtr& window);
-        ~Renderer();
+        static bool init(const SDLWindowUPtr& window);
 
-        // TODO: Refactor very-very
         static SDLRendererUPtr& renderer() { return _renderer; }
 
-        void prepare_scene();
-        void render_scene(const SceneSPtr& scene);
-        void present_scene();
+        static void render(const SceneSPtr& scene);
+
+        static void clear() { _renderer.reset(nullptr); }
 
     private:
+        static void prepare_scene();
+        static void present_scene();
         static SDLRendererUPtr _renderer;
 };
 

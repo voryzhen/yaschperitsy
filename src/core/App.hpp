@@ -14,13 +14,9 @@ class App
     public:
         App();
 
-        virtual ~App() = default;
+        virtual ~App() { renderer::Renderer::clear(); };
 
         void run_app();
-
-        void push_layer(const LayerSPtr& layer) { _scene->push_layer(layer); }
-
-        void pop_layer(const LayerSPtr& layer) { _scene->pop_layer(layer); }
 
         void set_scene(const renderer::SceneSPtr& scene)
         {
@@ -33,7 +29,6 @@ class App
 
         bool _running = true;
         WindowUPtr _window;
-        renderer::RendererUPtr _renderer;
         renderer::SceneSPtr _scene{nullptr};
 };
 

@@ -16,8 +16,7 @@ namespace
 {
 constexpr int _sdl_img_flags{IMG_INIT_PNG | IMG_INIT_JPG};
 constexpr int _sdl_flags{SDL_INIT_VIDEO};
-constexpr std::string_view _sdl_hint_flags{
-    SDL_HINT_RENDER_SCALE_QUALITY};
+constexpr std::string_view _sdl_hint_flags{SDL_HINT_RENDER_SCALE_QUALITY};
 
 constexpr int _window_flags{SDL_WINDOW_RESIZABLE};
 } // namespace
@@ -48,8 +47,7 @@ bool Window::init_sdl()
     if (IMG_Init(_sdl_img_flags) < 0)
     {
         logging::Logger::get_logger()->error(
-            "Couldn't initialize SDL Image. Error: {0}",
-            SDL_GetError());
+            "Couldn't initialize SDL Image. Error: {0}", SDL_GetError());
         return false;
     }
 
@@ -73,14 +71,13 @@ bool Window::create_window(const WindowProps& win_props)
     // NOLINTBEGIN
     _window.reset(SDL_CreateWindow(
         win_props._title.data(), SDL_WINDOWPOS_UNDEFINED,
-        SDL_WINDOWPOS_UNDEFINED, _data._width, _data._height,
-        _window_flags));
+        SDL_WINDOWPOS_UNDEFINED, _data._width, _data._height, _window_flags));
     // NOLINTEND
 
     if (_window == nullptr)
     {
-        logging::Logger::get_logger()->error(
-            "Couldn't open window. Error: {0}", SDL_GetError());
+        logging::Logger::get_logger()->error("Couldn't open window. Error: {0}",
+                                             SDL_GetError());
         return false;
     }
 
@@ -102,14 +99,12 @@ void Window::update()
             _data._height = e.window.data2;
             // SDL_RenderPresent(_renderer.get());
 
-            _data._event_callback(
-                std::make_shared<events::WindowResizeEvent>(
-                    _data._width, _data._height));
+            _data._event_callback(std::make_shared<events::WindowResizeEvent>(
+                _data._width, _data._height));
         }
         else if (e.window.event == SDL_WINDOWEVENT_CLOSE)
         {
-            _data._event_callback(
-                std::make_shared<events::WindowCloseEvent>());
+            _data._event_callback(std::make_shared<events::WindowCloseEvent>());
         }
         break;
     // Keyboard event
@@ -118,19 +113,17 @@ void Window::update()
             e.key.keysym.scancode, e.key.keysym.sym, e.key.repeat));
         break;
     case SDL_KEYUP:
-        _data._event_callback(
-            std::make_shared<events::KeyReleasedEvent>(
-                e.key.keysym.scancode, e.key.keysym.sym));
+        _data._event_callback(std::make_shared<events::KeyReleasedEvent>(
+            e.key.keysym.scancode, e.key.keysym.sym));
         break;
     // Mouse event
     case SDL_MOUSEMOTION:
-        _data._event_callback(std::make_shared<events::MouseMovedEvent>(
-            e.motion.x, e.motion.y));
+        _data._event_callback(
+            std::make_shared<events::MouseMovedEvent>(e.motion.x, e.motion.y));
         break;
     case SDL_MOUSEBUTTONDOWN:
-        _data._event_callback(
-            std::make_shared<events::MouseButtonPressedEvent>(
-                e.button.button, e.button.x, e.button.y));
+        _data._event_callback(std::make_shared<events::MouseButtonPressedEvent>(
+            e.button.button, e.button.x, e.button.y));
         break;
     case SDL_MOUSEBUTTONUP:
         _data._event_callback(
@@ -139,8 +132,7 @@ void Window::update()
         break;
     case SDL_MOUSEWHEEL:
         _data._event_callback(
-            std::make_shared<events::MouseScrolledEvent>(e.wheel.x,
-                                                         e.wheel.y));
+            std::make_shared<events::MouseScrolledEvent>(e.wheel.x, e.wheel.y));
         break;
     default:
         break;
@@ -151,7 +143,6 @@ Window::~Window()
 {
     logging::Logger::get_logger()->info("Cleaning up.");
 
-    // _renderer.reset(nullptr);
     _window.reset(nullptr);
 
     TTF_Quit();

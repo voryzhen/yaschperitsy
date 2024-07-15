@@ -13,7 +13,7 @@ namespace
 constexpr int _renderer_flags{SDL_RENDERER_ACCELERATED};
 };
 
-Renderer::Renderer(const SDLWindowUPtr& window)
+bool Renderer::init(const SDLWindowUPtr& window)
 {
     _renderer.reset(SDL_CreateRenderer(window.get(), -1, _renderer_flags));
 
@@ -21,22 +21,24 @@ Renderer::Renderer(const SDLWindowUPtr& window)
     {
         logging::Logger::get_logger()->error(
             "Couldn't create renderer. Error: {0}", SDL_GetError());
+        return false;
     }
 
     SDL_SetRenderDrawColor(_renderer.get(), 255, 255, 255, 255);
+    return true;
 }
 
-Renderer::~Renderer() { SDL_DestroyRenderer(_renderer.get()); }
+void Renderer::render(const SceneSPtr& scene)
+{
+    prepare_scene();
+    scene->render(_renderer.get());
+    present_scene();
+}
 
 void Renderer::prepare_scene()
 {
     SDL_SetRenderDrawColor(_renderer.get(), 0, 0, 0, 255);
     SDL_RenderClear(_renderer.get());
-}
-
-void Renderer::render_scene(const SceneSPtr& scene)
-{
-    scene->render(_renderer.get());
 }
 
 void Renderer::present_scene() { SDL_RenderPresent(_renderer.get()); }

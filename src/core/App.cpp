@@ -18,10 +18,11 @@ App::App()
 
     if (_window != nullptr)
     {
-        _renderer = std::make_unique<renderer::Renderer>(_window->window());
+        renderer::Renderer::init(_window->window());
 
         _window->set_event_callback([this](const events::EventSPtr& event)
                                     { on_event(event); });
+
         _scene = std::make_unique<renderer::Scene>();
     }
 }
@@ -54,12 +55,10 @@ void App::run_app()
 
     while (_running)
     {
-        _renderer->prepare_scene();
-        _renderer->render_scene(_scene); // TODO: For now
-        _renderer->present_scene();
+        renderer::Renderer::render(_scene);
 
-        _scene->update();
         _window->update();
+        _scene->update();
     }
 }
 

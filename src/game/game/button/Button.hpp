@@ -13,10 +13,14 @@
 namespace yaschperitsy::game::ui
 {
 
+using EventCallbackFn =
+    std::function<void(const yaschperitsy::core::events::EventSPtr&)>;
+
 class Button
 {
     public:
-        Button(int x, int y, int w, int h, std::string_view text)
+        Button(int x, int y, int w, int h, std::string_view text, int code)
+            : _code(code)
         {
             _font = yaschperitsy::core::resources::ResourceManager::load_font(
                 "assets/fonts/alegreya.ttf", 40);
@@ -64,15 +68,23 @@ class Button
 
         void on_event(const yaschperitsy::core::events::EventSPtr& event);
 
+        void set_event_callback(const EventCallbackFn& callback)
+        {
+            _event_callback = callback;
+        };
+
     private:
         bool _is_pressed{false};
         bool _is_hover{false};
+        EventCallbackFn _event_callback;
 
         bool hover(const core::events::MouseMovedEventSPtr& e);
         bool click(const core::events::MouseButtonPressedEventSPtr& e);
         bool released(const core::events::MouseButtonReleasedEventSPtr& e);
 
         bool is_intersect(int x, int y) const;
+
+        int _code{0};
 };
 
 }; // namespace yaschperitsy::game::ui

@@ -1,6 +1,7 @@
 #include "Button.hpp"
 #include "core/events/Event.hpp"
 #include "core/events/MouseEvent.hpp"
+#include "game/game/events/UIEvent.hpp"
 
 namespace yaschperitsy::game::ui
 {
@@ -68,9 +69,8 @@ bool Button::click(const core::events::MouseButtonPressedEventSPtr& e)
 
     if (is_intersect(x, y))
     {
-        // _btn = _btn_textures[1];
         _is_pressed = true;
-        // _is_hover = true;
+        _event_callback(std::make_shared<events::UIEvent>(_code));
     }
 
     return true;

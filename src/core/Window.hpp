@@ -28,9 +28,6 @@ class Window
 
         const SDLWindowUPtr& window() const { return _window; };
 
-        // const SDLRendererUPtr& renderer() const { return _renderer;
-        // };
-
         unsigned int width() const { return _data._width; }
 
         unsigned int height() const { return _data._height; }

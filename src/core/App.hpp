@@ -18,10 +18,9 @@ class App
 
         void run_app();
 
-        void set_scene(const renderer::SceneSPtr& scene)
-        {
-            _scene.reset(scene.get());
-        }
+        void set_scene(const renderer::SceneSPtr& scene) { _scene = scene; }
+
+        virtual void shutdown() { _running = false; }
 
     private:
         void on_event(const events::EventSPtr& event);

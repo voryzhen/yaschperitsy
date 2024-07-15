@@ -9,7 +9,10 @@ namespace yaschperitsy::game::ui::main_menu
 class SettingsMenuLayer : public yaschperitsy::core::Layer
 {
     public:
-        SettingsMenuLayer() = default;
+        SettingsMenuLayer(const EventCallbackFn& callback)
+        {
+            _back_button.set_event_callback(callback);
+        };
 
         SDL_Rect rect = {50, 50, 300, 100};
         SDL_Rect dest = {50, 50, 300, 100};
@@ -21,7 +24,7 @@ class SettingsMenuLayer : public yaschperitsy::core::Layer
         on_event(const yaschperitsy::core::events::EventSPtr& event) override;
 
     private:
-        Button _back_button{200, 200, 300, 50, "Back"};
+        Button _back_button{200, 200, 300, 50, "Back", 4};
 };
 
 }; // namespace yaschperitsy::game::ui::main_menu

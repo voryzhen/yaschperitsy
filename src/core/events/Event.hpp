@@ -24,7 +24,8 @@ enum class EventType
     MouseButtonPressed,
     MouseButtonReleased,
     MouseMoved,
-    MouseScrolled
+    MouseScrolled,
+    External
 };
 
 enum class EventCategory
@@ -35,7 +36,8 @@ enum class EventCategory
     EventCategoryInput       = 1u << 1u,
     EventCategoryKeyboard    = 1u << 2u,
     EventCategoryMouse       = 1u << 3u,
-    EventCategoryMouseButton = 1u << 4u
+    EventCategoryMouseButton = 1u << 4u,
+    EventCategoryExternal    = 1u << 5u
     // clang-format on
 };
 
@@ -79,8 +81,7 @@ class EventDispatcher
         {
             if (_event->event_type() == T::static_type())
             {
-                _event->_handled =
-                    function(static_pointer_cast<T>(_event));
+                _event->_handled = function(static_pointer_cast<T>(_event));
                 return true;
             }
             return false;

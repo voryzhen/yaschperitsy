@@ -28,6 +28,7 @@ class Scene
         LayerStack _layers;
 };
 
-using SceneSPtr = std::unique_ptr<Scene>;
+using SceneSPtr = std::shared_ptr<Scene>;
+using SceneUPtr = std::unique_ptr<Scene>;
 
 }; // namespace yaschperitsy::core::renderer

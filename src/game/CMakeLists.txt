@@ -10,6 +10,7 @@ set (
     game/button/Button.cpp
 
     game/Game.cpp
+    game/Assets.cpp
 
     main.cpp
 

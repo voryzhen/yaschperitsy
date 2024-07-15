@@ -3,12 +3,12 @@
 #include "SDL_pixels.h"
 #include "SDL_rect.h"
 #include "SDL_render.h"
-#include "SDL_ttf.h"
 #include "core/events/Event.hpp"
 #include "core/events/MouseEvent.hpp"
 #include "core/resource_manager/ResourceManager.hpp"
-#include <array>
+#include "game/game/Assets.hpp"
 #include <string_view>
+#include <vector>
 
 namespace yaschperitsy::game::ui
 {
@@ -22,34 +22,30 @@ class Button
         Button(int x, int y, int w, int h, std::string_view text, int code)
             : _code(code)
         {
-            _font = yaschperitsy::core::resources::ResourceManager::load_font(
-                "assets/fonts/alegreya.ttf", 40);
-
-            _btn_textures[0] = yaschperitsy::core::resources::ResourceManager::
-                create_font_texture(text, _font, color_free);
-            _btn_textures[1] = yaschperitsy::core::resources::ResourceManager::
-                create_font_texture(text, _font, color_pressed);
-            _btn_textures[2] = yaschperitsy::core::resources::ResourceManager::
-                create_font_texture(text, _font, color_hover);
-
-            _btn = _btn_textures[0];
+            _btn_textures.reserve(3);
+            _btn_textures.emplace_back(
+                yaschperitsy::core::resources::ResourceManager::
+                    create_font_texture(text, assets::Assets::font(),
+                                        color_free));
+            _btn_textures.emplace_back(
+                yaschperitsy::core::resources::ResourceManager::
+                    create_font_texture(text, assets::Assets::font(),
+                                        color_pressed));
+            _btn_textures.emplace_back(
+                yaschperitsy::core::resources::ResourceManager::
+                    create_font_texture(text, assets::Assets::font(),
+                                        color_hover));
 
             dest = {x, y, w, h};
 
-            SDL_QueryTexture(_btn, nullptr, nullptr, &rect.w, &rect.h);
+            SDL_QueryTexture(_btn_textures[texture_index].get(), nullptr,
+                             nullptr, &rect.w, &rect.h);
 
             dest.w = rect.w;
             dest.h = rect.h;
         }
 
-        ~Button()
-        {
-            SDL_DestroyTexture(_btn_textures[0]);
-            SDL_DestroyTexture(_btn_textures[1]);
-            SDL_DestroyTexture(_btn_textures[2]);
-
-            TTF_CloseFont(_font);
-        }
+        ~Button() = default;
 
         SDL_Rect rect{};
         SDL_Rect dest{};
@@ -58,11 +54,9 @@ class Button
         SDL_Color color_pressed = {0, 150, 100, 255};
         SDL_Color color_hover = {150, 0, 100, 255};
 
-        SDL_Texture* _btn{nullptr};
+        int texture_index = 0;
         // free pressed hover
-        std::array<SDL_Texture*, 3> _btn_textures{nullptr, nullptr, nullptr};
-
-        TTF_Font* _font{nullptr};
+        std::vector<core::resources::TextureUPtr> _btn_textures;
 
         void render(SDL_Renderer* ren);
 

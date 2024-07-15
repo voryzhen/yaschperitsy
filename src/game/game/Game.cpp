@@ -1,4 +1,5 @@
 #include "Game.hpp"
+#include "game/game/Assets.hpp"
 #include "game/game/main_menu/SettingsMenu.hpp"
 #include "main_menu/MainMenu.hpp"
 
@@ -14,6 +15,8 @@ using EventCallbackFn =
 Game::Game()
 {
     yaschperitsy::core::logging::Logger::get_logger()->info("Game");
+
+    assets::Assets::init();
 
     create_scenes();
     set_scene(_main_menu_scene);

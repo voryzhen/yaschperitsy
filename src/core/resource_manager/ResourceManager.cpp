@@ -6,8 +6,8 @@
 namespace yaschperitsy::core::resources
 {
 
-TTF_Font* ResourceManager::load_font(const std::string_view& filename,
-                                     int ptsize)
+FontUPtr ResourceManager::load_font(const std::string_view& filename,
+                                    int ptsize)
 {
     auto font = TTF_OpenFont(filename.data(), ptsize);
 
@@ -17,14 +17,15 @@ TTF_Font* ResourceManager::load_font(const std::string_view& filename,
             "Failed to load font : {0}. SDL_ttf Error: {1}", filename.data(),
             TTF_GetError());
     }
-    return font;
+    return {font, font_deleter};
 }
 
-SDL_Texture* ResourceManager::create_font_texture(const std::string_view& text,
-                                                  TTF_Font* font,
-                                                  SDL_Color color)
+TextureUPtr ResourceManager::create_font_texture(const std::string_view& text,
+                                                 const FontUPtr& font,
+                                                 SDL_Color color)
 {
-    SDL_Surface* text_surface = TTF_RenderText_Solid(font, text.data(), color);
+    SDL_Surface* text_surface =
+        TTF_RenderText_Solid(font.get(), text.data(), color);
 
     if (text_surface == nullptr)
     {
@@ -43,7 +44,7 @@ SDL_Texture* ResourceManager::create_font_texture(const std::string_view& text,
 
     SDL_FreeSurface(text_surface);
 
-    return text_texture;
+    return {text_texture, texture_deleter};
 }
 
 }; // namespace yaschperitsy::core::resources

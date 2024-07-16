@@ -1,7 +1,7 @@
 #pragma once
 
-#include "core/ecs/Entity.h"
-#include <core/ecs/components/Components.h>
+#include "ecs/Entity.hpp"
+#include "ecs/components/Components.hpp"
 
 namespace yaschperitsy::game
 {

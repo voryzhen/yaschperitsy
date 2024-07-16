@@ -1,12 +1,12 @@
 #pragma once
 
-// #include <core/ResourceManager.h>
-#include <core/ecs/Entity.hpp>
-#include <core/ecs/components/IComponent.hpp>
-#include <core/ecs/components/TransformComponent.hpp>
-#include <core/resource_manager/ResourceManager.hpp>
+#include <utility>
 
 #include "SDL_render.h"
+#include "core/resource_manager/ResourceManager.hpp"
+#include "ecs/Entity.hpp"
+#include "ecs/components/IComponent.hpp"
+#include "ecs/components/TransformComponent.hpp"
 
 namespace yaschperitsy::ecs::components
 {
@@ -17,16 +17,23 @@ class SpriteComponent : public IComponent
         SpriteComponent() = default;
 
         SpriteComponent(core::resources::TextureSPtr texture)
-            : _texture(texture)
+            : _texture(std::move(texture))
         {
-            set_rects();
+            int w = 0;
+            int h = 0;
+            SDL_QueryTexture(_texture.get(), nullptr, nullptr, &w, &h);
+            set_rects(h, w);
         }
 
         SpriteComponent(core::resources::TextureSPtr texture, int frames,
                         int speed)
-            : _texture(texture), _animated(true), _frames(frames), _speed(speed)
+            : _texture(std::move(texture)), _animated(true), _frames(frames),
+              _speed(speed)
         {
-            set_rects();
+            int w = 0;
+            int h = 0;
+            SDL_QueryTexture(_texture.get(), nullptr, nullptr, &w, &h);
+            set_rects(h, w);
         }
 
         void set_sprite_settings(int frames, int speed)
@@ -58,7 +65,7 @@ class SpriteComponent : public IComponent
 
         void render(const core::renderer::SDLRendererUPtr& renderer) override
         {
-            SDL_RenderCopyEx(renderer.get(), _texture->_texture, &_src_rect,
+            SDL_RenderCopyEx(renderer.get(), _texture.get(), &_src_rect,
                              &_dest_rect, _position->angle(), nullptr,
                              _flip ? SDL_FLIP_NONE : SDL_FLIP_VERTICAL);
         }
@@ -67,16 +74,16 @@ class SpriteComponent : public IComponent
         {
             auto pos = _position->position();
             return {static_cast<int>(pos.x()), static_cast<int>(pos.y()),
-                    _texture->_w, _texture->_h};
+                    _src_rect.w, _src_rect.h};
         }
 
     private:
-        void set_rects()
+        void set_rects(int h, int w)
         {
-            _src_rect.h = _texture->_h;
-            _src_rect.w = _texture->_w;
-            _dest_rect.h = _texture->_h;
-            _dest_rect.w = _texture->_w;
+            _src_rect.h = h;
+            _src_rect.w = w;
+            _dest_rect.h = h;
+            _dest_rect.w = w;
         }
 
         TransformComponentSPtr _position;

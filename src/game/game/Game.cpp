@@ -28,10 +28,7 @@ Game::Game()
 
 void Game::create_game_scene()
 {
-    auto settings_layer = std::make_shared<layers::EntityLayer>();
-    yaschperitsy::core::LayerStack layer_stack;
-    layer_stack.push_layer(settings_layer);
-    _game_scene = std::make_shared<scenes::GameScene>("game", layer_stack);
+    _game_scene = std::make_shared<scenes::GameScene>("game");
 }
 
 void Game::create_pause_menu_scene()

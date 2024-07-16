@@ -28,13 +28,6 @@ bool Renderer::init(const SDLWindowUPtr& window)
     return true;
 }
 
-void Renderer::render(const SceneSPtr& scene)
-{
-    prepare_scene();
-    scene->render(_renderer.get());
-    present_scene();
-}
-
 void Renderer::prepare_scene()
 {
     SDL_SetRenderDrawColor(_renderer.get(), 0, 0, 0, 255);

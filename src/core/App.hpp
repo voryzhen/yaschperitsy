@@ -20,7 +20,7 @@ class App
 
         void run_app();
 
-        void set_scene(const renderer::SceneSPtr& scene) { _scene = scene; }
+        void set_scene(const scenes::SceneSPtr& scene) { _scene = scene; }
 
         std::string scene() const { return _scene->name(); };
 
@@ -34,7 +34,7 @@ class App
 
         bool _running = true;
         WindowUPtr _window;
-        renderer::SceneSPtr _scene{nullptr};
+        scenes::SceneSPtr _scene{nullptr};
 };
 
 }; // namespace yaschperitsy::core

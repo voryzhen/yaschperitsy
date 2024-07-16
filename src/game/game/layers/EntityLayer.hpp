@@ -46,6 +46,12 @@ class EntityLayer : public yaschperitsy::core::Layer
                                    250, 50);
             _entities.emplace_back(assets::Assets::texture("yaschperitsa_2"),
                                    450, 50);
+
+            _entities.emplace_back(assets::Assets::texture("player_bullet"),
+                                   650, 50);
+
+            _entities.emplace_back(assets::Assets::texture("fireball"), 850,
+                                   50);
         }
 
         void render(SDL_Renderer* ren) override;

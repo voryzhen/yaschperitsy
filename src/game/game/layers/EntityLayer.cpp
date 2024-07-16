@@ -1,5 +1,4 @@
 #include "EntityLayer.hpp"
-#include "game/game/Assets.hpp"
 
 namespace yaschperitsy::game::layers
 {

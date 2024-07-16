@@ -23,7 +23,7 @@ App::App()
         _window->set_event_callback([this](const events::EventSPtr& event)
                                     { on_event(event); });
 
-        _scene = std::make_unique<renderer::Scene>();
+        _scene = std::make_unique<scenes::Scene>();
     }
 }
 
@@ -55,11 +55,13 @@ void App::run_app()
 
     while (_running)
     {
-        renderer::Renderer::render(_scene);
+        // renderer::Renderer::render(_scene);
+        renderer::Renderer::prepare_scene();
+        _scene->render(renderer::Renderer::renderer().get());
+        renderer::Renderer::present_scene();
 
         _window->update();
         _scene->update();
-
         update();
     }
 }

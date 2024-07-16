@@ -1,9 +1,9 @@
 #pragma once
 
-#include "core/ecs/components/SpriteComponent.h"
-#include <core/ecs/Entity.h>
-#include <core/ecs/IComponent.h>
-#include <core/ecs/components/TransformComponent.h>
+#include "ecs/components/SpriteComponent.hpp"
+#include <ecs/Entity.hpp>
+#include <ecs/components/IComponent.hpp>
+#include <ecs/components/TransformComponent.hpp>
 #include <memory>
 
 namespace yaschperitsy::ecs::components
@@ -78,7 +78,8 @@ class KeyboardController : public IComponent
             check_borders();
         }
 
-        void render(const core::SDL_RendererUPtr& renderer) override {};
+        void render(const core::renderer::SDLRendererUPtr& renderer) override {
+        };
 
     private:
         void check_borders()

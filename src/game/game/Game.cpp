@@ -41,7 +41,7 @@ void Game::create_pause_menu_scene()
         { on_button_event(event); });
     yaschperitsy::core::LayerStack pause_layer_stack;
     pause_layer_stack.push_layer(pause_layer);
-    _pause_menu_scene = std::make_shared<yaschperitsy::core::renderer::Scene>(
+    _pause_menu_scene = std::make_shared<yaschperitsy::core::scenes::Scene>(
         "pause", pause_layer_stack);
 }
 
@@ -52,9 +52,8 @@ void Game::create_settings_scene()
         { on_button_event(event); });
     yaschperitsy::core::LayerStack settings_layer_stack;
     settings_layer_stack.push_layer(settings_layer);
-    _settings_menu_scene =
-        std::make_shared<yaschperitsy::core::renderer::Scene>(
-            "settings", settings_layer_stack);
+    _settings_menu_scene = std::make_shared<yaschperitsy::core::scenes::Scene>(
+        "settings", settings_layer_stack);
 }
 
 void Game::create_main_menu_scene()
@@ -64,7 +63,7 @@ void Game::create_main_menu_scene()
         { on_button_event(event); });
     yaschperitsy::core::LayerStack layer_stack;
     layer_stack.push_layer(main_menu_layer);
-    _main_menu_scene = std::make_shared<yaschperitsy::core::renderer::Scene>(
+    _main_menu_scene = std::make_shared<yaschperitsy::core::scenes::Scene>(
         "main menu", layer_stack);
 }
 

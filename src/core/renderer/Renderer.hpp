@@ -2,7 +2,6 @@
 
 #include "SDL_render.h"
 #include "core/Window.hpp"
-#include "core/scene/Scene.hpp"
 #include <memory>
 
 namespace yaschperitsy::core::renderer
@@ -18,13 +17,12 @@ class Renderer
 
         static SDLRendererUPtr& renderer() { return _renderer; }
 
-        static void render(const SceneSPtr& scene);
-
         static void clear() { _renderer.reset(nullptr); }
 
-    private:
         static void prepare_scene();
         static void present_scene();
+
+    private:
         static SDLRendererUPtr _renderer;
 };
 

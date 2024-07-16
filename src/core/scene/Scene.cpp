@@ -2,7 +2,7 @@
 
 #include <algorithm>
 
-namespace yaschperitsy::core::renderer
+namespace yaschperitsy::core::scenes
 {
 
 void Scene::push_layer(const LayerSPtr& layer) { _layers.push_layer(layer); }
@@ -36,4 +36,4 @@ void Scene::on_event(const events::EventSPtr& e)
     }
 }
 
-}; // namespace yaschperitsy::core::renderer
+}; // namespace yaschperitsy::core::scenes

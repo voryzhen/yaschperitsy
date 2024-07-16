@@ -1,9 +1,9 @@
 #pragma once
 
-#include "core/ResourceManager.h"
-#include "old_game/entities/Ammunition.h"
-#include "old_game/entities/Organism.h"
-#include <core/ecs/Entity.h>
+#include "core/resource_manager/ResourceManager.hpp"
+// #include "old_game/entities/Ammunition.h"
+// #include "old_game/entities/Organism.h"
+#include <ecs/Entity.hpp>
 #include <memory>
 #include <utility>
 
@@ -28,9 +28,9 @@ class EntityCreator
         }
 
     private:
-        static void init_components(EntitySPtr entity, float x_pox,
-                                    float y_pox, int speed,
-                                    resource::TextureSPtr texture);
+        static void init_components(EntitySPtr entity, float x_pox, float y_pox,
+                                    int speed,
+                                    core::resources::TextureSPtr texture);
         static void init_yaschperitsa_components(EntitySPtr& entity);
         static void init_player_components(EntitySPtr& entity);
         static void init_ammunition_components(EntitySPtr& entity);

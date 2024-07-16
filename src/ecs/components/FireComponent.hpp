@@ -1,7 +1,7 @@
 #pragma once
 
-#include <core/ecs/IComponent.h>
 #include <core/utility/Vector2D.h>
+#include <ecs/components/IComponent.hpp>
 
 namespace yaschperitsy::ecs::components
 {
@@ -22,7 +22,7 @@ class FireComponent : public IComponent
 
         void init() override {}
 
-        void render(const core::SDL_RendererUPtr& renderer) override {}
+        void render(const core::renderer::SDLRendererUPtr& renderer) override {}
 
         bool reloaded() const { return _reloading == 0; }
 

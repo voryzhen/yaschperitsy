@@ -1,11 +1,11 @@
 #pragma once
 
-#include "old_game/entities/Ammunition.h"
-#include "old_game/entities/Organism.h"
+// #include "old_game/entities/Ammunition.hpp"
+// #include "old_game/entities/Organism.hpp"
 #include <algorithm>
-#include <core/ResourceManager.h>
-#include <core/ecs/Entity.h>
-#include <core/ecs/EntityCreator.h>
+#include <core/resource_manager/ResourceManager.hpp>
+#include <ecs/Entity.hpp>
+#include <ecs/EntityCreator.hpp>
 #include <iterator>
 #include <utility>
 
@@ -21,7 +21,7 @@ class Manager
                           [&](auto& e) { e->update(event); });
         }
 
-        void render(const core::SDL_RendererUPtr& renderer)
+        void render(const core::renderer::SDLRendererUPtr& renderer)
         {
             std::for_each(_entities.begin(), _entities.end(),
                           [&](auto& e) { e->render(renderer); });
@@ -29,21 +29,20 @@ class Manager
 
         void refresh()
         {
-            const auto& remove_it = std::remove_if(
-                _entities.begin(), _entities.end(),
-                [](const auto& e) { return !e->is_active(); });
+            const auto& remove_it =
+                std::remove_if(_entities.begin(), _entities.end(),
+                               [](const auto& e) { return !e->is_active(); });
 
             _entities.erase(remove_it, _entities.end());
         }
 
         template <typename EntityClass, typename EntitySettings>
-        EntitySPtr add_entity(EntitySettings settings, float x_pox,
-                              float y_pox, int speed,
-                              const resource::TextureSPtr& texture)
+        EntitySPtr add_entity(EntitySettings settings, float x_pox, float y_pox,
+                              int speed,
+                              const core::resources::TextureSPtr& texture)
         {
-            _entities.emplace_back(
-                EntityCreator::create_entity<EntityClass>(
-                    settings, x_pox, y_pox, speed, texture));
+            _entities.emplace_back(EntityCreator::create_entity<EntityClass>(
+                settings, x_pox, y_pox, speed, texture));
 
             return _entities.back();
         }
@@ -54,8 +53,7 @@ class Manager
         {
             SEntityVector res;
             std::copy_if(_entities.begin(), _entities.end(),
-                         std::back_inserter(res),
-                         [&](const EntitySPtr& e)
+                         std::back_inserter(res), [&](const EntitySPtr& e)
                          { return e->type() == type; });
             return res;
         }

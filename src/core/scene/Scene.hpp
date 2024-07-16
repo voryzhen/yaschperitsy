@@ -8,7 +8,7 @@
 #include "core/scene/Layer.hpp"
 #include "core/scene/LayerStack.hpp"
 
-namespace yaschperitsy::core::renderer
+namespace yaschperitsy::core::scenes
 {
 
 class Scene
@@ -46,4 +46,4 @@ class Scene
 using SceneSPtr = std::shared_ptr<Scene>;
 using SceneUPtr = std::unique_ptr<Scene>;
 
-}; // namespace yaschperitsy::core::renderer
+}; // namespace yaschperitsy::core::scenes

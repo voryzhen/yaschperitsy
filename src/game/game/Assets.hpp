@@ -18,10 +18,12 @@ class Assets
             _font = core::resources::ResourceManager::load_font(
                 "assets/fonts/alegreya.ttf", 40);
 
+            // Player asset
             _map.insert(
                 {"player", core::resources::ResourceManager::load_texture(
                                "assets/player/player.png")});
 
+            // Enemies asset
             _map.insert({"yaschperitsa_1",
                          core::resources::ResourceManager::load_texture(
                              "assets/yaschperitsy/yaschperitsa_1.png")});
@@ -29,6 +31,15 @@ class Assets
             _map.insert({"yaschperitsa_2",
                          core::resources::ResourceManager::load_texture(
                              "assets/yaschperitsy/yaschperitsa_2.png")});
+
+            // Bullets asset
+            _map.insert({"player_bullet",
+                         core::resources::ResourceManager::load_texture(
+                             "assets/player/player_bullet.png")});
+
+            _map.insert({"fireball",
+                         core::resources::ResourceManager::load_texture(
+                             "assets/yaschperitsy/yaschperitsy_fireball.png")});
         }
 
         static void clean()

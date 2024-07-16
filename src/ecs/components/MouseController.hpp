@@ -3,10 +3,10 @@
 #include <memory>
 #include <numbers>
 
-#include <core/ecs/Entity.h>
-#include <core/ecs/IComponent.h>
-#include <core/ecs/components/TransformComponent.h>
 #include <core/utility/Vector2D.h>
+#include <ecs/Entity.hpp>
+#include <ecs/components/IComponent.hpp>
+#include <ecs/components/TransformComponent.hpp>
 
 namespace yaschperitsy::ecs::components
 {
@@ -35,8 +35,7 @@ class MouseController : public IComponent
 
             _angle = -90.0f + atan2(dy, dx) * (180 / std::numbers::pi);
 
-            _transform_component->set_angle(_angle +
-                                            static_cast<float>(90.0));
+            _transform_component->set_angle(_angle + static_cast<float>(90.0));
 
             auto d2 = dy * dy + dx * dx;
             auto d = sqrt(d2);
@@ -48,7 +47,7 @@ class MouseController : public IComponent
             _transform_component->set_direction(_direction);
         }
 
-        void render(const core::SDL_RendererUPtr& renderer) override {}
+        void render(const core::renderer::SDLRendererUPtr& renderer) override {}
 
     private:
         TransformComponentSPtr _transform_component;

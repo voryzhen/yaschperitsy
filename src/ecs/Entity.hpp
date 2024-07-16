@@ -4,8 +4,8 @@
 #include <memory>
 #include <string_view>
 
-#include "core/ecs/IComponent.h"
-#include <core/Window.h>
+#include "ecs/components/IComponent.hpp"
+// #include <core/Window.h>
 
 #include "SDL_events.h"
 
@@ -30,7 +30,7 @@ class Entity : public std::enable_shared_from_this<Entity>
                           [&](auto& c) { c->update(event); });
         }
 
-        void render(const core::SDL_RendererUPtr& renderer)
+        void render(const core::renderer::SDLRendererUPtr& renderer)
         {
             std::for_each(_components.begin(), _components.end(),
                           [&](auto& c) { c->render(renderer); });
@@ -49,8 +49,7 @@ class Entity : public std::enable_shared_from_this<Entity>
 
         template <typename T> std::shared_ptr<T> get_component() const
         {
-            auto icomponent =
-                _component_array[get_component_type_ID<T>()];
+            auto icomponent = _component_array[get_component_type_ID<T>()];
 
             return std::static_pointer_cast<T>(icomponent);
         }
@@ -58,8 +57,7 @@ class Entity : public std::enable_shared_from_this<Entity>
         template <typename T, typename... TArgs>
         std::shared_ptr<T> add_component(TArgs&&... args)
         {
-            std::shared_ptr<T> component(
-                new T(std::forward<TArgs>(args)...));
+            std::shared_ptr<T> component(new T(std::forward<TArgs>(args)...));
 
             _components.emplace_back(component);
             _component_array[get_component_type_ID<T>()] = component;
@@ -75,10 +73,10 @@ class Entity : public std::enable_shared_from_this<Entity>
         bool _active = true;
         EntityType _entity_type{EntityType::yaschperitsa};
 
-        SComponentVector _components;
+        components::SComponentVector _components;
 
-        SComponentArray _component_array;
-        ComponentBitset _component_bitset;
+        components::SComponentArray _component_array;
+        components::ComponentBitset _component_bitset;
 };
 
 using EntitySPtr = std::shared_ptr<Entity>;

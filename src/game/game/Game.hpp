@@ -53,10 +53,10 @@ class Game : public yaschperitsy::core::App
         void create_main_menu_scene();
         void create_pause_menu_scene();
 
-        yaschperitsy::core::renderer::SceneSPtr _main_menu_scene{nullptr};
-        yaschperitsy::core::renderer::SceneSPtr _pause_menu_scene{nullptr};
-        yaschperitsy::core::renderer::SceneSPtr _settings_menu_scene{nullptr};
-        yaschperitsy::core::renderer::SceneSPtr _game_scene{nullptr};
+        yaschperitsy::core::scenes::SceneSPtr _main_menu_scene{nullptr};
+        yaschperitsy::core::scenes::SceneSPtr _pause_menu_scene{nullptr};
+        yaschperitsy::core::scenes::SceneSPtr _settings_menu_scene{nullptr};
+        yaschperitsy::core::scenes::SceneSPtr _game_scene{nullptr};
 };
 
 }; // namespace yaschperitsy::game

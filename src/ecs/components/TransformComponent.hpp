@@ -1,7 +1,7 @@
 #pragma once
 
-#include <core/ecs/IComponent.h>
 #include <core/utility/Vector2D.h>
+#include <ecs/components/IComponent.hpp>
 
 namespace yaschperitsy::ecs::components
 {
@@ -44,10 +44,7 @@ class TransformComponent : public IComponent
 
         Vector2D<float> velocity() const { return _velocity; }
 
-        void set_velocity(const Vector2D<float>& vel)
-        {
-            _velocity = vel;
-        }
+        void set_velocity(const Vector2D<float>& vel) { _velocity = vel; }
 
         void set_x_velocity(float x_vel) { _velocity.set_x(x_vel); }
 
@@ -58,7 +55,7 @@ class TransformComponent : public IComponent
             _position += (_velocity * _speed);
         }
 
-        void render(const core::SDL_RendererUPtr& renderer) override {}
+        void render(const core::renderer::SDLRendererUPtr& renderer) override {}
 
         void init() override {}
 

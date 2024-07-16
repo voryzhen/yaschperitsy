@@ -5,7 +5,6 @@ namespace yaschperitsy::game::assets
 {
 
 core::resources::FontUPtr Assets::_font{nullptr, core::resources::font_deleter};
-core::resources::TextureUPtr Assets::_player{nullptr,
-                                             core::resources::texture_deleter};
+ResourceMap Assets::_map = {};
 
 }; // namespace yaschperitsy::game::assets

@@ -21,7 +21,7 @@ FontUPtr ResourceManager::load_font(const std::string_view& filename,
     return {font, font_deleter};
 }
 
-TextureUPtr ResourceManager::load_texture(const std::string_view& filename)
+TextureSPtr ResourceManager::load_texture(const std::string_view& filename)
 {
     auto texture =
         IMG_LoadTexture(renderer::Renderer::renderer().get(), filename.data());

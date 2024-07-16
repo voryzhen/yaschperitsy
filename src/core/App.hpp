@@ -32,6 +32,9 @@ class App
         void on_event(const events::EventSPtr& event);
         bool on_window_close(const events::WindowCloseEventSPtr& event);
 
+        void app_update();
+        void app_render();
+
         bool _running = true;
         WindowUPtr _window;
         scenes::SceneSPtr _scene{nullptr};

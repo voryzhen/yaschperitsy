@@ -1,5 +1,6 @@
 #pragma once
 
+#include "core/input/Input.hpp"
 #include <memory>
 #include <numbers>
 
@@ -22,9 +23,7 @@ class MouseController : public IComponent
 
         void update(const SDL_Event& /*e*/) override
         {
-            int x = 0;
-            int y = 0;
-            SDL_GetMouseState(&x, &y);
+            auto [x, y] = core::input::Input::mouse_position();
             _mouse_pos = {static_cast<float>(x), static_cast<float>(y)};
 
             // update angle

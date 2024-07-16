@@ -48,6 +48,7 @@ class GameScene : public core::scenes::Scene
         {
             Scene::update();
             _manager.refresh();
+            _manager.update({});
         }
 
         virtual void

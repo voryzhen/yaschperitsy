@@ -1,5 +1,7 @@
 #include <core/App.hpp>
 
+#include "SDL_stdinc.h"
+#include "SDL_timer.h"
 #include "core/events/Event.hpp"
 #include "core/renderer/Renderer.hpp"
 #include "core/scene/Scene.hpp"
@@ -48,21 +50,41 @@ bool App::on_window_close(const events::WindowCloseEventSPtr&
     return true;
 }
 
+void App::app_update()
+{
+    _window->update();
+    _scene->update();
+    update();
+}
+
+void App::app_render()
+{
+    renderer::Renderer::prepare_scene();
+    _scene->render(renderer::Renderer::renderer());
+    renderer::Renderer::present_scene();
+}
+
 void App::run_app()
 {
-
     logging::Logger::get_logger()->info("Runned");
+
+    Uint32 last_time{0}; // = SDL_GetTicks();
+    Uint32 delta{0};
+    Uint32 tpf = 1000.0 / 60.0;
 
     while (_running)
     {
-        // renderer::Renderer::render(_scene);
-        renderer::Renderer::prepare_scene();
-        _scene->render(renderer::Renderer::renderer());
-        renderer::Renderer::present_scene();
+        last_time = SDL_GetTicks();
 
-        _window->update();
-        _scene->update();
-        update();
+        app_render();
+        app_update();
+
+        delta = SDL_GetTicks() - last_time;
+
+        if (delta < tpf)
+        {
+            SDL_Delay(tpf - delta);
+        }
     }
 }
 

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "SDL_scancode.h"
+#include "core/input/Input.hpp"
 #include "ecs/components/SpriteComponent.hpp"
 #include <ecs/Entity.hpp>
 #include <ecs/components/IComponent.hpp>
@@ -18,62 +20,13 @@ class KeyboardController : public IComponent
                 owner.lock()->get_component<TransformComponent>();
         }
 
-        void update(const SDL_Event& e) override
+        void update(const SDL_Event& /*e*/) override
         {
-            if (e.type == SDL_KEYDOWN)
-            {
-                switch (e.key.keysym.sym)
-                {
-                case SDLK_UP:
-                case SDLK_w:
-                    _transform_component->set_y_velocity(-1.f);
-                    break;
+            float x_vel = is_left() ? -1.f : (is_right() ? 1.f : 0.f);
+            _transform_component->set_x_velocity(x_vel);
 
-                case SDLK_LEFT:
-                case SDLK_a:
-                    _transform_component->set_x_velocity(-1.f);
-                    break;
-
-                case SDLK_DOWN:
-                case SDLK_s:
-                    _transform_component->set_y_velocity(1.f);
-                    break;
-
-                case SDLK_RIGHT:
-                case SDLK_d:
-                    _transform_component->set_x_velocity(1.f);
-                    break;
-                default:
-                    break;
-                }
-            }
-            if (e.type == SDL_KEYUP)
-            {
-                switch (e.key.keysym.sym)
-                {
-                case SDLK_UP:
-                case SDLK_w:
-                    _transform_component->set_y_velocity(.0f);
-                    break;
-
-                case SDLK_LEFT:
-                case SDLK_a:
-                    _transform_component->set_x_velocity(.0f);
-                    break;
-
-                case SDLK_DOWN:
-                case SDLK_s:
-                    _transform_component->set_y_velocity(.0f);
-                    break;
-
-                case SDLK_RIGHT:
-                case SDLK_d:
-                    _transform_component->set_x_velocity(.0f);
-                    break;
-                default:
-                    break;
-                }
-            }
+            float y_vel = is_up() ? -1.f : (is_down() ? 1.f : 0.f);
+            _transform_component->set_y_velocity(y_vel);
 
             check_borders();
         }
@@ -101,6 +54,30 @@ class KeyboardController : public IComponent
             {
                 _transform_component->set_y_velocity(.0f);
             }
+        }
+
+        static bool is_left()
+        {
+            return core::input::Input::is_key_pressed(SDL_SCANCODE_LEFT) ||
+                   core::input::Input::is_key_pressed(SDL_SCANCODE_A);
+        }
+
+        static bool is_right()
+        {
+            return core::input::Input::is_key_pressed(SDL_SCANCODE_RIGHT) ||
+                   core::input::Input::is_key_pressed(SDL_SCANCODE_D);
+        }
+
+        static bool is_down()
+        {
+            return core::input::Input::is_key_pressed(SDL_SCANCODE_DOWN) ||
+                   core::input::Input::is_key_pressed(SDL_SCANCODE_S);
+        }
+
+        static bool is_up()
+        {
+            return core::input::Input::is_key_pressed(SDL_SCANCODE_UP) ||
+                   core::input::Input::is_key_pressed(SDL_SCANCODE_W);
         }
 
         TransformComponentSPtr _transform_component;

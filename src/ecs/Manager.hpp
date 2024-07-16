@@ -1,13 +1,9 @@
 #pragma once
 
-// #include "old_game/entities/Ammunition.hpp"
-// #include "old_game/entities/Organism.hpp"
 #include <algorithm>
-#include <core/resource_manager/ResourceManager.hpp>
 #include <ecs/Entity.hpp>
 #include <ecs/EntityCreator.hpp>
 #include <iterator>
-#include <utility>
 
 namespace yaschperitsy::ecs
 {

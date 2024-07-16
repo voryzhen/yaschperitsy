@@ -76,8 +76,8 @@ void App::run_app()
     {
         last_time = SDL_GetTicks();
 
-        app_render();
         app_update();
+        app_render();
 
         delta = SDL_GetTicks() - last_time;
 

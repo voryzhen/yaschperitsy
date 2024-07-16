@@ -3,7 +3,7 @@
 namespace yaschperitsy::game::layers
 {
 
-void MainMenuLayer::render(SDL_Renderer* ren)
+void MainMenuLayer::render(const core::renderer::SDLRendererUPtr& ren)
 {
     new_game_button.render(ren);
     settings_button.render(ren);

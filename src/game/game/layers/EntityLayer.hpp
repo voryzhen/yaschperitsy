@@ -25,9 +25,9 @@ class Entity
             dest.h = src.h;
         }
 
-        void render(SDL_Renderer* ren)
+        void render(const core::renderer::SDLRendererUPtr& ren)
         {
-            SDL_RenderCopyEx(ren, _texture.get(), &src, &dest, 0, nullptr,
+            SDL_RenderCopyEx(ren.get(), _texture.get(), &src, &dest, 0, nullptr,
                              SDL_RendererFlip::SDL_FLIP_NONE);
         }
 
@@ -54,7 +54,7 @@ class EntityLayer : public yaschperitsy::core::Layer
                                    50);
         }
 
-        void render(SDL_Renderer* ren) override;
+        void render(const core::renderer::SDLRendererUPtr&) override;
 
         void
         on_event(const yaschperitsy::core::events::EventSPtr& event) override;

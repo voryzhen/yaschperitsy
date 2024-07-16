@@ -5,6 +5,7 @@
 
 #include "SDL_render.h"
 #include "core/events/Event.hpp"
+#include "core/renderer/Renderer.hpp"
 
 namespace yaschperitsy::core
 {
@@ -22,7 +23,7 @@ class Layer
 
         virtual void update() {}
 
-        virtual void render(SDL_Renderer*) {}
+        virtual void render(const renderer::SDLRendererUPtr&) {}
 
         virtual void on_event(const events::EventSPtr& event) {}
 

@@ -4,6 +4,8 @@
 #include <string>
 #include <utility>
 
+#include "core/renderer/Renderer.hpp"
+
 #include "core/events/Event.hpp"
 #include "core/scene/Layer.hpp"
 #include "core/scene/LayerStack.hpp"
@@ -27,7 +29,7 @@ class Scene
 
         virtual ~Scene() = default;
 
-        virtual void render(SDL_Renderer* render);
+        virtual void render(const renderer::SDLRendererUPtr& render);
 
         virtual void push_layer(const LayerSPtr& layer);
 

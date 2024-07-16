@@ -5,6 +5,7 @@
 #include "SDL_render.h"
 #include "core/events/Event.hpp"
 #include "core/events/MouseEvent.hpp"
+#include "core/renderer/Renderer.hpp"
 #include "core/resource_manager/ResourceManager.hpp"
 #include "game/game/Assets.hpp"
 #include <string_view>
@@ -58,7 +59,7 @@ class Button
         // free pressed hover
         std::vector<core::resources::TextureUPtr> _btn_textures;
 
-        void render(SDL_Renderer* ren);
+        void render(const core::renderer::SDLRendererUPtr& ren);
 
         void on_event(const yaschperitsy::core::events::EventSPtr& event);
 

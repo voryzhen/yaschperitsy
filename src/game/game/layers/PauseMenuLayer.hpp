@@ -19,7 +19,7 @@ class PauseMenuLayer : public yaschperitsy::core::Layer
         SDL_Rect dest = {50, 50, 300, 100};
         SDL_Color color = {50, 50, 100, 255};
 
-        void render(SDL_Renderer* ren) override;
+        void render(const core::renderer::SDLRendererUPtr&) override;
 
         void
         on_event(const yaschperitsy::core::events::EventSPtr& event) override;

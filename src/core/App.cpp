@@ -57,7 +57,7 @@ void App::run_app()
     {
         // renderer::Renderer::render(_scene);
         renderer::Renderer::prepare_scene();
-        _scene->render(renderer::Renderer::renderer().get());
+        _scene->render(renderer::Renderer::renderer());
         renderer::Renderer::present_scene();
 
         _window->update();

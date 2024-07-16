@@ -6,12 +6,12 @@
 namespace yaschperitsy::game::ui
 {
 
-void Button::render(SDL_Renderer* ren)
+void Button::render(const core::renderer::SDLRendererUPtr& ren)
 {
     texture_index = _is_hover ? (_is_pressed ? 1 : 2) : 0;
 
-    SDL_RenderCopyEx(ren, _btn_textures[texture_index].get(), &rect, &dest, 0,
-                     nullptr, SDL_RendererFlip::SDL_FLIP_NONE);
+    SDL_RenderCopyEx(ren.get(), _btn_textures[texture_index].get(), &rect,
+                     &dest, 0, nullptr, SDL_RendererFlip::SDL_FLIP_NONE);
 }
 
 void Button::on_event(const yaschperitsy::core::events::EventSPtr& event)

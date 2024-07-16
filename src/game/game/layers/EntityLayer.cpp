@@ -3,7 +3,7 @@
 namespace yaschperitsy::game::layers
 {
 
-void EntityLayer::render(SDL_Renderer* ren)
+void EntityLayer::render(const core::renderer::SDLRendererUPtr& ren)
 {
     for (auto& ent : _entities)
     {

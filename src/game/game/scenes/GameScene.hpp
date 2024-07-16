@@ -22,7 +22,8 @@ class GameScene : public core::scenes::Scene
             _manager.refresh();
         }
 
-        virtual void render(SDL_Renderer* renderer) override
+        virtual void
+        render(const core::renderer::SDLRendererUPtr& renderer) override
         {
             Scene::render(renderer);
             // _manager.render(renderer);

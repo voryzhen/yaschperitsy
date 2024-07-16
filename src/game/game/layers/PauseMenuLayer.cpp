@@ -3,7 +3,7 @@
 namespace yaschperitsy::game::layers
 {
 
-void PauseMenuLayer::render(SDL_Renderer* ren)
+void PauseMenuLayer::render(const core::renderer::SDLRendererUPtr& ren)
 {
     resume_button.render(ren);
     exit_button.render(ren);

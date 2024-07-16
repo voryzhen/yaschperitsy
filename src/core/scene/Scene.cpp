@@ -9,12 +9,12 @@ void Scene::push_layer(const LayerSPtr& layer) { _layers.push_layer(layer); }
 
 void Scene::pop_layer(const LayerSPtr& layer) { _layers.pop_layer(layer); }
 
-void Scene::render(SDL_Renderer* render)
+void Scene::render(const renderer::SDLRendererUPtr& render)
 {
     if (_layers.size() != 0u)
     {
         std::for_each(_layers.cbegin(), _layers.cend(),
-                      [render](const LayerSPtr& l) { l->render(render); });
+                      [&render](const LayerSPtr& l) { l->render(render); });
     }
 }
 

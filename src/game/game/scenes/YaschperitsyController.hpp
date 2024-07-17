@@ -16,33 +16,13 @@ class YaschperitsyController
         {
         }
 
-        void spawn_yaschperitsy()
-        {
-            if (--yaschperitsy_spawn_timer < 0)
-            {
-                // Yaschperitsy texture randomizer
-                // 2 different yaschperitsy
-                const auto name = (get_random<int>(2) == 1) ? "yaschperitsa_1"
-                                                            : "yaschperitsa_2";
-
-                auto yaschperitsa = _man.add_entity<Organism>(
-                    ecs::EntityType::yaschperitsa, 740, 200,
-                    _settings._yaschperitsy_speed,
-                    assets::Assets::texture(name));
-
-                auto transform_comp =
-                    yaschperitsa
-                        ->get_component<ecs::components::TransformComponent>();
-
-                transform_comp->set_velocity({-1., 0.});
-
-                yaschperitsy_spawn_timer =
-                    _settings._yaschperitsy_spawn_freq *
-                    static_cast<int>(60 * get_random<double>(2.0));
-            }
-        }
+        void spawn_yaschperitsy();
+        void update();
 
     private:
+        void update_direction();
+        void fire();
+
         ecs::Manager& _man;
         GameSettings& _settings;
 

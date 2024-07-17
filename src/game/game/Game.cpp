@@ -1,7 +1,6 @@
 #include "Game.hpp"
 
 #include "game/game/Assets.hpp"
-#include "game/game/layers/EntityLayer.hpp"
 #include "game/game/layers/MainMenuLayer.hpp"
 #include "game/game/layers/PauseMenuLayer.hpp"
 #include "game/game/layers/SettingsMenuLayer.hpp"

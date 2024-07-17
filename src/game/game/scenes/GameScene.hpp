@@ -17,13 +17,9 @@ class GameScene : public core::scenes::Scene
         GameScene(std::string name) : GameScene(std::move(name), {}) {};
 
         GameScene(const core::LayerStack& layers)
-            : GameScene(std::move("Simple Scene"), layers) {};
+            : GameScene("Simple Scene", layers) {};
 
-        GameScene(std::string name, const core::LayerStack& layers)
-            : Scene(std::move(name), layers)
-        {
-            init_entites();
-        };
+        GameScene(std::string name, const core::LayerStack& layers);
 
         virtual void update() override;
 
@@ -35,9 +31,9 @@ class GameScene : public core::scenes::Scene
         };
 
     private:
-        void init_entites();
-
-        void update_yaschperitsy();
+        void player_update();
+        void player_fire();
+        void bullet_hit();
         void destroy_objects();
 
         GameSettings _game_settings;

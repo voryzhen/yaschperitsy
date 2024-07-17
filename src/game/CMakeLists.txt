@@ -10,6 +10,7 @@ set (
     game/layers/SettingsMenuLayer.cpp
 
     game/scenes/GameScene.cpp
+    game/scenes/YaschperitsyController.cpp
 
     game/button/Button.cpp
 

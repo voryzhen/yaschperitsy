@@ -1,8 +1,10 @@
 #pragma once
 
-#include "core/resource_manager/ResourceManager.hpp"
 #include <string>
 #include <unordered_map>
+
+#include "core/Logger.hpp"
+#include "core/resource_manager/ResourceManager.hpp"
 
 namespace yaschperitsy::game::assets
 {
@@ -58,7 +60,14 @@ class Assets
 
         static core::resources::TextureSPtr texture(const std::string& name)
         {
-            return _map[name];
+            auto texture = _map.find(name);
+            if (texture != _map.end())
+            {
+                return texture->second;
+            }
+            core::logging::Logger::get_logger()->info(
+                "Can't find texture with name {0}", name);
+            return nullptr;
         }
 
     private:

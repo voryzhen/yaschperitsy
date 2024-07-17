@@ -1,15 +1,11 @@
 #include "GameScene.hpp"
+#include "SDL_scancode.h"
+#include "core/input/Input.hpp"
+#include "ecs/components/TransformComponent.hpp"
+#include "game/game/Assets.hpp"
 
 namespace yaschperitsy::game::scenes
 {
-
-void GameScene::update_yaschperitsy()
-{
-    yash_ctrl.spawn_yaschperitsy();
-    // spawn_yaschperitsy(manager);
-    // fire_yaschperitsy();
-    // update_yaschperitsy_direction();
-};
 
 void GameScene::update()
 {
@@ -18,11 +14,14 @@ void GameScene::update()
     _manager.refresh();
     _manager.update({}); // SDL_Event refactor
 
-    update_yaschperitsy();
+    yash_ctrl.update();
+    player_update();
+
     destroy_objects();
 }
 
-void GameScene::init_entites()
+GameScene::GameScene(std::string name, const core::LayerStack& layers)
+    : Scene(std::move(name), layers)
 {
     _manager.add_entity<Organism>(ecs::EntityType::player, 640, 360,
                                   _game_settings._player_speed,
@@ -37,11 +36,12 @@ void GameScene::destroy_objects()
         {
             continue;
         }
-        auto sprite_component =
-            e->get_component<ecs::components::SpriteComponent>();
-        auto pos = sprite_component->texture_rect();
-        auto x = pos.x;
-        auto y = pos.y;
+
+        auto pos =
+            e->get_component<ecs::components::TransformComponent>()->position();
+
+        auto x = pos.x();
+        auto y = pos.y();
 
         // Relating to rad of yaschperitsy generation
         if (x < -1000 || x > 2300 || y < -1000 || y > 1900)
@@ -49,7 +49,134 @@ void GameScene::destroy_objects()
             e->destroy();
         }
     }
-    // bullet_hit();
+    bullet_hit();
+}
+
+void GameScene::player_update() { player_fire(); }
+
+void GameScene::player_fire()
+{
+    auto player = _manager.get_entities(ecs::EntityType::player).front();
+
+    const auto fire_comp =
+        player->get_component<ecs::components::FireComponent>();
+
+    if (fire_comp->reloaded())
+    {
+        bool is_fire = core::input::Input::is_key_pressed(SDL_SCANCODE_F) ||
+                       core::input::Input::is_mouse_button_pressed(
+                           core::input::MOUSE_BUTTON::left);
+
+        if (is_fire)
+        {
+            fire_comp->shot();
+
+            const auto player_transform =
+                player->get_component<ecs::components::TransformComponent>();
+
+            const auto pos = player_transform->position();
+
+            auto bullet = _manager.add_entity<Ammunition>(
+                AmmunitionType::plasma_shot, pos.x(), pos.y(),
+                _game_settings._bullet_speed,
+                assets::Assets::texture("player_bullet"));
+
+            auto bullet_trans_comp =
+                bullet->get_component<ecs::components::TransformComponent>();
+
+            bullet_trans_comp->set_angle(player_transform->angle());
+            bullet_trans_comp->set_velocity(player_transform->direction());
+        }
+    }
+}
+
+namespace
+{
+
+bool intersect(SDL_Rect r1, SDL_Rect r2)
+{
+    if (r1.x > r2.x + r2.w)
+    {
+        return false;
+    }
+    if (r1.x + r1.w < r2.x)
+    {
+        return false;
+    }
+    if (r1.y > r2.y + r2.h)
+    {
+        return false;
+    }
+    if (r1.y + r1.w < r2.y)
+    {
+        return false;
+    }
+
+    return true;
+}
+
+bool intersect(const ecs::EntitySPtr& ent1, const ecs::EntitySPtr& ent2)
+{
+    const auto rect1 =
+        ent1->get_component<ecs::components::SpriteComponent>()->texture_rect();
+    const auto rect2 =
+        ent2->get_component<ecs::components::SpriteComponent>()->texture_rect();
+    return intersect(rect1, rect2);
+}
+
+}; // namespace
+
+void GameScene::bullet_hit()
+{
+    const auto bullets = _manager.get_entities(ecs::EntityType::ammunition);
+    const auto yaschperitsy =
+        _manager.get_entities(ecs::EntityType::yaschperitsa);
+    const auto player = _manager.get_entities(ecs::EntityType::player).front();
+
+    // strike
+    for (const auto& bullet : bullets)
+    {
+        if (intersect(player, bullet))
+        {
+            //         auto damage =
+            //             std::static_pointer_cast<Ammunition>(bullet)->damage();
+
+            //         _player->damage(damage);
+
+            //         if (_player->health() < 1)
+            //         {
+            //             reset_state();
+            //         }
+            //         bullet->destroy();
+        }
+
+        for (const auto& yaschperitsa : yaschperitsy)
+        {
+            if (!intersect(yaschperitsa, bullet))
+            {
+                continue;
+            }
+            auto type =
+                std::static_pointer_cast<Ammunition>(bullet)->ammo_type();
+
+            // Immune to their own fireballs
+            if (type == AmmunitionType::plasma_shot)
+            {
+                yaschperitsa->destroy();
+                bullet->destroy();
+                // _stat->_score++;
+            }
+        }
+    }
+
+    // // yaschperitsy bite
+    // for (const auto& yaschperitsa : yaschperitsy)
+    // {
+    //     if (intersect(_player, yaschperitsa))
+    //     {
+    //         // reset_state();
+    //     }
+    // }
 }
 
 }; // namespace yaschperitsy::game::scenes

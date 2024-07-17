@@ -1,12 +1,13 @@
 #pragma once
 
+#include <string>
 #include <utility>
 
 #include "SDL_render.h"
-#include "core/Logger.hpp"
 #include "core/resource_manager/ResourceManager.hpp"
 #include "core/scene/Layer.hpp"
 #include "game/game/Assets.hpp"
+#include "game/game/scenes/GameSettings.hpp"
 
 namespace yaschperitsy::game::layers
 {
@@ -42,31 +43,7 @@ class TextureDrawableObject
 class Topbar
 {
     public:
-        Topbar()
-        {
-            _total_score = TextureDrawableObject(
-                core::resources::ResourceManager::create_font_texture(
-                    "Total Score: 0", assets::Assets::font(),
-                    {255, 255, 255, 255}),
-                5, 5);
-
-            _max_score = TextureDrawableObject(
-                core::resources::ResourceManager::create_font_texture(
-                    "Max Score: 0", assets::Assets::font(),
-                    {255, 255, 255, 255}),
-                280, 5);
-
-            _hp = TextureDrawableObject(
-                core::resources::ResourceManager::create_font_texture(
-                    "HP: 100", assets::Assets::font(), {255, 255, 255, 255}),
-                560, 5);
-
-            _ry = TextureDrawableObject(
-                core::resources::ResourceManager::create_font_texture(
-                    "Remaining yaschperitsy: 100", assets::Assets::font(),
-                    {255, 255, 255, 255}),
-                800, 5);
-        }
+        Topbar(GameStatistic& stat) : _stat(stat) { update(); }
 
         void render(const core::renderer::SDLRendererUPtr& ren)
         {
@@ -76,16 +53,48 @@ class Topbar
             _ry.render(ren);
         }
 
+        void update()
+        {
+            _total_score = TextureDrawableObject(
+                core::resources::ResourceManager::create_font_texture(
+                    "Total Score: " + std::to_string(_stat._score),
+                    assets::Assets::font(), {255, 255, 255, 255}),
+                5, 5);
+
+            _max_score = TextureDrawableObject(
+                core::resources::ResourceManager::create_font_texture(
+                    "Max Score: " + std::to_string(_stat._max_score),
+                    assets::Assets::font(), {255, 255, 255, 255}),
+                280, 5);
+
+            _hp = TextureDrawableObject(
+                core::resources::ResourceManager::create_font_texture(
+                    "HP: " + std::to_string(_stat._curr_hp),
+                    assets::Assets::font(), {255, 255, 255, 255}),
+                560, 5);
+
+            _ry = TextureDrawableObject(
+                core::resources::ResourceManager::create_font_texture(
+                    "Remaining yaschperitsy: " +
+                        std::to_string(_stat._yaschperitsy_num),
+                    assets::Assets::font(), {255, 255, 255, 255}),
+                800, 5);
+        }
+
     private:
         TextureDrawableObject _total_score;
         TextureDrawableObject _max_score;
         TextureDrawableObject _hp;
         TextureDrawableObject _ry;
+
+        GameStatistic& _stat;
 };
 
 class StateInfoLayer : public yaschperitsy::core::Layer
 {
     public:
+        StateInfoLayer(GameStatistic& stat) : _stat(stat), _topbar(_stat) {}
+
         void render(const core::renderer::SDLRendererUPtr& ren) override
         {
             _topbar.render(ren);
@@ -96,7 +105,10 @@ class StateInfoLayer : public yaschperitsy::core::Layer
         {
         }
 
+        void update() override { _topbar.update(); }
+
     private:
+        GameStatistic& _stat;
         Topbar _topbar;
 };
 

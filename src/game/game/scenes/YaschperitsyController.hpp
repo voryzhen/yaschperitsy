@@ -9,8 +9,8 @@ namespace yaschperitsy::game::YaschperitsyController
 class YaschperitsyController
 {
     public:
-        YaschperitsyController(ecs::Manager& man, GameSettings& settings)
-            : _man(man), _settings(settings)
+        YaschperitsyController(ecs::Manager& man, GameInfo& info)
+            : _man(man), _info(info)
         {
         }
 
@@ -22,7 +22,7 @@ class YaschperitsyController
         void fire();
 
         ecs::Manager& _man;
-        GameSettings& _settings;
+        GameInfo& _info;
 
         int yaschperitsy_spawn_timer{0};
 };

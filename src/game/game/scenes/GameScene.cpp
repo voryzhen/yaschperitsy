@@ -27,10 +27,10 @@ GameScene::GameScene(std::string name, const core::LayerStack& layers)
     : Scene(std::move(name), layers)
 {
     push_layer(std::make_shared<layers::BackgroundLayer>());
-    push_layer(std::make_shared<layers::StateInfoLayer>());
+    push_layer(std::make_shared<layers::StateInfoLayer>(_game_info.statistics));
 
     _manager.add_entity<Organism>(ecs::EntityType::player, 640, 360,
-                                  _game_settings._player_speed,
+                                  _game_info.settings._player_speed,
                                   assets::Assets::player());
 }
 
@@ -84,7 +84,7 @@ void GameScene::player_fire()
 
             auto bullet = _manager.add_entity<Ammunition>(
                 AmmunitionType::plasma_shot, pos.x(), pos.y(),
-                _game_settings._bullet_speed,
+                _game_info.settings._bullet_speed,
                 assets::Assets::texture("player_bullet"));
 
             auto bullet_trans_comp =
@@ -170,7 +170,12 @@ void GameScene::bullet_hit()
             {
                 yaschperitsa->destroy();
                 bullet->destroy();
-                // _stat->_score++;
+                _game_info.statistics._score++;
+                if (_game_info.statistics._score >
+                    _game_info.statistics._max_score)
+                {
+                    _game_info.statistics._max_score++;
+                }
             }
         }
     }

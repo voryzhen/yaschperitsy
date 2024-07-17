@@ -68,7 +68,7 @@ void YaschperitsyController::spawn_yaschperitsy()
 
         auto yaschperitsa = _man.add_entity<Organism>(
             ecs::EntityType::yaschperitsa, pos.x(), pos.y(),
-            _settings._yaschperitsy_speed, assets::Assets::texture(name));
+            _info.settings._yaschperitsy_speed, assets::Assets::texture(name));
 
         auto vel = velocity_direction(pos);
 
@@ -78,7 +78,7 @@ void YaschperitsyController::spawn_yaschperitsy()
         transform_comp->set_velocity(vel);
 
         yaschperitsy_spawn_timer =
-            _settings._yaschperitsy_spawn_freq *
+            _info.settings._yaschperitsy_spawn_freq *
             static_cast<int>(60 * get_random<double>(2.0));
     }
 }
@@ -107,7 +107,7 @@ void YaschperitsyController::fire()
 
             auto bullet = _man.add_entity<Ammunition>(
                 AmmunitionType::yaschperitsy_fireball, yaschperitsa_pos.x(),
-                yaschperitsa_pos.y(), _settings._bullet_speed,
+                yaschperitsa_pos.y(), _info.settings._bullet_speed,
                 assets::Assets::texture("fireball"));
 
             auto bullet_transform =

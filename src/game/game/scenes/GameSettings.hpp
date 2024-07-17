@@ -30,3 +30,9 @@ struct GameSettings
         uint8_t _yaschperitsy_speed{3};
         uint8_t _yaschperitsy_spawn_freq{1};
 };
+
+struct GameInfo
+{
+        GameSettings settings;
+        GameStatistic statistics{};
+};

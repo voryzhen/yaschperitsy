@@ -36,10 +36,11 @@ class GameScene : public core::scenes::Scene
         void bullet_hit();
         void destroy_objects();
 
-        GameSettings _game_settings;
+        GameInfo _game_info{};
+
         ecs::Manager _manager{};
-        YaschperitsyController::YaschperitsyController yash_ctrl{
-            _manager, _game_settings};
+        YaschperitsyController::YaschperitsyController yash_ctrl{_manager,
+                                                                 _game_info};
 
         // virtual ~GameScene() override {};
         // virtual void push_layer(const LayerSPtr& layer);

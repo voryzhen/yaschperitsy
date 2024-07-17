@@ -42,6 +42,11 @@ class Assets
             _map.insert({"fireball",
                          core::resources::ResourceManager::load_texture(
                              "assets/yaschperitsy/yaschperitsy_fireball.png")});
+
+            // Background
+            _map.insert(
+                {"background", core::resources::ResourceManager::load_texture(
+                                   "assets/background.png")});
         }
 
         static void clean()

@@ -1,5 +1,5 @@
 // Refactor as Component ?
-OldGame::OldGame() _background(), _topbar() {}
+OldGame::OldGame() _topbar() {}
 
 int OldGame::update()
 {

@@ -2,6 +2,16 @@
 
 #include <cstdint>
 
+struct GameStatistic
+{
+    public:
+        std::uint8_t _score{0};
+        std::uint8_t _max_score{0};
+        std::uint8_t _yaschperitsy_num{10};
+        std::uint8_t _yaschperitsy_total_num{10};
+        std::uint8_t _curr_hp{0};
+};
+
 struct GameSettings
 {
     public:

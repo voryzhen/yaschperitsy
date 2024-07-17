@@ -8,6 +8,7 @@ set (
     game/layers/MainMenuLayer.cpp
     game/layers/PauseMenuLayer.cpp
     game/layers/SettingsMenuLayer.cpp
+    game/layers/BackgroundLayer.cpp
 
     game/scenes/GameScene.cpp
     game/scenes/YaschperitsyController.cpp

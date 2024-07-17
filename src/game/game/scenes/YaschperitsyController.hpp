@@ -1,9 +1,7 @@
 #pragma once
 
 #include "GameSettings.hpp"
-#include "core/utility/Utility.h"
 #include "ecs/Manager.hpp"
-#include "game/game/Assets.hpp"
 
 namespace yaschperitsy::game::YaschperitsyController
 {

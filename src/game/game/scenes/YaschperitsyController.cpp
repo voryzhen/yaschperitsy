@@ -3,8 +3,11 @@
 #include <cmath>
 #include <numbers>
 
+#include "core/utility/Utility.h"
 #include "core/utility/Vector2D.h"
+
 #include "ecs/Entity.hpp"
+#include "game/game/Assets.hpp"
 
 namespace
 {

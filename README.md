@@ -2,7 +2,7 @@
 
 ## refactor
 
-- game ui
+- Add win / game over screen
 
 ## features
 

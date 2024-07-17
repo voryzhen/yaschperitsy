@@ -8,7 +8,7 @@ DerivePointerAlignment: false
 PointerAlignment: Left
 BreakBeforeBraces: Allman
 AlignAfterOpenBracket: Align
-ColumnLimit: 72
+ColumnLimit: 80
 MaxEmptyLinesToKeep: 1
 SeparateDefinitionBlocks: Always
 EmptyLineBeforeAccessModifier: LogicalBlock

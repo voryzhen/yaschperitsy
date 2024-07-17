@@ -1,8 +1,8 @@
-#include "ecs/Entity.h"
-#include <ecs/EntityCreator.h>
+#include "core/ecs/Entity.h"
+#include <core/ecs/EntityCreator.h>
 
-#include <game/entities/Ammunition.h>
-#include <game/entities/Organism.h>
+#include <old_game/entities/Ammunition.h>
+#include <old_game/entities/Organism.h>
 
 #include <memory>
 #include <utility>
@@ -10,13 +10,11 @@
 namespace yaschperitsy::ecs
 {
 
-void EntityCreator::init_components(EntitySPtr entity, float x_pox,
-                                    float y_pox, int speed,
-                                    resource::TextureSPtr texture)
+void EntityCreator::init_components(EntitySPtr entity, float x_pox, float y_pox,
+                                    int speed, resource::TextureSPtr texture)
 {
 
-    entity->add_component<components::TransformComponent>(x_pox, y_pox,
-                                                          speed);
+    entity->add_component<components::TransformComponent>(x_pox, y_pox, speed);
 
     if (texture != nullptr)
     {
@@ -45,8 +43,8 @@ void EntityCreator::init_components(EntitySPtr entity, float x_pox,
 
 void EntityCreator::init_yaschperitsa_components(EntitySPtr& entity)
 {
-    entity->get_component<components::SpriteComponent>()
-        ->set_sprite_settings(2, 100);
+    entity->get_component<components::SpriteComponent>()->set_sprite_settings(
+        2, 100);
     entity->add_component<ecs::components::FireComponent>(60);
 }
 

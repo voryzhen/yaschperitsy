@@ -16,7 +16,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Prepare
-        run: brew install conan boost
+        run: brew install conan
 
       - name: Run conan
         run: |
@@ -34,8 +34,8 @@ jobs:
       - name: Pack
         run: |
           {
-            mv ./build/Release/yaschperitsy .
-            tar -czvf yaschperitsy_macos.tar.gz yaschperitsy assets
+            mv ./build/Release/src/game/game .
+            tar -czvf yaschperitsy_macos.tar.gz game assets
           }
 
       - name: Upload Artifact
@@ -73,7 +73,7 @@ jobs:
         run: mkdir yaschperitsy
 
       - name: Compose2
-        run: mv ./build/Release/yaschperitsy.exe yaschperitsy/
+        run: mv ./build/src/game/Release/game.exe yaschperitsy/
 
       - name: Compose3
         run: mv ./assets yaschperitsy/

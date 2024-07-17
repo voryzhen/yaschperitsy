@@ -55,9 +55,10 @@ namespace yaschperitsy::game::YaschperitsyController
 
 void YaschperitsyController::spawn_yaschperitsy()
 {
-    if (--yaschperitsy_spawn_timer < 0) //  && _stat->_yaschperitsy_num > 0)
+    if (--yaschperitsy_spawn_timer < 0 &&
+        _info.statistics._yaschperitsy_num > 0)
     {
-        // _stat->_yaschperitsy_num--;
+        _info.statistics._yaschperitsy_num--;
 
         // Yaschperitsy texture randomizer
         // 2 different yaschperitsy

@@ -2,6 +2,8 @@
 #include "SDL_scancode.h"
 #include "core/input/Input.hpp"
 #include "ecs/components/TransformComponent.hpp"
+#include "ecs/entities/Ammunition.hpp"
+#include "ecs/entities/Organism.hpp"
 #include "game/game/Assets.hpp"
 #include "game/game/layers/BackgroundLayer.hpp"
 #include "game/game/layers/StateInfoLayer.hpp"
@@ -58,7 +60,14 @@ void GameScene::destroy_objects()
     bullet_hit();
 }
 
-void GameScene::player_update() { player_fire(); }
+void GameScene::player_update()
+{
+    player_fire();
+
+    auto player = _manager.get_entities(ecs::EntityType::player).front();
+    _game_info.statistics._curr_hp =
+        std::static_pointer_cast<Organism>(player)->health();
+}
 
 void GameScene::player_fire()
 {
@@ -137,23 +146,27 @@ void GameScene::bullet_hit()
     const auto bullets = _manager.get_entities(ecs::EntityType::ammunition);
     const auto yaschperitsy =
         _manager.get_entities(ecs::EntityType::yaschperitsa);
-    const auto player = _manager.get_entities(ecs::EntityType::player).front();
+    const auto player = std::static_pointer_cast<Organism>(
+        _manager.get_entities(ecs::EntityType::player).front());
 
     // strike
     for (const auto& bullet : bullets)
     {
         if (intersect(player, bullet))
         {
-            //         auto damage =
-            //             std::static_pointer_cast<Ammunition>(bullet)->damage();
+            auto ammunition = std::static_pointer_cast<Ammunition>(bullet);
 
-            //         _player->damage(damage);
+            if (ammunition->ammo_type() ==
+                AmmunitionType::yaschperitsy_fireball)
+            {
+                player->damage(ammunition->damage());
 
-            //         if (_player->health() < 1)
-            //         {
-            //             reset_state();
-            //         }
-            //         bullet->destroy();
+                if (player->health() < 1)
+                {
+                    //             reset_state();
+                }
+                ammunition->destroy();
+            }
         }
 
         for (const auto& yaschperitsa : yaschperitsy)

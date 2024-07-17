@@ -1,29 +1,3 @@
-// Refactor as Component ?
-OldGame::OldGame() _topbar() {}
-
-int OldGame::update()
-{
-    update_yaschperitsy();
-    update_player();
-    destroy_objects();
-
-    // kostyl
-    _stat->_curr_hp = _player->health();
-
-    _manager.refresh();
-    _manager.update(_event);
-
-    if (_stat->_curr_hp < 1 || _stat->_score == 10)
-    {
-        _end = true;
-        return -4; // TODO: Magic nums for now
-    }
-    else
-    {
-        return 0;
-    }
-}
-
 void OldGame::reset_state()
 {
     if (_end)

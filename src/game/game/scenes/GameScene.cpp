@@ -4,6 +4,7 @@
 #include "ecs/components/TransformComponent.hpp"
 #include "game/game/Assets.hpp"
 #include "game/game/layers/BackgroundLayer.hpp"
+#include "game/game/layers/StateInfoLayer.hpp"
 #include <memory>
 
 namespace yaschperitsy::game::scenes
@@ -26,6 +27,8 @@ GameScene::GameScene(std::string name, const core::LayerStack& layers)
     : Scene(std::move(name), layers)
 {
     push_layer(std::make_shared<layers::BackgroundLayer>());
+    push_layer(std::make_shared<layers::StateInfoLayer>());
+
     _manager.add_entity<Organism>(ecs::EntityType::player, 640, 360,
                                   _game_settings._player_speed,
                                   assets::Assets::player());

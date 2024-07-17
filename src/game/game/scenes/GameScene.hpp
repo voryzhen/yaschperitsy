@@ -11,10 +11,20 @@
 namespace yaschperitsy::game::scenes
 {
 
+using EventCallbackFn =
+    std::function<void(const yaschperitsy::core::events::EventSPtr&)>;
+
 class GameScene : public core::scenes::Scene
 {
     public:
-        GameScene(std::string name) : GameScene(std::move(name), {}) {};
+        GameScene(std::string name)
+            : GameScene(std::move(name), core::LayerStack{}) {};
+
+        GameScene(std::string name, const EventCallbackFn& callback)
+            : GameScene(std::move(name), core::LayerStack{})
+        {
+            _callback = callback;
+        }
 
         GameScene(const core::LayerStack& layers)
             : GameScene("Simple Scene", layers) {};
@@ -35,8 +45,11 @@ class GameScene : public core::scenes::Scene
         void player_fire();
         void bullet_hit();
         void destroy_objects();
+        void reset_state();
 
         GameInfo _game_info{};
+
+        EventCallbackFn _callback;
 
         ecs::Manager _manager{};
         YaschperitsyController::YaschperitsyController yash_ctrl{_manager,

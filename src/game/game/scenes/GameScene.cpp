@@ -1,10 +1,12 @@
 #include "GameScene.hpp"
 #include "SDL_scancode.h"
 #include "core/input/Input.hpp"
+#include "ecs/Entity.hpp"
 #include "ecs/components/TransformComponent.hpp"
 #include "ecs/entities/Ammunition.hpp"
 #include "ecs/entities/Organism.hpp"
 #include "game/game/Assets.hpp"
+#include "game/game/events/GameWinEvent.hpp"
 #include "game/game/layers/BackgroundLayer.hpp"
 #include "game/game/layers/StateInfoLayer.hpp"
 #include <memory>
@@ -23,6 +25,16 @@ void GameScene::update()
     player_update();
 
     destroy_objects();
+
+    if (_game_info.statistics._yaschperitsy_num < 1)
+    {
+        auto enemies = _manager.get_entities(ecs::EntityType::yaschperitsa);
+        if (enemies.empty())
+        {
+            reset_state();
+            _callback(std::make_shared<events::GameWinEvent>(0));
+        }
+    }
 }
 
 GameScene::GameScene(std::string name, const core::LayerStack& layers)
@@ -201,6 +213,30 @@ void GameScene::bullet_hit()
     //         // reset_state();
     //     }
     // }
+}
+
+void GameScene::reset_state()
+{
+
+    for (auto& e : _manager.get_entities())
+    {
+        if (e->type() == ecs::EntityType::player)
+        {
+            std::static_pointer_cast<Organism>(e)->reset_state();
+        }
+        else
+        {
+            e->destroy();
+        }
+    }
+
+    _game_info.statistics._max_score = std::max(
+        _game_info.statistics._max_score, _game_info.statistics._score);
+
+    _game_info.statistics._score = 0;
+
+    _game_info.statistics._yaschperitsy_num =
+        _game_info.statistics._yaschperitsy_total_num;
 }
 
 }; // namespace yaschperitsy::game::scenes

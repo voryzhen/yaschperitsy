@@ -17,6 +17,8 @@ class Game : public yaschperitsy::core::App
         Game();
         ~Game();
 
+        void on_game_event(const yaschperitsy::core::events::EventSPtr& event);
+
         void
         on_button_event(const yaschperitsy::core::events::EventSPtr& event);
 

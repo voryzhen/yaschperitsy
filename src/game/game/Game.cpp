@@ -1,5 +1,6 @@
 #include "Game.hpp"
 
+#include "core/scene/LayerStack.hpp"
 #include "game/game/Assets.hpp"
 #include "game/game/layers/MainMenuLayer.hpp"
 #include "game/game/layers/PauseMenuLayer.hpp"
@@ -27,7 +28,9 @@ Game::Game()
 
 void Game::create_game_scene()
 {
-    _game_scene = std::make_shared<scenes::GameScene>("game");
+    _game_scene = std::make_shared<scenes::GameScene>(
+        "game", [this](const yaschperitsy::core::events::EventSPtr& event)
+        { on_game_event(event); });
 }
 
 void Game::create_pause_menu_scene()
@@ -67,6 +70,12 @@ Game::~Game()
 {
     yaschperitsy::core::logging::Logger::get_logger()->info("~Game");
     assets::Assets::clean();
+}
+
+void Game::on_game_event(const yaschperitsy::core::events::EventSPtr& /*event*/)
+{
+    // core::logging::Logger::get_logger()->info("win");
+    set_scene(_main_menu_scene);
 }
 
 void Game::on_button_event(const yaschperitsy::core::events::EventSPtr& event)

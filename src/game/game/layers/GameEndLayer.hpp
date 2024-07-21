@@ -13,7 +13,6 @@ class GameEndLayer : public yaschperitsy::core::Layer
         GameEndLayer(const ui::EventCallbackFn& callback)
         {
             new_game_button.set_event_callback(callback);
-            // settings_button.set_event_callback(callback);
             exit_button.set_event_callback(callback);
         }
 

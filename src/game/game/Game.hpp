@@ -38,10 +38,6 @@ class Game : public yaschperitsy::core::App
                 {
                     set_scene(_pause_menu_scene);
                 }
-                // else if (scene() == "pause")
-                // {
-                // set_scene(_game_scene);
-                // }
             }
         }
 

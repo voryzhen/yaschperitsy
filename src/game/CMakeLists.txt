@@ -9,11 +9,13 @@ set (
     game/layers/PauseMenuLayer.cpp
     game/layers/SettingsMenuLayer.cpp
     game/layers/BackgroundLayer.cpp
+    game/layers/GameEndLayer.cpp
 
     game/scenes/GameScene.cpp
     game/scenes/YaschperitsyController.cpp
 
     game/button/Button.cpp
+    game/label/Label.cpp
 
     game/Game.cpp
     game/Assets.cpp

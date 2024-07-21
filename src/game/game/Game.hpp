@@ -51,6 +51,7 @@ class Game : public yaschperitsy::core::App
             create_game_scene();
             create_settings_scene();
             create_main_menu_scene();
+            create_game_end_scene();
             create_pause_menu_scene();
         }
 
@@ -58,11 +59,13 @@ class Game : public yaschperitsy::core::App
         void create_settings_scene();
         void create_main_menu_scene();
         void create_pause_menu_scene();
+        void create_game_end_scene();
 
         yaschperitsy::core::scenes::SceneSPtr _main_menu_scene{nullptr};
         yaschperitsy::core::scenes::SceneSPtr _pause_menu_scene{nullptr};
         yaschperitsy::core::scenes::SceneSPtr _settings_menu_scene{nullptr};
         yaschperitsy::core::scenes::SceneSPtr _game_scene{nullptr};
+        yaschperitsy::core::scenes::SceneSPtr _game_end_scene{nullptr};
 };
 
 }; // namespace yaschperitsy::game

@@ -4,7 +4,6 @@ set (
 
     SOURCE
 
-    game/layers/EntityLayer.cpp
     game/layers/MainMenuLayer.cpp
     game/layers/PauseMenuLayer.cpp
     game/layers/SettingsMenuLayer.cpp

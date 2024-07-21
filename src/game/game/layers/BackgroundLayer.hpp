@@ -11,20 +11,13 @@ namespace yaschperitsy::game::layers
 class BackgroundImage
 {
     public:
-        // BackgroundImage()
-        // {
-        // SDL_QueryTexture(_texture.get(), nullptr, nullptr, &src.w,
-        // &src.h);
-        // dest.w = src.w;
-        // dest.h = src.h;
-        // }
-
         void render(const core::renderer::SDLRendererUPtr& ren)
         {
             SDL_RenderCopyEx(ren.get(), _texture.get(), &src, &dest, 0, nullptr,
                              SDL_RendererFlip::SDL_FLIP_NONE);
         }
 
+    private:
         core::resources::TextureSPtr _texture{
             assets::Assets::texture("background")};
 

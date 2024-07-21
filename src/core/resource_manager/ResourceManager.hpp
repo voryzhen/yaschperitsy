@@ -5,6 +5,7 @@
 #include "core/renderer/Renderer.hpp"
 #include <memory>
 #include <string_view>
+#include <utility>
 
 namespace yaschperitsy::core::resources
 {
@@ -38,6 +39,14 @@ class TextureDrawable
         }
 
         SDL_Rect rect() const { return dst; }
+
+        void set_texture(core::resources::TextureSPtr texture)
+        {
+            _texture = std::move(texture);
+            SDL_QueryTexture(_texture.get(), nullptr, nullptr, &src.w, &src.h);
+            dst.w = src.w;
+            dst.h = src.h;
+        }
 
     private:
         core::resources::TextureSPtr _texture;

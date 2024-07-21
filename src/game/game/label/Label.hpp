@@ -14,12 +14,12 @@ namespace yaschperitsy::game::ui
 class Label
 {
     public:
-        Label(int x, int y, int w, int h, std::string_view text)
+        Label(int x, int y, std::string_view text)
             : _lbl_textures(yaschperitsy::core::resources::ResourceManager::
                                 create_font_texture(
                                     text, assets::Assets::font(), color_free))
         {
-            dest = {x, y, w, h};
+            dest = {x, y, 0, 0};
 
             SDL_QueryTexture(_lbl_textures.get(), nullptr, nullptr, &rect.w,
                              &rect.h);
@@ -33,7 +33,7 @@ class Label
         SDL_Rect rect{};
         SDL_Rect dest{};
 
-        SDL_Color color_free = {50, 50, 100, 255};
+        SDL_Color color_free = {250, 250, 200, 255};
 
         // free pressed hover
         core::resources::TextureUPtr _lbl_textures;

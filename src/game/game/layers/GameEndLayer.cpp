@@ -13,7 +13,6 @@ void GameEndLayer::render(const core::renderer::SDLRendererUPtr& ren)
 void GameEndLayer::on_event(const yaschperitsy::core::events::EventSPtr& event)
 {
     new_game_button.on_event(event);
-    // settings_button.on_event(event);
     exit_button.on_event(event);
 }
 

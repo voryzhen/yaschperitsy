@@ -27,9 +27,9 @@ class GameEndLayer : public yaschperitsy::core::Layer
         on_event(const yaschperitsy::core::events::EventSPtr& event) override;
 
     private:
-        ui::Label _label{200, 200, 200, 2000, "You win"};
-        ui::Button new_game_button{200, 260, 300, 50, "New game", 1};
-        ui::Button exit_button{200, 320, 300, 50, "Exit", 3};
+        ui::Label _label{200, 200, "You win"};
+        ui::Button new_game_button{200, 260, "New game", 1};
+        ui::Button exit_button{200, 320, "Exit", 3};
 };
 
 }; // namespace yaschperitsy::game::layers

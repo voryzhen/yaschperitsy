@@ -25,8 +25,8 @@ class PauseMenuLayer : public yaschperitsy::core::Layer
         on_event(const yaschperitsy::core::events::EventSPtr& event) override;
 
     private:
-        ui::Button resume_button{200, 200, 300, 50, "Resume game", 5};
-        ui::Button exit_button{200, 260, 300, 50, "Exit", 3};
+        ui::Button resume_button{200, 200, "Resume game", 5};
+        ui::Button exit_button{200, 260, "Exit", 3};
 };
 
 }; // namespace yaschperitsy::game::layers

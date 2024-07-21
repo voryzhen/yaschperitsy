@@ -24,7 +24,7 @@ class SettingsMenuLayer : public yaschperitsy::core::Layer
         on_event(const yaschperitsy::core::events::EventSPtr& event) override;
 
     private:
-        ui::Button _back_button{200, 200, 300, 50, "Back", 4};
+        ui::Button _back_button{200, 200, "Back", 4};
 };
 
 }; // namespace yaschperitsy::game::layers

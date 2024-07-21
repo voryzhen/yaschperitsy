@@ -20,8 +20,7 @@ using EventCallbackFn =
 class Button
 {
     public:
-        Button(int x, int y, int w, int h, std::string_view text, int code)
-            : _code(code)
+        Button(int x, int y, std::string_view text, int code) : _code(code)
         {
             _btn_textures.reserve(3);
             _btn_textures.emplace_back(
@@ -37,7 +36,7 @@ class Button
                     create_font_texture(text, assets::Assets::font(),
                                         color_hover));
 
-            dest = {x, y, w, h};
+            dest = {x, y, 0, 0};
 
             SDL_QueryTexture(_btn_textures[texture_index].get(), nullptr,
                              nullptr, &rect.w, &rect.h);

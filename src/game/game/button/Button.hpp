@@ -2,7 +2,6 @@
 
 #include "SDL_pixels.h"
 #include "SDL_rect.h"
-#include "SDL_render.h"
 #include "core/events/Event.hpp"
 #include "core/events/MouseEvent.hpp"
 #include "core/renderer/Renderer.hpp"
@@ -26,37 +25,21 @@ class Button
             _btn_textures.emplace_back(
                 yaschperitsy::core::resources::ResourceManager::
                     create_font_texture(text, assets::Assets::font(),
-                                        color_free));
+                                        color_free),
+                x, y);
             _btn_textures.emplace_back(
                 yaschperitsy::core::resources::ResourceManager::
                     create_font_texture(text, assets::Assets::font(),
-                                        color_pressed));
+                                        color_pressed),
+                x, y);
             _btn_textures.emplace_back(
                 yaschperitsy::core::resources::ResourceManager::
                     create_font_texture(text, assets::Assets::font(),
-                                        color_hover));
-
-            dest = {x, y, 0, 0};
-
-            SDL_QueryTexture(_btn_textures[texture_index].get(), nullptr,
-                             nullptr, &rect.w, &rect.h);
-
-            dest.w = rect.w;
-            dest.h = rect.h;
+                                        color_hover),
+                x, y);
         }
 
         ~Button() = default;
-
-        SDL_Rect rect{};
-        SDL_Rect dest{};
-
-        SDL_Color color_free = {50, 50, 100, 255};
-        SDL_Color color_pressed = {0, 150, 100, 255};
-        SDL_Color color_hover = {150, 0, 100, 255};
-
-        int texture_index = 0;
-        // free pressed hover
-        std::vector<core::resources::TextureUPtr> _btn_textures;
 
         void render(const core::renderer::SDLRendererUPtr& ren);
 
@@ -68,6 +51,13 @@ class Button
         };
 
     private:
+        SDL_Color color_free = {50, 50, 100, 255};
+        SDL_Color color_pressed = {0, 150, 100, 255};
+        SDL_Color color_hover = {150, 0, 100, 255};
+
+        int texture_index = 0;
+        std::vector<core::resources::TextureDrawable> _btn_textures;
+
         bool _is_pressed{false};
         bool _is_hover{false};
         EventCallbackFn _event_callback;

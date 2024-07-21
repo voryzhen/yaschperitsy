@@ -9,9 +9,7 @@ namespace yaschperitsy::game::ui
 void Button::render(const core::renderer::SDLRendererUPtr& ren)
 {
     texture_index = _is_hover ? (_is_pressed ? 1 : 2) : 0;
-
-    SDL_RenderCopyEx(ren.get(), _btn_textures[texture_index].get(), &rect,
-                     &dest, 0, nullptr, SDL_RendererFlip::SDL_FLIP_NONE);
+    _btn_textures[texture_index].render(ren);
 }
 
 void Button::on_event(const yaschperitsy::core::events::EventSPtr& event)
@@ -33,7 +31,7 @@ void Button::on_event(const yaschperitsy::core::events::EventSPtr& event)
 
 bool Button::is_intersect(int x, int y) const
 {
-
+    auto dest = _btn_textures[texture_index].rect();
     int _x = dest.x;
     int _y = dest.y;
     int _w = dest.w;
@@ -55,8 +53,6 @@ bool Button::is_intersect(int x, int y) const
 bool Button::released(const core::events::MouseButtonReleasedEventSPtr& /*e*/)
 {
     _is_pressed = false;
-    // _is_hover = true;
-    // _btn = _btn_textures[2];
     return true;
 }
 
@@ -79,20 +75,7 @@ bool Button::hover(const core::events::MouseMovedEventSPtr& e)
     int x = e->x_pos();
     int y = e->y_pos();
 
-    if (is_intersect(x, y))
-    {
-        // if (!_is_pressed)
-        // {
-        _is_hover = true;
-        // _btn = _btn_textures[2];
-        // }
-    }
-    else
-    {
-        // _btn = _btn_textures[0];
-        _is_hover = false;
-        // _is_pressed = false;
-    }
+    _is_hover = is_intersect(x, y);
     return true;
 }
 

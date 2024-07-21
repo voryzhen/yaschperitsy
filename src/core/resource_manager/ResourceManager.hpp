@@ -2,6 +2,7 @@
 
 #include "SDL_render.h"
 #include "SDL_ttf.h"
+#include "core/renderer/Renderer.hpp"
 #include <memory>
 #include <string_view>
 
@@ -16,6 +17,33 @@ using FontUPtr = std::unique_ptr<TTF_Font, decltype(&TTF_CloseFont)>;
 using TextureUPtr = std::unique_ptr<SDL_Texture, decltype(&SDL_DestroyTexture)>;
 
 using TextureSPtr = std::shared_ptr<SDL_Texture>;
+
+class TextureDrawable
+{
+    public:
+        TextureDrawable(core::resources::TextureSPtr texture, int x, int y)
+            : _texture(std::move(texture))
+        {
+            SDL_QueryTexture(_texture.get(), nullptr, nullptr, &src.w, &src.h);
+            dst.x = x;
+            dst.y = y;
+            dst.w = src.w;
+            dst.h = src.h;
+        }
+
+        void render(const core::renderer::SDLRendererUPtr& ren)
+        {
+            SDL_RenderCopyEx(ren.get(), _texture.get(), &src, &dst, 0, nullptr,
+                             SDL_RendererFlip::SDL_FLIP_NONE);
+        }
+
+        SDL_Rect rect() const { return dst; }
+
+    private:
+        core::resources::TextureSPtr _texture;
+        SDL_Rect src{};
+        SDL_Rect dst{};
+};
 
 class ResourceManager
 {

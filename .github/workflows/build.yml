@@ -1,0 +1,90 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  macos:
+    name: 'macOS'
+    runs-on: [ macos-latest ]
+
+    steps:
+
+      - uses: actions/checkout@v2
+
+      - name: Prepare
+        run: brew install conan
+
+      - name: Run conan
+        run: |
+          {
+            conan profile detect
+            conan install . --build=missing -s compiler.cppstd=gnu20
+          }
+
+      - name: Cmake
+        run: cmake --preset conan-release
+
+      - name: Compile
+        run: cmake --build --preset conan-release
+
+      - name: Pack
+        run: |
+          {
+            mkdir yaschperitsy_bin
+            mv ./build/Release/Yaschperitsy/Yaschperitsy yaschperitsy_bin/
+            mv assets yaschperitsy_bin/
+            tar -czvf yaschperitsy_macos.tar.gz yaschperitsy_bin
+          }
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: yaschperitsy_macos
+          path: yaschperitsy_macos.tar.gz
+
+  windows-msvc:
+
+    name: Windows (MSVC)
+    runs-on: [ windows-latest ]
+
+    steps:
+
+      - uses: actions/checkout@v2
+
+      - name: Install programs
+        run: pip install conan
+
+      - name: Conan detect profile
+        run: conan profile detect
+
+      - name: Conan install deps
+        run: conan install . --build=missing -s compiler.cppstd=20
+
+      - name: Cmake setup
+        run: cmake --preset conan-default
+
+      - name: Cmake build
+        run: cmake --build --preset conan-release
+
+        # TODO: refactor this
+      - name: Compose1
+        run: mkdir yaschperitsy_bin
+
+      - name: Compose2
+        run: mv ./build/Yaschperitsy/Release/Yaschperitsy.exe yaschperitsy_bin/
+
+      - name: Compose3
+        run: mv ./assets yaschperitsy_bin/
+
+      - name: Pack
+        run: Compress-Archive -Path yaschperitsy_bin/ -DestinationPath ./yaschperitsy_win.zip
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: yaschperitsy_win
+          path: ./yaschperitsy_win.zip

@@ -8,11 +8,11 @@
 #include <string_view>
 #include <utility>
 
-class GameEngine
+class App
 {
     public:
-        GameEngine();
-        virtual ~GameEngine();
+        App();
+        virtual ~App();
         int run();
 
         void set_scene(const ScenePtr& scene);

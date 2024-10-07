@@ -1,8 +1,8 @@
+#include "App/App.hpp"
+#include "App/Scene/SceneManager.hpp"
 #include "Events/Event.hpp"
-#include "GameEngine/GameEngine.hpp"
-#include "GameEngine/Scene/SceneManager.hpp"
 
-class Game : public GameEngine
+class Game : public App
 {
     public:
         Game();

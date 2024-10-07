@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GameEngine/Scene/Scene.hpp"
+#include "App/Scene/Scene.hpp"
 #include "GraphicEngine/ResourceManager/ResourceManager.hpp"
 #include "Yaschperitsy/Entities/UILabel.hpp"
 

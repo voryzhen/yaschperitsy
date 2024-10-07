@@ -1,15 +1,15 @@
-#include "GameEngine.hpp"
+#include "App.hpp"
 #include <memory>
 
-GameEngine::GameEngine() : ge_(GraphicEngine::get())
+App::App() : ge_(GraphicEngine::get())
 {
     ge_.initialize();
     ge_.set_event_callback([this](const EventSPtr& event) { on_event(event); });
 }
 
-GameEngine::~GameEngine() { ge_.finalize(); }
+App::~App() { ge_.finalize(); }
 
-int GameEngine::run()
+int App::run()
 {
     while (is_run_)
     {
@@ -24,21 +24,21 @@ int GameEngine::run()
     return 0;
 }
 
-int GameEngine::events()
+int App::events()
 {
     ge_.events();
     scene_->events();
     return 0;
 }
 
-int GameEngine::update()
+int App::update()
 {
     ge_.update();
     scene_->update();
     return 0;
 }
 
-int GameEngine::render()
+int App::render()
 {
     const auto& ren = ge_.renderer();
     ren.clear();
@@ -47,7 +47,7 @@ int GameEngine::render()
     return 0;
 }
 
-void GameEngine::keep_fps(uint32_t delta)
+void App::keep_fps(uint32_t delta)
 {
     constexpr double fps = 60.0;
     constexpr double frame_time = 1000000.0 / fps; // microsec
@@ -59,7 +59,7 @@ void GameEngine::keep_fps(uint32_t delta)
     }
 }
 
-void GameEngine::on_event(const EventSPtr& event)
+void App::on_event(const EventSPtr& event)
 {
     EventDispatcher dispatcher(event);
 
@@ -73,10 +73,10 @@ void GameEngine::on_event(const EventSPtr& event)
     }
 }
 
-bool GameEngine::on_window_close(const WindowCloseEventSPtr& /*event*/)
+bool App::on_window_close(const WindowCloseEventSPtr& /*event*/)
 {
     is_run_ = false;
     return true;
 }
 
-void GameEngine::set_scene(const ScenePtr& scene) { scene_ = scene; }
+void App::set_scene(const ScenePtr& scene) { scene_ = scene; }

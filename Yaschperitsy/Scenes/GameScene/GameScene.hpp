@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GameEngine/Scene/Scene.hpp"
+#include "App/Scene/Scene.hpp"
 #include "GraphicEngine/GraphicEngine.hpp"
 #include "GraphicEngine/ResourceManager/ResourceManager.hpp"
 #include "Scenes/GameScene/GameSettings.hpp"

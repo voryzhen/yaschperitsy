@@ -2,7 +2,7 @@ project ( GameEngine )
 
 add_library ( GameEngine
 
-    GameEngine.cpp
+    App.cpp
     Scene/Scene.cpp
     Scene/SceneManager.cpp
 

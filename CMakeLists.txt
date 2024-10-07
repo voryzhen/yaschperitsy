@@ -10,7 +10,7 @@ set ( CMAKE_EXPORT_COMPILE_COMMANDS ON )
 # set ( CMAKE_CXX_FLAGS "-Wall -g" )
 
 add_subdirectory ( GraphicEngine )
-add_subdirectory ( GameEngine )
+add_subdirectory ( App )
 add_subdirectory ( ECS )
 add_subdirectory ( Yaschperitsy )
 

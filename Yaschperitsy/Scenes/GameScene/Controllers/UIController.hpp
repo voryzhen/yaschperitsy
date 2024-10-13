@@ -11,6 +11,7 @@
 #include "Entities/Player.hpp"
 #include "GraphicEngine/ResourceManager/ResourceManager.hpp"
 #include "GraphicEngine/Types.hpp"
+#include "Scenes/GameScene/Controllers/Controller.hpp"
 #include "Scenes/GameScene/GameSettings.hpp"
 #include "Style.hpp"
 #include "Utility/Vector.hpp"
@@ -21,7 +22,7 @@
 
 const static auto* bg_asset = "Assets/background.png";
 
-class UIController
+class UIController : public Controller
 {
     public:
         UIController(ManagerPtr& man, const ResourceManager& rm,
@@ -68,7 +69,7 @@ class UIController
             man_->add_entity(remaining_);
         }
 
-        void update()
+        void update() override
         {
             auto hp_rd = rm_.update_texture(
                 hp_rd_.id,

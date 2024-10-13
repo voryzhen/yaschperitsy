@@ -1,7 +1,6 @@
 #include "Game.hpp"
 
 #include "Events/UIEvent.hpp"
-#include "Logger/Logger.hpp"
 #include "Scenes/GameEndScene/GameEndScene.hpp"
 #include "Scenes/GameScene/GameScene.hpp"
 #include "Scenes/MainMenuScene/MainMenuScene.hpp"

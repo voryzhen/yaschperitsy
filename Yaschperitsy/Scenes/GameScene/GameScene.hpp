@@ -1,12 +1,12 @@
 #pragma once
 
 #include "App/Scene/Scene.hpp"
+#include "Controllers/YaschperitsyController.hpp"
 #include "GraphicEngine/GraphicEngine.hpp"
 #include "GraphicEngine/ResourceManager/ResourceManager.hpp"
+#include "Scenes/GameScene/Controllers/PlayerController.hpp"
+#include "Scenes/GameScene/Controllers/UIController.hpp"
 #include "Scenes/GameScene/GameSettings.hpp"
-#include "Scenes/GameScene/PlayerController.hpp"
-#include "Scenes/GameScene/UIController.hpp"
-#include "YaschperitsyController.hpp"
 
 class GameScene : public Scene
 {
@@ -27,9 +27,8 @@ class GameScene : public Scene
         bool outfield(const Vector2D<float>& position);
 
         const ResourceManager& rm_;
-        YaschperitsyControllerPtr yasch_;
-        PlayerControllerPtr player_;
-        UIControllerPtr ui_;
+
+        ControllerArray controllers_;
 
         int win_width_ { 0 };
         int win_height_ { 0 };

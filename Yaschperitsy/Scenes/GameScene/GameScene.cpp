@@ -1,19 +1,13 @@
 #include "GameScene.hpp"
-#include "ECS/Components/KeyboardController.hpp"
-#include "ECS/Components/MouseController.hpp"
-#include "ECS/Components/SpriteComponent.hpp"
 #include "ECS/Components/TransformComponent.hpp"
-#include "ECS/TypesID.hpp"
 #include "Entities/Ammo.hpp"
 #include "Entities/Player.hpp"
 #include "Entities/Yaschperitsa.hpp"
 #include "Events/UIEvent.hpp"
-#include "GraphicEngine/Types.hpp"
-#include "Logger/Logger.hpp"
-#include "Scenes/GameScene/PlayerController.hpp"
-#include "Scenes/GameScene/UIController.hpp"
-#include "Scenes/GameScene/YaschperitsyController.hpp"
-#include "Yaschperitsy/Style.hpp"
+#include "Scenes/GameScene/Controllers/PlayerController.hpp"
+#include "Scenes/GameScene/Controllers/UIController.hpp"
+#include "Scenes/GameScene/Controllers/YaschperitsyController.hpp"
+#include <algorithm>
 #include <memory>
 
 GameScene::GameScene(const ResourceManager& rm, EventCallbackFn callback,
@@ -21,13 +15,14 @@ GameScene::GameScene(const ResourceManager& rm, EventCallbackFn callback,
     : rm_(rm), callback_(std::move(callback)), win_width_(win_width),
       win_height_(win_height)
 {
-    ui_ = std::make_shared<UIController>(man_, rm_, game_info_, win_width,
-                                         win_height);
+    controllers_.push_back(std::make_shared<UIController>(
+        man_, rm_, game_info_, win_width, win_height));
 
-    yasch_ = std::make_shared<YaschperitsyController>(man_, rm_, game_info_,
-                                                      win_width, win_height);
-    player_ =
-        std::make_shared<PlayerController>(man_, rm_, win_width, win_height);
+    controllers_.push_back(std::make_shared<YaschperitsyController>(
+        man_, rm_, game_info_, win_width, win_height));
+
+    controllers_.push_back(
+        std::make_shared<PlayerController>(man_, rm_, win_width, win_height));
 }
 
 void GameScene::on_event(const EventSPtr& event) { Scene::on_event(event); }
@@ -40,14 +35,10 @@ void GameScene::update()
 
     man_->refresh();
 
-    yasch_->update();
-    player_->update();
-    ui_->update();
+    std::ranges::for_each(controllers_, [](auto&& ctrl) { ctrl->update(); });
 
     bullet_hit();
     destroy_objects();
-
-    // Logger().info("Entity nums: {}", man_->get_entities().size());
 }
 
 void GameScene::render(const Renderer& ren) { Scene::render(ren); }

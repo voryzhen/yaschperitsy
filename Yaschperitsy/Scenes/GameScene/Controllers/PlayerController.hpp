@@ -11,6 +11,7 @@
 #include "Entities/Player.hpp"
 #include "GraphicEngine/ResourceManager/ResourceManager.hpp"
 #include "GraphicEngine/Types.hpp"
+#include "Scenes/GameScene/Controllers/Controller.hpp"
 #include "Scenes/GameScene/GameSettings.hpp"
 #include "Utility/Vector.hpp"
 #include <cmath>
@@ -34,7 +35,7 @@ Vector2D<float> calculate_bullet_pos(const EntityPtr& shooter)
 }
 }; // namespace
 
-class PlayerController
+class PlayerController : public Controller
 {
     public:
         PlayerController(ManagerPtr& man, const ResourceManager& rm,
@@ -61,7 +62,7 @@ class PlayerController
             man_->add_entity(player);
         }
 
-        void update() { fire(); }
+        void update() override { fire(); }
 
     private:
         void fire()

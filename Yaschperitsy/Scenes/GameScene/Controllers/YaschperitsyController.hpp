@@ -3,6 +3,7 @@
 #include "ECS/Manager.hpp"
 #include "GraphicEngine/ResourceManager/ResourceManager.hpp"
 #include "GraphicEngine/Types.hpp"
+#include "Scenes/GameScene/Controllers/Controller.hpp"
 #include "Scenes/GameScene/GameSettings.hpp"
 #include <memory>
 
@@ -13,7 +14,7 @@ const static auto* yaschperitsa_asset_2 =
 const static auto* yaschperitsa_fireball_asset =
     "Assets/Yaschperitsy/yaschperitsy_fireball.png";
 
-class YaschperitsyController
+class YaschperitsyController : public Controller
 {
     public:
         YaschperitsyController(ManagerPtr& man, const ResourceManager& rm,
@@ -29,7 +30,7 @@ class YaschperitsyController
         }
 
         void spawn_yaschperitsy();
-        void update();
+        void update() override;
         void update_direction();
         void fire();
 

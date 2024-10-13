@@ -3,7 +3,9 @@
 #include "Events/UIEvent.hpp"
 #include "Scenes/GameEndScene/GameEndScene.hpp"
 #include "Scenes/GameScene/GameScene.hpp"
+#include "Scenes/GameScene/GameSettings.hpp"
 #include "Scenes/MainMenuScene/MainMenuScene.hpp"
+#include "settingsYaml.hpp"
 #include <memory>
 #include <string_view>
 

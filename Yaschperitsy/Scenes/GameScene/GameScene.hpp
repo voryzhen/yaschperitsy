@@ -1,12 +1,12 @@
 #pragma once
 
 #include "App/Scene/Scene.hpp"
-#include "Controllers/YaschperitsyController.hpp"
 #include "GraphicEngine/GraphicEngine.hpp"
 #include "GraphicEngine/ResourceManager/ResourceManager.hpp"
-#include "Scenes/GameScene/Controllers/PlayerController.hpp"
-#include "Scenes/GameScene/Controllers/UIController.hpp"
+#include "Scenes/GameScene/Controllers/Controller.hpp"
 #include "Scenes/GameScene/GameSettings.hpp"
+
+static GameInfo gameInfoState;
 
 class GameScene : public Scene
 {
@@ -25,6 +25,8 @@ class GameScene : public Scene
         void bullet_hit();
         void reset_state();
         bool outfield(const Vector2D<float>& position);
+
+        void load_settings();
 
         const ResourceManager& rm_;
 

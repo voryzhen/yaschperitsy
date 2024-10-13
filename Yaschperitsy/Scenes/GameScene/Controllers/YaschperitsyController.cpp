@@ -75,9 +75,9 @@ Vector2D<float> velocity_direction(Vector2D<float> pos, Vector2D<float> aim)
 void YaschperitsyController::spawn_yaschperitsy()
 {
     if (--yaschperitsy_spawn_timer_ < 0 &&
-        game_info_.statistics._yaschperitsy_num > 0)
+        game_info_.statistics_._yaschperitsy_num > 0)
     {
-        game_info_.statistics._yaschperitsy_num--;
+        game_info_.statistics_._yaschperitsy_num--;
 
         // Yaschperitsy texture randomizer
         // 2 different yaschperitsy
@@ -99,7 +99,7 @@ void YaschperitsyController::spawn_yaschperitsy()
         man_->add_entity(yaschperitsa);
 
         yaschperitsy_spawn_timer_ =
-            game_info_.settings._yaschperitsy_spawn_freq *
+            game_info_.settings_.yaschperitsy_spawn_freq_ *
             static_cast<int>(60 * get_random<double>(2.0));
     }
 }

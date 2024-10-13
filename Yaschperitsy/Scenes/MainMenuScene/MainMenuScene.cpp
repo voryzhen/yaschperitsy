@@ -1,7 +1,7 @@
 #include "MainMenuScene.hpp"
 
 #include "Entities/UILabel.hpp"
-#include "Yaschperitsy/Style.hpp"
+#include "Yaschperitsy/styleYaml.hpp"
 
 MainMenuScene::MainMenuScene(const ResourceManager& rm,
                              const EventCallbackFn& callback, int win_width,

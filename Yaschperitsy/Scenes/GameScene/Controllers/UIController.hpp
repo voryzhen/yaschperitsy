@@ -1,22 +1,14 @@
 #pragma once
 
-#include "ECS/Components/FireComponent.hpp"
-#include "ECS/Components/KeyboardController.hpp"
-#include "ECS/Components/MouseController.hpp"
 #include "ECS/Components/SpriteComponent.hpp"
 #include "ECS/Components/TransformComponent.hpp"
 #include "ECS/Entity.hpp"
 #include "ECS/Manager.hpp"
-#include "Entities/Ammo.hpp"
-#include "Entities/Player.hpp"
 #include "GraphicEngine/ResourceManager/ResourceManager.hpp"
 #include "GraphicEngine/Types.hpp"
 #include "Scenes/GameScene/Controllers/Controller.hpp"
 #include "Scenes/GameScene/GameSettings.hpp"
-#include "Style.hpp"
-#include "Utility/Vector.hpp"
-#include <cmath>
-#include <cstdint>
+#include "styleYaml.hpp"
 #include <memory>
 #include <string>
 
@@ -35,7 +27,7 @@ class UIController : public Controller
             hp_->add_component<TransformComponent>(30, 10);
             hp_rd_ = rm_.load_texture(
                 std::string { "HP " } +
-                    std::to_string(game_info_.statistics._curr_hp),
+                    std::to_string(game_info_.statistics_._curr_hp),
                 lightgrey);
             hp_->add_component<SpriteComponent>(hp_rd_);
 
@@ -43,7 +35,7 @@ class UIController : public Controller
             score_->add_component<TransformComponent>(230, 10);
             score_rd_ = rm_.load_texture(
                 std::string { "Score " } +
-                    std::to_string(game_info_.statistics._score),
+                    std::to_string(game_info_.statistics_._score),
                 lightgrey);
             score_->add_component<SpriteComponent>(score_rd_);
 
@@ -51,7 +43,7 @@ class UIController : public Controller
             remaining_->add_component<TransformComponent>(430, 10);
             remaining_rd_ = rm_.load_texture(
                 std::string { "Remaining Yaschs " } +
-                    std::to_string(game_info_.statistics._yaschperitsy_num),
+                    std::to_string(game_info_.statistics_._yaschperitsy_num),
                 lightgrey);
             remaining_->add_component<SpriteComponent>(remaining_rd_);
 
@@ -74,7 +66,7 @@ class UIController : public Controller
             auto hp_rd = rm_.update_texture(
                 hp_rd_.id,
                 std::string { "Score " } +
-                    std::to_string(game_info_.statistics._curr_hp),
+                    std::to_string(game_info_.statistics_._curr_hp),
                 lightgrey);
             hp_rd.x = 30;
             hp_rd.y = 10;
@@ -83,7 +75,7 @@ class UIController : public Controller
             auto new_score_rd = rm_.update_texture(
                 score_rd_.id,
                 std::string { "Score " } +
-                    std::to_string(game_info_.statistics._score),
+                    std::to_string(game_info_.statistics_._score),
                 lightgrey);
             new_score_rd.x = 230;
             new_score_rd.y = 10;
@@ -93,7 +85,7 @@ class UIController : public Controller
             auto new_remaining_rd = rm_.update_texture(
                 remaining_rd_.id,
                 std::string { "Remaining Yaschs " } +
-                    std::to_string(game_info_.statistics._yaschperitsy_num),
+                    std::to_string(game_info_.statistics_._yaschperitsy_num),
                 lightgrey);
             new_remaining_rd.x = 430;
             new_remaining_rd.y = 10;

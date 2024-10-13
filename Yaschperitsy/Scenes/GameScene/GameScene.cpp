@@ -15,6 +15,8 @@ GameScene::GameScene(const ResourceManager& rm, EventCallbackFn callback,
     : rm_(rm), callback_(std::move(callback)), win_width_(win_width),
       win_height_(win_height)
 {
+    load_settings();
+
     controllers_.push_back(std::make_shared<UIController>(
         man_, rm_, game_info_, win_width, win_height));
 
@@ -92,7 +94,7 @@ void GameScene::bullet_hit()
         if (player.front()->is_intersect(bullet))
         {
             bullet->destroy();
-            game_info_.statistics._curr_hp--;
+            game_info_.statistics_._curr_hp--;
             // player - hp
             // player->damage(ammunition->damage());
         }
@@ -107,7 +109,7 @@ void GameScene::bullet_hit()
                 {
                     yaschperitsa->destroy();
                     bullet->destroy();
-                    game_info_.statistics._score++;
+                    game_info_.statistics_._score++;
                     // if (game_info_.statistics._yaschperitsy_num > 0)
                     // {
                     //     game_info_.statistics._yaschperitsy_num--;
@@ -116,7 +118,7 @@ void GameScene::bullet_hit()
             }
         }
     }
-    if (game_info_.statistics._score == 10)
+    if (game_info_.statistics_._score == 10)
     {
         reset_state();
         callback_(std::make_shared<UIEvent>(UIEventCode::GameWin));
@@ -136,13 +138,30 @@ void GameScene::reset_state()
         e->destroy();
     }
 
-    game_info_.statistics._max_score = std::max(
-        game_info_.statistics._max_score, game_info_.statistics._score);
+    game_info_.statistics_._max_score = std::max(
+        game_info_.statistics_._max_score, game_info_.statistics_._score);
 
-    game_info_.statistics._score = 0;
+    game_info_.statistics_._score = 0;
 
-    game_info_.statistics._yaschperitsy_num =
-        game_info_.statistics._yaschperitsy_total_num;
+    game_info_.statistics_._yaschperitsy_num =
+        game_info_.statistics_._yaschperitsy_total_num;
 
-    game_info_.statistics._curr_hp = 100;
+    game_info_.statistics_._curr_hp = 100;
+}
+
+void GameScene::load_settings()
+{
+    gameInfoState.settings_ = { .bullet_speed_ = bulletSpeed,
+                                .player_speed_ = playerSpeed,
+                                .yaschperitsy_speed_ = yaschperitsySpeed,
+                                .yaschperitsy_spawn_freq_ =
+                                    yaschperitsySpawnFreq };
+
+    gameInfoState.statistics_ = { ._score = 0,
+                                  ._max_score = 0,
+                                  ._yaschperitsy_num = yaschperitsyCount,
+                                  ._yaschperitsy_total_num = yaschperitsyCount,
+                                  ._curr_hp = fullHP };
+
+    game_info_ = gameInfoState;
 }

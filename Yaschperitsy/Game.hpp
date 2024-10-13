@@ -1,6 +1,7 @@
 #include "App/App.hpp"
 #include "App/Scene/SceneManager.hpp"
 #include "Events/Event.hpp"
+#include "Scenes/GameScene/GameSettings.hpp"
 
 class Game : public App
 {

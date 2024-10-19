@@ -1,7 +1,7 @@
 #include "App.hpp"
 #include <memory>
 
-App::App() : ge_(GraphicEngine::get())
+App::App() : ge_(IOSystem::get())
 {
     ge_.initialize();
     ge_.set_event_callback([this](const EventSPtr& event) { on_event(event); });

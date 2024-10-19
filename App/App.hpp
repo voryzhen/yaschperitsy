@@ -1,8 +1,8 @@
 #include "Events/AppEvent.hpp"
-#include "GraphicEngine/GraphicEngine.hpp"
+#include "IOSystem/IOSystem.hpp"
 
-#include "GraphicEngine/ResourceManager/ResourceManager.hpp"
-#include "GraphicEngine/Types.hpp"
+#include "IOSystem/ResourceManager/ResourceManager.hpp"
+#include "IOSystem/Types.hpp"
 #include "Scene/Scene.hpp"
 #include "Timer/Timer.hpp"
 #include <string_view>
@@ -37,6 +37,6 @@ class App
         Timer timer_;
         bool is_run_ { true };
 
-        GraphicEngine& ge_;
+        IOSystem& ge_;
         ScenePtr scene_;
 };

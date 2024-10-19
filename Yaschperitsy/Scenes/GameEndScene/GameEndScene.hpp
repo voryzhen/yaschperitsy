@@ -1,7 +1,7 @@
 #pragma once
 
 #include "App/Scene/Scene.hpp"
-#include "GraphicEngine/ResourceManager/ResourceManager.hpp"
+#include "IOSystem/ResourceManager/ResourceManager.hpp"
 #include "Yaschperitsy/Entities/UILabel.hpp"
 
 class GameEndScene : public Scene

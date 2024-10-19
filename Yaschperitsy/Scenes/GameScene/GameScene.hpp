@@ -1,8 +1,8 @@
 #pragma once
 
 #include "App/Scene/Scene.hpp"
-#include "GraphicEngine/GraphicEngine.hpp"
-#include "GraphicEngine/ResourceManager/ResourceManager.hpp"
+#include "IOSystem/IOSystem.hpp"
+#include "IOSystem/ResourceManager/ResourceManager.hpp"
 #include "Scenes/GameScene/Controllers/Controller.hpp"
 #include "Scenes/GameScene/GameSettings.hpp"
 

@@ -3,7 +3,7 @@
 #include "Component.hpp"
 #include "ECS/Components/TransformComponent.hpp"
 #include "ECS/Entity.hpp"
-#include "GraphicEngine/Input/Input.hpp"
+#include "IOSystem/Input/Input.hpp"
 #include "Logger/Logger.hpp"
 
 class KeyboardController : public Component

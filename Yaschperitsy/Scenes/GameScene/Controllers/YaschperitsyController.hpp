@@ -1,8 +1,8 @@
 #pragma once
 
 #include "ECS/Manager.hpp"
-#include "GraphicEngine/ResourceManager/ResourceManager.hpp"
-#include "GraphicEngine/Types.hpp"
+#include "IOSystem/ResourceManager/ResourceManager.hpp"
+#include "IOSystem/Types.hpp"
 #include "Scenes/GameScene/Controllers/Controller.hpp"
 #include "Scenes/GameScene/GameSettings.hpp"
 #include <memory>

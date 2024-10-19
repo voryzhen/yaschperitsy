@@ -2,7 +2,7 @@ project ( GraphicEngine )
 
 add_library ( GraphicEngine
 
-    GraphicEngine.cpp
+    IOSystem.cpp
     GraphicSystem.cpp
     Renderer.cpp
     RendererImpl/RendererImpl.cpp

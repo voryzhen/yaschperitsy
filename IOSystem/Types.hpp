@@ -32,6 +32,6 @@ enum class ErrorCode : uint8_t
     TexturesFontsStoragefinalizeError,
     SDLRendererClearError,
     SDLRendererRenderError,
-    GraphicEngineInitError,
-    GraphicEngineFinalizeError,
+    IOSystemInitError,
+    IOSystemFinalizeError,
 };

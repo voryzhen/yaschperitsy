@@ -1,7 +1,7 @@
 #pragma once
 
 #include "ECS/TypesID.hpp"
-#include "GraphicEngine/Renderer.hpp"
+#include "IOSystem/Renderer.hpp"
 
 #include <memory>
 #include <unordered_map>

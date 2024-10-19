@@ -3,7 +3,7 @@
 #include "Component.hpp"
 #include "ECS/Components/TransformComponent.hpp"
 #include "ECS/Entity.hpp"
-#include "GraphicEngine/Types.hpp"
+#include "IOSystem/Types.hpp"
 #include "Logger/Logger.hpp"
 #include "Utility/Vector.hpp"
 

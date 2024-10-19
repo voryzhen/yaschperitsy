@@ -1,7 +1,7 @@
 #pragma once
 
 #include "ECS/Manager.hpp"
-#include "GraphicEngine/Renderer.hpp"
+#include "IOSystem/Renderer.hpp"
 #include <memory>
 
 class Scene

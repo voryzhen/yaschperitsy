@@ -6,7 +6,7 @@
 #include "Entities/Ammo.hpp"
 #include "Entities/Player.hpp"
 #include "Entities/Yaschperitsa.hpp"
-#include "GraphicEngine/Types.hpp"
+#include "IOSystem/Types.hpp"
 #include "Logger/Logger.hpp"
 #include "Utility/Vector.hpp"
 

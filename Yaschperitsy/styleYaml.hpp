@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GraphicEngine/Types.hpp"
+#include "IOSystem/Types.hpp"
 
 const Color red = { .r = 220, .g = 130, .b = 130, .a = 255 };
 const Color green = { .r = 130, .g = 220, .b = 130, .a = 255 };

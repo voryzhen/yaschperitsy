@@ -7,10 +7,10 @@
 
 using EventCallbackFn = std::function<void(const EventSPtr&)>;
 
-class GraphicEngine
+class IOSystem
 {
     public:
-        static GraphicEngine& get();
+        static IOSystem& get();
 
         ErrorCode initialize() const;
         ErrorCode finalize() const;
@@ -25,7 +25,7 @@ class GraphicEngine
         int render() const;
 
     private:
-        GraphicEngine();
+        IOSystem();
         const Renderer& _ren;
         const ResourceManager& _rm;
         EventCallbackFn _event_callback;

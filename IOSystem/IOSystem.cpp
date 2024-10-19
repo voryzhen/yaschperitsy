@@ -1,59 +1,59 @@
-#include "GraphicEngine.hpp"
-#include "GraphicEngine/GraphicSystem.hpp"
+#include "IOSystem/IOSystem.hpp"
 #include <SDL_events.h>
 
 #include "Events/AppEvent.hpp"
 #include "Events/KeyEvent.hpp"
 #include "Events/MouseEvent.hpp"
+#include "IOSystem/GraphicSystem.hpp"
 #include "Logger/Logger.hpp"
 #include "Types.hpp"
 
-GraphicEngine& GraphicEngine::get()
+IOSystem& IOSystem::get()
 {
-    static GraphicEngine singleton;
+    static IOSystem singleton;
     return singleton;
 }
 
-ErrorCode GraphicEngine::initialize() const
+ErrorCode IOSystem::initialize() const
 {
     if (GraphicSystem::initialize() != ErrorCode::NoError)
     {
         Logger().error("GraphicSystem initialization error");
-        return ErrorCode::GraphicEngineInitError;
+        return ErrorCode::IOSystemInitError;
     }
     if (_ren.initialize() != ErrorCode::NoError)
     {
         Logger().error("Renderer initialization error");
-        return ErrorCode::GraphicEngineInitError;
+        return ErrorCode::IOSystemInitError;
     }
     return ErrorCode::NoError;
 }
 
-ErrorCode GraphicEngine::finalize() const
+ErrorCode IOSystem::finalize() const
 {
     if (_ren.finalize() != ErrorCode::NoError)
     {
         Logger().error("Renderer finalization error");
-        return ErrorCode::GraphicEngineFinalizeError;
+        return ErrorCode::IOSystemFinalizeError;
     }
     if (GraphicSystem::finalize() != ErrorCode::NoError)
     {
         Logger().error("GraphicSystem finalization error");
-        return ErrorCode::GraphicEngineFinalizeError;
+        return ErrorCode::IOSystemFinalizeError;
     }
     return ErrorCode::NoError;
 }
 
-const Renderer& GraphicEngine::renderer() const { return _ren; }
+const Renderer& IOSystem::renderer() const { return _ren; }
 
-const ResourceManager& GraphicEngine::resource_manager() const { return _rm; }
+const ResourceManager& IOSystem::resource_manager() const { return _rm; }
 
-void GraphicEngine::set_event_callback(const EventCallbackFn& ec)
+void IOSystem::set_event_callback(const EventCallbackFn& ec)
 {
     _event_callback = ec;
 }
 
-int GraphicEngine::events() const
+int IOSystem::events() const
 {
 
     SDL_Event e;
@@ -111,11 +111,8 @@ int GraphicEngine::events() const
     return 0;
 }
 
-int GraphicEngine::update() const { return 0; }
+int IOSystem::update() const { return 0; }
 
-int GraphicEngine::render() const { return 0; }
+int IOSystem::render() const { return 0; }
 
-GraphicEngine::GraphicEngine()
-    : _ren(Renderer::get()), _rm(ResourceManager::get())
-{
-}
+IOSystem::IOSystem() : _ren(Renderer::get()), _rm(ResourceManager::get()) {}
